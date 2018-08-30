@@ -2,7 +2,7 @@
 
 namespace sv_core;
 
-if(!class_exists('core')) {
+if(!class_exists('\sv_core\core')) {
 	
 	require_once('abstract.php');
 	
