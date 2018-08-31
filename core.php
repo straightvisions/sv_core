@@ -9,6 +9,7 @@ if(!class_exists('\sv_core\core')) {
 	class core extends sv_abstract
 	{
 		public static $notices = false;
+		public static $widgets = false;
 		
 		/**
 		 * @desc            initialize
@@ -25,6 +26,9 @@ if(!class_exists('\sv_core\core')) {
 		{
 			require_once('notices/init.php');
 			static::$notices = new notices;
+			
+			require_once('widgets/init.php');
+			static::$widgets = new widgets;
 			
 			$this->modules->init();
 		}
