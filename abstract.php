@@ -31,7 +31,7 @@
 		 */
 		public function __get(string $name){
 			$core = isset($this->core) ? $this->core : $this;
-			var_dump($this);
+			
 			if($core->get_path_lib_modules($name.'.php')){ // look for class file in modules directory
 				require_once($core->get_path_lib_modules($name.'.php'));
 				$class_name							= $core->get_name().'\\'.$name;
