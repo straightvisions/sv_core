@@ -3,12 +3,12 @@
 	namespace sv_core;
 
 	abstract class sv_abstract{
-		protected static $name						= false;
-		protected static $module_name				= false;
-		protected static $basename					= false;
-		protected static $path						= false;
-		protected static $url						= false;
-		protected static $version					= false;
+		protected $name						= false;
+		protected $module_name				= false;
+		protected $basename					= false;
+		protected $path						= false;
+		protected $url						= false;
+		protected $version					= false;
 		protected static $wpdb						= false;
 
 		/**
