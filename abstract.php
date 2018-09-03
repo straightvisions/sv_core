@@ -9,7 +9,7 @@
 		protected $path						= false;
 		protected $url						= false;
 		protected $version					= false;
-		protected static $wpdb						= false;
+		protected static $wpdb				= false;
 
 		/**
 		 * @desc			initialize plugin
@@ -31,6 +31,7 @@
 		 */
 		public function __get(string $name){
 			$core = isset($this->core) ? $this->core : $this;
+			var_dump($this);
 			if($core->get_path_lib_modules($name.'.php')){ // look for class file in modules directory
 				require_once($core->get_path_lib_modules($name.'.php'));
 				$class_name							= $core->get_name().'\\'.$name;
@@ -41,9 +42,9 @@
 				throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_path_lib_modules().$name.'.php)');
 			}
 		}
-		protected function setup($name){
+		protected function setup($name,$file){
 			$this->name								= $name;
-			$this->path								= plugin_dir_path(dirname(dirname(__FILE__)));
+			$this->path								= plugin_dir_path($file);
 			$this->url								= trailingslashit(plugins_url('', $this->get_path().$this->get_name()));
 
 			global $wpdb;
