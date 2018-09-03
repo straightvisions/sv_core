@@ -30,20 +30,22 @@
 		 * @ignore
 		 */
 		public function __get(string $name){
-			if($this->get_path_lib_modules($name.'.php')){ // look for class file in modules directory
-				require_once($this->get_path_lib_modules($name.'.php'));
-				$classname							= $this->get_name().'\\'.$name;
-				$this->$name						= new $classname();
+			$core = isset($this->core) ? $this->core : $this;
+			if($core->get_path_lib_modules($name.'.php')){ // look for class file in modules directory
+				require_once($core->get_path_lib_modules($name.'.php'));
+				$class_name							= $core->get_name().'\\'.$name;
+				$this->$name						= new $class_name();
+				$this->$name->core					= isset($this->core) ? $this->core : $this;
 				return $this->$name;
 			}else{
-				throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_path_lib_modules($name.'.php').')');
+				throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_path_lib_modules().$name.'.php)');
 			}
 		}
 		protected function setup($name){
 			$this->name								= $name;
-			$this->path							= trailingslashit(trailingslashit(WP_PLUGIN_DIR).$this->get_name());
+			$this->path								= plugin_dir_path(dirname(dirname(__FILE__)));
 			$this->url								= trailingslashit(plugins_url('', $this->get_path().$this->get_name()));
-			
+
 			global $wpdb;
 			self::$wpdb								= $wpdb;
 
@@ -61,24 +63,33 @@
 			
 		}
 		public function get_name(){
-			return $this->name;
+			if(isset($this->core)){
+				return $this->core->name;
+			}else{
+				return $this->name;
+			}
 		}
 		public function get_module_name(){
 			return (new \ReflectionClass(get_called_class()))->getShortName();
 		}
 		public function get_version(){
-			return $this->version;
+			if(isset($this->core)){
+				return $this->core->version;
+			}else{
+				return $this->version;
+			}
 		}
 		
 		public function get_path($suffix=''){
-			if(file_exists($this->path.$suffix)){
-				return $this->path.$suffix;
+			$path						= (isset($this->core) ? $this->core->path : $this->path);
+			if(file_exists($path.$suffix)){
+				return $path.$suffix;
 			}else{
 				return false;
 			}
 		}
 		public function get_url($suffix=''){
-			if(file_exists($this->path.$suffix)){
+			if(file_exists($this->get_path().$suffix)){
 				return $this->url.$suffix;
 			}else{
 				return false;
