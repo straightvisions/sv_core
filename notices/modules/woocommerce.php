@@ -23,14 +23,14 @@
 				}else{
 					$error								= $this->create();
 					$error->set_state(3);
-					$error->set_title(__('WooCommerce Order Note creation failed.', static::get_name()));
-					$error->set_desc_public(__('Order does not exist', static::get_name()));
+					$error->set_title(__('WooCommerce Order Note creation failed.', $this->get_name()));
+					$error->set_desc_public(__('Order does not exist', $this->get_name()));
 				}
 			}else{
 				$error									= $this->create();
 				$error->set_state(3);
-				$error->set_title(__('WooCommerce Order Note creation failed.', static::get_name()));
-				$error->set_desc_public(__('WooCommerce is not available.', static::get_name()));
+				$error->set_title(__('WooCommerce Order Note creation failed.', $this->get_name()));
+				$error->set_desc_public(__('WooCommerce is not available.', $this->get_name()));
 			}
 		}
 	}

@@ -18,8 +18,8 @@
 		 * @ignore
 		 */
 		public function __construct(){
-			static::init();
-			static::start();
+			$this->init();
+			$this->start();
 		}
 		/**
 		 * @desc			Load's requested libraries dynamicly
@@ -30,21 +30,19 @@
 		 * @ignore
 		 */
 		public function __get(string $name){
-			if(static::get_path_lib_modules($name.'.php')){ // look for class file in modules directory
-				require_once(static::get_path_lib_modules($name.'.php'));
-				$classname							= static::get_name().'\\'.$name;
+			if($this->get_path_lib_modules($name.'.php')){ // look for class file in modules directory
+				require_once($this->get_path_lib_modules($name.'.php'));
+				$classname							= $this->get_name().'\\'.$name;
 				$this->$name						= new $classname();
 				return $this->$name;
 			}else{
-				throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.static::get_path_lib_modules($name.'.php').')');
+				throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_path_lib_modules($name.'.php').')');
 			}
 		}
 		protected function setup($name){
-			self::$name								= $name;
-			self::$path								= trailingslashit(trailingslashit(WP_PLUGIN_DIR).static::get_name());
-			self::$url								= trailingslashit(plugins_url('', self::$path.static::get_name()));
-
-			self::$version							= 1000;
+			$this->name								= $name;
+			$this->path							= trailingslashit(trailingslashit(WP_PLUGIN_DIR).$this->get_name());
+			$this->url								= trailingslashit(plugins_url('', $this->get_path().$this->get_name()));
 			
 			global $wpdb;
 			self::$wpdb								= $wpdb;
@@ -54,7 +52,7 @@
 			$this->setup_core();
 		}
 		public function plugins_loaded(){
-			load_plugin_textdomain(static::get_name(), false, basename(static::get_path()).'/languages');
+			load_plugin_textdomain($this->get_name(), false, basename($this->get_path()).'/languages');
 		}
 		protected function init(){
 			
@@ -62,54 +60,54 @@
 		protected function start(){
 			
 		}
-		public static function get_name(){
-			return self::$name;
+		public function get_name(){
+			return $this->name;
 		}
-		public static function get_module_name(){
+		public function get_module_name(){
 			return (new \ReflectionClass(get_called_class()))->getShortName();
 		}
-		public static function get_version(){
-			return self::$version;
+		public function get_version(){
+			return $this->version;
 		}
 		
-		public static function get_path($suffix=''){
-			if(file_exists(self::$path.$suffix)){
-				return self::$path.$suffix;
+		public function get_path($suffix=''){
+			if(file_exists($this->path.$suffix)){
+				return $this->path.$suffix;
 			}else{
 				return false;
 			}
 		}
-		public static function get_url($suffix=''){
-			if(file_exists(self::$path.$suffix)){
-				return self::$url.$suffix;
+		public function get_url($suffix=''){
+			if(file_exists($this->path.$suffix)){
+				return $this->url.$suffix;
 			}else{
 				return false;
 			}
 		}
-		public static function get_path_lib($suffix=''){
-			if(file_exists(static::get_path('lib/').$suffix)){
-				return static::get_path('lib/').$suffix;
+		public function get_path_lib($suffix=''){
+			if(file_exists($this->get_path('lib/').$suffix)){
+				return $this->get_path('lib/').$suffix;
 			}else{
 				return false;
 			}
 		}
-		public static function get_url_lib($suffix=''){
-			if(file_exists(static::get_path('lib/').$suffix)){
-				return static::get_url('lib/').$suffix;
+		public function get_url_lib($suffix=''){
+			if(file_exists($this->get_path('lib/').$suffix)){
+				return $this->get_url('lib/').$suffix;
 			}else{
 				return false;
 			}
 		}
-		public static function get_path_lib_modules($suffix=''){
-			if(file_exists(static::get_path_lib('modules/').$suffix)){
-				return static::get_path_lib('modules/').$suffix;
+		public function get_path_lib_modules($suffix=''){
+			if(file_exists($this->get_path_lib('modules/').$suffix)){
+				return $this->get_path_lib('modules/').$suffix;
 			}else{
 				return false;
 			}
 		}
-		public static function get_path_lib_core($suffix=''){
-			if(file_exists(static::get_path_lib('core/').$suffix)){
-				return static::get_path_lib('core/').$suffix;
+		public function get_path_lib_core($suffix=''){
+			if(file_exists($this->get_path_lib('core/').$suffix)){
+				return $this->get_path_lib('core/').$suffix;
 			}else{
 				return false;
 			}
@@ -119,21 +117,21 @@
 			/lib/frontend/(img|css|js|tpl)/
 			/lib/backend/(img|css|js|tpl)/
 		*/
-		public static function get_path_lib_section($section='frontend',$dir='',$suffix=''){
-			if(file_exists(static::get_path_lib(trailingslashit($section).trailingslashit($dir)).$suffix)){
-				return static::get_path_lib(trailingslashit($section).trailingslashit($dir)).$suffix;
+		public function get_path_lib_section($section='frontend',$dir='',$suffix=''){
+			if(file_exists($this->get_path_lib(trailingslashit($section).trailingslashit($dir)).$suffix)){
+				return $this->get_path_lib(trailingslashit($section).trailingslashit($dir)).$suffix;
 			}else{
 				return false;
 			}
 		}
-		public static function get_url_lib_section($section='frontend',$dir='',$suffix=''){
-			if(file_exists(static::get_path_lib(trailingslashit($section).trailingslashit($dir)).$suffix)){
-				return static::get_url_lib(trailingslashit($section).trailingslashit($dir)).$suffix;
+		public function get_url_lib_section($section='frontend',$dir='',$suffix=''){
+			if(file_exists($this->get_path_lib(trailingslashit($section).trailingslashit($dir)).$suffix)){
+				return $this->get_url_lib(trailingslashit($section).trailingslashit($dir)).$suffix;
 			}else{
 				return false;
 			}
 		}
-		public static function get_current_url(){
+		public function get_current_url(){
 			return (isset($_SERVER['HTTPS']) ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		}
 	}

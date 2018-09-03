@@ -36,29 +36,29 @@ class notices extends sv_abstract{
 	 * @ignore
 	 */
 	public function __get(string $name){
-		if(static::get_path_lib_core(static::get_module_name().'/modules/'.$name.'.php')){ // look for class file in modules directory
-			require_once(static::get_path_lib_core(static::get_module_name().'/modules/'.$name.'.php'));
+		if($this->get_path_lib_core($this->get_module_name().'/modules/'.$name.'.php')){ // look for class file in modules directory
+			require_once($this->get_path_lib_core($this->get_module_name().'/modules/'.$name.'.php'));
 			$classname							= __NAMESPACE__.'\\'.$name;
 			
 			$this->$name						= new $classname($this);
 			return $this->$name;
 		}else{
-			throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.static::get_path_lib_core(static::get_module_name().'/modules/'.$name.'.php').')');
+			throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_path_lib_core($this->get_module_name().'/modules/'.$name.'.php').')');
 		}
 	}
 	public function create_post_type(){
 		register_post_type('sv_notices',
 			array(
 				'labels'						=> array(
-					'name'						=> __('SV Notices', static::get_name()),
-					'singular_name'				=> __('SV Notice', static::get_name()),
+					'name'						=> __('SV Notices', $this->get_name()),
+					'singular_name'				=> __('SV Notice', $this->get_name()),
 				),
 				'public'						=> false,
 				'exclude_from_search'			=> true,
 				'publicly_queryable'			=> false,
 				'show_ui'						=> true,
 				'has_archive'					=> false,
-				'menu_icon'						=> static::get_url_lib_section('core','assets','logo_icon.png'),
+				'menu_icon'						=> $this->get_url_lib_section('core','assets','logo_icon.png'),
 				'supports'						=> array('custom-fields'),
 				'delete_with_user'				=> false,
 				'rewrite'						=> array(
@@ -71,10 +71,10 @@ class notices extends sv_abstract{
 			'sv_notices_group',
 			'sv_notices',
 			array(
-				'label'							=> __('SV Notices Groups', static::get_name()),
+				'label'							=> __('SV Notices Groups', $this->get_name()),
 				'labels'						=> array(
-					'name'						=> __('SV Notices Groups', static::get_name()),
-					'singular_name'				=> __('SV Notices Group', static::get_name()),
+					'name'						=> __('SV Notices Groups', $this->get_name()),
+					'singular_name'				=> __('SV Notices Group', $this->get_name()),
 				),
 				'hierarchical'					=> false,
 				'show_ui'						=> true,
@@ -104,7 +104,7 @@ class notices extends sv_abstract{
 		$this->set_meta('title', $title);
 		wp_update_post(array(
 			'ID'								=> $this->get_ID(),
-			'post_title'						=> static::get_name().': '.$title
+			'post_title'						=> $this->get_name().': '.$title
 		));
 	}
 	public function get_title($refresh=false){
@@ -131,11 +131,11 @@ class notices extends sv_abstract{
 	}
 	public function get_state_title($number){
 		$titles									= array(
-			1									=> __('Success',static::get_name()),
-			2									=> __('Info',static::get_name()),
-			3									=> __('Warning',static::get_name()),
-			4									=> __('Error',static::get_name()),
-			5									=> __('Critical',static::get_name()),
+			1									=> __('Success',$this->get_name()),
+			2									=> __('Info',$this->get_name()),
+			3									=> __('Warning',$this->get_name()),
+			4									=> __('Error',$this->get_name()),
+			5									=> __('Critical',$this->get_name()),
 		);
 
 		return isset($titles[$number]) ? $titles[$number] : $number;
@@ -152,12 +152,12 @@ class notices extends sv_abstract{
 	public static function create(){
 		$new_notice								= new self();
 		$ID										= wp_insert_post(array(
-			'post_title'						=> static::get_name(),
+			'post_title'						=> $this->get_name(),
 			'post_type'							=> 'sv_notices',
 			'post_status'						=> 'publish'
 		));
 		$new_notice->set_ID($ID);
-		$new_notice->set_term('group', static::get_name());
+		$new_notice->set_term('group', $this->get_name());
 
 		// @todo: implement called class, line info etc.
 
