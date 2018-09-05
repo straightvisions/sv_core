@@ -64,16 +64,14 @@ class widgets extends sv_abstract{
 	// OBJECT METHODS
 	public static function create(){
 		$new									= new self();
-
+		$new->init();
 		return $new;
 	}
 	public function load(){
-		$widget_class = new class($this) extends \WP_Widget
-		{
+		$widget_class = new class($this) extends \WP_Widget{
 			private static $widget = false;
 			
-			public function __construct($widget=false)
-			{
+			public function __construct($widget=false){
 				if($widget){
 					static::$widget = $widget;
 				}
@@ -86,18 +84,15 @@ class widgets extends sv_abstract{
 					)
 				);
 			}
-			
-			public function form($instance)
-			{
+			public function form($instance){
 				if (static::$widget) {
-					foreach (static::$widget->get_settings() as $name => $data) {
-						echo '<p><label for=""><input class="widefat" id="' . get_field_id($name) . '" name="' . get_field_name($name) . '" type="text" value="' . esc_attr($instance[$name]) . '"</label></p>';
+					foreach (static::$widget->get_settings() as $setting) {
+						echo $setting->get_form_field($instance[$setting->get_ID()], 'widget', $this);
 					}
 				}
 			}
 			
-			public function update($new_instance, $old_instance)
-			{
+			public function update($new_instance, $old_instance){
 				$instance = array();
 				
 				foreach ($new_instance as $name => $field) {

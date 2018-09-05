@@ -2,7 +2,7 @@
 	
 	namespace sv_core;
 	
-	class setting_text extends settings{
+	class setting_url extends settings{
 		private $parent				= false;
 		
 		/**
@@ -26,7 +26,7 @@
 		class="widefat"
 		id="' . $object->get_field_id($this->parent->get_ID()) . '"
 		name="' . $object->get_field_name($this->parent->get_ID()) . '"
-		type="text"
+		type="url"
 		value="' . esc_attr($value) . '"/>
 		'.$this->parent->get_description().'
 	</label>

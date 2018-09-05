@@ -51,7 +51,6 @@
 			self::$wpdb								= $wpdb;
 
 			add_action('init', array($this,'plugins_loaded'));
-
 			$this->setup_core();
 		}
 		public function plugins_loaded(){
@@ -72,6 +71,9 @@
 		}
 		public function get_module_name(){
 			return (new \ReflectionClass(get_called_class()))->getShortName();
+		}
+		public function get_prefix(){
+			return $this->get_name().'_'.$this->get_module_name();
 		}
 		public function get_version(){
 			if(isset($this->core)){
