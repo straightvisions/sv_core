@@ -7,6 +7,7 @@ class widgets extends sv_abstract{
 	private $title								= false;
 	private $description						= false;
 	private $settings							= false;
+	public $core								= false;
 
 	/**
 	 * @desc			initialize
@@ -60,10 +61,21 @@ class widgets extends sv_abstract{
 	public function get_settings(){
 		return $this->settings;
 	}
+	public function set_template_path($path){
+		$this->template_path					= $path;
+	}
+	public function get_template_path(){
+		return $this->template_path;
+	}
+	public function get_template($instance){
+		include($this->get_template_path());
+	}
 
 	// OBJECT METHODS
-	public static function create(){
+	public function create($parent){
 		$new									= new self();
+		$new->core								= isset($parent->core) ? $parent->core : $parent;
+		
 		$new->init();
 		return $new;
 	}
@@ -72,6 +84,7 @@ class widgets extends sv_abstract{
 			private static $widget = false;
 			
 			public function __construct($widget=false){
+				
 				if($widget){
 					static::$widget = $widget;
 				}
@@ -91,7 +104,6 @@ class widgets extends sv_abstract{
 					}
 				}
 			}
-			
 			public function update($new_instance, $old_instance){
 				$instance = array();
 				
@@ -100,6 +112,16 @@ class widgets extends sv_abstract{
 				}
 				
 				return $instance;
+			}
+			public function widget( $args, $instance ) {
+				$title = apply_filters( 'widget_title', $instance['title'] );
+				
+				echo $args['before_widget'];
+				if ( ! empty( $title ) ) {
+					echo $args['before_title'] . $title . $args['after_title'];
+				}
+				static::$widget->get_template($instance);
+				echo $args['after_widget'];
 			}
 		};
 		
