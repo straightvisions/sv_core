@@ -53,15 +53,12 @@
 			echo json_encode( $response );
 			exit;
 		}
-		public function admin_enqueue_scripts(){
-			wp_register_script($this->get_module_name(), $this->get_url() . 'lib/js/your-plugin.js', array( 'jquery', 'plupload-all' ) );
-		}
 		public function admin_footer(){
 			$uploader_options = array(
 				'runtimes'          => 'html5,silverlight,flash,html4',
-				'browse_button'     => 'my-plugin-uploader-button',
-				'container'         => 'my-plugin-uploader',
-				'drop_element'      => 'my-plugin-uploader',
+				'browse_button'     => 'sv_'.$this->get_module_name().'-button',
+				'container'         => 'sv_'.$this->get_module_name(),
+				'drop_element'      => 'sv_'.$this->get_module_name(),
 				'file_data_name'    => 'async-upload',
 				'multiple_queues'   => true,
 				'max_file_size'     => wp_max_upload_size() . 'b',
@@ -89,12 +86,14 @@
 			<?php
 		}
 		public function default($value,$object){
-			add_action( 'admin_enqueue_scripts', array($this,'admin_enqueue_scripts') );
+		    if(is_admin()) {
+				wp_enqueue_script($this->get_module_name(), $object->core->get_url('lib/core/settings/js/setting_upload.js'), array('jquery', 'plupload-all'));
+			}
 			add_action( 'admin_footer', array($this,'admin_footer') );
 			
 			return '
-			<div class="'.$this->get_module_name().' multiple">
-				<input id="'.$this->get_module_name().'-button" type="button" value="'.__('Select Files', $this->get_module_name() ).'" class="your-plugin-uploader-button button">
+			<div class="sv_'.$this->get_module_name().' multiple">
+				<input id="'.$this->get_module_name().'-button" type="button" value="'.__('Select Files').'" class="sv_setting_upload-button button">
 				<span class="ajaxnonce" id="'.wp_create_nonce( __FILE__ ).'"></span>
 			</div>
 			';

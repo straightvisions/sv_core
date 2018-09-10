@@ -44,8 +44,15 @@
 		}
 		protected function setup($name,$file){
 			$this->name								= $name;
-			$this->path								= plugin_dir_path($file);
-			$this->url								= trailingslashit(plugins_url('', $this->get_path().$this->get_name()));
+			
+			
+			if(get_class($this) == 'sv_100\init'){
+				$this->path							= trailingslashit(get_template_directory());
+				$this->url							= trailingslashit(get_template_directory_uri());
+			}else{
+				$this->path							= plugin_dir_path($file);
+				$this->url							= trailingslashit(plugins_url('', $this->get_path().$this->get_name()));
+			}
 
 			global $wpdb;
 			self::$wpdb								= $wpdb;
@@ -84,7 +91,13 @@
 		}
 		
 		public function get_path($suffix=''){
-			$path						= (isset($this->core) ? $this->core->path : $this->path);
+			$path						= (
+					(
+						isset($this->core) &&
+						get_class($this->core) != 'sv_100\init'
+					) ? $this->core->path : $this->path
+				);
+			
 			if(file_exists($path.$suffix)){
 				return $path.$suffix;
 			}else{
