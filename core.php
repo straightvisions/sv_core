@@ -34,7 +34,9 @@ if(!class_exists('\sv_core\core')) {
 			require_once('widgets/init.php');
 			static::$widgets = new widgets;
 
-			$this->modules->init();
+			if(file_exists('../modules/modules.php')) {
+				$this->modules->init();
+			}
 		}
 	}
 }
