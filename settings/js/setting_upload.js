@@ -1,50 +1,55 @@
-    jQuery( document ).ready( function() {
+	jQuery( document ).ready( function() {
 
-        if( jQuery( '.sv_setting_upload' ).length > 0 ) {
-            var options = false;
-            var container = jQuery( '.sv_setting_upload' );
-            options = JSON.parse( JSON.stringify( global_uploader_options ) );
-            options['multipart_params']['_ajax_nonce'] = container.find( '.ajaxnonce' ).attr( 'id' );
+        /* @todo: allow multiple upload fields */
+        /*jQuery('.sv_setting_upload_uploader').mouseenter(function () {
+                    uploader.setOption("browse_button", this); //Assign the ID of the pickfiles button to pluploads browse_button
+        });*/
 
-            if( container.hasClass( 'multiple' ) ) {
-                  options['multi_selection'] = true;
-             }
+		if( jQuery( '.sv_setting_upload' ).length > 0 ) {
+			var options = false;
+			var container = jQuery( '.sv_setting_upload' );
+			options = JSON.parse( JSON.stringify( global_uploader_options ) );
+			options['multipart_params']['_ajax_nonce'] = container.find( '.ajaxnonce' ).attr( 'id' );
 
-            var uploader = new plupload.Uploader( options );
-            uploader.init();
+			if( container.hasClass( 'multiple' ) ) {
+				  options['multi_selection'] = true;
+			 }
 
-            // EVENTS
-            // init
-            uploader.bind( 'Init', function( up ) {
-                console.log( 'Init', up );
-            } );
+			var uploader = new plupload.Uploader( options );
+			uploader.init();
 
-            // file added
-            uploader.bind( 'FilesAdded', function( up, files ) {
-                jQuery.each( files, function( i, file ) {
-                    console.log( 'File Added', i, file );
-                } );
+			// EVENTS
+			// init
+			uploader.bind( 'Init', function( up ) {
+				console.log( 'Init', up );
+			} );
 
-               up.refresh();
-               up.start();
-            } );
+			// file added
+			uploader.bind( 'FilesAdded', function( up, files ) {
+				jQuery.each( files, function( i, file ) {
+					console.log( 'File Added', i, file );
+				} );
 
-            // upload progress
-            uploader.bind( 'UploadProgress', function( up, file ) {
-                console.log( 'Progress', up, file )
-            } );
+			   up.refresh();
+			   up.start();
+			} );
 
-            // file uploaded
-            uploader.bind( 'FileUploaded', function( up, file, response ) {
-                response = jQuery.parseJSON( response.response );
+			// upload progress
+			uploader.bind( 'UploadProgress', function( up, file ) {
+				console.log( 'Progress', up, file )
+			} );
 
-                if( response['status'] == 'success' ) {
-                    console.log( 'Success', up, file, response );
-                } else {
-                    console.log( 'Error', up, file, response );
-                }
+			// file uploaded
+			uploader.bind( 'FileUploaded', function( up, file, response ) {
+				response = jQuery.parseJSON( response.response );
 
-            } );
-        }
+				if( response['status'] == 'success' ) {
+					console.log( 'Success', up, file, response );
+				} else {
+					console.log( 'Error', up, file, response );
+				}
 
-    } );
+			} );
+		}
+
+	} );

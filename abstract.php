@@ -72,15 +72,17 @@
 		public function get_name(){
 			if(isset($this->core)){
 				return $this->core->name;
-			}else{
+			}elseif($this->name){
 				return $this->name;
+			}else{
+				return 'sv';
 			}
 		}
 		public function get_module_name(){
 			return (new \ReflectionClass(get_called_class()))->getShortName();
 		}
-		public function get_prefix(){
-			return $this->get_name().'_'.$this->get_module_name();
+		public function get_prefix($append=''){
+			return $this->get_name().'_'.$this->get_module_name().'_'.$append;
 		}
 		public function get_version(){
 			if(isset($this->core)){

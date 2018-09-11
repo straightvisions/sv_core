@@ -13,12 +13,13 @@
 		 */
 		public function __construct($parent=false){
 			$this->parent			= $parent;
-			add_action( 'wp_ajax_sv_core_settings_upload', 'ajax_upload' );
+			add_action( 'wp_ajax_'.$this->get_prefix(), array($this,'ajax_upload') );
 		}
 		public function get($value,$format,$object){
 			return $this->$format($value,$object);
 		}
 		public function ajax_upload(){
+		    echo 'jo'; die('end');
 			// check ajax nonce
 			check_ajax_referer( __FILE__ );
 			
@@ -31,7 +32,7 @@
 					0,
 					array(
 						'test_form' => true,
-						'action' => $this->get_module_name().'_uploader'
+						'action' => $this->prefix()
 					)
 				);
 				
@@ -55,28 +56,28 @@
 		}
 		public function admin_footer(){
 			$uploader_options = array(
-				'runtimes'          => 'html5,silverlight,flash,html4',
-				'browse_button'     => 'sv_'.$this->get_module_name().'-button',
-				'container'         => 'sv_'.$this->get_module_name(),
-				'drop_element'      => 'sv_'.$this->get_module_name(),
-				'file_data_name'    => 'async-upload',
+				'runtimes'		  => 'html5,silverlight,flash,html4',
+				'browse_button'	 => 'plupload-browse-button',
+				'container'		 => 'plupload-upload-ui',
+				'drop_element'	  => 'drag-drop-area',
+				'file_data_name'	=> 'async-upload',
 				'multiple_queues'   => true,
-				'max_file_size'     => wp_max_upload_size() . 'b',
-				'url'               => admin_url( 'admin-ajax.php' ),
-				'flash_swf_url'     => includes_url( 'js/plupload/plupload.flash.swf' ),
+				'max_file_size'	 => wp_max_upload_size() . 'b',
+				'url'			   => admin_url( 'admin-ajax.php' ),
+				'flash_swf_url'	 => includes_url( 'js/plupload/plupload.flash.swf' ),
 				'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
-				'filters'           => array(
+				'filters'		   => array(
 					array(
 						'title' => __( 'Allowed Files' ),
 						'extensions' => '*'
 					)
 				),
-				'multipart'         => true,
+				'multipart'		 => true,
 				'urlstream_upload'  => true,
 				'multi_selection'   => true,
 				'multipart_params' => array(
 					'_ajax_nonce' => '',
-					'action'      => $this->get_module_name().'_uploader'
+					'action'	  => $this->get_prefix()
 				)
 			);
 			?>
@@ -86,15 +87,23 @@
 			<?php
 		}
 		public function default($value,$object){
-		    if(is_admin()) {
+			if(is_admin()) {
 				wp_enqueue_script($this->get_module_name(), $object->core->get_url('lib/core/settings/js/setting_upload.js'), array('jquery', 'plupload-all'));
 			}
 			add_action( 'admin_footer', array($this,'admin_footer') );
 			
 			return '
-			<div class="sv_'.$this->get_module_name().' multiple">
-				<input id="'.$this->get_module_name().'-button" type="button" value="'.__('Select Files').'" class="sv_setting_upload-button button">
-				<span class="ajaxnonce" id="'.wp_create_nonce( __FILE__ ).'"></span>
+			<div class="wp-core-ui drag-drop">
+                <div id="plupload-upload-ui" class="'.$this->get_prefix().' multiple">
+                    <div id="drag-drop-area">
+                        <div class="drag-drop-inside">
+                            <p class="drag-drop-info">Dateien hierher ziehen</p>
+                            <p>oder</p>
+                            <p class="drag-drop-buttons"><input id="plupload-browse-button" type="button" value="'.__('Select Files').'" class="button"/></p>
+                            <span class="ajaxnonce" id="'.wp_create_nonce( __FILE__ ).'"></span>
+                        </div>
+                    </div>
+                </div>
 			</div>
 			';
 		}
