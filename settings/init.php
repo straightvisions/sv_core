@@ -18,7 +18,13 @@ class settings extends sv_abstract{
 	 * @ignore
 	 */
 	public function __construct(){
-	
+		add_action( 'wp_ajax_'.$this->get_prefix('ajax'), array($this,'ajax') );
+	}
+	public function ajax(){
+		if(isset($_REQUEST['module'])){
+			$module			= $_REQUEST['module'];
+			$this->$module->ajax();
+		}
 	}
 	/**
 	 * @desc			Load's requested libraries dynamicly

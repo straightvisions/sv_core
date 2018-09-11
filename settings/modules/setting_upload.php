@@ -13,13 +13,30 @@
 		 */
 		public function __construct($parent=false){
 			$this->parent			= $parent;
-			add_action( 'wp_ajax_'.$this->get_prefix(), array($this,'ajax_upload') );
 		}
 		public function get($value,$format,$object){
 			return $this->$format($value,$object);
 		}
-		public function ajax_upload(){
-		    echo 'jo'; die('end');
+		public function get_page_ID($settings_ID){
+			$blog_page_check        = get_page_by_title($settings_ID);
+			
+			if(!isset($blog_page_check->ID)){
+                $blog_page                 = array(
+                    'post_type' => 'page',
+                    'post_title' => $settings_ID,
+                    'post_content' => '',
+                    'post_status' => 'private',
+                    'post_author' => 0,
+                );
+				return wp_insert_post($blog_page);
+			}else{
+			    return $blog_page_check->ID;
+            }
+        }
+		public function get_attachments($settings_ID){
+		    
+        }
+		public function ajax(){
 			// check ajax nonce
 			check_ajax_referer( __FILE__ );
 			
@@ -32,7 +49,7 @@
 					0,
 					array(
 						'test_form' => true,
-						'action' => $this->prefix()
+						'action' => 'sv_settings_ajax'
 					)
 				);
 				
@@ -76,25 +93,35 @@
 				'urlstream_upload'  => true,
 				'multi_selection'   => true,
 				'multipart_params' => array(
-					'_ajax_nonce' => '',
-					'action'	  => $this->get_prefix()
+					'_ajax_nonce' => wp_create_nonce('media-form'),
+					'module'        => 'setting_upload',
+					'action'	  => 'sv_settings_ajax'
 				)
 			);
 			?>
 			<script type="text/javascript">
 				var global_uploader_options=<?php echo json_encode( $uploader_options ); ?>;
+				//var wpUploaderInit=<?php echo json_encode( $uploader_options ); ?>;
+                console.log(wpUploaderInit);
 			</script>
 			<?php
 		}
 		public function default($value,$object){
 			if(is_admin()) {
-				wp_enqueue_script($this->get_module_name(), $object->core->get_url('lib/core/settings/js/setting_upload.js'), array('jquery', 'plupload-all'));
+				wp_enqueue_script('plupload-handlers');
+				
+				//wp_enqueue_script($this->get_module_name(), $object->core->get_url('lib/core/settings/js/setting_upload.js'), array('jquery', 'plupload-all'));
 			}
 			add_action( 'admin_footer', array($this,'admin_footer') );
+			ob_start();
+			media_upload_form();
+			$form = ob_get_contents();
+			ob_end_clean();
 			
 			return '
-			<div class="wp-core-ui drag-drop">
-                <div id="plupload-upload-ui" class="'.$this->get_prefix().' multiple">
+	        <form enctype="multipart/form-data" method="post" action="'.admin_url('media-new.php').'" class="media-upload-form type-form validate" id="file-form">
+			<!--<div class="wp-core-ui drag-drop">
+                <div id="plupload-upload-ui" class="'.$this->get_prefix('uploader').' multiple">
                     <div id="drag-drop-area">
                         <div class="drag-drop-inside">
                             <p class="drag-drop-info">Dateien hierher ziehen</p>
@@ -104,7 +131,15 @@
                         </div>
                     </div>
                 </div>
-			</div>
+			</div>-->
+			'.$form.'
+			<div id="media-items" class="hide-if-no-js"></div>
+            <script>
+            var post_id = '.$this->get_page_ID($object->get_prefix().$value).', shortform = 3;
+            </script>
+			<input type="hidden" name="post_id" id="post_id" value="'.$this->get_page_ID($object->get_prefix().$value).'" />
+			'.wp_nonce_field('media-form','_wpnonce',true,false).'
+			</form>
 			';
 		}
 		public function widget($value,$object){

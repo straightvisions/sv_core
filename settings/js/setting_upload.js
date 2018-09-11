@@ -5,40 +5,7 @@
                     uploader.setOption("browse_button", this); //Assign the ID of the pickfiles button to pluploads browse_button
         });*/
 
-		if( jQuery( '.sv_setting_upload' ).length > 0 ) {
-			var options = false;
-			var container = jQuery( '.sv_setting_upload' );
-			options = JSON.parse( JSON.stringify( global_uploader_options ) );
-			options['multipart_params']['_ajax_nonce'] = container.find( '.ajaxnonce' ).attr( 'id' );
-
-			if( container.hasClass( 'multiple' ) ) {
-				  options['multi_selection'] = true;
-			 }
-
-			var uploader = new plupload.Uploader( options );
-			uploader.init();
-
-			// EVENTS
-			// init
-			uploader.bind( 'Init', function( up ) {
-				console.log( 'Init', up );
-			} );
-
-			// file added
-			uploader.bind( 'FilesAdded', function( up, files ) {
-				jQuery.each( files, function( i, file ) {
-					console.log( 'File Added', i, file );
-				} );
-
-			   up.refresh();
-			   up.start();
-			} );
-
-			// upload progress
-			uploader.bind( 'UploadProgress', function( up, file ) {
-				console.log( 'Progress', up, file )
-			} );
-
+		if( jQuery( '.sv_setting_upload_uploader' ).length > 0 ) {
 			// file uploaded
 			uploader.bind( 'FileUploaded', function( up, file, response ) {
 				response = jQuery.parseJSON( response.response );
