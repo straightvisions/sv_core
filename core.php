@@ -23,7 +23,7 @@ if(!class_exists('\sv_core\core')) {
 		
 		}
 		
-		public function setup_core()
+		public function setup_core($path)
 		{
 			require_once('notices/init.php');
 			static::$notices = new notices;
@@ -34,7 +34,7 @@ if(!class_exists('\sv_core\core')) {
 			require_once('widgets/init.php');
 			static::$widgets = new widgets;
 
-			if(file_exists('../modules/modules.php')) {
+			if(file_exists($path.'lib/modules/modules.php')) {
 				$this->modules->init();
 			}
 		}

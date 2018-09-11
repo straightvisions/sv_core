@@ -58,7 +58,7 @@
 			self::$wpdb								= $wpdb;
 
 			add_action('init', array($this,'plugins_loaded'));
-			$this->setup_core();
+			$this->setup_core($this->path);
 		}
 		public function plugins_loaded(){
 			load_plugin_textdomain($this->get_name(), false, basename($this->get_path()).'/languages');
