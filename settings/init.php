@@ -9,6 +9,8 @@ class settings extends sv_abstract{
 	private $type								= false;
 	private $title								= false;
 	private $description						= false;
+	private $callback							= false;
+	private $filter								= false;
 	private $prefix								= 'sv_';
 	
 	/**
@@ -88,17 +90,42 @@ class settings extends sv_abstract{
 	public function get_description(){
 		return $this->description;
 	}
-	public function get_form_field($value='',$format,$object){
+	public function get_form_field($format,$object){
 		$type									= 'setting_'.$this->get_type();
 		
 		if(is_object($this->$type)){
-			// @todo: proper error notice
-			return $this->$type->get($value,$format,$object);
+			return $this->$type->get($this,$format,$object);
 		}else{
+			// @todo: proper error notice
 			return false;
 		}
 	}
 	public function get_value(){
 		// similar to get_form_field
+	}
+	public function set_callback(array $callback){
+		$this->callback							= $callback;
+	}
+	public function get_callback(){
+		return $this->callback;
+	}
+	public function run_callback($param){
+		if($this->callback) {
+			if (method_exists($this->callback[0], $this->callback[1])) {
+				$class = $this->callback[0];
+				$method = $this->callback[1];
+				
+				return $class->$method($this, $param);
+			} else {
+				// @todo: proper error notice
+				return false;
+			}
+		}
+	}
+	public function set_filter($filter){
+		$this->filter							= $filter;
+	}
+	public function get_filter($filter){
+		return $this->filter;
 	}
 }
