@@ -4,6 +4,7 @@ namespace sv_core;
 
 class settings extends sv_abstract{
 	// properties
+	private $parent								= false;
 	private $ID									= false;
 	private $source								= false;
 	private $type								= false;
@@ -21,6 +22,12 @@ class settings extends sv_abstract{
 	 */
 	public function __construct(){
 		add_action( 'wp_ajax_'.$this->get_prefix('ajax'), array($this,'ajax') );
+	}
+	public function set_parent($parent){
+		$this->parent							= $parent;
+	}
+	public function get_parent(){
+		return $this->parent ? $this->parent : $this;
 	}
 	public function ajax(){
 		if(isset($_REQUEST['module'])){
@@ -49,7 +56,8 @@ class settings extends sv_abstract{
 	}
 	// OBJECT METHODS
 	public static function create($parent){
-		$new									= new self();
+		$new									= new static();
+		
 		$new->prefix							= $parent->get_prefix().'_';
 		
 		return $new;
@@ -72,11 +80,26 @@ class settings extends sv_abstract{
 	/*
 	 * 	@param: $source		set a type for form field
 	 */
-	public function set_type($type){
-		$this->type							= $type;
+	public function load_type($type){
+		$type		= $this->type				= 'setting_'.$type;
+		
+		if(is_object($this->$type)){
+			$this->$type						= $this->$type->create($this->get_parent());
+			$this->$type->set_parent($this);
+			
+			return true;
+		}else{
+			// @todo: proper error notice
+			return false;
+		}
 	}
 	public function get_type(){
 		return $this->type;
+	}
+	public function get_form_field(){
+		$type				= $this->get_type();
+		
+		return $this->$type->default();
 	}
 	public function set_title($title){
 		$this->title							= $title;
@@ -90,16 +113,6 @@ class settings extends sv_abstract{
 	public function get_description(){
 		return $this->description;
 	}
-	public function get_form_field($format,$object){
-		$type									= 'setting_'.$this->get_type();
-		
-		if(is_object($this->$type)){
-			return $this->$type->get($this,$format,$object);
-		}else{
-			// @todo: proper error notice
-			return false;
-		}
-	}
 	public function get_value(){
 		// similar to get_form_field
 	}
@@ -109,13 +122,13 @@ class settings extends sv_abstract{
 	public function get_callback(){
 		return $this->callback;
 	}
-	public function run_callback($param){
+	public function run_callback($setting){
 		if($this->callback) {
 			if (method_exists($this->callback[0], $this->callback[1])) {
 				$class = $this->callback[0];
 				$method = $this->callback[1];
 				
-				return $class->$method($this, $param);
+				return $class->$method($setting);
 			} else {
 				// @todo: proper error notice
 				return false;

@@ -14,10 +14,8 @@
 		public function __construct($parent=false){
 			$this->parent			= $parent;
 		}
-		public function get($parent,$format,$object){
-			return $this->$format($parent,$object);
-		}
-		public function get_page_ID($settings_ID){
+		public function get_page_ID(){
+			$settings_ID			= $this->get_prefix().$this->get_parent()->get_ID();
 			$blog_page_check        = get_page_by_title($settings_ID);
 			
 			if(!isset($blog_page_check->ID)){
@@ -71,21 +69,16 @@
 			echo json_encode( $response );
 			exit;
 		}
-		public function default($parent,$object){
-			if($parent->get_callback()){
-				return $parent->run_callback(
-                    array(
-                        'object'        => $object,
-                        'uploads'       => $this->get_uploads($parent->get_ID(),$object)
-                    )
-                );
+		public function default(){
+			if($this->get_parent()->get_callback()){
+				return $this->get_parent()->run_callback($this);
             }else{
 			    return $this->form();
             }
 		}
-		public function form($parent,$object){
+		public function form(){
 			if(is_admin()) {
-				$post_id                = $this->get_page_ID($object->get_prefix().$parent->get_ID());
+				$post_id                = $this->get_page_ID();
 				wp_enqueue_script('plupload-handlers');
 				
 				ob_start();
@@ -93,17 +86,21 @@
 				$form = str_replace('"post_id":0', '"post_id":'.$post_id, ob_get_contents());
 				ob_end_clean();
 				
-				if($parent->get_filter()) {
-				    $allowed_extensions = ' mime_types : [{ title : "Allowed files", extensions : "'.implode(',',$parent->get_filter()).'" }],';
+				if($this->get_parent()->get_filter()) {
+				    $allowed_extensions = ' mime_types : [{ title : "Allowed files", extensions : "'.implode(',',$this->get_parent()->get_filter()).'" }],';
 					$form = str_replace('"max_file_size"', $allowed_extensions.'"max_file_size"', $form);
-					$form = str_replace('<input type="file"', '<input type="file" accept=".'.implode(',.',$parent->get_filter()).'"', $form);
-					
+					$form = str_replace('<input type="file"', '<input type="file" accept=".'.implode(',.',$this->get_parent()->get_filter()).'"', $form);
 				}
 				
 				return '
                 <form enctype="multipart/form-data" method="post" action="'.admin_url('media-new.php').'" class="media-upload-form type-form validate" id="file-form">
                 '.$form.'
-                
+                <p>'.__('Allowed Filetypes:',$this->get_module_name()).' '.
+				(
+				$this->get_parent()->get_filter() ?
+						'.'.implode(',.',$this->get_parent()->get_filter()) :
+						__('all', $this->get_module_name())
+				).'</p>
                 <script>
                 var post_id = '.$post_id.', shortform = 3;
                 </script>
@@ -114,8 +111,8 @@
                 ';
 			}
         }
-		public function get_uploads($ID,$object){
-			$post_id                = $this->get_page_ID($object->get_prefix().$ID);
+		public function get_uploads(){
+			$post_id                = $this->get_page_ID();
 			$children               = get_children( array('post_parent' => $post_id) );
 			
 			return $children;
