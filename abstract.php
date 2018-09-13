@@ -12,7 +12,7 @@
 		private $parent						= false;
 		private $root						= false;
 		protected static $wpdb				= false;
-		public static $instances	= array();
+		private static $instances			= array();
 
 		/**
 		 * @desc			initialize plugin
@@ -33,13 +33,13 @@
 		 * @ignore
 		 */
 		public function __get(string $name){
-			$core = isset($this->core) ? $this->core : $this;
+			$root = $this->get_root();
 			
-			if($core->get_path_lib_modules($name.'.php')){ // look for class file in modules directory
-				require_once($core->get_path_lib_modules($name.'.php'));
-				$class_name							= $core->get_name().'\\'.$name;
+			if($root->get_path_lib_modules($name.'.php')){ // look for class file in modules directory
+				require_once($root->get_path_lib_modules($name.'.php'));
+				$class_name							= $root->get_name().'\\'.$name;
 				$this->$name						= new $class_name();
-				$this->$name->set_root(isset($this->root) ? $this->root : $this);
+				$this->$name->set_root($root);
 				$this->$name->set_parent($this);
 				return $this->$name;
 			}else{
@@ -93,8 +93,10 @@
 			add_action('init', array($this,'plugins_loaded'));
 			$this->setup_core($this->path);
 			
-			self::$instances[]		= $this;
-			var_dump(self::$instances);
+			self::$instances[$name]						= $this;
+		}
+		public static function get_instances(){
+			return self::$instances;
 		}
 		public function plugins_loaded(){
 			load_plugin_textdomain($this->get_name(), false, basename($this->get_path()).'/languages');
