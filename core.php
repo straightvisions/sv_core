@@ -8,9 +8,9 @@ if(!class_exists('\sv_core\core')) {
 	
 	class core extends sv_abstract
 	{
-		public static $notices = false;
-		public static $settings = false;
-		public static $widgets = false;
+		public static $notices		= false;
+		public static $settings		= false;
+		public static $widgets		= false;
 		
 		/**
 		 * @desc            initialize

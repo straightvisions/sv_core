@@ -12,6 +12,7 @@
 		private $parent						= false;
 		private $root						= false;
 		protected static $wpdb				= false;
+		public static $instances	= array();
 
 		/**
 		 * @desc			initialize plugin
@@ -78,7 +79,6 @@
 		protected function setup($name,$file){
 			$this->name								= $name;
 			
-			
 			if(get_class($this) == 'sv_100\init'){
 				$this->path							= trailingslashit(get_template_directory());
 				$this->url							= trailingslashit(get_template_directory_uri());
@@ -92,6 +92,9 @@
 
 			add_action('init', array($this,'plugins_loaded'));
 			$this->setup_core($this->path);
+			
+			self::$instances[]		= $this;
+			var_dump(self::$instances);
 		}
 		public function plugins_loaded(){
 			load_plugin_textdomain($this->get_name(), false, basename($this->get_path()).'/languages');
