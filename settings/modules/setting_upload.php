@@ -31,9 +31,6 @@
 			    return $blog_page_check->ID;
             }
         }
-		public function get_attachments($settings_ID){
-		    
-        }
 		public function ajax(){
 			// check ajax nonce
 			check_ajax_referer( __FILE__ );
@@ -83,7 +80,7 @@
 				
 				ob_start();
 				media_upload_form();
-				$form = str_replace('"post_id":0', '"post_id":'.$post_id, ob_get_contents());
+				$form					= str_replace('"post_id":0', '"post_id":'.$post_id, ob_get_contents());
 				ob_end_clean();
 				
 				if($this->get_parent()->get_filter()) {

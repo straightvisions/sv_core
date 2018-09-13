@@ -25,13 +25,13 @@ if(!class_exists('\sv_core\core')) {
 		
 		public function setup_core($path)
 		{
-			require_once('notices/init.php');
+			require_once('notices/notices.php');
 			static::$notices = new notices;
 			
-			require_once('settings/init.php');
+			require_once('settings/settings.php');
 			static::$settings = new settings;
 			
-			require_once('widgets/init.php');
+			require_once('widgets/widgets.php');
 			static::$widgets = new widgets;
 
 			if(file_exists($path.'lib/modules/modules.php')) {

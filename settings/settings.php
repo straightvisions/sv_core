@@ -23,12 +23,6 @@ class settings extends sv_abstract{
 	public function __construct(){
 		add_action( 'wp_ajax_'.$this->get_prefix('ajax'), array($this,'ajax') );
 	}
-	public function set_parent($parent){
-		$this->parent							= $parent;
-	}
-	public function get_parent(){
-		return $this->parent ? $this->parent : $this;
-	}
 	public function ajax(){
 		if(isset($_REQUEST['module'])){
 			$module			= $_REQUEST['module'];
@@ -59,6 +53,8 @@ class settings extends sv_abstract{
 		$new									= new static();
 		
 		$new->prefix							= $parent->get_prefix().'_';
+		$new->set_root($parent->get_root());
+		$new->set_parent($parent);
 		
 		return $new;
 	}
@@ -85,6 +81,7 @@ class settings extends sv_abstract{
 		
 		if(is_object($this->$type)){
 			$this->$type						= $this->$type->create($this->get_parent());
+			$this->$type->set_root($this->get_root());
 			$this->$type->set_parent($this);
 			
 			return true;
@@ -138,7 +135,7 @@ class settings extends sv_abstract{
 	public function set_filter($filter){
 		$this->filter							= $filter;
 	}
-	public function get_filter($filter){
+	public function get_filter(){
 		return $this->filter;
 	}
 }

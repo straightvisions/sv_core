@@ -9,6 +9,8 @@
 		protected $path						= false;
 		protected $url						= false;
 		protected $version					= false;
+		private $parent						= false;
+		private $root						= false;
 		protected static $wpdb				= false;
 
 		/**
@@ -36,11 +38,42 @@
 				require_once($core->get_path_lib_modules($name.'.php'));
 				$class_name							= $core->get_name().'\\'.$name;
 				$this->$name						= new $class_name();
-				$this->$name->core					= isset($this->core) ? $this->core : $this;
+				$this->$name->set_root(isset($this->root) ? $this->root : $this);
+				$this->$name->set_parent($this);
 				return $this->$name;
 			}else{
 				throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_path_lib_modules().$name.'.php)');
 			}
+		}
+		public function set_parent($parent){
+			$this->parent							= $parent;
+		}
+		public function get_parent(){
+			return $this->parent ? $this->parent : $this;
+		}
+		public function get_root(){
+			return $this->root ? $this->root : $this;
+		}
+		public function set_root($root){
+			$this->root								= $root;
+		}
+		public function find_parent($class_name,$qualified=false){
+			if($this->get_parent() != $this->get_root()){
+				if(!$qualified){
+					if ($this->get_parent()->get_module_name() == $class_name) {
+						return $this->get_parent();
+					}else{
+						return $this->get_parent()->find_parent($class_name,$qualified);
+					}
+				}else{
+					if (get_class($this->get_parent()) == $class_name) {
+						return $this->get_parent();
+					}else{
+						return $this->get_parent()->find_parent($class_name,$qualified);
+					}
+				}
+			}
+			return false;
 		}
 		protected function setup($name,$file){
 			$this->name								= $name;
