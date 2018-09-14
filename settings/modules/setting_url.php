@@ -14,37 +14,18 @@
 		public function __construct($parent=false){
 			$this->parent			= $parent;
 		}
-		public function get($value,$format,$object){
-			return $this->$format($value,$object);
-		}
-		public function widget($value,$object){
+		protected function html($ID,$title,$description,$name,$value){
 			return '
-<p>
-	<label for="' . $object->get_field_id($this->get_parent()->get_ID()) . '">
-		'.$this->get_parent()->get_title().'
-		<input
-		class="widefat"
-		id="' . $object->get_field_id($this->get_parent()->get_ID()) . '"
-		name="' . $object->get_field_name($this->get_parent()->get_ID()) . '"
-		type="url"
-		value="' . esc_attr($value) . '"/>
-		'.$this->get_parent()->get_description().'
-	</label>
-</p>';
-		}
-		public function form(){
-			return '
-			<div>
-				<label for="' . $this->get_field_id() . '">
+				<label for="' . $ID . '">
+					'.$title.'
 					<input
 					class="widefat"
-					id="' . $this->get_field_id() . '"
-					name="' . $this->get_field_id() . '"
+					id="' . $ID . '"
+					name="' . $name . '"
 					type="url"
-					value="' . esc_attr(get_option($this->get_field_id())) . '"/>
-					<p>'.$this->get_parent()->get_description().'</p>
+					value="' . esc_attr($value) . '"/>
+					<p>'.$description.'</p>
 				</label>
-			</div>
 			';
 		}
 	}

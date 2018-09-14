@@ -17,24 +17,20 @@
 		public function get($value,$format,$object){
 			return $this->$format($value,$object);
 		}
-		public function widget($value,$object){
-
-		}
-		public function form(){
+		protected function html($ID,$title,$description,$name,$value){
 			return '
-			<div>
-				<label for="' . $this->get_field_id() . '">
+				<label for="' . $ID . '">
+					'.$title.'
 					<input
 					class=""
-					id="' . $this->get_field_id() . '"
-					name="' . $this->get_field_id() . '"
+					id="' . $ID . '"
+					name="' . $name . '"
 					type="checkbox"
 					value="1"
-					' . ((get_option($this->get_field_id()) == '1') ? ' checked="checked"' : '') . '
+					' . (($value == '1') ? ' checked="checked"' : '') . '
 					/>
-					<p>'.$this->get_parent()->get_description().'</p>
+					<p>'.$description.'</p>
 				</label>
-			</div>
 			';
 		}
 	}

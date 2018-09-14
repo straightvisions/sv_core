@@ -14,33 +14,25 @@
 		public function __construct($parent=false){
 			$this->parent			= $parent;
 		}
-		public function get($value,$format,$object){
-			return $this->$format($value,$object);
-		}
-		public function widget($value,$object){
-
-		}
-		public function form(){
+		public function html($ID,$title,$description,$name,$value){
 			$output = '
-			<div>
-				<label for="' . $this->get_field_id() . '">
+				<label for="' . $ID . '">
 					<select
 					class=""
-					id="' . $this->get_field_id() . '"
-					name="' . $this->get_field_id() . '">
-			';
+					id="' . $ID . '"
+					name="' . $name . '">
+			'.$title;
 			
-			foreach($this->get_parent()->get_options() as $value => $name){
+			foreach($this->get_parent()->get_options() as $o_value => $o_name){
 				$output	.= '<option
-				' . ((get_option($this->get_field_id()) == $value) ? ' selected="selected"' : '') . '
-				value="'.$value.'">'.$name.'</option>';
+				' . (($value == $o_value) ? ' selected="selected"' : '') . '
+				value="'.$o_value.'">'.$o_name.'</option>';
 			}
 			
 			$output .= '
 					</select>
-					<p>'.$this->get_parent()->get_description().'</p>
+					<p>'.$description.'</p>
 				</label>
-			</div>
 			';
 			
 			return $output;

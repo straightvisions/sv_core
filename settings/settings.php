@@ -247,4 +247,22 @@ class settings extends sv_abstract{
 	protected function get_field_id(){
 		return $this->get_parent()->get_prefix().$this->get_parent()->get_ID();
 	}
+	public function widget($value,$object){
+		return '<p>'.$this->html(
+			$object->get_field_id($this->get_parent()->get_ID()),
+			$this->get_parent()->get_title(),
+			$this->get_parent()->get_description(),
+			$object->get_field_name($this->get_parent()->get_ID()),
+			$value
+		).'</p>';
+	}
+	public function form(){
+		return '<div>'.$this->html(
+			$this->get_field_id(),
+			'',
+			$this->get_parent()->get_description(),
+			$this->get_field_id(),
+			get_option($this->get_field_id())
+		).'</div>';
+	}
 }
