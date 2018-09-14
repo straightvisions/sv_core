@@ -93,10 +93,13 @@ class settings extends sv_abstract{
 	public function get_type(){
 		return $this->type;
 	}
-	public function get_form_field(){
+	public function run_type(){
 		$type				= $this->get_type();
 		
-		return $this->$type->default();
+		return $this->$type;
+	}
+	public function get_form_field(){
+		return $this->run_type()->default();
 	}
 	public function set_title($title){
 		$this->title							= $title;
