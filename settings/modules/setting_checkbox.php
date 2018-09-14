@@ -23,14 +23,14 @@
 		public function form(){
 			return '
 			<div>
-				<label for="' . $this->get_parent()->get_ID() . '">
+				<label for="' . $this->get_field_id() . '">
 					<input
 					class=""
-					id="' . $this->get_parent()->get_ID() . '"
-					name="' . $this->get_parent()->get_ID() . '"
+					id="' . $this->get_field_id() . '"
+					name="' . $this->get_field_id() . '"
 					type="checkbox"
 					value="1"
-					' . ((get_option($this->get_parent()->get_prefix().$this->get_parent()->get_ID()) == '1') ? ' checked="checked"' : '') . '
+					' . ((get_option($this->get_field_id()) == '1') ? ' checked="checked"' : '') . '
 					/>
 					<p>'.$this->get_parent()->get_description().'</p>
 				</label>

@@ -23,16 +23,16 @@
 		public function form(){
 			$output = '
 			<div>
-				<label for="' . $this->get_parent()->get_ID() . '">
+				<label for="' . $this->get_field_id() . '">
 					<select
 					class=""
-					id="' . $this->get_parent()->get_ID() . '"
-					name="' . $this->get_parent()->get_ID() . '">
+					id="' . $this->get_field_id() . '"
+					name="' . $this->get_field_id() . '">
 			';
 			
 			foreach($this->get_parent()->get_options() as $value => $name){
 				$output	.= '<option
-				' . ((get_option($this->get_parent()->get_prefix().$this->get_parent()->get_ID()) == $value) ? ' selected="selected"' : '') . '
+				' . ((get_option($this->get_field_id()) == $value) ? ' selected="selected"' : '') . '
 				value="'.$value.'">'.$name.'</option>';
 			}
 			

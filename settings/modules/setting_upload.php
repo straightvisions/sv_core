@@ -15,13 +15,12 @@
 			$this->parent			= $parent;
 		}
 		public function get_page_ID(){
-			$settings_ID			= $this->get_prefix().$this->get_parent()->get_ID();
-			$blog_page_check        = get_page_by_title($settings_ID);
+			$blog_page_check        = get_page_by_title($this->get_field_id());
 			
 			if(!isset($blog_page_check->ID)){
                 $blog_page                 = array(
                     'post_type' => 'page',
-                    'post_title' => $settings_ID,
+                    'post_title' => $this->get_field_id(),
                     'post_content' => '',
                     'post_status' => 'private',
                     'post_author' => 0,

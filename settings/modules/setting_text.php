@@ -35,13 +35,13 @@
 		public function form(){
 			return '
 			<div>
-				<label for="' . $this->get_parent()->get_ID() . '">
+				<label for="' . $this->get_field_id() . '">
 					<input
 					class="widefat"
-					id="' . $this->get_parent()->get_ID() . '"
-					name="' . $this->get_parent()->get_ID() . '"
+					id="' . $this->get_field_id() . '"
+					name="' . $this->get_field_id() . '"
 					type="text"
-					value="' . esc_attr(get_option($this->get_parent()->get_prefix().$this->get_parent()->get_ID())) . '"/>
+					value="' . esc_attr(get_option($this->get_field_id())) . '"/>
 					<p>'.$this->get_parent()->get_description().'</p>
 				</label>
 			</div>

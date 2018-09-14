@@ -157,7 +157,7 @@ class settings extends sv_abstract{
 		return $this->options;
 	}
 	public function get_data(){
-		// similar to get_form_field
+		return get_option($this->get_field_id());
 	}
 	public function set_callback(array $callback){
 		$this->callback							= $callback;
@@ -185,6 +185,12 @@ class settings extends sv_abstract{
 		return $this->filter;
 	}
 	public static function get_module_settings_form($module){
+		if(!did_action('admin_enqueue_scripts')) {
+			add_action('admin_enqueue_scripts', array($module, 'acp_style'));
+		}else{
+			$module->acp_style();
+		}
+
 		ob_start();
 		echo '<form method="post" action="options.php" enctype="multipart/form-data">';
 		\settings_fields($module->get_module_name()); // $option_group from register_settings()
@@ -208,32 +214,37 @@ class settings extends sv_abstract{
 		}
 	}
 	private static function init_wp_setting($setting){
-		$section								= $setting->get_parent()->get_section();
-		$section_group							= $setting->get_parent()->get_section_group();
-		$section_name							= $setting->get_parent()->get_section_name();
-		
-		\add_settings_section(
-			$section_group,											// $id, String for use in the 'id' attribute of tags.
-			$section_name,											// $title, Title of the section.
-			array($setting->get_parent(), 'section_callback'),	// $callback, Function that fills the section with the desired content. The function should echo its output.
-			$section											// $page, the menu page on which to display this section
-		);
-		
-		\add_settings_field(
-			$setting->get_parent()->get_prefix().$setting->get_parent()->get_ID(),											// $id, Slug-name to identify the field. Used in the 'id' attribute of tags.
-			$setting->get_parent()->get_title(),								// $title, Formatted title of the field. Shown as the label for the field during output.
-			array($setting->get_parent(), 'print_form_field'),					// $callback, Function that fills the field with the desired form inputs. The function should echo its output.
-			$section,											// $page, The slug-name of the settings page on which to show the section (general, reading, writing, ...).
-			$section_group,											// $section, The slug-name of the section of the settings page in which to show the box.
-			array(														// $args, Extra arguments used when outputting the field.
-				'description'					=> $setting->get_parent()->get_description(),
-				'setting_id'					=> $setting->get_parent()->get_prefix().$setting->get_parent()->get_ID()
-			)
-		);
-		
-		\register_setting(
-			$section,											// $option_group, A settings group name.
-			$setting->get_parent()->get_prefix().$setting->get_parent()->get_ID()			// $option_name, The name of an option to sanitize and save.
-		);
+		if(is_admin()) {
+			$section = $setting->get_parent()->get_section();
+			$section_group = $setting->get_parent()->get_section_group();
+			$section_name = $setting->get_parent()->get_section_name();
+
+			\add_settings_section(
+				$section_group,                                            // $id, String for use in the 'id' attribute of tags.
+				$section_name,                                            // $title, Title of the section.
+				array($setting->get_parent(), 'section_callback'),    // $callback, Function that fills the section with the desired content. The function should echo its output.
+				$section                                            // $page, the menu page on which to display this section
+			);
+
+			\add_settings_field(
+				$setting->get_field_id(),                                            // $id, Slug-name to identify the field. Used in the 'id' attribute of tags.
+				$setting->get_parent()->get_title(),                                // $title, Formatted title of the field. Shown as the label for the field during output.
+				array($setting->get_parent(), 'print_form_field'),                    // $callback, Function that fills the field with the desired form inputs. The function should echo its output.
+				$section,                                            // $page, The slug-name of the settings page on which to show the section (general, reading, writing, ...).
+				$section_group,                                            // $section, The slug-name of the section of the settings page in which to show the box.
+				array(                                                        // $args, Extra arguments used when outputting the field.
+					'description' => $setting->get_parent()->get_description(),
+					'setting_id' => $setting->get_field_id()
+				)
+			);
+
+			\register_setting(
+				$section,                                            // $option_group, A settings group name.
+				$setting->get_field_id()            // $option_name, The name of an option to sanitize and save.
+			);
+		}
+	}
+	protected function get_field_id(){
+		return $this->get_parent()->get_prefix().$this->get_parent()->get_ID();
 	}
 }
