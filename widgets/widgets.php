@@ -100,7 +100,7 @@ class widgets extends sv_abstract{
 			public function form($instance){
 				if (static::$widget) {
 					foreach (static::$widget->get_settings() as $setting) {
-						echo $setting->get_form_field($instance[$setting->get_ID()], 'widget', $this);
+						echo $setting->run_type()->widget($instance[$setting->get_ID()], $this);
 					}
 				}
 			}
