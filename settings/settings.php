@@ -110,7 +110,7 @@ class settings extends sv_abstract{
 	public function get_description(){
 		return $this->description;
 	}
-	public function get_value(){
+	public function get_data(){
 		// similar to get_form_field
 	}
 	public function set_callback(array $callback){

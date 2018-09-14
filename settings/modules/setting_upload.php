@@ -108,7 +108,7 @@
                 ';
 			}
         }
-		public function get_uploads(){
+		public function get_data(){
 			$post_id                = $this->get_page_ID();
 			$children               = get_children( array('post_parent' => $post_id) );
 			
