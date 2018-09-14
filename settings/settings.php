@@ -214,7 +214,7 @@ class settings extends sv_abstract{
 		}
 	}
 	private static function init_wp_setting($setting){
-		if(is_admin()) {
+		if(is_admin() && did_action('init')) {
 			$section = $setting->get_parent()->get_section();
 			$section_group = $setting->get_parent()->get_section_group();
 			$section_name = $setting->get_parent()->get_section_name();
