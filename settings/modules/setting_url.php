@@ -32,4 +32,19 @@
 	</label>
 </p>';
 		}
+		public function form(){
+			return '
+			<div>
+				<label for="' . $this->get_field_id() . '">
+					<input
+					class="widefat"
+					id="' . $this->get_field_id() . '"
+					name="' . $this->get_field_id() . '"
+					type="url"
+					value="' . esc_attr(get_option($this->get_field_id())) . '"/>
+					<p>'.$this->get_parent()->get_description().'</p>
+				</label>
+			</div>
+			';
+		}
 	}
