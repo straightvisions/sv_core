@@ -32,4 +32,20 @@
 	</label>
 </p>';
 		}
+		public function form(){
+			return '
+			<p>
+				<label for="' . $object->get_field_id($this->parent->get_ID()) . '">
+					'.$this->parent->get_title().'
+					<input
+					class="widefat"
+					id="' . $object->get_field_id($this->parent->get_ID()) . '"
+					name="' . $object->get_field_name($this->parent->get_ID()) . '"
+					type="text"
+					value="' . esc_attr($value) . '"/>
+					'.$this->parent->get_description().'
+				</label>
+			</p>
+			';
+		}
 	}

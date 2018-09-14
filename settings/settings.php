@@ -56,6 +56,8 @@ class settings extends sv_abstract{
 		$new->set_root($parent->get_root());
 		$new->set_parent($parent);
 		
+		static::init_setting($new);
+		
 		return $new;
 	}
 	public function set_ID($ID){
@@ -140,5 +142,51 @@ class settings extends sv_abstract{
 	}
 	public function get_filter(){
 		return $this->filter;
+	}
+	
+	/* methods for inheritance */
+	public function default(){
+		if($this->get_parent()->get_callback()){
+			return $this->get_parent()->run_callback($this);
+		}else{
+			return $this->form();
+		}
+	}
+	private static function init_setting($setting){
+		$section								= $setting->get_parent()->get_module_name();
+		
+		add_settings_section(
+			$section,											// $id, String for use in the 'id' attribute of tags.
+			'Settings',											// $title, Title of the section.
+			array($setting, 'section_callback'),				// $callback, Function that fills the section with the desired content. The function should echo its output.
+			$section											// $page, the menu page on which to display this section
+		);
+		
+		add_settings_field(
+			$section.'_fonts_mapping',							// $id, Slug-name to identify the field. Used in the 'id' attribute of tags.
+			'Fonts Mapping',									// $title, Formatted title of the field. Shown as the label for the field during output.
+			array($setting, 'setting_callback'),				// $callback, Function that fills the field with the desired form inputs. The function should echo its output.
+			$section,											// $page, The slug-name of the settings page on which to show the section (general, reading, writing, ...).
+			$section,											// $section, The slug-name of the section of the settings page in which to show the box.
+			array(														// $args, Extra arguments used when outputting the field.
+				'description'					=> $setting->get_description(),
+				'setting_id'					=> $setting->get_prefix().$setting->get_ID()
+			)
+		);
+		register_setting(
+			$section,											// $option_group, A settings group name.
+			$setting->get_prefix().$setting->get_ID()			// $option_name, The name of an option to sanitize and save.
+		);
+	}
+	public function get_module_settings_form(){
+		ob_start();
+		echo '<form method="post" action="options.php" enctype="multipart/form-data">';
+		settings_fields($this->get_parent()->get_module_name()); // $option_group from register_settings()
+		do_settings_sections($this->get_parent()->get_module_name()); // $page from add_settings_section()
+		submit_button();
+		echo '</form>';
+		$form			= ob_get_contents();
+		ob_end_clean();
+		return $form;
 	}
 }
