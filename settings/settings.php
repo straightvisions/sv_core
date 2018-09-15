@@ -214,11 +214,11 @@ class settings extends sv_abstract{
 		}
 	}
 	private static function init_wp_setting($setting){
-		if(is_admin() && did_action('init')) {
+		if(is_admin() && did_action('admin_init')) {
 			$section = $setting->get_parent()->get_section();
 			$section_group = $setting->get_parent()->get_section_group();
 			$section_name = $setting->get_parent()->get_section_name();
-
+			
 			\add_settings_section(
 				$section_group,                                            // $id, String for use in the 'id' attribute of tags.
 				$section_name,                                            // $title, Title of the section.
