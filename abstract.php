@@ -86,7 +86,7 @@
 				$this->path							= plugin_dir_path($file);
 				$this->url							= trailingslashit(plugins_url('', $this->get_path().$this->get_name()));
 			}
-
+			
 			global $wpdb;
 			self::$wpdb								= $wpdb;
 
@@ -200,5 +200,8 @@
 		}
 		public function get_current_url(){
 			return (isset($_SERVER['HTTPS']) ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+		}
+		public function acp_style(){
+			wp_enqueue_style($this->get_module_name(), $this->get_root()->get_url_lib_section('core','assets','admin.css'));
 		}
 	}
