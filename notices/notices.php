@@ -149,15 +149,15 @@ class notices extends sv_abstract{
 	}
 
 	// OBJECT METHODS
-	public static function create(){
+	public static function create($group='no_group_specified'){
 		$new_notice								= new self();
 		$ID										= wp_insert_post(array(
-			'post_title'						=> $this->get_name(),
+			'post_title'						=> $group,
 			'post_type'							=> 'sv_notices',
 			'post_status'						=> 'publish'
 		));
 		$new_notice->set_ID($ID);
-		$new_notice->set_term('group', $this->get_name());
+		$new_notice->set_term('group', $group);
 
 		// @todo: implement called class, line info etc.
 
