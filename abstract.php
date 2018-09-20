@@ -130,7 +130,7 @@
 			}
 		}
 
-		public function get_path($suffix=''){
+		public function get_path($suffix='',$check_if_exists=false){
 			$path						= (
 					(
 						isset($this->core) &&
@@ -139,26 +139,50 @@
 				);
 
 			if(file_exists($path.$suffix)){
-				return $path.$suffix;
+				if($check_if_exists){
+					return true;
+				}else{
+					return $path.$suffix;
+				}
 			}else{
-				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.$path.$suffix);
-				return false;
+				if($check_if_exists){
+					return false;
+				}else {
+					error_log("Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: ' . $path . $suffix);
+					return false;
+				}
 			}
 		}
-		public function get_url($suffix=''){
+		public function get_url($suffix='',$check_if_exists=false){
 			if(file_exists($this->get_path().$suffix)){
-				return $this->url.$suffix;
+				if($check_if_exists){
+					return true;
+				}else {
+					return $this->url . $suffix;
+				}
 			}else{
-				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.$suffix);
-				return false;
+				if($check_if_exists){
+					return false;
+				}else {
+					error_log("Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: ' . $suffix);
+					return false;
+				}
 			}
 		}
-		public function get_path_lib($suffix=''){
+		public function get_path_lib($suffix='',$check_if_exists=false){
 			if(file_exists($this->get_path('lib/').$suffix)){
-				return $this->get_path('lib/').$suffix;
+				if($check_if_exists){
+					return true;
+				}else {
+					return $this->get_path('lib/') . $suffix;
+				}
 			}else{
-				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.$suffix);
-				return false;
+				if($check_if_exists){
+					return false;
+				}else {
+					error_log("Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: ' . $suffix);
+					return false;
+				}
 			}
 		}
 		public function get_url_lib($suffix=''){
@@ -169,20 +193,36 @@
 				return false;
 			}
 		}
-		public function get_path_lib_modules($suffix=''){
+		public function get_path_lib_modules($suffix='',$check_if_exists=false){
 			if(file_exists($this->get_path_lib('modules/').$suffix)){
-				return $this->get_path_lib('modules/').$suffix;
+				if($check_if_exists){
+					return true;
+				}else {
+					return $this->get_path_lib('modules/') . $suffix;
+				}
 			}else{
-				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.$suffix);
-				return false;
+				if($check_if_exists){
+					return false;
+				}else {
+					error_log("Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: ' . $suffix);
+					return false;
+				}
 			}
 		}
-		public function get_path_lib_core($suffix=''){
+		public function get_path_lib_core($suffix='',$check_if_exists=false){
 			if(file_exists($this->get_path_lib('core/').$suffix)){
-				return $this->get_path_lib('core/').$suffix;
+				if($check_if_exists){
+					return true;
+				}else {
+					return $this->get_path_lib('core/') . $suffix;
+				}
 			}else{
-				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.$suffix);
-				return false;
+				if($check_if_exists){
+					return false;
+				}else {
+					error_log("Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: ' . $suffix);
+					return false;
+				}
 			}
 		}
 		/*
@@ -190,12 +230,20 @@
 			/lib/frontend/(img|css|js|tpl)/
 			/lib/backend/(img|css|js|tpl)/
 		*/
-		public function get_path_lib_section($section='frontend',$dir='',$suffix=''){
+		public function get_path_lib_section($section='frontend',$dir='',$suffix='',$check_if_exists=false){
 			if(file_exists($this->get_path_lib(trailingslashit($section).trailingslashit($dir)).$suffix)){
-				return $this->get_path_lib(trailingslashit($section).trailingslashit($dir)).$suffix;
+				if($check_if_exists){
+					return true;
+				}else {
+					return $this->get_path_lib(trailingslashit($section) . trailingslashit($dir)) . $suffix;
+				}
 			}else{
-				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.trailingslashit($section).trailingslashit($dir).$suffix);
-				return false;
+				if($check_if_exists){
+					return false;
+				}else {
+					error_log("Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: ' . trailingslashit($section) . trailingslashit($dir) . $suffix);
+					return false;
+				}
 			}
 		}
 		public function get_url_lib_section($section='frontend',$dir='',$suffix=''){
