@@ -11,6 +11,7 @@ if(!class_exists('\sv_core\core')) {
 		public static $notices		= false;
 		public static $settings		= false;
 		public static $widgets		= false;
+		public static $info			= false;
 		
 		/**
 		 * @desc            initialize
@@ -27,12 +28,23 @@ if(!class_exists('\sv_core\core')) {
 		{
 			require_once('notices/notices.php');
 			static::$notices = new notices;
+			static::$notices->set_root($this->get_root());
+			static::$notices->set_parent($this);
 			
 			require_once('settings/settings.php');
 			static::$settings = new settings;
+			static::$settings->set_root($this->get_root());
+			static::$settings->set_parent($this);
 			
 			require_once('widgets/widgets.php');
 			static::$widgets = new widgets;
+			static::$widgets->set_root($this->get_root());
+			static::$widgets->set_parent($this);
+			
+			require_once('info/info.php');
+			static::$info = new info;
+			static::$info->set_root($this->get_root());
+			static::$info->set_parent($this);
 
 			if(file_exists($path.'lib/modules/modules.php')) {
 				$this->modules->init();
