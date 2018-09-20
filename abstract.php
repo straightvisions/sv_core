@@ -34,7 +34,7 @@
 		 */
 		public function __get(string $name){
 			$root = $this->get_root();
-			
+
 			if($root->get_path_lib_modules($name.'.php')){ // look for class file in modules directory
 				require_once($root->get_path_lib_modules($name.'.php'));
 				$class_name							= $root->get_name().'\\'.$name;
@@ -78,7 +78,7 @@
 		}
 		protected function setup($name,$file){
 			$this->name								= $name;
-			
+
 			if(get_class($this) == 'sv_100\init'){
 				$this->path							= trailingslashit(get_template_directory());
 				$this->url							= trailingslashit(get_template_directory_uri());
@@ -86,13 +86,13 @@
 				$this->path							= plugin_dir_path($file);
 				$this->url							= trailingslashit(plugins_url('', $this->get_path().$this->get_name()));
 			}
-			
+
 			global $wpdb;
 			self::$wpdb								= $wpdb;
 
 			add_action('init', array($this,'plugins_loaded'));
 			$this->setup_core($this->path);
-			
+
 			self::$instances[$name]						= $this;
 		}
 		public static function get_instances(){
@@ -102,10 +102,10 @@
 			load_plugin_textdomain($this->get_name(), false, basename($this->get_path()).'/languages');
 		}
 		protected function init(){
-			
+
 		}
 		protected function start(){
-			
+
 		}
 		public function get_name(){
 			if(isset($this->core)){
@@ -129,7 +129,7 @@
 				return $this->version;
 			}
 		}
-		
+
 		public function get_path($suffix=''){
 			$path						= (
 					(
@@ -137,10 +137,11 @@
 						get_class($this->core) != 'sv_100\init'
 					) ? $this->core->path : $this->path
 				);
-			
+
 			if(file_exists($path.$suffix)){
 				return $path.$suffix;
 			}else{
+				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.$path.$suffix);
 				return false;
 			}
 		}
@@ -148,6 +149,7 @@
 			if(file_exists($this->get_path().$suffix)){
 				return $this->url.$suffix;
 			}else{
+				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.$suffix);
 				return false;
 			}
 		}
@@ -155,6 +157,7 @@
 			if(file_exists($this->get_path('lib/').$suffix)){
 				return $this->get_path('lib/').$suffix;
 			}else{
+				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.$suffix);
 				return false;
 			}
 		}
@@ -162,6 +165,7 @@
 			if(file_exists($this->get_path('lib/').$suffix)){
 				return $this->get_url('lib/').$suffix;
 			}else{
+				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.$suffix);
 				return false;
 			}
 		}
@@ -169,6 +173,7 @@
 			if(file_exists($this->get_path_lib('modules/').$suffix)){
 				return $this->get_path_lib('modules/').$suffix;
 			}else{
+				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.$suffix);
 				return false;
 			}
 		}
@@ -176,6 +181,7 @@
 			if(file_exists($this->get_path_lib('core/').$suffix)){
 				return $this->get_path_lib('core/').$suffix;
 			}else{
+				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.$suffix);
 				return false;
 			}
 		}
@@ -188,6 +194,7 @@
 			if(file_exists($this->get_path_lib(trailingslashit($section).trailingslashit($dir)).$suffix)){
 				return $this->get_path_lib(trailingslashit($section).trailingslashit($dir)).$suffix;
 			}else{
+				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.trailingslashit($section).trailingslashit($dir).$suffix
 				return false;
 			}
 		}
@@ -195,6 +202,7 @@
 			if(file_exists($this->get_path_lib(trailingslashit($section).trailingslashit($dir)).$suffix)){
 				return $this->get_url_lib(trailingslashit($section).trailingslashit($dir)).$suffix;
 			}else{
+				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.trailingslashit($section).trailingslashit($dir).$suffix);
 				return false;
 			}
 		}
