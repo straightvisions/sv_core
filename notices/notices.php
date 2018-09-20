@@ -36,14 +36,14 @@ class notices extends sv_abstract{
 	 * @ignore
 	 */
 	public function __get(string $name){
-		if($this->get_path_lib_core($this->get_module_name().'/modules/'.$name.'.php')){ // look for class file in modules directory
-			require_once($this->get_path_lib_core($this->get_module_name().'/modules/'.$name.'.php'));
-			$classname							= __NAMESPACE__.'\\'.$name;
-			
-			$this->$name						= new $classname($this);
+		if('modules/'.$name.'.php'){ // look for class file in modules directory
+			require_once('modules/'.$name.'.php');
+			$class_name							= __NAMESPACE__.'\\'.$name;
+
+			$this->$name						= new $class_name($this);
 			return $this->$name;
 		}else{
-			throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_path_lib_core($this->get_module_name().'/modules/'.$name.'.php').')');
+			throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_module_name().'/modules/'.$name.'.php'.')');
 		}
 	}
 	public function create_post_type(){
