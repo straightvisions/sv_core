@@ -194,7 +194,7 @@
 			if(file_exists($this->get_path_lib(trailingslashit($section).trailingslashit($dir)).$suffix)){
 				return $this->get_path_lib(trailingslashit($section).trailingslashit($dir)).$suffix;
 			}else{
-				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.trailingslashit($section).trailingslashit($dir).$suffix
+				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.trailingslashit($section).trailingslashit($dir).$suffix;
 				return false;
 			}
 		}
