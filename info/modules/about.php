@@ -9,17 +9,20 @@
 		 * @since			1.0
 		 * @ignore
 		 */
-		public function __construct($parent){
+		public function __construct(){
 		
 		}
-		protected function init(){
+		public function init(){
+			add_action('admin_menu', array($this, 'menu'), 1);
+		}
+		public function menu(){
 			add_submenu_page(
-				$this->get_prefix().'menu',														// parent slug
+				$this->get_parent()->get_relative_prefix(),										// parent slug
 				__('About', $this->get_module_name()),											// page title
 				__('About', $this->get_module_name()),											// menu title
 				'manage_options',																// capability
-				$this->get_prefix().'menu',														// menu slug
-				function(){ require_once($this->get_path('lib/tpl/backend.php')); }		// callable function
+				$this->get_parent()->get_relative_prefix(),										// menu slug
+				function(){ require_once($this->get_root()->get_path_lib_core('info/tpl/backend_about.php')); }		// callable function
 			);
 		}
 	}

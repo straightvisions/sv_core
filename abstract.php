@@ -3,6 +3,8 @@
 	namespace sv_core;
 
 	abstract class sv_abstract{
+		const version_core					= 1000;
+		
 		protected $name						= false;
 		protected $module_name				= false;
 		protected $basename					= false;
@@ -13,6 +15,8 @@
 		private $root						= false;
 		protected static $wpdb				= false;
 		private static $instances			= array();
+		protected static $path_core			= false;
+		protected static $url_core			= false;
 
 		/**
 		 * @desc			initialize plugin
@@ -57,6 +61,51 @@
 		}
 		public function set_root($root){
 			$this->root								= $root;
+		}
+		public function get_version(bool $formatted=false){
+			if(defined(get_called_class().'::version')){
+				if($formatted){
+					return number_format(get_called_class()::version,0,',','.');
+				}else{
+					return get_called_class()::version;
+				}
+			}else{
+				if($formatted){
+					return __('not defined', $this->get_module_name());
+				}else{
+					return 0;
+				}
+			}
+		}
+		public function get_version_core_match($formatted=false){
+			if(defined(get_called_class().'::version_core_match')){
+				if($formatted){
+					return number_format(get_called_class()::version_core_match,0,',','.');
+				}else{
+					return get_called_class()::version_core_match;
+				}
+			}else{
+				if($formatted){
+					return __('not defined', $this->get_module_name());
+				}else{
+					return 0;
+				}
+			}
+		}
+		public function get_version_core($formatted=false){
+			if(defined(get_called_class().'::version_core')){
+				if($formatted){
+					return number_format(get_called_class()::version_core,0,',','.');
+				}else{
+					return get_called_class()::version_core;
+				}
+			}else{
+				if($formatted){
+					return __('not defined', $this->get_module_name());
+				}else{
+					return 0;
+				}
+			}
 		}
 		public function find_parent($class_name,$qualified=false){
 			if($this->get_parent() != $this->get_root()){
@@ -108,11 +157,13 @@
 
 		}
 		public function get_name(){
-			if(isset($this->core)){
+			if(isset($this->core)){ // todo: check if core is still needed
 				return $this->core->name;
-			}elseif($this->name){
+			}elseif($this->name){ // if name is set, use it
 				return $this->name;
-			}else{
+			}elseif($this != $this->get_parent()){ // if there's a parent, go a step higher
+				return $this->get_parent()->get_name().'_'.$this->get_module_name();
+			}else{ // nothing set? use fallback-name
 				return 'sv';
 			}
 		}
@@ -120,16 +171,17 @@
 			return (new \ReflectionClass(get_called_class()))->getShortName();
 		}
 		public function get_prefix($append=''){
-			return $this->get_name().'_'.$this->get_module_name().'_'.$append;
-		}
-		public function get_version(){
-			if(isset($this->core)){
-				return $this->core->version;
-			}else{
-				return $this->version;
+			if(strlen($append) > 0){
+				$append			= '_'.$append;
 			}
+			return $this->get_name().$append;
 		}
-
+		public function get_relative_prefix($append=''){
+			if(strlen($append) > 0){
+				$append			= '_'.$append;
+			}
+			return str_replace($this->get_root()->get_name(),'sv_common',$this->get_name()).$append;
+		}
 		public function get_path($suffix='',$check_if_exists=false){
 			$path						= (
 					(
@@ -185,12 +237,20 @@
 				}
 			}
 		}
-		public function get_url_lib($suffix=''){
+		public function get_url_lib($suffix='',$check_if_exists=false){
 			if(file_exists($this->get_path('lib/').$suffix)){
-				return $this->get_url('lib/').$suffix;
+				if($check_if_exists){
+					return true;
+				}else {
+					return $this->get_url('lib/') . $suffix;
+				}
 			}else{
-				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.$suffix);
-				return false;
+				if($check_if_exists){
+					return false;
+				}else {
+					error_log("Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: ' . $suffix);
+					return false;
+				}
 			}
 		}
 		public function get_path_lib_modules($suffix='',$check_if_exists=false){
@@ -210,17 +270,33 @@
 			}
 		}
 		public function get_path_lib_core($suffix='',$check_if_exists=false){
-			if(file_exists($this->get_path_lib('core/').$suffix)){
+			if(file_exists(self::$path_core.$suffix)){
 				if($check_if_exists){
 					return true;
 				}else {
-					return $this->get_path_lib('core/') . $suffix;
+					return self::$path_core . $suffix;
 				}
 			}else{
 				if($check_if_exists){
 					return false;
 				}else {
-					error_log("Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: ' . $suffix);
+					error_log("Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: '.self::$path_core . $suffix);
+					return false;
+				}
+			}
+		}
+		public function get_url_lib_core($suffix='',$check_if_exists=false){
+			if(file_exists(self::$path_core.$suffix)){
+				if($check_if_exists){
+					return true;
+				}else {
+					return self::$url_core . $suffix;
+				}
+			}else{
+				if($check_if_exists){
+					return false;
+				}else {
+					error_log("Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - url not found: '.self::$url_core . $suffix);
 					return false;
 				}
 			}
@@ -230,34 +306,47 @@
 			/lib/frontend/(img|css|js|tpl)/
 			/lib/backend/(img|css|js|tpl)/
 		*/
-		public function get_path_lib_section($section='frontend',$dir='',$suffix='',$check_if_exists=false){
-			if(file_exists($this->get_path_lib(trailingslashit($section).trailingslashit($dir)).$suffix)){
+		public function get_path_lib_section($section=false,$dir=false,$suffix='',$check_if_exists=false){
+			$path			= $this->get_path_lib(
+						($section ? trailingslashit($section) : '').
+							($dir ? trailingslashit($dir) : '')).
+							$suffix;
+			
+			if(file_exists($path)
+			){
 				if($check_if_exists){
 					return true;
 				}else {
-					return $this->get_path_lib(trailingslashit($section) . trailingslashit($dir)) . $suffix;
+					return $path;
 				}
 			}else{
 				if($check_if_exists){
 					return false;
 				}else {
-					error_log("Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: ' . trailingslashit($section) . trailingslashit($dir) . $suffix);
+					error_log("Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: '.$path);
 					return false;
 				}
 			}
 		}
-		public function get_url_lib_section($section='frontend',$dir='',$suffix=''){
-			if(file_exists($this->get_path_lib(trailingslashit($section).trailingslashit($dir)).$suffix)){
-				return $this->get_url_lib(trailingslashit($section).trailingslashit($dir)).$suffix;
+		public function get_url_lib_section($section=false,$dir=false,$suffix='',$check_if_exists=false){
+			$path			= $this->get_path_lib(
+					($section ? trailingslashit($section) : '').
+					($dir ? trailingslashit($dir) : '')).
+				$suffix;
+			
+			if(file_exists($path)){
+				return $this->get_url_lib(($section ? trailingslashit($section) : '').($dir ? trailingslashit($dir) : '')).$suffix;
 			}else{
-				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.trailingslashit($section).trailingslashit($dir).$suffix);
+				error_log("Warning: ".__CLASS__.' - '.__FUNCTION__.' - path not found: '.$path);
 				return false;
 			}
 		}
 		public function get_current_url(){
 			return (isset($_SERVER['HTTPS']) ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		}
-		public function acp_style(){
-			wp_enqueue_style($this->get_module_name(), $this->get_root()->get_url_lib_section('core','assets','admin.css'));
+		public function acp_style($hook=false){
+			if(!$hook || $hook == 'sv-100_page_'.$this->get_module_name()) {
+				wp_enqueue_style($this->get_module_name(), $this->get_url_lib_core('assets/admin.css'));
+			}
 		}
 	}
