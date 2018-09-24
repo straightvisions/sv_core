@@ -30,7 +30,7 @@
 				return $blog_page_check->ID;
 			}
 		}
-		public function form(){
+		public function form($title=false){
 			if(is_admin()) {
 				$post_id                = $this->get_page_ID();
 				wp_enqueue_script('plupload-handlers');

@@ -17,14 +17,13 @@
 		protected function html($ID,$title,$description,$name,$value){
 			return '
 				<label for="' . $ID . '">
-					'.$title.'
+					<div class="title">'.$title.' <span class="description" title="'.$description.'">(?)</span></div>
 					<input
 					class="widefat"
 					id="' . $ID . '"
 					name="' . $name . '"
 					type="url"
 					value="' . esc_attr($value) . '"/>
-					<p>'.$description.'</p>
 				</label>
 			';
 		}

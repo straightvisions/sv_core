@@ -17,12 +17,11 @@
 		protected function html($ID,$title,$description,$name,$value){
 			return '
 				<label for="' . $ID . '">
-					'.$title.'
+					<div class="title">'.$title.' <span class="description" title="'.$description.'">(?)</span></div>
 					<textarea style="height:200px;"
 					class="widefat"
 					id="' . $ID . '"
 					name="' . $name . '">' . esc_attr($value) . '</textarea>
-					<p>'.$description.'</p>
 				</label>
 			';
 		}

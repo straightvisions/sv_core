@@ -21,7 +21,8 @@
 					class=""
 					id="' . $ID . '"
 					name="' . $name . '">
-			'.$title;
+				<div class="title">'.$title.' <span class="description" title="'.$description.'">(?)</span></div>
+';
 			
 			foreach($this->get_parent()->get_options() as $o_value => $o_name){
 				$output	.= '<option
@@ -31,7 +32,6 @@
 			
 			$output .= '
 					</select>
-					<p>'.$description.'</p>
 				</label>
 			';
 			

@@ -246,7 +246,7 @@
 			}
 		}
 		protected function get_field_id(){
-			return $this->get_parent()->get_prefix().$this->get_parent()->get_ID();
+			return $this->get_parent()->get_prefix($this->get_parent()->get_ID());
 		}
 		public function widget($value,$object){
 			return '<p>'.$this->html(
@@ -257,10 +257,11 @@
 					$value
 				).'</p>';
 		}
-		public function form(){
+		public function form($title=false){
+			var_dump($this->get_field_id());
 			return '<div>'.$this->html(
 					$this->get_field_id(),
-					'',
+					$title ? $this->get_parent()->get_title() : '',
 					$this->get_parent()->get_description(),
 					$this->get_field_id(),
 					get_option($this->get_field_id())

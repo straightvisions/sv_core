@@ -17,7 +17,7 @@
 		public function html($ID,$title,$description,$name,$value){
 			$output = '
 				<label for="' . $ID . '">
-			'.$title;
+					<div class="title">'.$title.' <span class="description" title="'.$description.'">(?)</span></div>';
 			
 			$args		= array(
 				'echo'		=> 0,
@@ -26,10 +26,7 @@
 			);
 			$output	.= wp_dropdown_pages($args);
 
-			$output .= '
-					<p>'.$description.'</p>
-				</label>
-			';
+			$output .= '</label>';
 			
 			return $output;
 		}
