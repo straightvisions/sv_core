@@ -30,13 +30,6 @@
 				return $blog_page_check->ID;
 			}
 		}
-		public function default(){
-			if($this->get_parent()->get_callback()){
-				return $this->get_parent()->run_callback($this);
-			}else{
-				return $this->form();
-			}
-		}
 		public function form(){
 			if(is_admin()) {
 				$post_id                = $this->get_page_ID();

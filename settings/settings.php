@@ -16,6 +16,7 @@
 		private $options							= array('No Options defined!');
 		private $callback							= false;
 		private $filter								= false;
+		private $loop								= false; // true = unlimited (dynamic) entries, int = amount of entries, false = no loop (default).
 		private $prefix								= 'sv_';
 		protected static $new							= array();
 		
@@ -177,6 +178,12 @@
 		}
 		public function get_filter(){
 			return $this->filter;
+		}
+		public function set_loop($loop){
+			$this->loop								= $loop;
+		}
+		public function get_loop(){
+			return $this->loop;
 		}
 		public static function get_module_settings_form($module){
 			if(!did_action('admin_enqueue_scripts')) {
