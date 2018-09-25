@@ -14,12 +14,12 @@
 		public function __construct($parent=false){
 			$this->parent			= $parent;
 		}
-		protected function html($ID,$title,$description,$name,$value){
+		public function html($ID,$title,$description,$name,$value){
 			return '
 				<label for="' . $ID . '">
 					<div class="title">'.$title.' <span class="description" title="'.$description.'">(?)</span></div>
 					<textarea style="height:200px;"
-					class="widefat"
+					class="sv_form_field"
 					id="' . $ID . '"
 					name="' . $name . '">' . esc_attr($value) . '</textarea>
 				</label>

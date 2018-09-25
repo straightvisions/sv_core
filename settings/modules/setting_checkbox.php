@@ -17,12 +17,12 @@
 		public function get($value,$format,$object){
 			return $this->$format($value,$object);
 		}
-		protected function html($ID,$title,$description,$name,$value){
+		public function html($ID,$title,$description,$name,$value){
 			return '
 				<label for="' . $ID . '">
 					<div class="title">'.$title.' <span class="description" title="'.$description.'">(?)</span></div>
 					<input
-					class=""
+					class="sv_form_field"
 					id="' . $ID . '"
 					name="' . $name . '"
 					type="checkbox"

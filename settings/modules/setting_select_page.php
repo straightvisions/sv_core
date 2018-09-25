@@ -22,7 +22,8 @@
 			$args		= array(
 				'echo'		=> 0,
 				'selected'	=> $value,
-				'name'		=> $name
+				'name'		=> $name,
+				'class'		=> 'sv_form_field'
 			);
 			$output	.= wp_dropdown_pages($args);
 

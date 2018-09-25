@@ -1,3 +1,39 @@
+/* setting_group - add new entry */
+.sv_setting_group_add_new_button{
+    width:100%;
+    border:1px solid #000;
+    padding:10px;
+    line-height:30px;
+    text-align:center;
+    box-sizing: border-box;
+    cursor:pointer;
+}
+.sv_setting_group_add_new_button:hover{
+    background-color:#EEE;
+}
+.sv_setting_group_new_draft{
+    display:none;
+}
+.sv_setting_group{
+    margin-bottom:40px;
+}
+.sv_setting_group_header{
+    display:flex;
+    justify-content: space-between;
+}
+.sv_setting_group_header > *{
+    display:block;
+    cursor:pointer;
+    border:1px solid #000;
+    padding:10px;
+    margin:0;
+}
+
+input, textarea, select{
+    width:100% !important;
+    border:1px solid #000 !important;
+}
+
 #wpwrap{
     background-color:#FFF;
 }
@@ -20,9 +56,6 @@
 }
 #sv_settings *{
     font-size:16px;
-}
-#sv_settings div{
-    margin-bottom: 10px;
 }
 #sv_settings h2{
     font-size: 36px;

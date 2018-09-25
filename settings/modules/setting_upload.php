@@ -4,6 +4,7 @@
 	
 	class setting_upload extends settings{
 		private $parent				= false;
+		private static $init_once	= false;
 		
 		/**
 		 * @desc			initialize
@@ -31,7 +32,8 @@
 			}
 		}
 		public function form($title=false){
-			if(is_admin()) {
+			if(is_admin() && !self::$init_once) {
+				self::$init_once		= true;
 				$post_id                = $this->get_page_ID();
 				wp_enqueue_script('plupload-handlers');
 				
@@ -63,6 +65,8 @@
                 <div id="media-items" class="hide-if-no-js"></div>
                 </form>
                 ';
+			}else{
+				return __('Multi Upload cannot be implemented more than once on a page.',$this->get_module_name());
 			}
 		}
 		public function get_data(){

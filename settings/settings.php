@@ -258,7 +258,6 @@
 				).'</p>';
 		}
 		public function form($title=false){
-			var_dump($this->get_field_id());
 			return '<div>'.$this->html(
 					$this->get_field_id(),
 					$title ? $this->get_parent()->get_title() : '',

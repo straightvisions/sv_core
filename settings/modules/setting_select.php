@@ -18,7 +18,7 @@
 			$output = '
 				<label for="' . $ID . '">
 					<select
-					class=""
+					class="sv_form_field"
 					id="' . $ID . '"
 					name="' . $name . '">
 				<div class="title">'.$title.' <span class="description" title="'.$description.'">(?)</span></div>
