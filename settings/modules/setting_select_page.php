@@ -20,10 +20,11 @@
 					<div class="title">'.$title.' <span class="description" title="'.$description.'">(?)</span></div>';
 			
 			$args		= array(
-				'echo'		=> 0,
-				'selected'	=> $value,
-				'name'		=> $name,
-				'class'		=> 'sv_form_field'
+				'echo'					=> 0,
+				'selected'				=> $value,
+				'name'					=> $name,
+				'class'					=> 'sv_form_field',
+				'show_option_none'		=> __('No Page selected',$this->get_module_name())
 			);
 			$output	.= wp_dropdown_pages($args);
 

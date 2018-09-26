@@ -14,7 +14,7 @@
 		public function __construct($parent=false){
 			$this->parent			= $parent;
 		}
-		public function html($ID,$title,$description,$name,$value){
+		public function html($ID,$title,$description,$name,$value,$placeholder=''){
 			return '
 				<label for="' . $ID . '">
 					<div class="title">'.$title.' <span class="description" title="'.$description.'">(?)</span></div>
@@ -23,6 +23,7 @@
 					id="' . $ID . '"
 					name="' . $name . '"
 					type="text"
+					placeholder="'.$placeholder.'"
 					value="' . esc_attr($value) . '"/>
 				</label>
 			';

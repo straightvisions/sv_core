@@ -30,30 +30,31 @@
 		protected function html($ID,$title,$description,$name,$value){
 			$i						= 0;
 			$output					= array();
-			$output[]				= '<div class="sv_'.$this->get_module_name().'_wrapper" data-sv_form_field_index="'.count($this->get_children()).'">';
+			$output[]				= '<div class="sv_'.$this->get_module_name().'_wrapper" data-sv_form_field_index="'.count(get_option($this->get_field_id())).'">';
+			$output[]				= '<input type="hidden" name="'.$this->get_field_id().'" value="" />';
 			if($this->get_children() && get_option($this->get_field_id())) {
-				foreach (get_option($this->get_field_id()) as $setting) {
-					$output[]		= $this->html_field($i);
+				foreach (get_option($this->get_field_id()) as $setting_id => $setting) {
+					$output[]		= $this->html_field($i,$setting_id);
 					$i++;
 				}
 			}
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_add_new">';
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_new_entries"></div>';
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_add_new_button">'.__('Add new Entry',$this->get_module_name()).'</div>';
-			$output[]				= '<div class="sv_'.$this->get_module_name().'_new_draft">'.$this->html_field($i,true).'</div>';
+			$output[]				= '<div class="sv_'.$this->get_module_name().'_new_draft" style="display:none;">'.$this->html_field($i).'</div>';
 			$output[]				= '</div>';
 			$output[]				= '</div>';
 
 			return implode('',$output);
 		}
-		private function html_field($i=0, $add_new = false){
+		private function html_field($i=0, $setting_id = false){
 			$output					= array();
 
 			if($this->get_children()){
-				$output[]				= '<div class="sv_'.$this->get_module_name().'">';
+				$output[]				= ($setting_id !== false ? '<div class="sv_'.$this->get_module_name().'">' : '');
 				$output[]				= '
 					<div class="sv_'.$this->get_module_name().'_header">
-						<h4>'.(!$add_new ? __('Entry',$this->get_module_name()).' #'.($i+1) : __('New Entry',$this->get_module_name())).'</h4>
+						<h4>'.($setting_id !== false ? __('Entry',$this->get_module_name()).' #'.($i+1) : __('New Entry',$this->get_module_name())).'</h4>
 						<div class="sv_'.$this->get_module_name().'_delete">'.__('Delete Entry', $this->get_module_name()).'</div>
 					</div>
 					';
@@ -61,21 +62,19 @@
 					$output[]			= '<div class="'.$this->get_prefix($this->get_type()).'_item">';
 					
 					$output[]			= '<div>'.$child->run_type()->html(
-							(!$add_new ? $child->get_field_id().'['.$i.']['.$child->get_ID().']' : $child->get_field_id().'[sv_form_field_index]['.$child->get_ID().']'),
+							($setting_id !== false ? $child->get_field_id().'['.$i.']['.$child->get_ID().']' : $child->get_field_id().'[sv_form_field_index]['.$child->get_ID().']'),
 							$child->get_title(),
 							$child->get_description(),
-							(!$add_new ? $child->get_field_id().'['.$i.']['.$child->get_ID().']' : ''),
-							get_option($child->get_field_id())[$i][$child->get_ID()]
+							($setting_id !== false ? $child->get_field_id().'['.$i.']['.$child->get_ID().']' : ''),
+							($setting_id !== false ? get_option($child->get_field_id())[$setting_id][$child->get_ID()] : ''),
+							$child->get_placeholder()
 						).'</div>';
 					
 					$output[]			= '</div>';
 				}
-				$output[]				= '</div>';
+				$output[]				= ($setting_id !== false ? '</div>' : '');
 			}
 
 			return implode('',$output);
-		}
-		public function get_data(){
-			return $this->children;
 		}
 	}

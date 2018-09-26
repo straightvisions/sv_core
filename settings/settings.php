@@ -14,6 +14,7 @@
 		private $title								= false;
 		private $description						= false;
 		private $options							= array('No Options defined!');
+		private $placeholder						= false;
 		private $callback							= false;
 		private $filter								= false;
 		private $loop								= false; // true = unlimited (dynamic) entries, int = amount of entries, false = no loop (default).
@@ -151,6 +152,12 @@
 		public function get_options(){
 			return $this->options;
 		}
+		public function set_placeholder($placeholder){
+			$this->placeholder						= $placeholder;
+		}
+		public function get_placeholder(){
+			return $this->placeholder;
+		}
 		public function get_data(){
 			return get_option($this->get_field_id());
 		}
@@ -263,7 +270,8 @@
 					$title ? $this->get_parent()->get_title() : '',
 					$this->get_parent()->get_description(),
 					$this->get_field_id(),
-					get_option($this->get_field_id())
+					get_option($this->get_field_id()),
+					$this->get_parent()->get_placeholder()
 				).'</div>';
 		}
 	}

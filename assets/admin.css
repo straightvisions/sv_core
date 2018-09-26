@@ -11,9 +11,6 @@
 .sv_setting_group_add_new_button:hover{
     background-color:#EEE;
 }
-.sv_setting_group_new_draft{
-    display:none;
-}
 .sv_setting_group{
     margin-bottom:40px;
 }
