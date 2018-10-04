@@ -200,7 +200,7 @@
 				if($check_if_exists){
 					return false;
 				}else {
-					error_log("Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: ' . $path . $suffix);
+					error_log("Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' called by '.(new \ReflectionClass(get_called_class()))->getName().' - path not found: ' . $path . $suffix);
 					return false;
 				}
 			}
