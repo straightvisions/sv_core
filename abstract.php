@@ -125,6 +125,16 @@
 			}
 			return false;
 		}
+		public function find_parent_by_name($name){
+			if($this->get_parent() != $this->get_root()){
+				if ($this->get_parent()->get_name() == $name) {
+					return $this->get_parent();
+				}else{
+					return $this->get_parent()->find_parent($name);
+				}
+			}
+			return false;
+		}
 		protected function setup($name,$file){
 			$this->name								= $name;
 
