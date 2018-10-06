@@ -354,6 +354,9 @@
 		public function get_current_url(){
 			return (isset($_SERVER['HTTPS']) ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		}
+		public function get_current_path(){
+			return $_SERVER['REQUEST_URI'];
+		}
 		public function acp_style($hook=false){
 			if(!$hook || $hook == 'sv-100_page_'.$this->get_module_name()) {
 				wp_enqueue_style($this->get_module_name(), $this->get_url_lib_core('assets/admin.css'));
