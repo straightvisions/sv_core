@@ -130,7 +130,7 @@
 				if ($this->get_parent()->get_name() == $name) {
 					return $this->get_parent();
 				}else{
-					return $this->get_parent()->find_parent($name);
+					return $this->get_parent()->find_parent_by_name($name);
 				}
 			}
 			return false;
