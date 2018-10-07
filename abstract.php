@@ -167,7 +167,7 @@
 
 		}
 		public function get_name(){
-			if(isset($this->core)){ // todo: check if core is still needed
+			if(property_exists($this,'core')){ // todo: check if core is still needed
 				return $this->core->name;
 			}elseif($this->name){ // if name is set, use it
 				return $this->name;
