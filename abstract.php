@@ -39,7 +39,7 @@
 		public function __get(string $name){
 			$root = $this->get_root();
 
-			if($root->get_path_lib_modules($name.'.php')){ // look for class file in modules directory
+			if($this->module_exists($name)){ // look for class file in modules directory
 				require_once($root->get_path_lib_modules($name.'.php'));
 				$class_name							= $root->get_name().'\\'.$name;
 				$this->$name						= new $class_name();
@@ -49,6 +49,18 @@
 			}else{
 				throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_path_lib_modules().$name.'.php)');
 			}
+		}
+		/**
+		 * @desc			checks if module exists
+		 * @param	string	$name library-name
+		 * @return			boolean
+		 * @author			Dennis Heiden
+		 * @since			1.0
+		 * @ignore
+		 */
+		public function module_exists(string $name){
+			$root = $this->get_root();
+			return ($root->get_path_lib_modules($name.'.php')) ? true : false;
 		}
 		public function set_parent($parent){
 			$this->parent							= $parent;
