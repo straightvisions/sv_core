@@ -222,6 +222,14 @@
 			}
 		}
 		public function get_url($suffix='',$check_if_exists=false){
+			if($this->url){ // if url is set, use it
+				$url					= $this->url;
+			}elseif($this != $this->get_parent()){ // if there's a parent, go a step higher
+				$url					= $this->get_parent()->get_url();
+			}
+			
+			$this->url					= $url;
+			
 			if(file_exists($this->get_path().$suffix)){
 				if($check_if_exists){
 					return true;
