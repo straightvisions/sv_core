@@ -21,9 +21,9 @@ class info extends sv_abstract{
 	 * @ignore
 	 */
 	public function __get(string $name){
-		if($this->get_root()->get_path_lib_core($this->get_module_name().'/modules/'.$name.'.php', true)){ // look for class file in modules directory
+		if($this->get_path_lib_core($this->get_module_name().'/modules/'.$name.'.php', true)){ // look for class file in modules directory
 			if(!class_exists( __NAMESPACE__.'\\'.$name)) {
-				require_once($this->get_root()->get_path_lib_core($this->get_module_name() . '/modules/' . $name . '.php'));
+				require_once($this->get_path_lib_core($this->get_module_name() . '/modules/' . $name . '.php'));
 			}
 			
 			$class_name							= __NAMESPACE__.'\\'.$name;
@@ -34,7 +34,7 @@ class info extends sv_abstract{
 			
 			return $this->$name;
 		}else{
-			throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_root()->get_path_lib_core($this->get_module_name().'/modules/'.$name.'.php').')');
+			throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_path_lib_core($this->get_module_name().'/modules/'.$name.'.php').')');
 		}
 	}
 	protected function init(){
@@ -49,7 +49,7 @@ class info extends sv_abstract{
 			'manage_options',
 			$this->get_relative_prefix(),
 			'',
-			$this->get_root()->get_url_lib_section('core','assets','logo_icon.png'),
+			$this->get_url_lib_section('core','assets','logo_icon.png'),
 			2
 		);
 	}

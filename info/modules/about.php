@@ -22,7 +22,7 @@
 				__('About', $this->get_module_name()),											// menu title
 				'manage_options',																// capability
 				$this->get_parent()->get_relative_prefix(),										// menu slug
-				function(){ require_once($this->get_root()->get_path_lib_core('info/tpl/backend_about.php')); }		// callable function
+				function(){ require_once($this->get_path_lib_core('info/tpl/backend_about.php')); }		// callable function
 			);
 		}
 	}

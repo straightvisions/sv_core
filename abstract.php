@@ -193,13 +193,19 @@
 			return str_replace($this->get_root()->get_name(),'sv_common',$this->get_name()).$append;
 		}
 		public function get_path($suffix='',$check_if_exists=false){
-			$path						= (
-					(
-						isset($this->core) &&
-						get_class($this->core) != 'sv_100\init'
-					) ? $this->core->path : $this->path
-				);
-
+			if(property_exists($this,'core') &&
+				get_class($this->core) != 'sv_100\init'){ // todo: check if core is still needed
+				$path					= $this->core->path;
+			}elseif($this->path){ // if path is set, use it
+				$path					= $this->path;
+			}elseif($this != $this->get_parent()){ // if there's a parent, go a step higher
+				$path					= $this->get_parent()->get_path();
+			}else{ // nothing set? use fallback-path
+				$path					= trailingslashit(dirname(__FILE__));
+			}
+			
+			$this->path					= $path;
+			
 			if(file_exists($path.$suffix)){
 				if($check_if_exists){
 					return true;

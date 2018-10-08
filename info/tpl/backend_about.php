@@ -28,7 +28,7 @@
 <h2><?php _e('Active Core', $this->get_module_name()); ?></h2>
 <p><?php _e('While the core is included in each package, it will be loaded from one of these packages only.', $this->get_module_name()); ?></p>
 <h3><?php _e('Path to active core', $this->get_module_name()); ?></h3>
-<blockquote><?php echo $this->get_root()->get_path_lib_core(); ?></blockquote>
+<blockquote><?php echo $this->get_path_lib_core(); ?></blockquote>
 <h4><?php _e('Version of active core', $this->get_module_name()); ?></h4>
 <blockquote><?php echo number_format(self::version_core,0,',','.'); ?></blockquote>
 
