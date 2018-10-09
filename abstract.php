@@ -384,7 +384,9 @@
 		}
 		public function acp_style($hook=false){
 			if(!$hook || $hook == 'sv-100_page_'.$this->get_module_name()) {
-				wp_enqueue_style($this->get_module_name(), $this->get_url_lib_core('assets/admin.css'));
+				echo '<style>';
+				require_once($this->get_path_lib_core('assets/admin.css'));
+				echo '</style>';
 			}
 		}
 	}
