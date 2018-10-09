@@ -58,9 +58,8 @@
 		 * @since			1.0
 		 * @ignore
 		 */
-		public function module_exists(string $name){
-			$root = $this->get_root();
-			return ($root->get_path_lib_modules($name.'.php')) ? true : false;
+		public function module_exists(string $name): bool{
+			return ( $this->get_root()->get_path_lib_modules($name.'.php')) ? true : false;
 		}
 		public function set_parent($parent){
 			$this->parent							= $parent;
