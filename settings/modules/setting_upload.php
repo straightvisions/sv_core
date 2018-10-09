@@ -19,7 +19,7 @@
 				<label for="' . $ID . '">
 					<div class="title">'.$title.' <span class="description" title="'.$description.'">(?)</span></div>
 					<input
-					class="sv_form_field"
+					class="sv_file"
 					id="' . $ID . '"
 					name="' . $name . '"
 					type="file"

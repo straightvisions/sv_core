@@ -1,141 +1,289 @@
-/* setting_group - add new entry */
-.sv_setting_group_add_new_button{
-    width:100%;
-    border:1px solid #000;
-    padding:10px;
-    line-height:30px;
-    text-align:center;
-    box-sizing: border-box;
-    cursor:pointer;
+/* Input - Checkbox */
+label.sv_checkbox {
+    display: inline-block;
 }
-.sv_setting_group_add_new_button:hover{
-    background-color:#EEE;
+label.sv_checkbox input[type="checkbox"] {
+    position: relative;
+    width: 45px;
+    height: 25px;
+    -webkit-appearance: none;
+    background-color: rgba(43, 45, 48, .1);
+    outline: none !important;
+    border-radius: 20px;
+    border: 2px solid rgba(43, 45, 48, .05);
+    transition: .2s;
+    cursor: pointer;
+    margin: 0;
 }
-.sv_setting_group{
-    margin-bottom:40px;
+label.sv_checkbox input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    width: 23px;
+    height: 23px;
+    border-radius: 23px;
+    top: -1px;
+    left: 0;
+    background-color: rgba(255, 255, 255, 1);
+    transition: .3s ease;
+    transform: scale(.9);
+    outline: none !important;
 }
-.sv_setting_group_header{
-    display:flex;
-    justify-content: space-between;
+label.sv_checkbox input[type="checkbox"] + .desc::before {
+    content: 'Off';
+    display: block;
+    text-align: center;
+    color: rgba(43, 45, 48, .4);
+    transition: .3s ease;
+    font-size: .9rem;
 }
-.sv_setting_group_header > *{
-    display:block;
-    cursor:pointer;
-    border:1px solid #000;
-    padding:10px;
-    margin:0;
+label.sv_checkbox input[type="checkbox"]:checked + .desc::before  {
+    content: 'On';
+    color: rgba(43, 45, 48, 1);
+}
+label.sv_checkbox input[type="checkbox"]:checked {
+    background-color: rgba(43, 45, 48, 1);
+    border-color: rgba(43, 45, 48, 1);
+}
+label.sv_checkbox input[type="checkbox"]:checked::before {
+    left: 19px;
+    outline: none;
+    margin: 0;
 }
 
-input, textarea, select{
-    width:100% !important;
-    border:1px solid #000 !important;
+/* Input - Radio */
+label.sv_radio {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+label.sv_radio .desc {
+    margin-left: 5px;
+}
+label.sv_radio input[type="radio"] {
+    position: relative;
+    width: 25px;
+    height: 25px;
+    -webkit-appearance: none;
+    background-color: transparent;
+    outline: none;
+    border-radius: 25px;
+    border: 2px solid rgba(43, 45, 48, 1);
+    cursor: pointer;
+    margin: 0;
+}
+label.sv_radio input[type="radio"]::before {
+    content: '';
+    position: absolute;
+    width: 21px;
+    height: 21px;
+    border-radius: 23px;
+    top: 0;
+    left: 0;
+    background-color: rgba(43, 45, 48, 1);
+    transition: .3s ease;
+    transform: scale(0);
+}
+label.sv_radio input[type="radio"]:checked::before {
+    transform: scale(.75);
 }
 
-#wpwrap{
-    background-color:#FFF;
-}
-#sv_header{
-    display:flex;
-}
-#sv_header a{
-    display:block;
-}
-#sv_header img{
-    max-width:90%;
-}
-#sv_logo{
-    width:100%;
-    text-align:center;
-}
-#sv_settings{
-    max-width: 700px;
-    margin: 100px auto;
-}
-#sv_settings *{
-    font-size:16px;
-}
-#sv_settings h2{
-    font-size: 36px;
-    line-height: 130%;
-    text-transform: uppercase;
-    background-color: #000;
-    color: #FFF;
-    margin-bottom:10px;
-}
-#sv_settings .sv_setting{
-    margin-bottom:20px;
-    overflow:hidden;
-}
-#sv_settings h3, #sv_settings .sv_setting_name{
-    font-size: 24px;
-    border-bottom: 1px solid #000;
-    line-height: 30px;
-    margin-bottom: 10px;
-    font-weight:normal;
-}
-#sv_settings .sv_setting_desc{
-    margin-bottom: 10px;
-}
-#sv_settings .sv_setting_value input{
+/* Input - Buttons */
+input.sv_btn,
+button.sv_btn,
+label.sv_file {
+    color: rgba(43, 45, 48, 1);
+    display: block;
+    position: relative;
+    line-height: 1;
+    border-radius: 0;
+    background: rgba(255, 255, 255, 1);
+    padding: 15px 20px;
+    border: 2px solid rgba(43, 45, 48, 1);
     width: 100%;
-    background-color: #000;
-    color: #FFF;
+    text-align: center;
+    transition: .5s ease;
+    cursor: pointer;
+    margin-bottom: 10px;
+    outline: none;
 }
-#sv_settings .sv_setting_checkbox .sv_setting_desc{
-    float:right;
-    width:calc(100% - 50px);
+input.sv_btn:hover,
+input.sv_btn:focus,
+button.sv_btn:hover,
+button.sv_btn:focus,
+label.sv_file:hover,
+label.sv_file:focus {
+    background-color: rgba(43, 45, 48, 1);
+    color: rgba(255, 255, 255, 1);
 }
-#sv_settings .sv_setting_checkbox .sv_setting_value{
-    float:left;
+
+/* Input - Button Group */
+.sv_btn_group {
+    margin-bottom: 10px;
 }
-#sv_settings .sv_setting_value input[type="checkbox"]{
-    width: 40px;
-    height: 40px;
-    text-align:center;
-    background-color:#000;
-    margin-top:5px;
+.sv_btn_group input.sv_btn,
+.sv_btn_group button.sv_btn {
+    margin-bottom: 0;
+    border-top: 0;
+    border-bottom: 1px solid rgba(43, 45, 48, .1);
 }
-#sv_settings .sv_setting_value input[type=checkbox]:checked:before{
-    color: #FFF;
-    font-size: 30px;
-    line-height:40px;
-    margin:0;
+.sv_btn_group input.sv_btn:hover,
+.sv_btn_group button.sv_btn:hover {
+    border-color: rgba(43, 45, 48, 1);
 }
-.ipbwi_error{
-    background-color:#FF3300;
-    color:#FFF;
-    padding:10px;
+.sv_btn_group input.sv_btn:first-child,
+.sv_btn_group button.sv_btn:first-child {
+    border-top: 2px solid rgba(43, 45, 48, 1);
 }
-.ipbwi_warning{
-    background-color:#FFAA00;
-    color:#FFF;
-    padding:10px;
+.sv_btn_group input.sv_btn:last-child,
+.sv_btn_group button.sv_btn:last-child {
+    border-bottom: 2px solid rgba(43, 45, 48, 1);
 }
-.ipbwi_success{
-    background-color:#00AA00;
-    color:#FFF;
-    padding:10px;
+
+/* Input - Button Group Horizontal */
+.sv_btn_group.horizontal {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 }
-#sv_settings .left{
-    width:33%;
-    display:inline-block;
+.sv_btn_group.horizontal input.sv_btn,
+.sv_btn_group.horizontal button.sv_btn {
+    width: auto;
+    text-align: center;
+    border-top: 2px solid rgba(43, 45, 48, 1);
+    border-right: 1px solid rgba(43, 45, 48, .1);
+    border-bottom: 2px solid rgba(43, 45, 48, 1);
+    border-left: 0;
+    display: flex;
+    flex: 1;
+    justify-content: center;
 }
-#sv_settings .center{
-    width:33%;
-    text-align:center;
-    display:inline-block;
+.sv_btn_group.horizontal input.sv_btn:first-child,
+.sv_btn_group.horizontal button.sv_btn:first-child {
+    border-left: 2px solid rgba(43, 45, 48, 1);
 }
-#sv_settings .right{
-    width:33%;
-    text-align:right;
-    display:inline-block;
+.sv_btn_group.horizontal input.sv_btn:last-child,
+.sv_btn_group.horizontal button.sv_btn:last-child {
+    border-right: 2px solid rgba(43, 45, 48, 1);
 }
-#sv_extensions div{
-    display:inline-block;
+
+
+/* Inputs */
+input.sv_input,
+select.sv_input,
+textarea.sv_input {
+    color: rgba(43, 45, 48, 1);
+    display: inline-block;
+    position: relative;
+    line-height: 1;
+    border-radius: 0;
+    background: rgba(255, 255, 255, 1);
+    padding: 15px 20px;
+    border: 2px solid rgba(43, 45, 48, .1);
+    width: 100%;
+    min-width: 80px;
+    text-align: left;
+    transition: .3s ease;
+    outline: none;
+    margin-bottom: 10px;
+    box-shadow: none;
+    height: auto;
 }
-#sv_extensions div a.not_installed{
-    opacity:0.5;
+input.sv_input:hover,
+input.sv_input:focus,
+select.sv_input:hover,
+select.sv_input:focus,
+textarea.sv_input:hover,
+textarea.sv_input:focus {
+    border-color: rgba(43, 45, 48, 1);
+    outline: none;
+    box-shadow: none;
 }
-#sv_extensions div a.not_installed:hover{
-    opacity:0.8;
+input.sv_input[type="number"] {
+    max-width: 80px;
+}
+textarea.sv_input {
+    font-family: sans-serif;
+    min-height: 100px;
+}
+select.sv_input {
+    cursor: pointer;
+}
+select.sv_input option:hover {
+    background-color: rgba(43, 45, 48, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+/* Input - File */
+label.sv_file {
+    cursor: pointer;
+}
+label.sv_file input[type="file"] {
+    opacity: 0;
+    z-index: -1;
+    overflow: hidden;
+    position: absolute;
+    width: 0.1px;
+    height: 0.1px;
+}
+label.sv_file .desc::before {
+    content: 'Choose a file...';
+    display: block;
+    color: rgba(43, 45, 48, 1);
+}
+label.sv_file:hover .desc::before,
+label.sv_file:focus .desc::before {
+    color: rgba(255, 255, 255, 1);
+}
+
+/* Input - Range */
+input.sv_range {
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+}
+input.sv_range:focus {
+    outline: none;
+}
+input.sv_range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    background-color: rgba(43, 45, 48, 1);
+    cursor: pointer;
+    transform: translateY(-40%);
+}
+input.sv_range::-webkit-slider-runnable-track {
+    width: 100%;
+    cursor: pointer;
+    background: rgba(43, 45, 48, .1);
+    border-color: transparent;
+    color: transparent;
+    height: 5px;
+    border-radius: 5px;
+}
+
+/* Input - Color */
+input.sv_color {
+    -webkit-appearance: none;
+    border: 0;
+    height: 50px;
+    width: 100%;
+    max-width: 100px;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+}
+input.sv_color::-webkit-color-swatch-wrapper {
+    border: 2px solid rgba(43, 45, 48, 1);
+    padding: 5px;
+    background: rgba(255, 255, 255, 1);
+}
+input.sv_color::-webkit-color-swatch {
+    border: none;
+    background: transparent;
 }

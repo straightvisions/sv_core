@@ -19,7 +19,7 @@
 				<label for="' . $ID . '">
 					<div class="title">'.$title.' <span class="description" title="'.$description.'">(?)</span></div>
 					<textarea style="height:200px;"
-					class="sv_form_field"
+					class="sv_input"
 					id="' . $ID . '"
 					name="' . $name . '">' . esc_attr($value) . '</textarea>
 				</label>
