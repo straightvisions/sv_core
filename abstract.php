@@ -13,6 +13,7 @@
 		protected $version					= false;
 		private $parent						= false;
 		private $root						= false;
+		protected $s							= array(); // settings object array
 		protected static $wpdb				= false;
 		private static $instances			= array();
 		protected static $path_core			= false;
