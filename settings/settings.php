@@ -15,7 +15,7 @@
 		private $description						= false;
 		private $options							= array('No Options defined!');
 		private $placeholder						= false;
-		private $callback							= false;
+		private $callback							= array();
 		private $filter								= false;
 		private $loop								= false; // true = unlimited (dynamic) entries, int = amount of entries, false = no loop (default).
 		private $prefix								= 'sv_';
@@ -59,52 +59,62 @@
 			
 			return $new;
 		}
-		public function set_ID($ID){
+		public function set_ID(string $ID): settings{
 			$this->ID								= $ID;
+
+			return $this;
 		}
-		public function get_ID(){
+		public function get_ID(): string{
 			return $this->ID;
 		}
-		public function set_section($section){
+		public function set_section(string $section): settings{
 			$this->section							= $section;
+
+			return $this;
 		}
-		public function get_section(){
+		public function get_section(): string{
 			if(!$this->section){
 				return $this->get_parent()->get_module_name();
 			}else{
 				return $this->section;
 			}
 		}
-		public function set_section_group($section_group){
+		public function set_section_group(string $section_group): settings{
 			$this->section_group							= $section_group;
+
+			return $this;
 		}
-		public function get_section_group(){
+		public function get_section_group(): string{
 			if(!$this->section_group){
 				return $this->get_section();
 			}else{
 				return $this->section_group;
 			}
 		}
-		public function set_section_name($section_name){
+		public function set_section_name(string $section_name): settings{
 			$this->section_name						= $section_name;
+
+			return $this;
 		}
-		public function get_section_name(){
+		public function get_section_name(): string{
 			if(!$this->section_name){
 				return $this->get_section();
 			}else{
 				return $this->section_name;
 			}
 		}
-		public function set_section_description($description){
+		public function set_section_description(string $description): settings{
 			$this->section_description						= $description;
+
+			return $this;
 		}
-		public function get_section_description(){
+		public function get_section_description(): string{
 			return $this->section_description;
 		}
 		/*
 		 * 	@param: $source		set a type for form field
 		 */
-		public function load_type($type){
+		public function load_type(string $type){
 			$type		= $this->type				= 'setting_'.$type;
 			
 			if(is_object($this->$type)){
@@ -113,12 +123,10 @@
 				$this->$type->set_parent($this);
 				
 				static::init_wp_setting($this->$type);
-				
-				return true;
 			}else{
 				// @todo: proper error notice
-				return false;
 			}
+			return $this;
 		}
 		public function get_type(){
 			return $this->type;
@@ -128,50 +136,60 @@
 			
 			return $this->$type;
 		}
-		public function get_form_field(){
+		public function get_form_field(): string{
 			return $this->run_type()->default();
 		}
 		public function print_form_field(){
 			echo $this->get_form_field();
 		}
-		public function set_title($title){
+		public function set_title(string $title): settings{
 			$this->title							= $title;
+
+			return $this;
 		}
-		public function get_title(){
+		public function get_title(): string{
 			return $this->title;
 		}
-		public function set_description($description){
+		public function set_description(string $description){
 			$this->description						= $description;
+
+			return $this;
 		}
-		public function get_description(){
+		public function get_description(): string{
 			return $this->description;
 		}
-		public function set_options($options){
+		public function set_options(array $options): settings{
 			$this->options						= $options;
+
+			return $this;
 		}
-		public function get_options(){
+		public function get_options(): array{
 			return $this->options;
 		}
-		public function set_placeholder($placeholder){
+		public function set_placeholder(string $placeholder){
 			$this->placeholder						= $placeholder;
+
+			return $this;
 		}
-		public function get_placeholder(){
+		public function get_placeholder(): string{
 			return $this->placeholder;
 		}
 		public function get_data(){
 			return get_option($this->get_field_id());
 		}
-		public function set_callback(array $callback){
+		public function set_callback(array $callback): settings{
 			$this->callback							= $callback;
+
+			return $this;
 		}
-		public function get_callback(){
+		public function get_callback(): array{
 			return $this->callback;
 		}
 		public function run_callback($setting){
-			if($this->callback) {
-				if (method_exists($this->callback[0], $this->callback[1])) {
-					$class = $this->callback[0];
-					$method = $this->callback[1];
+			if(count($this->get_callback()) == 2) {
+				if (method_exists($this->get_callback()[0], $this->get_callback()[1])) {
+					$class = $this->get_callback()[0];
+					$method = $this->get_callback()[1];
 					
 					return $class->$method($setting);
 				} else {
@@ -180,19 +198,23 @@
 				}
 			}
 		}
-		public function set_filter($filter){
+		public function set_filter(array $filter): settings{
 			$this->filter							= $filter;
+
+			return $this;
 		}
-		public function get_filter(){
+		public function get_filter(): array{
 			return $this->filter;
 		}
-		public function set_loop($loop){
+		public function set_loop(int $loop): settings{
 			$this->loop								= $loop;
+
+			return $this;
 		}
-		public function get_loop(){
+		public function get_loop(): int{
 			return $this->loop;
 		}
-		public static function get_module_settings_form($module){
+		public static function get_module_settings_form($module): string{
 			if(!did_action('admin_enqueue_scripts')) {
 				add_action('admin_enqueue_scripts', array($module, 'acp_style'));
 			}else{
@@ -214,7 +236,7 @@
 		}
 		
 		/* methods for inheritance */
-		public function default(){
+		public function default(): string{
 			if($this->get_parent()->get_callback()){
 				return $this->get_parent()->run_callback($this);
 			}else{
@@ -252,10 +274,10 @@
 				);
 			}
 		}
-		protected function get_field_id(){
+		protected function get_field_id(): string{
 			return $this->get_parent()->get_prefix($this->get_parent()->get_ID());
 		}
-		public function widget($value,$object){
+		public function widget(string $value, $object): string{
 			return '<p>'.$this->html(
 					$object->get_field_id($this->get_parent()->get_ID()),
 					$this->get_parent()->get_title(),
@@ -264,7 +286,7 @@
 					$value
 				).'</p>';
 		}
-		public function form($title=false){
+		public function form(bool $title=false): string{
 			return '<div>'.$this->html(
 					$this->get_field_id(),
 					$title ? $this->get_parent()->get_title() : '',

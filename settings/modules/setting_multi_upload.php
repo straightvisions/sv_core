@@ -31,7 +31,7 @@
 				return $blog_page_check->ID;
 			}
 		}
-		public function form($title=false){
+		public function form(bool $title=false): string{
 			if(is_admin() && !self::$init_once) {
 				self::$init_once		= true;
 				$post_id                = $this->get_page_ID();
@@ -75,7 +75,7 @@
 			
 			return $children;
 		}
-		public function widget($value,$object){
+		public function widget(string $value, $object): string{
 			return '
             <p>
                 <label for="' . $object->get_field_id($this->parent->get_ID()) . '">
