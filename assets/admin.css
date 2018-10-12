@@ -397,3 +397,41 @@ input.sv_color::-webkit-color-swatch {
     border: none;
     background: transparent;
 }
+/* Tooltip */
+div.sv_tooltip {
+    position: relative;
+    display: inline-block;
+}
+div.sv_tooltip span.sv_tooltip_icon {
+    border-bottom: 1px dotted rgba(43, 45, 48, 1);
+}
+div.sv_tooltip span.sv_tooltip_text {
+    visibility: hidden;
+    color: rgba(255, 255, 255, 1);
+    font-size: .85rem;
+    background-color: rgba(43, 45, 48, 1);
+    padding: 5px 10px;
+    border-radius: 3px 3px 3px 0;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    opacity: 0;
+    transition: .3s ease;
+    width: 200px;
+    bottom: 125%;
+    display: inline-block;
+}
+div.sv_tooltip span.sv_tooltip_text::after {
+    clip-path: polygon(0 0, 0% 100%, 100% 0);
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background-color: rgba(43, 45, 48, 1);
+    height: 8px;
+    width: 8px;
+}
+div.sv_tooltip:hover span.sv_tooltip_text {
+    visibility: visible;
+    opacity: 1;
+}
