@@ -79,6 +79,9 @@ class notices extends sv_abstract{
 				'hierarchical'					=> false,
 				'show_ui'						=> true,
 				'show_admin_column'				=> true,
+				'public'						=> false,
+				'exclude_from_search'			=> true,
+				'publicly_queryable'			=> false,
 			)
 		);
 	}
