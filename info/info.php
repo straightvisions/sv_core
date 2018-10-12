@@ -43,7 +43,7 @@ class info extends sv_abstract{
 		$this->about->init();
 	}
 	public function menu(){
-		add_menu_page(
+		/*add_menu_page(
 			__('SV Info',$this->get_name()),
 			__('SV Info',$this->get_name()),
 			'manage_options',
@@ -51,6 +51,6 @@ class info extends sv_abstract{
 			'',
 			$this->get_url_lib_section('core','assets','logo_icon.png'),
 			2
-		);
+		);*/
 	}
 }

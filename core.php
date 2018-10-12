@@ -53,22 +53,32 @@ if(!class_exists('\sv_core\core')) {
 				static::$info->set_parent($this);
 				static::$info->init();
 				
+				add_action('admin_menu', array($this, 'menu'), 1);
+				
 				static::$initialized		= true;
 			}
-			
-			add_action('admin_menu', array($this, 'menu'), 1);
 
 			if(file_exists($path.'lib/modules/modules.php')) {
 				$this->modules->init();
 			}
 		}
 		public function menu(){
+			add_menu_page(
+				__('straightvisions', $this->get_root()->get_prefix()),
+				__('straightvisions', $this->get_root()->get_prefix()),
+				'manage_options',
+				$this->get_root()->get_prefix(),
+				'',
+				$this->get_url_lib_core('assets/logo_icon.png'),
+				2
+			);
+			
 			add_submenu_page(
-				$this->get_parent()->get_relative_prefix('info'),				// parent slug
-				$this->get_name(),														// page title
-				$this->get_name(),														// menu title
+				$this->get_root()->get_prefix(),										// parent slug
+				'Info',														// page title
+				'Info',														// menu title
 				'manage_options',														// capability
-				$this->get_relative_prefix($this->get_prefix()),						// menu slug
+				$this->get_root()->get_prefix(),										// menu slug
 				array($this,'info_instance_tpl')	// callable function
 			);
 		}
