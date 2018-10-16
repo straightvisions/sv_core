@@ -18,6 +18,7 @@
 		private static $instances			= array();
 		protected static $path_core			= false;
 		protected static $url_core			= false;
+		protected $sections					= array();
 
 		/**
 		 * @desc			initialize plugin
@@ -378,5 +379,11 @@
 				require_once($this->get_path_lib_core('assets/admin.css'));
 				echo '</style>';
 			}
+		}
+		public function add_section(string $name, string $path){
+			$this->sections[$name]					= $path;
+		}
+		public function get_sections(): array{
+			return $this->sections;
 		}
 	}

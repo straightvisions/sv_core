@@ -37,20 +37,4 @@ class info extends sv_abstract{
 			throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_path_lib_core($this->get_module_name().'/modules/'.$name.'.php').')');
 		}
 	}
-	protected function init(){
-		add_action('admin_menu', array($this, 'menu'), 1);
-		
-		$this->about->init();
-	}
-	public function menu(){
-		/*add_menu_page(
-			__('SV Info',$this->get_name()),
-			__('SV Info',$this->get_name()),
-			'manage_options',
-			$this->get_relative_prefix(),
-			'',
-			$this->get_url_lib_section('core','assets','logo_icon.png'),
-			2
-		);*/
-	}
 }

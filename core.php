@@ -54,8 +54,11 @@ if(!class_exists('\sv_core\core')) {
 				static::$info->init();
 				
 				add_action('admin_menu', array($this, 'menu'), 1);
+				add_action('wp', array($this, 'build_sections'));
 				
 				static::$initialized		= true;
+
+				add_action('init', array($this, 'build_sections'));
 			}
 
 			if(file_exists($path.'lib/modules/modules.php')) {
@@ -79,11 +82,13 @@ if(!class_exists('\sv_core\core')) {
 				'Info',														// menu title
 				'manage_options',														// capability
 				$this->get_root()->get_prefix(),										// menu slug
-				array($this,'info_instance_tpl')	// callable function
+				function(){ require_once($this->get_path_lib_core('info/tpl/backend/default.php')); }	// callable function
 			);
 		}
-		public function info_instance_tpl(){
-			require_once($this->get_path_lib_core('info/tpl/backend_info_instance.php'));
+		public function build_sections(){
+			foreach($this->get_instances() as $name => $instance){
+				$this->get_root()->add_section($name, $this->get_path_lib_core('info/tpl/backend/instance.php'));
+			}
 		}
 	}
 }

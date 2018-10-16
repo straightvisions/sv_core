@@ -33,12 +33,11 @@
     background: transparent;
 }
 
-/* Main */
-.sv_settings {
+/* WP Body */
+#wpbody-content {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin: 30px 30px 30px 10px;
+    flex-direction: column;
+    padding: 20px 20px 20px 0;
 }
 
 /* Side Menu */
@@ -46,30 +45,18 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    max-width: 200px;
+    max-width: 100%;
+    flex: 0 0 100%;
     width: 100%;
     position: relative;
-    top: 0;
-}
-.sv_side_menu .sv_brand {
-    background-color: rgba(255, 255, 255, 1);
-    height: 80px;
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    outline: none;
-    box-shadow: none;
-    border-bottom: 1px solid rgba(43, 45, 48, .1);
-}
-.sv_side_menu .sv_brand img {
-    width: auto;
-    max-width: 100%;
+    margin-bottom: 10px;
 }
 .sv_side_menu_item {
     padding: 30px;
-    background-color: transparent;
-    border-top: 1px solid rgba(43, 45, 48, .1);
-    border-left: 2px solid transparent;
+    background-color: rgba(255, 255, 255, 1);
+    border-bottom: 1px solid rgba(43, 45, 48, .1);
+    border-left: 3px solid rgba(43, 45, 48, .1);
+    margin-right: 5px;
     text-decoration: none;
     color: rgba(43, 45, 48, 1);
     transition: .3s ease;
@@ -78,34 +65,45 @@
 .sv_side_menu_item:focus,
 .sv_side_menu_item.active{
     border-left-color: rgba(43, 45, 48, 1);
-    background-color: rgba(255, 255, 255, 1);
+    color: rgba(43, 45, 48, 1);
 }
 
 /* Content */
 .sv_content_wrapper {
-    width: 100%;
-    max-width: 1000px;
-    background-color: #FFF;
-    display: inline-block;
-}
-.sv_content {
-    max-height: 80vh;
+    flex-wrap: wrap;
+    flex-direction: column;
+    max-width: 100%;
+    flex: 0 0 100%;
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
     padding: 30px;
+    background-color: rgba(255, 255, 255, 1);
+    max-height: 88vh;
+    display: none;
+}
+#section_about.sv_content_wrapper {
+    display: flex;
 }
 .sv_content_title {
     border-bottom: 1px solid rgba(43, 45, 48, .1);
-    padding: 0 30px;
-    height: 80px;
-    display: flex;
-    align-items: center;
+    margin: 0 0 20px;
+    padding-bottom: 30px;
 }
-.sv_content_title h1 {
-    margin: 0;
-    padding: 0;
-    line-height: 1;
+
+@media (min-width: 900px) {
+    #wpbody-content {
+        flex-direction: row;
+    }
+    .sv_side_menu {
+        max-width: 10%;
+        flex: 0 0 10%;
+        margin-bottom: 0;
+    }
+    .sv_content_wrapper {
+        max-width: 60%;
+        flex: 0 0 60%;
+    }
 }
 
 /* Input - Checkbox */
