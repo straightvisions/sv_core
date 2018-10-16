@@ -216,7 +216,6 @@
 		}
 		public static function get_module_settings_form($module): string{
 			ob_start();
-			
 			echo '<form method="post" action="options.php" enctype="multipart/form-data">';
 			\settings_fields($module->get_name()); // $option_group from register_settings()
 			\do_settings_sections($module->get_name()); // $page from add_settings_section()
@@ -240,7 +239,8 @@
 		}
 		private static function init_wp_setting($setting){
 			if(is_admin() && did_action('admin_init')) {
-				$section = $setting->get_root()->get_name();
+				$section = $setting->get_parent()->get_name();
+				$section = $setting->get_parent()->get_parent()->get_parent()->get_name();
 				$section_group = $setting->get_parent()->get_section_group();
 				$section_name = $setting->get_parent()->get_section_name();
 				
