@@ -215,16 +215,11 @@
 			return $this->loop;
 		}
 		public static function get_module_settings_form($module): string{
-			if(!did_action('admin_enqueue_scripts')) {
-				add_action('admin_enqueue_scripts', array($module, 'acp_style'));
-			}else{
-				$module->acp_style();
-			}
-			
 			ob_start();
+			
 			echo '<form method="post" action="options.php" enctype="multipart/form-data">';
-			\settings_fields($module->get_module_name()); // $option_group from register_settings()
-			\do_settings_sections($module->get_module_name()); // $page from add_settings_section()
+			\settings_fields($module->get_name()); // $option_group from register_settings()
+			\do_settings_sections($module->get_name()); // $page from add_settings_section()
 			\submit_button();
 			echo '</form>';
 			$form			= ob_get_contents();
@@ -245,7 +240,7 @@
 		}
 		private static function init_wp_setting($setting){
 			if(is_admin() && did_action('admin_init')) {
-				$section = $setting->get_parent()->get_section();
+				$section = $setting->get_root()->get_name();
 				$section_group = $setting->get_parent()->get_section_group();
 				$section_name = $setting->get_parent()->get_section_name();
 				

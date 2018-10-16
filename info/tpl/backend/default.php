@@ -1,6 +1,3 @@
-<?php
-	$this->get_root()->acp_style();
-?>
 <div class="sv_side_menu">
 	<a href="#section_about" class="sv_side_menu_item active">About</a>
 <?php
@@ -69,4 +66,3 @@ foreach($this->get_root()->get_sections() as $section_name => $section_path) {
 	require_once($section_path);
 }
 ?>
-<script><?php include($this->get_path_lib_core('assets/admin_functions.js')); ?></script>

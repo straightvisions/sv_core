@@ -386,4 +386,13 @@
 		public function get_sections(): array{
 			return $this->sections;
 		}
+		public function get_section_title(): string{
+			return $this->constant_exists('section_title') ? $this->get_constant('section_title') : __('No Title defined', $this->get_root()->get_prefix());
+		}
+		public function get_constant(string $constant_name){
+			return constant(get_class($this).'::'.$constant_name);
+		}
+		public function constant_exists(string $constant_name){
+			return defined(get_class($this).'::'.$constant_name);
+		}
 	}

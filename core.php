@@ -54,11 +54,9 @@ if(!class_exists('\sv_core\core')) {
 				static::$info->init();
 				
 				add_action('admin_menu', array($this, 'menu'), 1);
-				add_action('wp', array($this, 'build_sections'));
+				add_action('admin_menu', array($this, 'build_sections'), 100);
 				
 				static::$initialized		= true;
-
-				add_action('init', array($this, 'build_sections'));
 			}
 
 			if(file_exists($path.'lib/modules/modules.php')) {
@@ -70,24 +68,52 @@ if(!class_exists('\sv_core\core')) {
 				__('straightvisions', $this->get_root()->get_prefix()),
 				__('straightvisions', $this->get_root()->get_prefix()),
 				'manage_options',
-				$this->get_root()->get_prefix(),
+				'straightvisions',
 				'',
 				$this->get_url_lib_core('assets/logo_icon.png'),
 				2
 			);
 			
 			add_submenu_page(
-				$this->get_root()->get_prefix(),										// parent slug
+				'straightvisions',										// parent slug
 				'Info',														// page title
 				'Info',														// menu title
 				'manage_options',														// capability
-				$this->get_root()->get_prefix(),										// menu slug
-				function(){ require_once($this->get_path_lib_core('info/tpl/backend/default.php')); }	// callable function
+				'straightvisions',										// menu slug
+				function(){
+					$this->load_page($this->get_path_lib_core('info/tpl/backend/default.php'));
+				}	// callable function
 			);
 		}
 		public function build_sections(){
 			foreach($this->get_instances() as $name => $instance){
 				$this->get_root()->add_section($name, $this->get_path_lib_core('info/tpl/backend/instance.php'));
+				
+				add_submenu_page(
+					'straightvisions',										// parent slug
+					$instance->get_section_title(),														// page title
+					$instance->get_section_title(),														// menu title
+					'manage_options',														// capability
+					$instance->get_prefix(),										// menu slug
+					function() use($instance){
+						$instance->load_page($instance->get_path_lib_section('backend', 'tpl', 'default.php'));
+					}	// callable function
+				);
+			}
+			add_action('admin_enqueue_scripts', array($this,'admin_enqueue_scripts'));
+		}
+		public function admin_enqueue_scripts($hook){
+			if($hook == 'straightvisions_page_'.$this->get_prefix()) {
+				wp_enqueue_script($this->get_prefix(), $this->get_url_lib_core('assets/admin_functions.js'), array('jquery'), filemtime($this->get_path_lib_core('assets/admin_functions.js')), true);
+			}
+		}
+		public function load_page(string $path){
+			if(file_exists($path)){
+				$this->get_root()->acp_style();
+				
+				require_once($path);
+			}else{
+				// @todo: trigger notice
 			}
 		}
 	}
