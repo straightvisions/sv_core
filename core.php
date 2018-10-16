@@ -99,8 +99,9 @@ if(!class_exists('\sv_core\core')) {
 						$instance->load_page($instance->get_path_lib_section('backend', 'tpl', 'default.php'));
 					}	// callable function
 				);
+				
+				add_action('admin_enqueue_scripts', array($instance,'admin_enqueue_scripts'));
 			}
-			add_action('admin_enqueue_scripts', array($this,'admin_enqueue_scripts'));
 		}
 		public function admin_enqueue_scripts($hook){
 			if($hook == 'straightvisions_page_'.$this->get_prefix()) {
