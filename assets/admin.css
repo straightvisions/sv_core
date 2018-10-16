@@ -90,6 +90,25 @@
     margin: 0 0 20px;
     padding-bottom: 30px;
 }
+.sv_content .sv_content_descripion {
+    text-align: center;
+}
+.sv_content .sv_content_descripion h2 {
+    font-size: 2rem;
+    margin: 0;
+    line-height: 1;
+}
+.sv_content .sv_content_descripion p {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.sv_content .sv_content_descripion p img {
+    width: 150px;
+    margin-left: 5px;
+}
+
 
 @media (min-width: 900px) {
     #wpbody-content {
