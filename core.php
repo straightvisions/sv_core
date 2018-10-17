@@ -81,13 +81,13 @@ if(!class_exists('\sv_core\core')) {
 				'manage_options',														// capability
 				'straightvisions',										// menu slug
 				function(){
-					$this->load_page($this->get_path_lib_core('info/tpl/backend/about.php'));
+					$this->load_page($this->get_path_lib_core('info/backend/tpl/about.php'));
 				}	// callable function
 			);
 		}
 		public function build_sections(){
 			foreach($this->get_instances() as $name => $instance){
-				$this->get_root()->add_section($name, $this->get_path_lib_core('info/tpl/backend/instance.php'));
+				$this->get_root()->add_section($instance, $this->get_path_lib_core('info/backend/tpl/instance.php'));
 				
 				add_submenu_page(
 					'straightvisions',										// parent slug
@@ -104,8 +104,8 @@ if(!class_exists('\sv_core\core')) {
 			}
 		}
 		public function admin_enqueue_scripts($hook){
-			if($hook == 'straightvisions_page_'.$this->get_prefix()) {
-				wp_enqueue_script($this->get_prefix(), $this->get_url_lib_core('assets/admin_functions.js'), array('jquery'), filemtime($this->get_path_lib_core('assets/admin_functions.js')), true);
+			if($hook == 'straightvisions_page_'.$this->get_prefix() || $hook == 'toplevel_page_straightvisions') {
+				wp_enqueue_script($this->get_prefix(), $this->get_url_lib_core('assets/admin.js'), array('jquery'), filemtime($this->get_path_lib_core('assets/admin.js')), true);
 			}
 		}
 		public function load_page(string $path){
