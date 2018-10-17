@@ -20,9 +20,9 @@
 		protected static $url_core			= false;
 		protected $sections					= array();
 		protected $section_types			= array(
-			'settings',
-			'tools',
-			'docs'
+			'settings'						=> 'Configuration &amp; Settings',
+			'tools'							=> 'Helpfull tools &amp; helper',
+			'docs'							=> 'Complete Documentation'
 		);
 
 		/**
@@ -389,12 +389,11 @@
 			if(is_object($object)) { // @todo: remove this line once sv_bb_dashboard is upgraded
 				$this->sections[$object->get_prefix()] = array(
 					'object'	=> $object,
-					'type'		=> in_array($type, $this->section_types) ? $type : 'docs'
+					'type'		=> isset($this->section_types[$type]) ? $type : 'docs'
 				);
 			}
 		}
 		public function get_sections(): array{
-			var_dump($this->sections);
 			return $this->sections;
 		}
 		public function get_section_title(): string{

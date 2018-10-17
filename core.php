@@ -87,7 +87,7 @@ if(!class_exists('\sv_core\core')) {
 		}
 		public function build_sections(){
 			foreach($this->get_instances() as $name => $instance){
-				$this->get_root()->add_section($instance, $this->get_path_lib_core('info/backend/tpl/instance.php'));
+				$this->get_root()->add_section($instance);
 				
 				add_submenu_page(
 					'straightvisions',										// parent slug
@@ -118,7 +118,7 @@ if(!class_exists('\sv_core\core')) {
 		}
 		public function load_section_menu(){
 			foreach($this->get_root()->get_sections() as $section_name => $section) {
-				echo '<a href="#section_' . $section_name . '" class="sv_admin_menu_item"><h4>' . $section['object']->get_constant('section_title') . '</h4><span>' . $section_title_desc[$section['type']] . '</span></a>';
+				echo '<a href="#section_' . $section_name . '" class="sv_admin_menu_item"><h4>' . $section['object']->get_constant('section_title') . '</h4><span>' . $this->section_types[$section['type']] . '</span></a>';
 			}
 		}
 		public function load_section_html(){
