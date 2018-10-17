@@ -2,7 +2,7 @@
 /* WP Body */
 #wpbody-content {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
     padding: 20px 20px 20px 0;
 }
@@ -54,12 +54,15 @@ div.sv_admin_menu a.sv_admin_menu_item h4 {
 
 /* Admin Content */
 section.sv_admin_section {
-    display: inline-block;
+    display: none;
     max-width: 50%;
     background-color: #FFF;
     width: 100%;
     padding: 0 30px;
     min-height: 515px;
+}
+section.sv_admin_section#section_about {
+    display: flex;
 }
 section.sv_admin_section h1.section_title {
     border-bottom: 1px solid rgba(43, 45, 48, .1);
@@ -71,10 +74,6 @@ section.sv_admin_section h1.section_title {
 }
 section.sv_admin_section div.section_content {
     padding: 30px 0;
-    display: none;
-}
-section.sv_admin_section div.section_content#section_about {
-    display: block;
 }
 section.sv_admin_section div.section_content h3.divider {
     border-bottom: 1px solid rgba(43, 45, 48, .1);
