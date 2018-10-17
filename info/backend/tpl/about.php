@@ -1,11 +1,5 @@
 <div class="sv_side_menu">
 	<a href="#section_about" class="sv_side_menu_item active">About</a>
-<?php
-	$i = 0;
-	foreach($this->get_root()->get_sections() as $section_name => $section) {
-		echo '<a href="#section_' . $section_name . '" class="sv_side_menu_item">' . $section['object']->get_constant('section_title') . '</a>';
-	}
-?>
 </div>
 <div id="section_about" class="sv_content_wrapper">
 	<div class="sv_content">
@@ -61,8 +55,3 @@
 		<code>$this->find_parent($class_name,$qualified);</code>
 	</div>
 </div>
-<?php
-foreach($this->get_root()->get_sections() as $section_name => $section) {
-	require($section['path']);
-}
-?>

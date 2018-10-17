@@ -20,6 +20,7 @@
 		protected static $url_core			= false;
 		protected $sections					= array();
 		protected $section_types			= array(
+			'instance'						=> 'Instance Common Info',
 			'settings'						=> 'Configuration &amp; Settings',
 			'tools'							=> 'Helpfull tools &amp; helper',
 			'docs'							=> 'Complete Documentation'

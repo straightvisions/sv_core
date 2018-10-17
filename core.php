@@ -81,13 +81,13 @@ if(!class_exists('\sv_core\core')) {
 				'manage_options',														// capability
 				'straightvisions',										// menu slug
 				function(){
-					$this->load_page();
+					$this->load_page($this->get_path_lib_core('info/backend/tpl/about.php'));
 				}	// callable function
 			);
 		}
 		public function build_sections(){
 			foreach($this->get_instances() as $name => $instance){
-				$this->get_root()->add_section($instance);
+				$this->get_root()->add_section($instance,'instance');
 				
 				add_submenu_page(
 					'straightvisions',										// parent slug
@@ -108,10 +108,10 @@ if(!class_exists('\sv_core\core')) {
 				wp_enqueue_script($this->get_prefix(), $this->get_url_lib_core('assets/admin.js'), array('jquery'), filemtime($this->get_path_lib_core('assets/admin.js')), true);
 			}
 		}
-		public function load_page(){
+		public function load_page(string $custom_about_path = ''){
 			$this->get_root()->acp_style();
 			require_once($this->get_path_lib_core('backend/tpl/header.php'));
-			require_once($this->get_path_lib_core('backend/tpl/about.php'));
+			require_once(strlen($custom_about_path) > 0 ? $custom_about_path : $this->get_path_lib_core('backend/tpl/about.php'));
 			$this->load_section_html();
 			require_once($this->get_path_lib_core('backend/tpl/legal.php'));
 			require_once($this->get_path_lib_core('backend/tpl/footer.php'));

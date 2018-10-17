@@ -10,7 +10,7 @@ class info extends sv_abstract{
 	 * @ignore
 	 */
 	public function __construct($ID=false){
-
+	
 	}
 	/**
 	 * @desc			Load's requested libraries dynamicly
