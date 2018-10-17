@@ -82,6 +82,7 @@ if(!class_exists('\sv_core\core')) {
 				'straightvisions',										// menu slug
 				function(){
 					$this->load_page($this->get_path_lib_core('info/backend/tpl/about.php'));
+					$this->load_page($this->get_path_lib_core('info/backend/tpl/legal.php'));
 				}	// callable function
 			);
 		}
@@ -97,6 +98,7 @@ if(!class_exists('\sv_core\core')) {
 					$instance->get_prefix(),										// menu slug
 					function() use($instance){
 						$instance->load_page($instance->get_path_lib_core('backend/tpl/about.php'));
+						$instance->load_page($instance->get_path_lib_core('backend/tpl/legal.php'));
 					}	// callable function
 				);
 				

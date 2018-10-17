@@ -387,12 +387,11 @@
 				echo '</style>';
 			}
 		}
-		public function add_section($object, string $path, string $type = 'info'){
+		public function add_section($object, string $type = 'info'){
 			if(is_object($object)) { // @todo: remove this line once sv_bb_dashboard is upgraded
 				$this->sections[$object->get_prefix()] = array(
 					'object'	=> $object,
-					'path'		=> $path,
-					'type'		=> isset($this->section_types[$type]) ? $type : 'info'
+					'type'		=> in_array($type, $this->section_types) ? $type : 'info'
 				);
 			}
 		}

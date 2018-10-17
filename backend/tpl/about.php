@@ -31,5 +31,7 @@
 	}
 
 	foreach( $this->get_sections() as $section_name => $section ) {
-		require_once( $section['path'] );
+	    //var_dump($section_name);
+	    //var_dump($this->get_path_lib_core('backend/tpl/section_'.$section['type'].'.php'));
+		require( $this->get_path_lib_core('backend/tpl/section_'.$section['type'].'.php') );
 	}
