@@ -45,6 +45,8 @@ div.sv_admin_menu a.sv_admin_menu_item {
     border-bottom: 1px solid rgba(43, 45, 48, .1);
     border-left: 2px solid transparent;
     transition: .3s ease;
+    outline: none;
+    box-shadow: none;
 }
 div.sv_admin_menu a.sv_admin_brand {
     align-items: center;
@@ -66,6 +68,7 @@ div.sv_admin_menu a.sv_admin_menu_item.active {
     background-color: #FFF;
     color: rgba(43, 45, 48, 1);
     border-left-color: rgba(43, 45, 48, 1);
+    outline: none;
 }
 div.sv_admin_menu a.sv_admin_menu_item h4 {
     margin: 0 0 3px 0;
@@ -95,6 +98,8 @@ section.sv_admin_section h1.section_title {
 section.sv_admin_section div.section_content {
     padding: 20px;
 }
+
+/* Admin Content Tags */
 section.sv_admin_section div.section_content h3.divider {
     border-bottom: 1px solid rgba(43, 45, 48, .1);
     padding-bottom: 10px;
@@ -109,7 +114,7 @@ section.sv_admin_section div.section_content ul.instance_list {
     font-size: 14px;
 }
 section.sv_admin_section div.section_content ul.info_list span {
-    color: #00A66B;
+    color: rgba(52, 172, 245, 1);
 }
 section.sv_admin_section div.section_contentul.instance_list {
     display: flex;
@@ -141,6 +146,8 @@ section.sv_admin_section div.section_content code {
     color: rgba(52, 172, 245, 1);
     display: block;
 }
+
+/* Responsive Breakpoints */
 @media (min-width: 800px) {
     #wpcontent {
         padding: 20px !important;
@@ -180,6 +187,53 @@ section.sv_admin_section div.section_content code {
     section.sv_admin_section div.section_content div.col-50:nth-child(even){
         margin-left: 2.5px;
     }
+}
+
+/* Admin Icons */
+div.sv_admin_menu a.sv_admin_menu_item::before,
+section.sv_admin_section h1.section_title::before {
+    font-family: FontAwesomeSolid;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 30px;
+}
+div.sv_admin_menu a.sv_admin_menu_item::before {
+    display: flex;
+    align-self: flex-end;
+    position: relative;
+    top: 40%;
+    line-height: 0;
+    color: rgba(43, 45, 48, .5);
+    transition: .3s ease;
+}
+section.sv_admin_section h1.section_title::before {
+    margin-right: 10px;
+}
+div.sv_admin_menu a.sv_admin_menu_item:hover::before,
+div.sv_admin_menu a.sv_admin_menu_item:focus::before,
+div.sv_admin_menu a.sv_admin_menu_item:active::before,
+div.sv_admin_menu a.sv_admin_menu_item.active::before {
+    color: rgba(43, 45, 48, 1);
+}
+div.sv_admin_menu a.sv_admin_menu_item.section_about::before,
+section.sv_admin_section h1.section_title.section_about::before {
+    content: '\f05a';
+}
+div.sv_admin_menu a.sv_admin_menu_item.section_legal::before,
+section.sv_admin_section h1.section_title.section_legal::before{
+    content: '\f24e';
+}
+div.sv_admin_menu a.sv_admin_menu_item.section_docs::before,
+section.sv_admin_section h1.section_title.section_docs::before{
+    content: '\f02d';
+}
+div.sv_admin_menu a.sv_admin_menu_item.section_settings:before,
+section.sv_admin_section h1.section_title.section_settings::before{
+    content: '\f1de';
+}
+div.sv_admin_menu a.sv_admin_menu_item.section_instance::before,
+section.sv_admin_section h1.section_title.section_instance::before{
+    content: '\f6d1';
 }
 
 /* Scrollbar */
@@ -423,7 +477,7 @@ textarea.sv_input:focus {
     box-shadow: none;
 }
 input.sv_input[type="number"] {
-    max-width: 80px;
+    max-width: 100px;
 }
 textarea.sv_input {
     font-family: sans-serif;
