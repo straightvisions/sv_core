@@ -81,8 +81,7 @@ if(!class_exists('\sv_core\core')) {
 				'manage_options',														// capability
 				'straightvisions',										// menu slug
 				function(){
-					$this->load_page($this->get_path_lib_core('info/backend/tpl/about.php'));
-					$this->load_page($this->get_path_lib_core('info/backend/tpl/legal.php'));
+					$this->load_page();
 				}	// callable function
 			);
 		}
@@ -97,8 +96,7 @@ if(!class_exists('\sv_core\core')) {
 					'manage_options',														// capability
 					$instance->get_prefix(),										// menu slug
 					function() use($instance){
-						$instance->load_page($instance->get_path_lib_core('backend/tpl/about.php'));
-						$instance->load_page($instance->get_path_lib_core('backend/tpl/legal.php'));
+						$instance->load_page();
 					}	// callable function
 				);
 				
@@ -110,13 +108,23 @@ if(!class_exists('\sv_core\core')) {
 				wp_enqueue_script($this->get_prefix(), $this->get_url_lib_core('assets/admin.js'), array('jquery'), filemtime($this->get_path_lib_core('assets/admin.js')), true);
 			}
 		}
-		public function load_page(string $path){
-			if(file_exists($path)){
-				$this->get_root()->acp_style();
-				
-				require_once($path);
-			}else{
-				// @todo: trigger notice
+		public function load_page(){
+			$this->get_root()->acp_style();
+			require_once($this->get_path_lib_core('backend/tpl/header.php'));
+			require_once($this->get_path_lib_core('backend/tpl/about.php'));
+			require_once($this->get_path_lib_core('backend/tpl/legal.php'));
+			require_once($this->get_path_lib_core('backend/tpl/footer.php'));
+		}
+		public function load_section_menu(){
+			foreach($this->get_root()->get_sections() as $section_name => $section) {
+				echo '<a href="#section_' . $section_name . '" class="sv_admin_menu_item"><h4>' . $section['object']->get_constant('section_title') . '</h4><span>' . $section_title_desc[$section['type']] . '</span></a>';
+			}
+		}
+		public function load_section_html(){
+			foreach( $this->get_sections() as $section_name => $section ) {
+				//var_dump($section_name);
+				//var_dump($this->get_path_lib_core('backend/tpl/section_'.$section['type'].'.php'));
+				require( $this->get_path_lib_core('backend/tpl/section_'.$section['type'].'.php') );
 			}
 		}
 	}

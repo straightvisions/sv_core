@@ -15,11 +15,7 @@
 			<h4>About</h4>
 			<span>General info & description</span>
 		</a>
-		<?php
-			foreach($this->get_root()->get_sections() as $section_name => $section) {
-				echo '<a href="#section_' . $section_name . '" class="sv_admin_menu_item"><h4>' . $section['object']->get_constant('section_title') . '</h4><span>' . $section_title_desc[$section['type']] . '</span></a>';
-			}
-		?>
+		<?php $this->load_section_menu(); ?>
 	</div>
 
 	<section id="section_about" class="sv_admin_section">
@@ -36,8 +32,4 @@
 <?php
 	}
 
-	foreach( $this->get_sections() as $section_name => $section ) {
-	    //var_dump($section_name);
-	    //var_dump($this->get_path_lib_core('backend/tpl/section_'.$section['type'].'.php'));
-		require( $this->get_path_lib_core('backend/tpl/section_'.$section['type'].'.php') );
-	}
+    $this->load_section_html();
