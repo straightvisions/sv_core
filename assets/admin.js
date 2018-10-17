@@ -3,6 +3,6 @@ jQuery('.sv_admin_menu_item').click(function() {
 		jQuery('.sv_admin_menu_item.active').removeClass('active');
 		jQuery(this).addClass('active');
 		jQuery('.sv_admin_section').css('display', 'none');
-		jQuery(jQuery(this).attr('href')).css('display', 'flex');
+		jQuery(jQuery(this).attr('href')).css('display', 'inline-block');
 	}
 });
