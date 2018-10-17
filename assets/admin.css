@@ -122,6 +122,22 @@ section.sv_admin_section div.section_content ul.instance_list li {
     border-radius: 3px;
     box-sizing: border-box;
 }
+section.sv_admin_section div.section_content div.col-50 {
+    max-width: 100%;
+    display: inline-block;
+    width: 100%;
+}
+section.sv_admin_section div.section_content div.col-50:nth-child(odd) {
+    padding-right: 10px;
+}
+section.sv_admin_section div.section_content div.col-50:nth-child(even) {
+    padding-left: 10px;
+}
+@media (min-width: 768px) {
+    section.sv_admin_section div.section_content div.col-50 {
+        max-width: calc(50% - 12px);
+    }
+}
 
 /* Scrollbar */
 ::-webkit-scrollbar {
