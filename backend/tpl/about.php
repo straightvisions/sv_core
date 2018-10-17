@@ -6,7 +6,7 @@
 			<h3 class="divider">Info</h3>
 			<ul class="info_list">
 				<li>Name: <span><?php echo get_admin_page_title(); ?></span></li>
-				<li>Version: <span>[ Version Number ]</span></li>
+				<li>Version: <span><?php echo $this->get_version(true); ?></span></li>
 			</ul>
 		</div>
 		<div class="col-50">

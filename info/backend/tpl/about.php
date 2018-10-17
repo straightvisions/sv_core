@@ -6,7 +6,7 @@
 			<h3 class="divider">Info</h3>
 			<ul class="info_list">
 				<li>Name: <span><?php echo get_admin_page_title(); ?></span></li>
-				<li>Version: <span><?php echo number_format(self::version_core,0,',','.'); ?></span></li>
+				<li>Version: <span><?php echo $this->get_version_core(true); ?></span></li>
 			</ul>
 		</div>
 		<div class="col-50">
@@ -20,7 +20,14 @@
 			<ul class="instance_list">
 			<?php
 				foreach( $this->get_instances() as $name => $instance ) {
-					echo '<li>' . $name . '</li>';
+					echo '
+					<li>
+						<a href="/wp-admin/admin.php?page='.$instance->get_name().'">
+						<div class="'.$this->get_prefix('instance_name').'">' . $name . '</div>
+						<div class="'.$this->get_prefix('instance_version').'">v'.$instance->get_version(true).'</div>
+						<div>'.(($instance->get_root()->get_version_core_match() != $this->get_version_core()) ? 'Core Version mismatch: '.$instance->get_root()->get_version_core_match(true) : '').'</div>
+						</a>
+					</li>';
 				}
 			?>
 			</ul>
