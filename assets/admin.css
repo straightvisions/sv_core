@@ -62,7 +62,7 @@ section.sv_admin_section {
     min-height: 515px;
 }
 section.sv_admin_section#section_about {
-    display: flex;
+    display: inline-block;
 }
 section.sv_admin_section h1.section_title {
     border-bottom: 1px solid rgba(43, 45, 48, .1);
