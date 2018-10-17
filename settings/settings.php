@@ -74,7 +74,7 @@
 		}
 		public function get_section(): string{
 			if(!$this->section){
-				return $this->get_parent()->get_module_name();
+				return $this->get_parent()->get_prefix();
 			}else{
 				return $this->section;
 			}
@@ -122,7 +122,7 @@
 				$this->$type->set_root($this->get_root());
 				$this->$type->set_parent($this);
 				
-				static::init_wp_setting($this->$type);
+				$this->init_wp_setting($this->$type);
 			}else{
 				// @todo: proper error notice
 			}
@@ -237,10 +237,9 @@
 				return $this->form();
 			}
 		}
-		private static function init_wp_setting($setting){
+		private function init_wp_setting($setting){
 			if(is_admin() && did_action('admin_init')) {
-				$section = $setting->get_parent()->get_name();
-				$section = $setting->get_parent()->get_parent()->get_parent()->get_name();
+				$section = $this->get_section();
 				$section_group = $setting->get_parent()->get_section_group();
 				$section_name = $setting->get_parent()->get_section_name();
 				

@@ -81,7 +81,7 @@ if(!class_exists('\sv_core\core')) {
 				'manage_options',														// capability
 				'straightvisions',										// menu slug
 				function(){
-					$this->load_page($this->get_path_lib_core('info/tpl/backend/default.php'));
+					$this->load_page($this->get_path_lib_core('info/tpl/backend/about.php'));
 				}	// callable function
 			);
 		}
@@ -96,7 +96,7 @@ if(!class_exists('\sv_core\core')) {
 					'manage_options',														// capability
 					$instance->get_prefix(),										// menu slug
 					function() use($instance){
-						$instance->load_page($instance->get_path_lib_section('backend', 'tpl', 'default.php'));
+						$instance->load_page($instance->get_path_lib_section('backend', 'tpl', 'about.php'));
 					}	// callable function
 				);
 				
