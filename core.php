@@ -85,46 +85,5 @@ if(!class_exists('\sv_core\core')) {
 				}	// callable function
 			);
 		}
-		public function build_sections(){
-			foreach($this->get_instances() as $name => $instance){
-				$this->get_root()->add_section($instance,'instance');
-				
-				add_submenu_page(
-					'straightvisions',										// parent slug
-					$instance->get_section_title(),														// page title
-					$instance->get_section_title(),														// menu title
-					'manage_options',														// capability
-					$instance->get_prefix(),										// menu slug
-					function() use($instance){
-						$instance->load_page();
-					}	// callable function
-				);
-				
-				add_action('admin_enqueue_scripts', array($instance,'admin_enqueue_scripts'));
-			}
-		}
-		public function admin_enqueue_scripts($hook){
-			if($hook == 'straightvisions_page_'.$this->get_prefix() || $hook == 'toplevel_page_straightvisions') {
-				wp_enqueue_script($this->get_prefix(), $this->get_url_lib_core('assets/admin.js'), array('jquery'), filemtime($this->get_path_lib_core('assets/admin.js')), true);
-			}
-		}
-		public function load_page(string $custom_about_path = ''){
-			$this->get_root()->acp_style();
-			require_once($this->get_path_lib_core('backend/tpl/header.php'));
-			require_once(strlen($custom_about_path) > 0 ? $custom_about_path : $this->get_path_lib_core('backend/tpl/about.php'));
-			$this->load_section_html();
-			require_once($this->get_path_lib_core('backend/tpl/legal.php'));
-			require_once($this->get_path_lib_core('backend/tpl/footer.php'));
-		}
-		public function load_section_menu(){
-			foreach($this->get_root()->get_sections() as $section_name => $section) {
-				echo '<a href="#section_' . $section_name . '" class="sv_admin_menu_item"><h4>' . $section['object']->get_constant('section_title') . '</h4><span>' . $this->section_types[$section['type']] . '</span></a>';
-			}
-		}
-		public function load_section_html(){
-			foreach( $this->get_sections() as $section_name => $section ) {
-				require( $this->get_path_lib_core('backend/tpl/section_'.$section['type'].'.php') );
-			}
-		}
 	}
 }
