@@ -22,9 +22,7 @@
 		protected $section_types			= array(
 			'settings',
 			'tools',
-			'info',
-			'docs',
-			'test'
+			'docs'
 		);
 
 		/**
@@ -387,11 +385,11 @@
 				echo '</style>';
 			}
 		}
-		public function add_section($object, string $type = 'info'){
+		public function add_section($object, string $type = 'docs'){
 			if(is_object($object)) { // @todo: remove this line once sv_bb_dashboard is upgraded
 				$this->sections[$object->get_prefix()] = array(
 					'object'	=> $object,
-					'type'		=> in_array($type, $this->section_types) ? $type : 'info'
+					'type'		=> in_array($type, $this->section_types) ? $type : 'docs'
 				);
 			}
 		}

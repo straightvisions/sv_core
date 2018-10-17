@@ -1,4 +1,21 @@
 /* ===== Dashboard ===== */
+
+@font-face {
+    font-family: FontAwesomeBrands;
+    src: url('<?php echo $this->get_url_lib_core('assets/fonts/fa-brands-400.woff'); ?>');
+    font-weight:400;
+}
+@font-face {
+    font-family: FontAwesomeSolid;
+    src: url('<?php echo $this->get_url_lib_core('assets/fonts/fa-solid-900.woff'); ?>');
+    font-weight:400;
+}
+@font-face {
+    font-family: FontAwesomeRegular;
+    src: url('<?php echo $this->get_url_lib_core('assets/fonts/fa-regular-400.woff'); ?>');
+    font-weight:400;
+}
+
 /* WP Body */
 #wpbody-content {
     display: flex;

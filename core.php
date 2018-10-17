@@ -88,7 +88,7 @@ if(!class_exists('\sv_core\core')) {
 		}
 		public function build_sections(){
 			foreach($this->get_instances() as $name => $instance){
-				$this->get_root()->add_section($instance, $this->get_path_lib_core('info/backend/tpl/instance.php'), 'info');
+				$this->get_root()->add_section($instance, $this->get_path_lib_core('info/backend/tpl/instance.php'));
 				
 				add_submenu_page(
 					'straightvisions',										// parent slug
