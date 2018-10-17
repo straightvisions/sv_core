@@ -17,7 +17,7 @@
 	</div>
 
 	<section id="section_about" class="sv_admin_section">
-		<h1 class="section_title"><?php _e('About', $this->get_module_name()); ?></h1>
+		<h1 class="section_title">About</h1>
 		<div class="section_content">
 			<h3 class="divider">Info</h3>
 			<ul class="info_list">
