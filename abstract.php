@@ -20,8 +20,6 @@
 		protected static $url_core			= false;
 		protected $sections					= array();
 		protected $section_types			= array(
-			'about',
-			'legal',
 			'settings',
 			'tools',
 			'info',
