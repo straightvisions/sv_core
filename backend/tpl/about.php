@@ -1,3 +1,4 @@
+<?php if( current_user_can( 'activate_plugins' ) ) { ?>
 <section id="section_about" class="sv_admin_section">
 	<h1 class="section_title">About</h1>
 	<div class="section_content">
@@ -9,4 +10,4 @@
 		</ul>
 	</div>
 </section>
-<?php $this->load_section_html();
+<?php }

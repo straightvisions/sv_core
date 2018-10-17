@@ -1,13 +1,4 @@
-<?php
-	if( current_user_can( 'activate_plugins' ) ) {
-
-	$section_title_desc	= array(
-		'settings'		=> 'Configuration & Settings',
-		'docs'			=> 'Complete Documentation',
-		'tools'			=> 'Helpfull tools & helper'
-	);
-?>
-
+<?php if( current_user_can( 'activate_plugins' ) ) { ?>
 <div class="sv_admin_menu">
 	<a href="https://straightvisions.com" target="_blank" class="sv_admin_brand">
 		<img src="<?php echo $this->get_url_lib_core('assets/logo.png'); ?>">
@@ -18,3 +9,4 @@
 	</a>
 	<?php $this->load_section_menu(); ?>
 </div>
+<?php }

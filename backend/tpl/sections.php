@@ -1,1 +1,1 @@
-<?php $this->load_section_html(); ?>
+<?php $this->load_section_html();
