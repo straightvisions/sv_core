@@ -383,8 +383,8 @@
 		public function add_section($object, string $path){
 			if(is_object($object)) { // @todo: remove this line once sv_bb_dashboard is upgraded
 				$this->sections[$object->get_prefix()] = array(
-					'path' => $path,
-					'title' => $object->get_constant('section_title')
+					'object'	=> $object,
+					'path'		=> $path
 				);
 			}
 		}

@@ -96,7 +96,7 @@ if(!class_exists('\sv_core\core')) {
 					'manage_options',														// capability
 					$instance->get_prefix(),										// menu slug
 					function() use($instance){
-						$instance->load_page($instance->get_path_lib_section('backend', 'tpl', 'about.php'));
+						$instance->load_page($instance->get_path_lib_core('backend/tpl/about.php'));
 					}	// callable function
 				);
 				
