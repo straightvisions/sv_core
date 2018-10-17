@@ -1,4 +1,4 @@
-<div id="section_<?php echo $section_name; ?>" class="sv_content_wrapper">
+<div id="section_<?php echo $section_name; ?>" class="sv_content_wrapper sv_section_<?php echo $section['type']; ?>">
 	<div class="sv_content">
 		<h1 class="sv_content_title"><?php echo $section['object']->get_constant('section_title'); ?></h1>
 		<h4><?php _e('get current url', $section['object']->get_module_name()); ?></h4>

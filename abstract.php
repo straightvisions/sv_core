@@ -19,6 +19,15 @@
 		protected static $path_core			= false;
 		protected static $url_core			= false;
 		protected $sections					= array();
+		protected $section_types			= array(
+			'about',
+			'legal',
+			'settings',
+			'tools',
+			'info',
+			'docs',
+			'test'
+		);
 
 		/**
 		 * @desc			initialize plugin
@@ -380,11 +389,12 @@
 				echo '</style>';
 			}
 		}
-		public function add_section($object, string $path){
+		public function add_section($object, string $path, string $type = 'info'){
 			if(is_object($object)) { // @todo: remove this line once sv_bb_dashboard is upgraded
 				$this->sections[$object->get_prefix()] = array(
 					'object'	=> $object,
-					'path'		=> $path
+					'path'		=> $path,
+					'type'		=> isset($this->section_types[$type]) ? $type : 'info'
 				);
 			}
 		}
