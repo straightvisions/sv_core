@@ -1,5 +1,11 @@
 <?php
 	if( current_user_can( 'activate_plugins' ) ) {
+
+		$section_title_desc	= array(
+			'settings'		=> 'Configuration & Settings',
+			'docs'			=> 'Complete Documentation',
+			'tools'			=> 'Helpfull tools & helper'
+		);
 ?>
 	<div class="sv_admin_menu">
 		<a href="https://straightvisions.com" target="_blank" class="sv_admin_brand">
@@ -11,7 +17,7 @@
 		</a>
 		<?php
 			foreach($this->get_root()->get_sections() as $section_name => $section) {
-				echo '<a href="#section_' . $section_name . '" class="sv_admin_menu_item">' . $section['object']->get_constant('section_title') . '</a>';
+				echo '<a href="#section_' . $section_name . '" class="sv_admin_menu_item"><h4>' . $section['object']->get_constant('section_title') . '</h4><span>' . $section_title_desc[$section['type']] . '</span></a>';
 			}
 		?>
 	</div>
