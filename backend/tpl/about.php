@@ -1,25 +1,35 @@
-<?php if(current_user_can('activate_plugins')){ ?>
-    <div class="sv_side_menu">
-        <a href="#section_about" class="sv_side_menu_item active">About</a>
+<?php
+	if( current_user_can( 'activate_plugins' ) ) {
+?>
+	<div class="sv_admin_menu">
+		<a href="https://straightvisions.com" target="_blank" class="sv_admin_brand">
+			<img src="<?php echo $this->get_url_lib_core('assets/logo.png'); ?>">
+		</a>
+		<a href="#section_about" class="sv_admin_menu_item active">
+			<h4>About</h4>
+			<span>General info & description</span>
+		</a>
 		<?php
-			$i = 0;
-			foreach($this->get_sections() as $section_name => $section) {
-				echo '<a href="#section_' . $section_name . '" class="sv_side_menu_item">' . $section['object']->get_constant('section_title') . '</a>';
+			foreach($this->get_root()->get_sections() as $section_name => $section) {
+				echo '<a href="#section_' . $section_name . '" class="sv_admin_menu_item">' . $section['object']->get_constant('section_title') . '</a>';
 			}
 		?>
-    </div>
-    <div id="section_about" class="sv_content_wrapper">
-		<div class="sv_content">
-			<h1 class="sv_content_title"><?php _e('About', $this->get_module_name()); ?></h1>
-			<div class="sv_content_descripion">
-				<h2><?php echo get_admin_page_title(); ?></h2>
-				<p>by <a href="https://straightvisions.com" target=""_blank"><img src="<?php echo $this->get_url_lib_core('assets/logo.png'); ?>" /></a></p>
-			</div>
-			<div></div>
-			<?php } ?>
+	</div>
+
+	<section id="section_about" class="sv_admin_section">
+		<h1 class="section_title"><?php _e('About', $this->get_module_name()); ?></h1>
+		<div class="section_content">
+			<h3 class="divider">Info</h3>
+			<ul class="info_list">
+				<li>Name: <span><?php echo get_admin_page_title(); ?></span></li>
+				<li>Version: <span>1.0.3</span></li>
+				<li>Status: <span>active</span></li>
+			</ul>
 		</div>
-    </div>
+	</section>
 <?php
-	foreach($this->get_sections() as $section_name => $section) {
-		require_once($section['path']);
+	}
+
+	foreach( $this->get_sections() as $section_name => $section ) {
+		require_once( $section['path'] );
 	}
