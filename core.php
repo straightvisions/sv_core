@@ -73,17 +73,6 @@ if(!class_exists('\sv_core\core')) {
 				$this->get_url_lib_core('assets/logo_icon.png'),
 				2
 			);
-			
-			add_submenu_page(
-				'straightvisions',										// parent slug
-				'Info',														// page title
-				'Info',														// menu title
-				'manage_options',														// capability
-				'straightvisions',										// menu slug
-				function(){
-					$this->load_page($this->get_path_lib_core('info/backend/tpl/about.php'));
-				}	// callable function
-			);
 		}
 	}
 }

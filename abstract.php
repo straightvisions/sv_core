@@ -438,8 +438,8 @@
 			require_once($this->get_path_lib_core('backend/tpl/footer.php'));
 		}
 		public function load_section_menu(){
-			foreach($this->get_root()->get_sections() as $section_name => $section) {
-				echo '<a href="#section_' . $section_name . '" class="sv_admin_menu_item section_' . $section['type'] . '"><h4>' . ($section['type'] == 'instance' ? 'Core Docs' : $section['object']->get_constant('section_title')) . '</h4><span>' . $this->section_types[$section['type']] . '</span></a>';
+			foreach($this->get_sections() as $section_name => $section) {
+				echo '<div data-target="#section_' . $section_name . '" class="sv_admin_menu_item section_' . $section['type'] . '"><h4>' . ($section['type'] == 'instance' ? 'Core Docs' : $section['object']->get_constant('section_title')) . '</h4><span>' . $this->section_types[$section['type']] . '</span></div>';
 			}
 		}
 		public function load_section_html(){
