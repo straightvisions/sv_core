@@ -394,6 +394,7 @@
 			}
 		}
 		public function get_sections(): array{
+			var_dump($this->sections);
 			return $this->sections;
 		}
 		public function get_section_title(): string{

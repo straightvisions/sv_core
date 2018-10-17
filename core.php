@@ -112,6 +112,7 @@ if(!class_exists('\sv_core\core')) {
 			$this->get_root()->acp_style();
 			require_once($this->get_path_lib_core('backend/tpl/header.php'));
 			require_once($this->get_path_lib_core('backend/tpl/about.php'));
+			$this->load_section_html();
 			require_once($this->get_path_lib_core('backend/tpl/legal.php'));
 			require_once($this->get_path_lib_core('backend/tpl/footer.php'));
 		}
@@ -122,8 +123,6 @@ if(!class_exists('\sv_core\core')) {
 		}
 		public function load_section_html(){
 			foreach( $this->get_sections() as $section_name => $section ) {
-				//var_dump($section_name);
-				//var_dump($this->get_path_lib_core('backend/tpl/section_'.$section['type'].'.php'));
 				require( $this->get_path_lib_core('backend/tpl/section_'.$section['type'].'.php') );
 			}
 		}
