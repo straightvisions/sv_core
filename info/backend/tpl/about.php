@@ -6,7 +6,7 @@
 			<h3 class="divider">Info</h3>
 			<ul class="info_list">
 				<li>Name: <span><?php echo get_admin_page_title(); ?></span></li>
-				<li>Version: <span><?php echo $this->get_version_core(true); ?></span></li>
+				<li>Core Version: <span><?php echo $this->get_version_core(true); ?></span></li>
 			</ul>
 		</div>
 		<div class="col-50">
@@ -16,22 +16,20 @@
 			</p>
 		</div>
 		<div>
-			<h3 class="divider"><?php _e('Active Instances', $this->get_module_name()); ?></h3>
+			<h3 class="divider"><?php _e('Instances', $this->get_module_name()); ?></h3>
 			<ul class="instance_list">
-			<?php
-				foreach( $this->get_instances() as $name => $instance ) {
-					echo '
-					<li>
-						<a href="/wp-admin/admin.php?page='.$instance->get_name().'">
-						<div class="'.$this->get_prefix('instance_name').'">' . $name . '</div>
-						<div class="'.$this->get_prefix('instance_version').'">v'.$instance->get_version(true).'</div>
-						<div>'.(($instance->get_root()->get_version_core_match() != $this->get_version_core()) ? 'Core Version mismatch: '.$instance->get_root()->get_version_core_match(true) : '').'</div>
-						</a>
-					</li>';
-				}
-			?>
+			<?php foreach( $this->get_instances() as $name => $instance ) { ?>
+			<a href="/wp-admin/admin.php?page=<?php echo $instance->get_name() ?>" class="">
+				<div class="instance_title"><?php echo $name; ?></div>
+				<div class="instance_version">v<?php echo $instance->get_version(true); ?></div>
+				<div class="instance_status">active</div>
+				<div class="instance_error_msg"></div>
+			</a>
+			<?php } ?>
 			</ul>
 		</div>
 	</div>
 </section>
 <?php }
+
+// $instance->get_root()->get_version_core_match() != $this->get_version_core()
