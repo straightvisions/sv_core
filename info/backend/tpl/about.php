@@ -18,12 +18,21 @@
 		<div>
 			<h3 class="divider"><?php _e('Instances', $this->get_module_name()); ?></h3>
 			<ul class="instance_list">
-			<?php foreach( $this->get_instances() as $name => $instance ) { ?>
-			<a href="/wp-admin/admin.php?page=<?php echo $instance->get_name() ?>" class="">
-				<div class="instance_title"><?php echo $name; ?></div>
+			<?php
+				foreach( $this->get_instances() as $name => $instance ) {
+					if($this->is_instance_active($instance->get_name())) {
+						$instance_msg = '';
+					} else {
+						$instance_msg = 'This plugin version is outdated, please update this plugin!';
+					}
+			?>
+			<a href="/wp-admin/admin.php?page=<?php echo $instance->get_name() ?>" class="<?php echo (($this->is_instance_active($instance->get_name())) ? '' : 'disabled'); ?>">
+				<h1 class="instance_title instance_plugin"><?php echo $name; ?></h1>
+				<p class="instance_desc"><?php echo $instance->get_instance_desc(); ?></p>
+				<div class="instance_type">Plugin</div>
 				<div class="instance_version">v<?php echo $instance->get_version(true); ?></div>
-				<div class="instance_status">active</div>
-				<div class="instance_error_msg"></div>
+				<div class="instance_status"><?php echo (($this->is_instance_active($instance->get_name())) ? 'Active' : 'Disabled'); ?></div>
+				<div class="instance_msg"><?php echo $instance_msg; ?></div>
 			</a>
 			<?php } ?>
 			</ul>
@@ -31,5 +40,3 @@
 	</div>
 </section>
 <?php }
-
-// $instance->get_root()->get_version_core_match() != $this->get_version_core()

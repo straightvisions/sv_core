@@ -13,9 +13,10 @@
 		protected $version					= false;
 		private $parent						= false;
 		private $root						= false;
-		protected $s							= array(); // settings object array
+		protected $s						= array(); // settings object array
 		protected static $wpdb				= false;
 		private static $instances			= array();
+		private static $instances_active	= array();
 		protected static $path_core			= false;
 		protected static $url_core			= false;
 		protected $sections					= array();
@@ -160,10 +161,19 @@
 			add_action('init', array($this,'plugins_loaded'));
 			$this->setup_core($this->path);
 
+			if($this->get_root()->get_version_core_match() == $this->get_version_core()){
+				self::$instances_active[$name]			= $this;
+			}
 			self::$instances[$name]						= $this;
 		}
-		public static function get_instances(){
+		public static function get_instances(): array{
 			return self::$instances;
+		}
+		public static function get_instances_active(): array{
+			return self::$instances_active;
+		}
+		public static function is_instance_active(string $name): bool{
+			return isset(self::$instances_active[$name]);
 		}
 		public function plugins_loaded(){
 			load_plugin_textdomain($this->get_name(), false, basename($this->get_path()).'/languages');
@@ -398,7 +408,10 @@
 			return $this->sections;
 		}
 		public function get_section_title(): string{
-			return $this->constant_exists('section_title') ? $this->get_constant('section_title') : __('No Title defined', $this->get_root()->get_prefix());
+			return $this->constant_exists('section_title') ? $this->get_constant('section_title') : __('No Title defined.', $this->get_root()->get_prefix());
+		}
+		public function get_instance_desc(): string{
+			return $this->constant_exists('description') ? $this->get_constant('description') : __('No description defined.', $this->get_root()->get_prefix());
 		}
 		public function get_constant(string $constant_name){
 			return constant(get_class($this).'::'.$constant_name);

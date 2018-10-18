@@ -19,6 +19,9 @@
 #wpwrap {
     background-color: #FFF;
 }
+#wpcontent {
+    padding: 0 20px !important;
+}
 #wpbody-content {
     display: flex;
     flex-direction: column;
@@ -29,10 +32,9 @@
 /* Admin Menu */
 div.sv_admin_menu {
     width: 100%;
-    height:50px;
     position: -webkit-sticky; /* Safari */
     position: sticky;
-    top: 32px;
+    top: 0;
 }
 div.sv_admin_menu a.sv_admin_brand,
 div.sv_admin_menu .sv_admin_menu_item {
@@ -47,6 +49,7 @@ div.sv_admin_menu .sv_admin_menu_item {
     transition: .3s ease;
     outline: none;
     box-shadow: none;
+    background-color: #FFF;
 }
 div.sv_admin_menu a.sv_admin_brand {
     align-items: center;
@@ -61,7 +64,7 @@ div.sv_admin_menu .sv_admin_menu_item {
     cursor: pointer;
 }
 div.sv_admin_menu .sv_admin_menu_item:last-child {
-    border-bottom: 0;
+    border-bottom-width: 1px;
 }
 div.sv_admin_menu .sv_admin_menu_item:hover,
 div.sv_admin_menu .sv_admin_menu_item:focus,
@@ -82,24 +85,22 @@ section.sv_admin_section {
     min-height: 500px;
     width: 100%;
     word-break: break-all;
+    background-color: #FFF;
 }
 section.sv_admin_section#section_about {
     display: inline-block;
 }
 section.sv_admin_section h1.section_title {
     border-bottom: 1px solid rgba(43, 45, 48, .1);
-    margin: 0 20px;
+    margin: 0;
     height: 50px;
     padding: 30px 0;
     display: flex;
     align-items: center;
     background-color: #FFF;
-    position: sticky;
-    top: 32px;
-    z-index: 9999;
 }
 section.sv_admin_section div.section_content {
-    padding: 20px;
+    padding: 20px 0;
 }
 
 /* Admin Content Tags */
@@ -116,7 +117,7 @@ section.sv_admin_section div.section_content ul.instance_list {
     list-style-type: none;
     padding: 0;
     font-size: 14px;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     display: grid;
     grid-column-gap: 10px;
     grid-row-gap: 10px;
@@ -130,45 +131,66 @@ section.sv_admin_section div.section_content ul.instance_list a {
     box-sizing: border-box;
     outline: none;
     box-shadow: none;
-    background-color: rgba(78, 212, 103, .8);
-    color: #FFF;
+    color: rgba(43, 45, 48, .8);
+    border: 2px solid rgba(43, 45, 48, .3);
     text-decoration: none;
     transition: .3s ease;
     display: grid;
-    grid-template-columns: 50% auto auto;
-    grid-template-rows: 1fr auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 20% 1fr auto;
     grid-template-areas:
-            'instance_title instance_version instance_status'
-            'instance_error_msg instance_error_msg instance_error_msg';
+            'instance_title instance_title instance_title'
+            'instance_desc instance_desc instance_desc'
+            'instance_type instance_version instance_status'
+            'instance_msg instance_msg instance_msg';
     grid-column-gap: 10px;
+    grid-row-gap: 10px;
     word-break: break-word;
+    cursor: pointer;
 }
 section.sv_admin_section div.section_content ul.instance_list a:hover,
 section.sv_admin_section div.section_content ul.instance_list a:active,
 section.sv_admin_section div.section_content ul.instance_list a:focus {
-    background-color: rgba(78, 212, 103, 1);
+    border-color: rgba(43, 45, 48, 1);
 }
-section.sv_admin_section div.section_content ul.instance_list a.disabled {
-    background-color: rgb(255, 63, 65, .8);
-}
-section.sv_admin_section div.section_content ul.instance_list a.disabled:hover,
-section.sv_admin_section div.section_content ul.instance_list a.disabled:active,
-section.sv_admin_section div.section_content ul.instance_list a.disabled:focus {
-    background-color: rgb(255, 63, 65, 1);
-}
-section.sv_admin_section div.section_content ul.instance_list a div.instance_title {
-    font-weight: bold;
+section.sv_admin_section div.section_content ul.instance_list a h1.instance_title {
     grid-area: instance_title;
+    margin: 0;
+    padding: 10px 0;
+    color: rgba(43, 45, 48, .8);
+    border-bottom: 1px solid rgba(43, 45, 48, .3);
+    line-height: 1;
+}
+section.sv_admin_section div.section_content ul.instance_list a p.instance_desc {
+    grid-area: instance_desc;
+    margin: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(43, 45, 48, .3);
+}
+section.sv_admin_section div.section_content ul.instance_list a div.instance_type {
+    grid-area: instance_type;
 }
 section.sv_admin_section div.section_content ul.instance_list a div.instance_version {
     grid-area: instance_version;
+    text-align: center;
 }
 section.sv_admin_section div.section_content ul.instance_list a div.instance_status {
     grid-area: instance_status;
+    text-align: right;
+    color: rgba(78, 212, 103, 1);
 }
-section.sv_admin_section div.section_content ul.instance_list a div.instance_error_msg {
-    grid-area: instance_error_msg;
+section.sv_admin_section div.section_content ul.instance_list a.disabled div.instance_status {
+    color: rgba(255, 63, 65, 1);
+}
+section.sv_admin_section div.section_content ul.instance_list a div.instance_msg {
+    grid-area: instance_msg;
     font-style: italic;
+    font-weight: bold;
+}
+section.sv_admin_section div.section_content ul.instance_list a.disabled div.instance_msg {
+    padding: 10px 0 5px 0;
+    border-top: 1px dashed rgba(43, 45, 48, .3);
+    color: rgba(255, 63, 65, 1);
 }
 
 /* Columns */
@@ -192,6 +214,11 @@ section.sv_admin_section div.section_content code {
 }
 
 /* Responsive Breakpoints */
+@media (min-width: 600px) {
+    div.sv_admin_menu {
+        top: 46px
+    }
+}
 @media (min-width: 800px) {
     #wpbody-content {
         flex-direction: row;
@@ -202,11 +229,24 @@ section.sv_admin_section div.section_content code {
     div.sv_admin_menu a.sv_admin_brand {
         padding: 30px 15px;
     }
+    div.sv_admin_menu .sv_admin_menu_item:last-child {
+        border-bottom: 0;
+    }
+    section.sv_admin_section {
+        border-left: 1px solid rgba(43, 45, 48, .1);
+    }
     section.sv_admin_section div.section_content {
         padding: 30px;
     }
     section.sv_admin_section h1.section_title {
         margin: 0 30px;
+        position: sticky;
+        top: 32px;
+        z-index: 9999;
+    }
+    section.sv_admin_section div.section_content div.col-50 {
+        max-width: calc(50% - 12px);
+        margin-right: 10px;
     }
 }
 @media (min-width: 1200px) {
@@ -216,45 +256,50 @@ section.sv_admin_section div.section_content code {
     section.sv_admin_section {
         max-width: 1200px;
     }
-    section.sv_admin_section div.section_content ul.instance_list li,
-    section.sv_admin_section div.section_content div.col-50 {
-        max-width: calc(50% - 5px);
-    }
-    section.sv_admin_section div.section_content ul.instance_list li:nth-child(odd),
-    section.sv_admin_section div.section_content div.col-50:nth-child(odd) {
-        margin-right: 2.5px;
-    }
-    section.sv_admin_section div.section_content ul.instance_list li:nth-child(even),
-    section.sv_admin_section div.section_content div.col-50:nth-child(even){
-        margin-left: 2.5px;
+    section.sv_admi_sectionn div.section_content ul.info_list,
+    section.sv_admin_section div.section_content ul.instance_list {
+        grid-template-columns: 1fr 1fr;
     }
 }
 
 /* Admin Icons */
 div.sv_admin_menu .sv_admin_menu_item::before,
-section.sv_admin_section h1.section_title::before {
+section.sv_admin_section h1.section_title::before,
+section.sv_admin_section div.section_content ul.instance_list a div::before,
+section.sv_admin_section div.section_content ul.instance_list a h1::before,
+section.sv_admin_section div.section_content code::before {
     font-family: FontAwesomeSolid;
     font-weight: normal;
     font-style: normal;
-    font-size: 30px;
 }
 div.sv_admin_menu .sv_admin_menu_item::before {
     display: flex;
     align-self: flex-end;
     position: relative;
+    font-size: 30px;
     top: 40%;
     line-height: 0;
     color: rgba(43, 45, 48, .5);
     transition: .3s ease;
 }
-section.sv_admin_section h1.section_title::before {
+section.sv_admin_section h1.section_title::before,
+section.sv_admin_section div.section_content ul.instance_list a h1.instance_title::before {
     margin-right: 10px;
+    font-size: 30px;
 }
 div.sv_admin_menu .sv_admin_menu_item:hover::before,
 div.sv_admin_menu .sv_admin_menu_item:focus::before,
 div.sv_admin_menu .sv_admin_menu_item:active::before,
 div.sv_admin_menu .sv_admin_menu_item.active::before {
     color: rgba(43, 45, 48, 1);
+}
+section.sv_admin_section div.section_content ul.instance_list a div::before,
+section.sv_admin_section div.section_content code::before {
+    margin-right: 5px;
+}
+section.sv_admin_section div.section_content ul.instance_list a h1.instance_title::before,
+section.sv_admin_section div.section_content code::before {
+    color: rgba(43, 45, 48, .8);
 }
 div.sv_admin_menu .sv_admin_menu_item.section_about::before,
 section.sv_admin_section h1.section_title.section_about::before {
@@ -273,11 +318,33 @@ section.sv_admin_section h1.section_title.section_settings::before{
     content: '\f1de';
 }
 div.sv_admin_menu .sv_admin_menu_item.section_instance::before,
-section.sv_admin_section h1.section_title.section_instance::before{
+section.sv_admin_section h1.section_title.section_instance::before,
+section.sv_admin_section div.section_content ul.instance_list a div.instance_type::before {
     content: '\f6d1';
 }
+section.sv_admin_section div.section_content ul.instance_list a div.instance_version::before {
+    content: '\f135';
+}
+section.sv_admin_section div.section_content ul.instance_list a div.instance_status::before {
+    content: '\f058';
+}
+section.sv_admin_section div.section_content ul.instance_list a.disabled div.instance_status::before {
+    content: '\f057';
+}
+section.sv_admin_section div.section_content ul.instance_list a h1.instance_plugin::before {
+    content: '\f12e';
+}
+section.sv_admin_section div.section_content ul.instance_list a h1.instance_theme::before {
+    content: '\f55d';
+}
+section.sv_admin_section div.section_content ul.instance_list a.disabled div.instance_msg::before {
+    content: '\f06a';
+}
+section.sv_admin_section div.section_content code::before {
+    content: '\f121';
+}
 
-/* Scrollbar */
+    /* Scrollbar */
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
