@@ -14,6 +14,9 @@ jQuery('.sv_admin_menu_item').click(function() {
 		sv_admin_load_page(jQuery(this).data('target'));
 	}
 });
+jQuery('.sv_admin_mobile_toggle').click(function() {
+	jQuery(jQuery(this).attr('data-target')).toggle();
+});
 jQuery(document).ready(function(){
 	sv_admin_load_page(window.location.hash);
 });
