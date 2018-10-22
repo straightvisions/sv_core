@@ -23,9 +23,11 @@
 		protected $section_types			= array(
 			'instance'						=> 'Instance Core Methods',
 			'settings'						=> 'Configuration &amp; Settings',
-			'tools'							=> 'Helpfull tools &amp; helper',
+			'tools'							=> 'Helpful tools &amp; helper',
 			'docs'							=> 'Complete Documentation'
 		);
+		protected $section_template_path	= '';
+
 
 		/**
 		 * @desc			initialize plugin
@@ -402,10 +404,21 @@
 					'object'	=> $object,
 					'type'		=> isset($this->section_types[$type]) ? $type : 'docs'
 				);
+				return $object;
+			}else{
+				return $this;
 			}
 		}
 		public function get_sections(): array{
 			return $this->sections;
+		}
+		public function get_section_template_path(): string{
+			return $this->section_template_path;
+		}
+		public function set_section_template_path(string $path){
+			$this->section_template_path		= $path;
+
+			return $this;
 		}
 		public function get_section_title(): string{
 			return $this->constant_exists('section_title') ? $this->get_constant('section_title') : __('No Title defined.', $this->get_root()->get_prefix());
