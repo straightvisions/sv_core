@@ -1,7 +1,4 @@
 /* ===== Dashboard ===== */
-#wpcontent {
-    background-color: #FFF;
-}
 @font-face {
     font-family: FontAwesomeBrands;
     src: url('<?php echo $this->get_url_lib_core('assets/fonts/fa-brands-400.woff'); ?>');
@@ -19,6 +16,12 @@
 }
 
 /* WP */
+#wpwrap {
+    background-color: #FFF;
+}
+#wpcontent {
+    padding: 0 20px !important;
+}
 #wpbody-content {
     display: flex;
     flex-direction: column;
@@ -29,13 +32,15 @@
 /* Admin Menu */
 div.sv_admin_menu {
     width: 100%;
-    height:50px;
     position: -webkit-sticky; /* Safari */
     position: sticky;
-    top: 32px;
+    top: 0;
 }
-.sv_admin_menu_item{
-    cursor:pointer;
+div.sv_admin_menu_head {
+	border-bottom: 1px solid rgba(43, 45, 48, .1);
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
 div.sv_admin_menu a.sv_admin_brand,
 div.sv_admin_menu .sv_admin_menu_item {
@@ -45,30 +50,42 @@ div.sv_admin_menu .sv_admin_menu_item {
     justify-content: center;
     text-decoration: none;
     color: rgba(43, 45, 48, 1);
-    border-bottom: 1px solid rgba(43, 45, 48, .1);
     border-left: 2px solid transparent;
     transition: .3s ease;
     outline: none;
     box-shadow: none;
+    background-color: #FFF;
 }
 div.sv_admin_menu a.sv_admin_brand {
     align-items: center;
     padding: 15px;
+	width: 100%;
 }
 div.sv_admin_menu a.sv_admin_brand img {
     max-height: 100%;
     max-width: 100%;
 }
+div.sv_admin_menu div.sv_admin_mobile_toggle {
+    height: 30px;
+    line-height: 1;
+    cursor: pointer;
+	margin-left: 10px;
+}
+div#sv_admin_menu_body {
+	display: none;
+	transition: .3s ease;
+}
 div.sv_admin_menu .sv_admin_menu_item {
     flex-direction: column;
+    cursor: pointer;
+	border-bottom: 1px solid rgba(43, 45, 48, .1);
 }
 div.sv_admin_menu .sv_admin_menu_item:last-child {
-    border-bottom: 0;
+    border-bottom-width: 1px;
 }
 div.sv_admin_menu .sv_admin_menu_item:hover,
 div.sv_admin_menu .sv_admin_menu_item:focus,
 div.sv_admin_menu .sv_admin_menu_item.active {
-    background-color: #FFF;
     color: rgba(43, 45, 48, 1);
     border-left-color: rgba(43, 45, 48, 1);
     outline: none;
@@ -81,29 +98,26 @@ div.sv_admin_menu .sv_admin_menu_item h4 {
 section.sv_admin_section {
     display: none;
     max-width: 100%;
-    background-color: #FFF;
     padding: 0;
     min-height: 500px;
     width: 100%;
     word-break: break-all;
+    background-color: #FFF;
 }
 section.sv_admin_section#section_about {
     display: inline-block;
 }
 section.sv_admin_section h1.section_title {
     border-bottom: 1px solid rgba(43, 45, 48, .1);
-    margin: 0 20px;
+    margin: 0;
     height: 50px;
     padding: 30px 0;
     display: flex;
     align-items: center;
     background-color: #FFF;
-    position:sticky;
-    top:32px;
-    z-index: 9999;
 }
 section.sv_admin_section div.section_content {
-    padding: 20px;
+    padding: 20px 0;
 }
 
 /* Admin Content Tags */
@@ -113,35 +127,97 @@ section.sv_admin_section div.section_content h3.divider {
     margin: 20px 0;
     font-size: 16px;
 }
+
+/* Lists */
 section.sv_admi_sectionn div.section_content ul.info_list,
 section.sv_admin_section div.section_content ul.instance_list {
     list-style-type: none;
     padding: 0;
-    font-weight: bold;
     font-size: 14px;
+    grid-template-columns: 1fr;
+    display: grid;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
 }
-section.sv_admin_section div.section_content ul.info_list span {
+section.sv_admin_section div.section_content ul.info_list li span {
     color: rgba(52, 172, 245, 1);
 }
-section.sv_admin_section div.section_contentul.instance_list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-section.sv_admin_section div.section_content ul.instance_list li {
-    border: 1px solid rgba(43, 45, 48, .5);
+section.sv_admin_section div.section_content ul.instance_list a {
     padding: 10px 15px;
-    margin-bottom: 10px;
     border-radius: 3px;
     box-sizing: border-box;
-    color: rgba(52, 172, 245, 1);
+    outline: none;
+    box-shadow: none;
+    color: rgba(43, 45, 48, .8);
+    border: 2px solid rgba(43, 45, 48, .3);
+    text-decoration: none;
+    transition: .3s ease;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+            'instance_title instance_title instance_title'
+            'instance_desc instance_desc instance_desc'
+            'instance_type instance_version instance_status'
+            'instance_msg instance_msg instance_msg';
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    word-break: break-word;
+    cursor: pointer;
 }
-section.sv_admin_section div.section_content ul.instance_list li,
+section.sv_admin_section div.section_content ul.instance_list a:hover,
+section.sv_admin_section div.section_content ul.instance_list a:active,
+section.sv_admin_section div.section_content ul.instance_list a:focus {
+    border-color: rgba(43, 45, 48, 1);
+}
+section.sv_admin_section div.section_content ul.instance_list a h1.instance_title {
+    grid-area: instance_title;
+    margin: 0;
+    padding: 10px 0;
+    color: rgba(43, 45, 48, .8);
+    border-bottom: 1px solid rgba(43, 45, 48, .3);
+    line-height: 1;
+}
+section.sv_admin_section div.section_content ul.instance_list a p.instance_desc {
+    grid-area: instance_desc;
+    margin: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(43, 45, 48, .3);
+}
+section.sv_admin_section div.section_content ul.instance_list a div.instance_type {
+    grid-area: instance_type;
+}
+section.sv_admin_section div.section_content ul.instance_list a div.instance_version {
+    grid-area: instance_version;
+    text-align: center;
+}
+section.sv_admin_section div.section_content ul.instance_list a div.instance_status {
+    grid-area: instance_status;
+    text-align: right;
+    color: rgba(78, 212, 103, 1);
+}
+section.sv_admin_section div.section_content ul.instance_list a.disabled div.instance_status {
+    color: rgba(255, 63, 65, 1);
+}
+section.sv_admin_section div.section_content ul.instance_list a div.instance_msg {
+    grid-area: instance_msg;
+    font-style: italic;
+    font-weight: bold;
+}
+section.sv_admin_section div.section_content ul.instance_list a.disabled div.instance_msg {
+    padding: 10px 0 5px 0;
+    border-top: 1px dashed rgba(43, 45, 48, .3);
+    color: rgba(255, 63, 65, 1);
+}
+
+/* Columns */
 section.sv_admin_section div.section_content div.col-50 {
     max-width: 100%;
     display: inline-grid;
     width: 100%;
 }
+
+/* Tags */
 section.sv_admin_section div.section_content blockquote {
     margin: 10px 0;
     font-style: italic;
@@ -155,6 +231,11 @@ section.sv_admin_section div.section_content code {
 }
 
 /* Responsive Breakpoints */
+@media (min-width: 600px) {
+    div.sv_admin_menu {
+        top: 46px
+    }
+}
 @media (min-width: 800px) {
     #wpbody-content {
         flex-direction: row;
@@ -165,11 +246,31 @@ section.sv_admin_section div.section_content code {
     div.sv_admin_menu a.sv_admin_brand {
         padding: 30px 15px;
     }
+	div.sv_admin_menu div.sv_admin_mobile_toggle {
+		display: none;
+	}
+	div#sv_admin_menu_body {
+		opacity: 1;
+		display: block;
+	}
+    div.sv_admin_menu .sv_admin_menu_item:last-child {
+        border-bottom: 0;
+    }
+    section.sv_admin_section {
+        border-left: 1px solid rgba(43, 45, 48, .1);
+    }
     section.sv_admin_section div.section_content {
         padding: 30px;
     }
     section.sv_admin_section h1.section_title {
         margin: 0 30px;
+        position: sticky;
+        top: 32px;
+        z-index: 9999;
+    }
+    section.sv_admin_section div.section_content div.col-50 {
+        max-width: calc(50% - 12px);
+        margin-right: 10px;
     }
 }
 @media (min-width: 1200px) {
@@ -179,45 +280,60 @@ section.sv_admin_section div.section_content code {
     section.sv_admin_section {
         max-width: 1200px;
     }
-    section.sv_admin_section div.section_content ul.instance_list li,
-    section.sv_admin_section div.section_content div.col-50 {
-        max-width: calc(50% - 5px);
-    }
-    section.sv_admin_section div.section_content ul.instance_list li:nth-child(odd),
-    section.sv_admin_section div.section_content div.col-50:nth-child(odd) {
-        margin-right: 2.5px;
-    }
-    section.sv_admin_section div.section_content ul.instance_list li:nth-child(even),
-    section.sv_admin_section div.section_content div.col-50:nth-child(even){
-        margin-left: 2.5px;
+    section.sv_admi_sectionn div.section_content ul.info_list,
+    section.sv_admin_section div.section_content ul.instance_list {
+        grid-template-columns: 1fr 1fr;
     }
 }
 
 /* Admin Icons */
 div.sv_admin_menu .sv_admin_menu_item::before,
-section.sv_admin_section h1.section_title::before {
+section.sv_admin_section h1.section_title::before,
+section.sv_admin_section div.section_content ul.instance_list a div::before,
+section.sv_admin_section div.section_content ul.instance_list a h1::before,
+section.sv_admin_section div.section_content code::before,
+div.sv_admin_menu div.sv_admin_mobile_toggle::before {
     font-family: FontAwesomeSolid;
     font-weight: normal;
     font-style: normal;
-    font-size: 30px;
 }
 div.sv_admin_menu .sv_admin_menu_item::before {
     display: flex;
     align-self: flex-end;
     position: relative;
+    font-size: 30px;
     top: 40%;
     line-height: 0;
     color: rgba(43, 45, 48, .5);
     transition: .3s ease;
 }
-section.sv_admin_section h1.section_title::before {
+section.sv_admin_section h1.section_title::before,
+section.sv_admin_section div.section_content ul.instance_list a h1.instance_title::before {
     margin-right: 10px;
+    font-size: 30px;
+}
+div.sv_admin_menu div.sv_admin_mobile_toggle::before {
+    font-size: 30px;
+    color: rgba(43, 45, 48, .5);
+    transition: .3s ease;
 }
 div.sv_admin_menu .sv_admin_menu_item:hover::before,
 div.sv_admin_menu .sv_admin_menu_item:focus::before,
 div.sv_admin_menu .sv_admin_menu_item:active::before,
-div.sv_admin_menu .sv_admin_menu_item.active::before {
+div.sv_admin_menu .sv_admin_menu_item.active::before,
+div.sv_admin_menu div.sv_admin_mobile_toggle:hover::before {
     color: rgba(43, 45, 48, 1);
+}
+section.sv_admin_section div.section_content ul.instance_list a div::before,
+section.sv_admin_section div.section_content code::before {
+    margin-right: 5px;
+}
+section.sv_admin_section div.section_content ul.instance_list a h1.instance_title::before,
+section.sv_admin_section div.section_content code::before {
+    color: rgba(43, 45, 48, .8);
+}
+div.sv_admin_menu div.sv_admin_mobile_toggle::before {
+    content: '\f0c9';
 }
 div.sv_admin_menu .sv_admin_menu_item.section_about::before,
 section.sv_admin_section h1.section_title.section_about::before {
@@ -236,11 +352,33 @@ section.sv_admin_section h1.section_title.section_settings::before{
     content: '\f1de';
 }
 div.sv_admin_menu .sv_admin_menu_item.section_instance::before,
-section.sv_admin_section h1.section_title.section_instance::before{
+section.sv_admin_section h1.section_title.section_instance::before,
+section.sv_admin_section div.section_content ul.instance_list a div.instance_type::before {
     content: '\f6d1';
 }
+section.sv_admin_section div.section_content ul.instance_list a div.instance_version::before {
+    content: '\f135';
+}
+section.sv_admin_section div.section_content ul.instance_list a div.instance_status::before {
+    content: '\f058';
+}
+section.sv_admin_section div.section_content ul.instance_list a.disabled div.instance_status::before {
+    content: '\f057';
+}
+section.sv_admin_section div.section_content ul.instance_list a h1.instance_plugin::before {
+    content: '\f12e';
+}
+section.sv_admin_section div.section_content ul.instance_list a h1.instance_theme::before {
+    content: '\f55d';
+}
+section.sv_admin_section div.section_content ul.instance_list a.disabled div.instance_msg::before {
+    content: '\f06a';
+}
+section.sv_admin_section div.section_content code::before {
+    content: '\f121';
+}
 
-/* Scrollbar */
+    /* Scrollbar */
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;

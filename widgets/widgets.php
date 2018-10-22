@@ -84,7 +84,6 @@ class widgets extends sv_abstract{
 			private static $widget = false;
 			
 			public function __construct($widget=false){
-				
 				if($widget){
 					static::$widget = $widget;
 				}
@@ -100,7 +99,7 @@ class widgets extends sv_abstract{
 			public function form($instance){
 				if (static::$widget) {
 					foreach (static::$widget->get_settings() as $setting) {
-						echo $setting->run_type()->widget($instance[$setting->get_ID()], $this);
+						echo $setting->run_type()->widget((isset($instance[$setting->get_ID()]) ? $instance[$setting->get_ID()] : ''), $this);
 					}
 				}
 			}

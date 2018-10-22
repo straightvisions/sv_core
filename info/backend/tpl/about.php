@@ -6,7 +6,7 @@
 			<h3 class="divider">Info</h3>
 			<ul class="info_list">
 				<li>Name: <span><?php echo get_admin_page_title(); ?></span></li>
-				<li>Version: <span><?php echo $this->get_version_core(true); ?></span></li>
+				<li>Core Version: <span><?php echo $this->get_version_core(true); ?></span></li>
 			</ul>
 		</div>
 		<div class="col-50">
@@ -16,20 +16,25 @@
 			</p>
 		</div>
 		<div>
-			<h3 class="divider"><?php _e('Active Instances', $this->get_module_name()); ?></h3>
+			<h3 class="divider"><?php _e('Instances', $this->get_module_name()); ?></h3>
 			<ul class="instance_list">
 			<?php
 				foreach( $this->get_instances() as $name => $instance ) {
-					echo '
-					<li>
-						<a href="/wp-admin/admin.php?page='.$instance->get_name().'">
-						<div class="'.$this->get_prefix('instance_name').'">' . $name . '</div>
-						<div class="'.$this->get_prefix('instance_version').'">v'.$instance->get_version(true).'</div>
-						<div>'.(($instance->get_root()->get_version_core_match() != $this->get_version_core()) ? 'Core Version mismatch: '.$instance->get_root()->get_version_core_match(true) : '').'</div>
-						</a>
-					</li>';
-				}
+					if($this->is_instance_active($instance->get_name())) {
+						$instance_msg = '';
+					} else {
+						$instance_msg = 'This plugin version is outdated, please update this plugin!';
+					}
 			?>
+			<a href="/wp-admin/admin.php?page=<?php echo $instance->get_name() ?>" class="<?php echo (($this->is_instance_active($instance->get_name())) ? '' : 'disabled'); ?>">
+				<h1 class="instance_title instance_plugin"><?php echo $name; ?></h1>
+				<p class="instance_desc"><?php echo $instance->get_instance_desc(); ?></p>
+				<div class="instance_type">Plugin</div>
+				<div class="instance_version">v<?php echo $instance->get_version(true); ?></div>
+				<div class="instance_status"><?php echo (($this->is_instance_active($instance->get_name())) ? 'Active' : 'Disabled'); ?></div>
+				<div class="instance_msg"><?php echo $instance_msg; ?></div>
+			</a>
+			<?php } ?>
 			</ul>
 		</div>
 	</div>

@@ -18,14 +18,38 @@
 		<div>
 			<h3 class="divider">Active Modules</h3>
 			<ul class="instance_list">
-				<li>[ Module Name ]</li>
-				<li>[ Module Name ]</li>
-				<li>[ Module Name ]</li>
-				<li>[ Module Name ]</li>
-				<li>[ Module Name ]</li>
-				<li>[ Module Name ]</li>
-				<li>[ Module Name ]</li>
-				<li>[ Module Name ]</li>
+				<a href="/wp-admin/admin.php?page=" class="">
+					<h1 class="instance_title instance_plugin">[ Module Name ]</h1>
+					<p class="instance_desc">This is the module description.</p>
+					<div class="instance_type">Plugin</div>
+					<div class="instance_version">v1.003</div>
+					<div class="instance_status">Active</div>
+					<div class="instance_msg"></div>
+				</a>
+				<a href="/wp-admin/admin.php?page=" class="">
+					<h1 class="instance_title instance_plugin">[ Module Name ]</h1>
+					<p class="instance_desc">This is the module description.</p>
+					<div class="instance_type">Plugin</div>
+					<div class="instance_version">v1.003</div>
+					<div class="instance_status">Active</div>
+					<div class="instance_msg"></div>
+				</a>
+				<a href="/wp-admin/admin.php?page=" class="">
+					<h1 class="instance_title instance_theme">[ Module Name ]</h1>
+					<p class="instance_desc">This is the module description.</p>
+					<div class="instance_type">Theme</div>
+					<div class="instance_version">v1.003</div>
+					<div class="instance_status">Active</div>
+					<div class="instance_msg"></div>
+				</a>
+				<a href="/wp-admin/admin.php?page=" class="">
+					<h1 class="instance_title instance_plugin">[ Module Name ]</h1>
+					<p class="instance_desc">This is the module description.</p>
+					<div class="instance_type">Plugin</div>
+					<div class="instance_version">v1.003</div>
+					<div class="instance_status">Active</div>
+					<div class="instance_msg"></div>
+				</a>
 			</ul>
 		</div>
 	</div>
