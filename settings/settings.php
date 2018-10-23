@@ -98,7 +98,7 @@
 		}
 		public function get_section_name(): string{
 			if(!$this->section_name){
-				return $this->get_section();
+				return $this->get_parent()->get_section_title();
 			}else{
 				return $this->section_name;
 			}
@@ -109,7 +109,11 @@
 			return $this;
 		}
 		public function get_section_description(): string{
-			return $this->section_description;
+			if(!$this->section_description){
+				return $this->get_parent()->get_section_desc();
+			}else{
+				return $this->section_description;
+			}
 		}
 		/*
 		 * 	@param: $source		set a type for form field
