@@ -423,8 +423,8 @@
 		public function get_section_title(): string{
 			return $this->constant_exists('section_title') ? $this->get_constant('section_title') : __('No Title defined.', $this->get_root()->get_prefix());
 		}
-		public function get_instance_desc(): string{
-			return $this->constant_exists('description') ? $this->get_constant('description') : __('No description defined.', $this->get_root()->get_prefix());
+		public function get_section_desc(): string{
+			return $this->constant_exists('section_desc') ? $this->get_constant('section_desc') : __('No description defined.', $this->get_root()->get_prefix());
 		}
 		public function get_constant(string $constant_name){
 			return constant(get_class($this).'::'.$constant_name);
