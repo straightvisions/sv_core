@@ -44,10 +44,10 @@ div.sv_admin_menu {
     top: 0;
 }
 div.sv_admin_menu_head {
-	border-bottom: 1px solid rgba(43, 45, 48, .1);
-	display: flex;
-	flex-direction: row;
-	align-items: center;
+    border-bottom: 1px solid rgba(43, 45, 48, .1);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 div.sv_admin_menu a.sv_admin_brand,
 div.sv_admin_menu .sv_admin_menu_item {
@@ -66,7 +66,7 @@ div.sv_admin_menu .sv_admin_menu_item {
 div.sv_admin_menu a.sv_admin_brand {
     align-items: center;
     padding: 15px;
-	width: 100%;
+    width: 100%;
 }
 div.sv_admin_menu a.sv_admin_brand img {
     max-height: 100%;
@@ -76,16 +76,16 @@ div.sv_admin_menu div.sv_admin_mobile_toggle {
     height: 30px;
     line-height: 1;
     cursor: pointer;
-	margin-left: 10px;
+    margin-left: 10px;
 }
 div#sv_admin_menu_body {
-	display: none;
-	transition: .3s ease;
+    display: none;
+    transition: .3s ease;
 }
 div.sv_admin_menu .sv_admin_menu_item {
     flex-direction: column;
     cursor: pointer;
-	border-bottom: 1px solid rgba(43, 45, 48, .1);
+    border-bottom: 1px solid rgba(43, 45, 48, .1);
 }
 div.sv_admin_menu .sv_admin_menu_item:last-child {
     border-bottom-width: 1px;
@@ -253,13 +253,13 @@ section.sv_admin_section div.section_content code {
     div.sv_admin_menu a.sv_admin_brand {
         padding: 30px 15px;
     }
-	div.sv_admin_menu div.sv_admin_mobile_toggle {
-		display: none;
-	}
-	div#sv_admin_menu_body {
-		opacity: 1;
-		display: block;
-	}
+    div.sv_admin_menu div.sv_admin_mobile_toggle {
+        display: none;
+    }
+    div#sv_admin_menu_body {
+        opacity: 1;
+        display: block;
+    }
     div.sv_admin_menu .sv_admin_menu_item:last-child {
         border-bottom: 0;
     }
@@ -358,9 +358,6 @@ div.sv_admin_menu .sv_admin_menu_item.section_settings:before,
 section.sv_admin_section h1.section_title.section_settings::before{
     content: '\f1de';
 }
-div.sv_admin_menu .sv_admin_menu_item.section_tools::before {
-    content: '\f0ad';
-}
 div.sv_admin_menu .sv_admin_menu_item.section_instance::before,
 section.sv_admin_section h1.section_title.section_instance::before,
 section.sv_admin_section div.section_content ul.instance_list a div.instance_type::before {
@@ -388,7 +385,7 @@ section.sv_admin_section div.section_content code::before {
     content: '\f121';
 }
 
-    /* Scrollbar */
+/* Scrollbar */
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -517,7 +514,9 @@ label.sv_radio input[type="radio"]:checked::before {
 /* Input - Buttons */
 input.sv_btn,
 button.sv_btn,
-label.sv_file {
+label.sv_file,
+div.sv_setting_group_add_new_button,
+div.sv_setting_group_delete {
     color: rgba(43, 45, 48, 1);
     display: block;
     position: relative;
@@ -533,12 +532,20 @@ label.sv_file {
     margin-bottom: 10px;
     outline: none;
 }
+div.sv_setting_group_add_new_button,
+div.sv_setting_group_delete {
+    margin-top: 10px;
+}
 input.sv_btn:hover,
 input.sv_btn:focus,
 button.sv_btn:hover,
 button.sv_btn:focus,
 label.sv_file:hover,
-label.sv_file:focus {
+label.sv_file:focus,
+div.sv_setting_group_add_new_button:hover,
+div.sv_setting_group_add_new_button:focus,
+div.sv_setting_group_delete:hover,
+div.sv_setting_group_delete:focus {
     background-color: rgba(43, 45, 48, 1);
     color: rgba(255, 255, 255, 1);
 }
