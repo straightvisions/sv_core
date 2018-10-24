@@ -30,6 +30,11 @@
     align-items: flex-start;
     padding: 0;
 }
+.notice{
+    position: fixed !important;
+    z-index: 9999999;
+    right: 0;
+}
 
 /* Admin Menu */
 div.sv_admin_menu {
