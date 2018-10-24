@@ -3,7 +3,7 @@
 	namespace sv_core;
 
 	abstract class sv_abstract{
-		const version_core					= 1003;
+		const version_core					= 1004;
 		
 		protected $name						= false;
 		protected $module_name				= false;
@@ -23,9 +23,13 @@
 		protected $section_types			= array(
 			'instance'						=> 'Instance Core Methods',
 			'settings'						=> 'Configuration &amp; Settings',
-			'tools'							=> 'Helpfull tools &amp; helper',
+			'tools'							=> 'Helpful tools &amp; helper',
 			'docs'							=> 'Complete Documentation'
 		);
+		protected $section_template_path	= '';
+		protected $section_title			= false;
+		protected $section_desc				= false;
+
 
 		/**
 		 * @desc			initialize plugin
@@ -402,16 +406,33 @@
 					'object'	=> $object,
 					'type'		=> isset($this->section_types[$type]) ? $type : 'docs'
 				);
+				return $object;
+			}else{
+				return $this;
 			}
 		}
 		public function get_sections(): array{
 			return $this->sections;
 		}
-		public function get_section_title(): string{
-			return $this->constant_exists('section_title') ? $this->get_constant('section_title') : __('No Title defined.', $this->get_root()->get_prefix());
+		public function get_section_template_path(): string{
+			return $this->section_template_path;
 		}
-		public function get_instance_desc(): string{
-			return $this->constant_exists('description') ? $this->get_constant('description') : __('No description defined.', $this->get_root()->get_prefix());
+		public function set_section_template_path(string $path){
+			$this->section_template_path		= $path;
+
+			return $this;
+		}
+		public function set_section_title(string $title){
+			$this->section_title = $title;
+		}
+		public function get_section_title(): string{
+			return $this->section_title ? $this->section_title : __('No Title defined.', $this->get_root()->get_prefix());
+		}
+		public function set_section_desc(string $desc){
+			$this->section_desc = $desc;
+		}
+		public function get_section_desc(): string{
+			return $this->section_desc ? $this->section_desc : __('No description defined.', $this->get_root()->get_prefix());
 		}
 		public function get_constant(string $constant_name){
 			return constant(get_class($this).'::'.$constant_name);
@@ -452,7 +473,7 @@
 		}
 		public function load_section_menu(){
 			foreach($this->get_sections() as $section_name => $section) {
-				echo '<div data-target="#section_' . $section_name . '" class="sv_admin_menu_item section_' . $section['type'] . '"><h4>' . ($section['type'] == 'instance' ? 'Core Docs' : $section['object']->get_constant('section_title')) . '</h4><span>' . $this->section_types[$section['type']] . '</span></div>';
+				echo '<div data-target="#section_' . $section_name . '" class="sv_admin_menu_item section_' . $section['type'] . '"><h4>' . ($section['type'] == 'instance' ? 'Core Docs' : $section['object']->get_section_title()) . '</h4><span>' . $this->section_types[$section['type']] . '</span></div>';
 			}
 		}
 		public function load_section_html(){

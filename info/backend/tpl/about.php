@@ -27,8 +27,8 @@
 					}
 			?>
 			<a href="/wp-admin/admin.php?page=<?php echo $instance->get_name() ?>" class="<?php echo (($this->is_instance_active($instance->get_name())) ? '' : 'disabled'); ?>">
-				<h1 class="instance_title instance_plugin"><?php echo $name; ?></h1>
-				<p class="instance_desc"><?php echo $instance->get_instance_desc(); ?></p>
+				<h1 class="instance_title instance_plugin"><?php echo $instance->get_section_title(); ?></h1>
+				<p class="instance_desc"><?php echo $instance->get_section_desc(); ?></p>
 				<div class="instance_type">Plugin</div>
 				<div class="instance_version">v<?php echo $instance->get_version(true); ?></div>
 				<div class="instance_status"><?php echo (($this->is_instance_active($instance->get_name())) ? 'Active' : 'Disabled'); ?></div>
