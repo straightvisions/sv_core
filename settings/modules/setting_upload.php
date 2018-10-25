@@ -17,7 +17,6 @@
 		public function html($ID,$title,$description,$name,$value,$placeholder=''){
 			return '
 				<label for="' . $ID . '">
-					<div class="title">'.$title.' <span class="description" title="'.$description.'">(?)</span></div>
 					<input
 					class="sv_file"
 					id="' . $ID . '"
@@ -26,6 +25,8 @@
 					placeholder="'.$placeholder.'"
 					/>
 					' . esc_attr($value) . '
+					<div class="sv_tooltip">?</div>
+					<div class="sv_tooltip_description">' . $description . '</div>
 				</label>
 			';
 		}

@@ -15,9 +15,7 @@
 			$this->parent			= $parent;
 		}
 		public function html($ID,$title,$description,$name,$value){
-			$output = '
-				<label for="' . $ID . '">
-					<div class="title">'.$title.' <span class="description" title="'.$description.'">(?)</span></div>';
+			$output = '<label for="' . $ID . '">';
 			
 			$args		= array(
 				'echo'					=> 0,
@@ -28,7 +26,7 @@
 			);
 			$output	.= wp_dropdown_pages($args);
 
-			$output .= '</label>';
+			$output .= '<div class="sv_tooltip">?</div><div class="sv_tooltip_description">' . $description . '</div></label>';
 			
 			return $output;
 		}

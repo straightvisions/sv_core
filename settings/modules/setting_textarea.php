@@ -17,11 +17,12 @@
 		public function html($ID,$title,$description,$name,$value){
 			return '
 				<label for="' . $ID . '">
-					<div class="title">'.$title.' <span class="description" title="'.$description.'">(?)</span></div>
 					<textarea style="height:200px;"
 					class="sv_input"
 					id="' . $ID . '"
 					name="' . $name . '">' . esc_attr($value) . '</textarea>
+					<div class="sv_tooltip">?</div>
+					<div class="sv_tooltip_description">' . $description . '</div>
 				</label>
 			';
 		}

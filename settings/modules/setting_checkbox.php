@@ -20,7 +20,6 @@
 		public function html($ID,$title,$description,$name,$value){
 			return '
 				<label for="' . $ID . '" class="sv_checkbox">
-					<div class="title">'.$title.'</div>
 					<input
 					class="sv_form_field"
 					id="' . $ID . '"
@@ -29,8 +28,9 @@
 					value="1"
 					' . (($value == '1') ? ' checked="checked"' : '') . '
 					/>
+					<div class="sv_tooltip">?</div>
+					<div class="sv_tooltip_description">' . $description . '</div>
 				</label>
-				<div class="desc">'.$description.'</div>
 			';
 		}
 	}

@@ -516,7 +516,8 @@ input.sv_btn,
 button.sv_btn,
 label.sv_file,
 div.sv_setting_group_add_new_button,
-div.sv_setting_group_delete {
+div.sv_setting_group_delete,
+.wp-core-ui p .button {
     color: rgba(43, 45, 48, 1);
     display: block;
     position: relative;
@@ -531,6 +532,9 @@ div.sv_setting_group_delete {
     cursor: pointer;
     margin-bottom: 10px;
     outline: none;
+    text-shadow: none;
+    box-shadow: none;
+    height: auto;
 }
 div.sv_setting_group_add_new_button,
 div.sv_setting_group_delete {
@@ -545,9 +549,16 @@ label.sv_file:focus,
 div.sv_setting_group_add_new_button:hover,
 div.sv_setting_group_add_new_button:focus,
 div.sv_setting_group_delete:hover,
-div.sv_setting_group_delete:focus {
+div.sv_setting_group_delete:focus,
+.wp-core-ui p .button:hover,
+.wp-core-ui p .button:focus,
+div.sv_tooltip:hover,
+div.sv_tooltip:focus {
     background-color: rgba(43, 45, 48, 1);
     color: rgba(255, 255, 255, 1);
+    box-shadow: none;
+    border: 2px solid rgba(43, 45, 48, 1);
+    text-shadow: none;
 }
 
 /* Input - Button Group */
@@ -616,7 +627,7 @@ textarea.sv_input {
     background: rgba(255, 255, 255, 1);
     padding: 15px 20px;
     border: 2px solid rgba(43, 45, 48, .1);
-    width: 100%;
+    width: 90%;
     min-width: 80px;
     text-align: left;
     transition: .3s ease;
@@ -720,41 +731,39 @@ input.sv_color::-webkit-color-swatch {
     border: none;
     background: transparent;
 }
-/* Tooltip */
+
+/* Description (Tooltip) */
 div.sv_tooltip {
-    position: relative;
-    display: inline-block;
+	color: rgba(43, 45, 48, 1);
+	display: inline-block;
+	position: relative;
+	background: rgba(255, 255, 255, 1);
+	padding: 15px 20px 14px 20px;
+	border: 2px solid rgba(43, 45, 48, .1);
+	transition: .3s ease;
+	margin-bottom: 10px;
+	text-align: center;
+	height: auto;
+	line-height: 1.4;
+	max-width: 10%;
 }
-div.sv_tooltip span.sv_tooltip_icon {
-    border-bottom: 1px dotted rgba(43, 45, 48, 1);
+div.sv_tooltip_description {
+	background-color: rgba(43, 45, 48, 1);
+	color: #FFF;
+	max-width: calc(90% - 40px);
+	padding: 0;
+	font-style: italic;
+	height: 0;
+	transition: .3s ease;
 }
-div.sv_tooltip span.sv_tooltip_text {
-    visibility: hidden;
-    color: rgba(255, 255, 255, 1);
-    font-size: .85rem;
-    background-color: rgba(43, 45, 48, 1);
-    padding: 5px 10px;
-    border-radius: 3px 3px 3px 0;
-    position: absolute;
-    z-index: 1;
-    left: 0;
-    opacity: 0;
-    transition: .3s ease;
-    width: 200px;
-    bottom: 125%;
-    display: inline-block;
+div.sv_tooltip_description::before {
+	content: 'Description:';
+	font-style: normal;
+	display: block;
+	margin-bottom: 10px;
 }
-div.sv_tooltip span.sv_tooltip_text::after {
-    clip-path: polygon(0 0, 0% 100%, 100% 0);
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 100%;
-    background-color: rgba(43, 45, 48, 1);
-    height: 8px;
-    width: 8px;
-}
-div.sv_tooltip:hover span.sv_tooltip_text {
-    visibility: visible;
-    opacity: 1;
+div.sv_tooltip:hover + div.sv_tooltip_description,
+div.sv_tooltip:focus + div.sv_tooltip_description {
+	height: auto;
+	padding: 15px 20px;
 }
