@@ -20,3 +20,8 @@ jQuery('.sv_admin_mobile_toggle').click(function() {
 jQuery(document).ready(function(){
 	sv_admin_load_page(window.location.hash);
 });
+
+/* Description (Tooltip) */
+jQuery('.sv_tooltip').click(function() {
+	jQuery(this).next().toggleClass('open');
+});

@@ -756,14 +756,7 @@ div.sv_tooltip_description {
 	height: 0;
 	transition: .3s ease;
 }
-div.sv_tooltip_description::before {
-	content: 'Description:';
-	font-style: normal;
-	display: block;
-	margin-bottom: 10px;
-}
-div.sv_tooltip:hover + div.sv_tooltip_description,
-div.sv_tooltip:focus + div.sv_tooltip_description {
+div.sv_tooltip_description.open {
 	height: auto;
 	padding: 15px 20px;
 }
