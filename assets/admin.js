@@ -22,6 +22,6 @@ jQuery(document).ready(function(){
 });
 
 /* Description (Tooltip) */
-jQuery('.sv_tooltip').click(function() {
+jQuery(document).on('click', '.sv_tooltip', function() {
 	jQuery(this).next().toggleClass('open');
 });

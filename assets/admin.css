@@ -759,6 +759,8 @@ div.sv_tooltip_description {
 	font-style: italic;
 	height: 0;
 	transition: .3s ease;
+	margin-left: 1px;
+	margin-bottom: 5px;
 }
 div.sv_tooltip_description.open {
 	height: auto;
