@@ -26,7 +26,7 @@
 			);
 			$output	.= wp_dropdown_pages($args);
 
-			$output .= '<div class="sv_tooltip">?</div><div class="sv_tooltip_description">' . $description . '</div></label>';
+			$output .= '</label><div class="sv_tooltip">?</div><div class="sv_tooltip_description">' . $description . '</div>';
 			
 			return $output;
 		}

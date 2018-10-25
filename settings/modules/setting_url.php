@@ -24,9 +24,9 @@
 					type="url"
 					placeholder="'.$placeholder.'"
 					value="' . esc_attr($value) . '"/>
-					<div class="sv_tooltip">?</div>
-					<div class="sv_tooltip_description">' . $description . '</div>
 				</label>
+				<div class="sv_tooltip">?</div>
+				<div class="sv_tooltip_description">' . $description . '</div>
 			';
 		}
 	}

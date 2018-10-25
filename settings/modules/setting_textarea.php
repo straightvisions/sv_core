@@ -21,9 +21,9 @@
 					class="sv_input"
 					id="' . $ID . '"
 					name="' . $name . '">' . esc_attr($value) . '</textarea>
-					<div class="sv_tooltip">?</div>
-					<div class="sv_tooltip_description">' . $description . '</div>
 				</label>
+				<div class="sv_tooltip">?</div>
+				<div class="sv_tooltip_description">' . $description . '</div>
 			';
 		}
 	}

@@ -28,9 +28,9 @@
 					value="1"
 					' . (($value == '1') ? ' checked="checked"' : '') . '
 					/>
-					<div class="sv_tooltip">?</div>
-					<div class="sv_tooltip_description">' . $description . '</div>
 				</label>
+				<div class="sv_tooltip">?</div>
+				<div class="sv_tooltip_description">' . $description . '</div>
 			';
 		}
 	}
