@@ -15,7 +15,14 @@
 			$this->parent			= $parent;
 		}
 		public function html($ID,$title,$description,$name,$value){
+			if(!empty($description)) {
+				$tooltip = '<div class="sv_tooltip">?</div>
+				<div class="sv_tooltip_description">' . $description . '</div>';
+			} else {
+				$tooltip = '';
+			}
 			$output = '
+				<h4>' . $title . '</h4>
 				<label for="' . $ID . '">
 					<select
 					class="sv_input"
@@ -30,10 +37,7 @@
 			
 			$output .= '
 					</select>
-				</label>
-				<div class="sv_tooltip">?</div>
-				<div class="sv_tooltip_description">' . $description . '</div>
-			';
+				</label>' . $tooltip;
 			
 			return $output;
 		}

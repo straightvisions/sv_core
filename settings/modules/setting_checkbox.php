@@ -18,8 +18,15 @@
 			return $this->$format($value,$object);
 		}
 		public function html($ID,$title,$description,$name,$value){
+			if(!empty($description)) {
+				$tooltip = '<div class="sv_tooltip">?</div>
+				<div class="sv_tooltip_description">' . $description . '</div>';
+			} else {
+				$tooltip = '';
+			}
 			return '
 				<label for="' . $ID . '" class="sv_checkbox">
+					<h4>' . $title . '</h4>
 					<input
 					class="sv_form_field"
 					id="' . $ID . '"
@@ -28,9 +35,6 @@
 					value="1"
 					' . (($value == '1') ? ' checked="checked"' : '') . '
 					/>
-				</label>
-				<div class="sv_tooltip">?</div>
-				<div class="sv_tooltip_description">' . $description . '</div>
-			';
+				</label>' . $tooltip;
 		}
 	}

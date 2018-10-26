@@ -15,7 +15,13 @@
 			$this->parent			= $parent;
 		}
 		public function html($ID,$title,$description,$name,$value){
-			$output = '<label for="' . $ID . '">';
+			if(!empty($description)) {
+				$tooltip = '<div class="sv_tooltip">?</div>
+				<div class="sv_tooltip_description">' . $description . '</div>';
+			} else {
+				$tooltip = '';
+			}
+			$output = '<h4>' . $title . '</h4><label for="' . $ID . '">';
 			
 			$args		= array(
 				'echo'					=> 0,
@@ -26,7 +32,7 @@
 			);
 			$output	.= wp_dropdown_pages($args);
 
-			$output .= '</label><div class="sv_tooltip">?</div><div class="sv_tooltip_description">' . $description . '</div>';
+			$output .= '</label>' . $tooltip;
 			
 			return $output;
 		}
