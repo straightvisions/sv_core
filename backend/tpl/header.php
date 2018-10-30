@@ -12,6 +12,10 @@
 				<h4>About</h4>
 				<span>General info & description</span>
 			</div>
+			<div data-target="#section_core_docs" class="sv_admin_menu_item section_core_docs">
+				<h4>Core Docs</h4>
+				<span>Instance Core Methods</span>
+			</div>
 			<?php $this->load_section_menu(); ?>
 			<div data-target="#section_legal" class="sv_admin_menu_item section_legal">
 				<h4>Legal</h4>

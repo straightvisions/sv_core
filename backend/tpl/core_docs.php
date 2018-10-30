@@ -1,6 +1,6 @@
 <?php if( current_user_can( 'activate_plugins' ) ) { ?>
-<section id="section_<?php echo $section_name; ?>" class="sv_admin_section">
-	<h1 class="section_title section_instance"><?php echo ucfirst($section['type']) ;?></h1>
+<section id="section_core_docs" class="sv_admin_section">
+	<h1 class="section_title section_core_docs">Core Docs</h1>
 	<div class="section_content">
 		<div class="col-50">
 			<h3 class="divider"><?php _e('get current url', $section['object']->get_module_name()); ?></h3>
