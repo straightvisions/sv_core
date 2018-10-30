@@ -373,6 +373,10 @@ div.sv_admin_menu .sv_admin_menu_item.section_settings:before,
 section.sv_admin_section h1.section_title.section_settings::before{
     content: '\f1de';
 }
+div.sv_admin_menu .sv_admin_menu_item.section_tools:before,
+section.sv_admin_section h1.section_title.section_tools::before{
+    content: '\f552';
+}
 div.sv_admin_menu .sv_admin_menu_item.section_instance::before,
 section.sv_admin_section h1.section_title.section_instance::before,
 section.sv_admin_section div.section_content ul.instance_list a div.instance_type::before {

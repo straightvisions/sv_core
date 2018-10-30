@@ -481,4 +481,14 @@
 				require( $this->get_path_lib_core('backend/tpl/section_'.$section['type'].'.php') );
 			}
 		}
+		public function plugin_action_links($actions) {
+			$links						= array(
+				'settings'				=> '<a href="admin.php?page=' . $this->get_root()->get_prefix() . '">Settings</a>',
+				'straightvisions'		=> '<a href="https://straightvisions.com" target="_blank">straightvisions.com</a>',
+			);
+
+			$actions			        = array_merge($links, $actions);
+
+			return $actions;
+		}
 	}
