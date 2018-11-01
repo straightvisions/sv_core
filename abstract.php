@@ -3,7 +3,7 @@
 	namespace sv_core;
 
 	abstract class sv_abstract{
-		const version_core					= 1004;
+		const version_core					= 1005;
 		
 		protected $name						= false;
 		protected $module_name				= false;
@@ -212,6 +212,9 @@
 				$append			= '_'.$append;
 			}
 			return str_replace($this->get_root()->get_name(),'sv_common',$this->get_name()).$append;
+		}
+		public function get_settings(): array{
+			return $this->s;
 		}
 		public function get_path($suffix='',$check_if_exists=false){
 			if(property_exists($this,'core') &&
