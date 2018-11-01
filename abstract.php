@@ -28,7 +28,7 @@
 		protected $section_template_path	= '';
 		protected $section_title			= false;
 		protected $section_desc				= false;
-		protected $section_type             = false;
+		protected $section_type             = '';
 
 		/**
 		 * @desc			initialize plugin
@@ -403,7 +403,7 @@
 			}
 		}
 		public function add_section($object){
-			if(is_object($object) && $object->get_section_type()) { // @todo: remove this line once sv_bb_dashboard is upgraded
+			if(is_object($object) && !empty($object->get_section_type())) { // @todo: remove this line once sv_bb_dashboard is upgraded
 				$this->sections[$object->get_prefix()] = array(
 					'object'	=> $object,
 					'type'		=> $this->section_types[$object->get_section_type()],
@@ -439,8 +439,8 @@
 		public function set_section_type(string $type){
 			$this->section_type = $type;
 		}
-		public function get_section_type() {
-			return $this->section_type ? $this->section_type : false;
+		public function get_section_type():string {
+			return $this->section_type;
 		}
 		public function get_constant(string $constant_name){
 			return constant(get_class($this).'::'.$constant_name);
