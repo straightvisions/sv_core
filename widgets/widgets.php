@@ -79,7 +79,7 @@ class widgets extends sv_abstract{
 		$new->init();
 		return $new;
 	}
-	public function load(){
+	public function load(): string{
 		$widget_class = new class($this) extends \WP_Widget{
 			private static $widget = false;
 			
@@ -127,5 +127,7 @@ class widgets extends sv_abstract{
 		add_action('widgets_init', function ($widget_class) use ($widget_class) {
 			register_widget(get_class($widget_class));
 		});
+
+		return get_class($widget_class);
 	}
 }
