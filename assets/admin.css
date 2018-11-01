@@ -365,7 +365,9 @@ div.sv_admin_menu .sv_admin_menu_item.section_legal::before,
 section.sv_admin_section h1.section_title.section_legal::before{
     content: '\f24e';
 }
+div.sv_admin_menu .sv_admin_menu_item.section_core_docs::before,
 div.sv_admin_menu .sv_admin_menu_item.section_docs::before,
+section.sv_admin_section h1.section_title.section_core_docs::before,
 section.sv_admin_section h1.section_title.section_docs::before{
     content: '\f02d';
 }
