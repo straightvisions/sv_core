@@ -28,7 +28,7 @@
 		protected $section_template_path	= '';
 		protected $section_title			= false;
 		protected $section_desc				= false;
-
+		protected $section_type             = false;
 
 		/**
 		 * @desc			initialize plugin
@@ -402,15 +402,15 @@
 				echo '</style>';
 			}
 		}
-		public function add_section($object, string $type){
-			if(is_object($object) && !empty($type)) { // @todo: remove this line once sv_bb_dashboard is upgraded
+		public function add_section($object){
+			if(is_object($object) && $object->get_section_type()) { // @todo: remove this line once sv_bb_dashboard is upgraded
 				$this->sections[$object->get_prefix()] = array(
 					'object'	=> $object,
-					'type'		=> $this->section_types[$type],
+					'type'		=> $this->section_types[$object->get_section_type()],
 				);
 				return $object;
 			}else{
-				return $this; // @TO-DO Notification forS SV Notices that the section_type is missing.
+				return $this; // @todo Notification forS SV Notices that the section_type is missing.
 			}
 		}
 		public function get_sections(): array{
@@ -436,6 +436,12 @@
 		public function get_section_desc(): string{
 			return $this->section_desc ? $this->section_desc : __('No description defined.', $this->get_root()->get_prefix());
 		}
+		public function set_section_type(string $type){
+			$this->section_type = $type;
+		}
+		public function get_section_type() {
+			return $this->section_type ? $this->section_type : false;
+		}
 		public function get_constant(string $constant_name){
 			return constant(get_class($this).'::'.$constant_name);
 		}
@@ -444,8 +450,8 @@
 		}
 		public function build_sections(){
 			foreach($this->get_instances() as $name => $instance){
-				$instance->add_section($instance, 'instance');
-				
+				$instance->add_section($instance);
+
 				add_submenu_page(
 					'straightvisions',										// parent slug
 					$instance->get_section_title(),							// page title
@@ -476,12 +482,12 @@
 		}
 		public function load_section_menu(){
 			foreach($this->get_sections() as $section_name => $section) {
-				echo '<div data-target="#section_' . $section_name . '" class="sv_admin_menu_item section_' . $section['type'] . '"><h4>' .  $section['object']->get_section_title() . '</h4><span>' . $this->section_types[$section['type']] . '</span></div>';
+				echo '<div data-target="#section_' . $section_name . '" class="sv_admin_menu_item section_' . $section['object']->get_section_type() . '"><h4>' .  $section['object']->get_section_title() . '</h4><span>' . $this->section_types[$section['object']->get_section_type()] . '</span></div>';
 			}
 		}
 		public function load_section_html(){
 			foreach( $this->get_sections() as $section_name => $section ) {
-				require( $this->get_path_lib_core('backend/tpl/section_'.$section['type'].'.php') );
+				require( $this->get_path_lib_core('backend/tpl/section_'.$section['object']->get_section_type().'.php') );
 			}
 		}
 		public function plugin_action_links($actions) {
