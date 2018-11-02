@@ -33,7 +33,7 @@
 					value="' . esc_attr($value) . '"
 					max="' . $max . '"
 					min="' . $min . '"
-					maxlength="' . $maxlength . '"
+					' . ($maxlength ? 'maxlength="'.$maxlength.'"' :  ''). '"
 					' . $minlength . '
 					' . $required . '
 					' . $disabled . '/>

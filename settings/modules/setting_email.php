@@ -31,7 +31,7 @@
 					type="email"
 					placeholder="'.$placeholder.'"
 					value="' . esc_attr($value) . '"
-					maxlength="' . $maxlength . '"
+					' . ($maxlength ? 'maxlength="'.$maxlength.'"' :  ''). '"
 					' . $minlength . '
 					' . $required . '
 					' . $disabled . '/>

@@ -7,14 +7,14 @@
 		private $parent								= false;
 		private $ID									= false;
 		private $section							= false;
-		private $section_group						= false;
-		private $section_name						= false;
-		private $section_description				= false;
+		private $section_group						= '';
+		private $section_name						= '';
+		private $section_description				= '';
 		private $type								= false;
-		private $title								= false;
-		private $description						= false;
+		private $title								= '';
+		private $description						= '';
 		private $options							= array('No Options defined!');
-		private $placeholder						= false;
+		private $placeholder						= '';
 		private $maxlength						    = false;
 		private $minlength						    = false;
 		private $max	    					    = false;
@@ -25,7 +25,7 @@
 		private $filter								= array();
 		private $loop								= false; // true = unlimited (dynamic) entries, int = amount of entries, false = no loop (default).
 		private $prefix								= 'sv_';
-		protected static $new							= array();
+		protected static $new						= array();
 		
 		/**
 		 * @desc			initialize
