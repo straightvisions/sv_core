@@ -25,6 +25,7 @@
 		private $filter								= array();
 		private $loop								= false; // true = unlimited (dynamic) entries, int = amount of entries, false = no loop (default).
 		private $prefix								= 'sv_';
+		private $data								= false;
 		protected static $new						= array();
 		
 		/**
@@ -241,7 +242,15 @@
 			return $this->disabled;
 		}
 		public function get_data(){
-			return get_option($this->get_field_id());
+			if($this->data){
+				return $this->data;
+			}else {
+				return get_option($this->get_field_id());
+			}
+		}
+		// set data value from external source
+		public function set_data($data){
+			$this->data		= $data;
 		}
 		public function set_callback(array $callback): settings{
 			$this->callback							= $callback;
@@ -296,11 +305,11 @@
 		}
 		
 		/* methods for inheritance */
-		public function default(): string{
+		public function default(bool $title = false): string{
 			if($this->get_parent()->get_callback()){
 				return $this->get_parent()->run_callback($this);
 			}else{
-				return $this->form();
+				return $this->form($title);
 			}
 		}
 		private function init_wp_setting($setting){
@@ -356,7 +365,7 @@
 					$title ? $this->get_parent()->get_title() : '',
 					$this->get_parent()->get_description(),
 					$this->get_field_id(),
-					get_option($this->get_field_id()),
+					$this->get_data(),
 					$this->get_parent()->get_required(),
 					$this->get_parent()->get_disabled(),
 					$this->get_parent()->get_placeholder(),
