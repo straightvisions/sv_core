@@ -55,10 +55,10 @@ class widgets extends sv_abstract{
 	public function get_description(){
 		return $this->description;
 	}
-	public function set_settings($settings){
+	public function set_widget_settings($settings){
 		$this->settings							= $settings;
 	}
-	public function get_settings(){
+	public function get_widget_settings(): array{
 		return $this->settings;
 	}
 	public function set_template_path($path){
@@ -79,7 +79,7 @@ class widgets extends sv_abstract{
 		$new->init();
 		return $new;
 	}
-	public function load(){
+	public function load(): string{
 		$widget_class = new class($this) extends \WP_Widget{
 			private static $widget = false;
 			
@@ -98,7 +98,7 @@ class widgets extends sv_abstract{
 			}
 			public function form($instance){
 				if (static::$widget) {
-					foreach (static::$widget->get_settings() as $setting) {
+					foreach (static::$widget->get_widget_settings() as $setting) {
 						echo $setting->run_type()->widget((isset($instance[$setting->get_ID()]) ? $instance[$setting->get_ID()] : ''), $this);
 					}
 				}
@@ -127,5 +127,7 @@ class widgets extends sv_abstract{
 		add_action('widgets_init', function ($widget_class) use ($widget_class) {
 			register_widget(get_class($widget_class));
 		});
+
+		return get_class($widget_class);
 	}
 }

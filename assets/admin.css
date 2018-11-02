@@ -17,6 +17,13 @@
     font-weight:400;
 }
 
+.sv_wrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0;
+}
+
 /* WP */
 #wpwrap {
     background-color: #FFF;
@@ -25,23 +32,23 @@
     padding: 0 20px !important;
 }
 #wpbody-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0;
+
 }
+/*
 .notice{
     position: fixed !important;
     z-index: 9999999;
     right: 0;
 }
-
+*/
 /* Admin Menu */
 div.sv_admin_menu {
     width: 100%;
     position: -webkit-sticky; /* Safari */
     position: sticky;
     top: 0;
+	background-color: #FFF;
+	z-index: 100;
 }
 div.sv_admin_menu_head {
     border-bottom: 1px solid rgba(43, 45, 48, .1);
@@ -62,6 +69,9 @@ div.sv_admin_menu .sv_admin_menu_item {
     outline: none;
     box-shadow: none;
     background-color: #FFF;
+}
+div.sv_admin_menu .sv_admin_menu_item {
+	padding: 10px 15px;
 }
 div.sv_admin_menu a.sv_admin_brand {
     align-items: center;
@@ -253,6 +263,9 @@ section.sv_admin_section div.section_content code {
     div.sv_admin_menu a.sv_admin_brand {
         padding: 30px 15px;
     }
+	div.sv_admin_menu .sv_admin_menu_item {
+		padding: 15px;
+	}
     div.sv_admin_menu div.sv_admin_mobile_toggle {
         display: none;
     }
@@ -299,7 +312,9 @@ section.sv_admin_section h1.section_title::before,
 section.sv_admin_section div.section_content ul.instance_list a div::before,
 section.sv_admin_section div.section_content ul.instance_list a h1::before,
 section.sv_admin_section div.section_content code::before,
-div.sv_admin_menu div.sv_admin_mobile_toggle::before {
+div.sv_admin_menu div.sv_admin_mobile_toggle::before,
+div.sv_setting_group_add_new_button::before,
+div.sv_setting_group_delete::before {
     font-family: FontAwesomeSolid;
     font-weight: normal;
     font-style: normal;
@@ -350,7 +365,9 @@ div.sv_admin_menu .sv_admin_menu_item.section_legal::before,
 section.sv_admin_section h1.section_title.section_legal::before{
     content: '\f24e';
 }
+div.sv_admin_menu .sv_admin_menu_item.section_core_docs::before,
 div.sv_admin_menu .sv_admin_menu_item.section_docs::before,
+section.sv_admin_section h1.section_title.section_core_docs::before,
 section.sv_admin_section h1.section_title.section_docs::before{
     content: '\f02d';
 }
@@ -358,8 +375,10 @@ div.sv_admin_menu .sv_admin_menu_item.section_settings:before,
 section.sv_admin_section h1.section_title.section_settings::before{
     content: '\f1de';
 }
-div.sv_admin_menu .sv_admin_menu_item.section_instance::before,
-section.sv_admin_section h1.section_title.section_instance::before,
+div.sv_admin_menu .sv_admin_menu_item.section_tools:before,
+section.sv_admin_section h1.section_title.section_tools::before{
+    content: '\f552';
+}
 section.sv_admin_section div.section_content ul.instance_list a div.instance_type::before {
     content: '\f6d1';
 }
@@ -383,6 +402,14 @@ section.sv_admin_section div.section_content ul.instance_list a.disabled div.ins
 }
 section.sv_admin_section div.section_content code::before {
     content: '\f121';
+}
+div.sv_setting_group_add_new_button::before {
+	content: '\f067';
+	margin-right: 10px;
+}
+div.sv_setting_group_delete::before {
+	content: '\f068';
+	margin-right: 5px;
 }
 
 /* Scrollbar */
@@ -421,6 +448,10 @@ section.sv_admin_section div.section_content code::before {
 }
 
 /* ===== Form Inputs ===== */
+/* General */
+.form-table h4 {
+	margin: 10px 0 5px 2px;
+}
 /* Input - Checkbox */
 label.sv_checkbox {
     display: inline-block;
@@ -516,7 +547,8 @@ input.sv_btn,
 button.sv_btn,
 label.sv_file,
 div.sv_setting_group_add_new_button,
-div.sv_setting_group_delete {
+div.sv_setting_group_delete,
+.wp-core-ui p .button {
     color: rgba(43, 45, 48, 1);
     display: block;
     position: relative;
@@ -531,6 +563,15 @@ div.sv_setting_group_delete {
     cursor: pointer;
     margin-bottom: 10px;
     outline: none;
+    text-shadow: none;
+    box-shadow: none;
+    height: auto;
+}
+.wp-core-ui p .button,
+div.sv_setting_group_add_new_button,
+div.sv_setting_group_delete {
+	width: auto;
+	display: inline-block;
 }
 div.sv_setting_group_add_new_button,
 div.sv_setting_group_delete {
@@ -545,9 +586,16 @@ label.sv_file:focus,
 div.sv_setting_group_add_new_button:hover,
 div.sv_setting_group_add_new_button:focus,
 div.sv_setting_group_delete:hover,
-div.sv_setting_group_delete:focus {
+div.sv_setting_group_delete:focus,
+.wp-core-ui p .button:hover,
+.wp-core-ui p .button:focus,
+div.sv_tooltip:hover,
+div.sv_tooltip:focus {
     background-color: rgba(43, 45, 48, 1);
     color: rgba(255, 255, 255, 1);
+    box-shadow: none;
+    border: 2px solid rgba(43, 45, 48, 1);
+    text-shadow: none;
 }
 
 /* Input - Button Group */
@@ -609,14 +657,14 @@ input.sv_input,
 select.sv_input,
 textarea.sv_input {
     color: rgba(43, 45, 48, 1);
-    display: inline-block;
+    display: inline-block !important;
     position: relative;
     line-height: 1;
     border-radius: 0;
     background: rgba(255, 255, 255, 1);
     padding: 15px 20px;
     border: 2px solid rgba(43, 45, 48, .1);
-    width: 100%;
+    width: calc(100% - 60px) !important;
     min-width: 80px;
     text-align: left;
     transition: .3s ease;
@@ -720,41 +768,40 @@ input.sv_color::-webkit-color-swatch {
     border: none;
     background: transparent;
 }
-/* Tooltip */
+
+/* Description (Tooltip) */
 div.sv_tooltip {
-    position: relative;
-    display: inline-block;
+	color: rgba(43, 45, 48, 1);
+	display: inline-block;
+	position: relative;
+	background: rgba(255, 255, 255, 1);
+	border: 2px solid rgba(43, 45, 48, .1);
+	transition: .3s ease;
+	margin-bottom: 10px;
+	text-align: center;
+	max-width: 10%;
+	cursor: pointer;
+	border-radius: 30px;
+	padding: 15px;
+	line-height: 1;
+	margin-left: 5px;
+	height: 15px;
+	width: 15px;
 }
-div.sv_tooltip span.sv_tooltip_icon {
-    border-bottom: 1px dotted rgba(43, 45, 48, 1);
-}
-div.sv_tooltip span.sv_tooltip_text {
-    visibility: hidden;
-    color: rgba(255, 255, 255, 1);
-    font-size: .85rem;
-    background-color: rgba(43, 45, 48, 1);
-    padding: 5px 10px;
-    border-radius: 3px 3px 3px 0;
-    position: absolute;
-    z-index: 1;
-    left: 0;
+div.sv_tooltip_description {
+	background-color: rgba(43, 45, 48, 1);
+	color: #FFF;
+	max-width: calc(90% - 40px);
+	padding: 0;
+	font-style: italic;
+	height: 0;
+	transition: .3s ease;
+	margin-left: 1px;
+	margin-bottom: 5px;
     opacity: 0;
-    transition: .3s ease;
-    width: 200px;
-    bottom: 125%;
-    display: inline-block;
 }
-div.sv_tooltip span.sv_tooltip_text::after {
-    clip-path: polygon(0 0, 0% 100%, 100% 0);
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 100%;
-    background-color: rgba(43, 45, 48, 1);
-    height: 8px;
-    width: 8px;
-}
-div.sv_tooltip:hover span.sv_tooltip_text {
-    visibility: visible;
+div.sv_tooltip_description.open {
+	height: auto;
+	padding: 15px 20px;
     opacity: 1;
 }

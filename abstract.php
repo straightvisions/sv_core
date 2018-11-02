@@ -3,7 +3,7 @@
 	namespace sv_core;
 
 	abstract class sv_abstract{
-		const version_core					= 1004;
+		const version_core					= 1005;
 		
 		protected $name						= false;
 		protected $module_name				= false;
@@ -21,7 +21,6 @@
 		protected static $url_core			= false;
 		protected $sections					= array();
 		protected $section_types			= array(
-			'instance'						=> 'Instance Core Methods',
 			'settings'						=> 'Configuration &amp; Settings',
 			'tools'							=> 'Helpful tools &amp; helper',
 			'docs'							=> 'Complete Documentation'
@@ -29,7 +28,7 @@
 		protected $section_template_path	= '';
 		protected $section_title			= false;
 		protected $section_desc				= false;
-
+		protected $section_type             = '';
 
 		/**
 		 * @desc			initialize plugin
@@ -213,6 +212,9 @@
 				$append			= '_'.$append;
 			}
 			return str_replace($this->get_root()->get_name(),'sv_common',$this->get_name()).$append;
+		}
+		public function get_settings(): array{
+			return $this->s;
 		}
 		public function get_path($suffix='',$check_if_exists=false){
 			if(property_exists($this,'core') &&
@@ -400,15 +402,15 @@
 				echo '</style>';
 			}
 		}
-		public function add_section($object, string $type = 'docs'){
-			if(is_object($object)) { // @todo: remove this line once sv_bb_dashboard is upgraded
+		public function add_section($object){
+			if(is_object($object) && !empty($object->get_section_type())) { // @todo: remove this line once sv_bb_dashboard is upgraded
 				$this->sections[$object->get_prefix()] = array(
 					'object'	=> $object,
-					'type'		=> isset($this->section_types[$type]) ? $type : 'docs'
+					'type'		=> $this->section_types[$object->get_section_type()],
 				);
 				return $object;
 			}else{
-				return $this;
+				return $this; // @todo Notification forS SV Notices that the section_type is missing.
 			}
 		}
 		public function get_sections(): array{
@@ -434,6 +436,12 @@
 		public function get_section_desc(): string{
 			return $this->section_desc ? $this->section_desc : __('No description defined.', $this->get_root()->get_prefix());
 		}
+		public function set_section_type(string $type){
+			$this->section_type = $type;
+		}
+		public function get_section_type():string {
+			return $this->section_type;
+		}
 		public function get_constant(string $constant_name){
 			return constant(get_class($this).'::'.$constant_name);
 		}
@@ -442,17 +450,17 @@
 		}
 		public function build_sections(){
 			foreach($this->get_instances() as $name => $instance){
-				$instance->add_section($instance, 'instance');
-				
+				$instance->add_section($instance);
+
 				add_submenu_page(
 					'straightvisions',										// parent slug
-					$instance->get_section_title(),														// page title
-					$instance->get_section_title(),														// menu title
-					'manage_options',														// capability
-					$instance->get_prefix(),										// menu slug
-					function() use($instance){
+					$instance->get_section_title(),							// page title
+					$instance->get_section_title(),							// menu title
+					'manage_options',										// capability
+					$instance->get_prefix(),							    // menu slug
+					function() use($instance){                              // callable function
 						$instance->load_page();
-					}	// callable function
+					}
 				);
 				
 				add_action('admin_enqueue_scripts', array($instance,'admin_enqueue_scripts'));
@@ -467,18 +475,29 @@
 			$this->get_root()->acp_style();
 			require_once($this->get_path_lib_core('backend/tpl/header.php'));
 			require_once(strlen($custom_about_path) > 0 ? $custom_about_path : $this->get_path_lib_core('backend/tpl/about.php'));
+			require_once($this->get_path_lib_core('backend/tpl/core_docs.php'));
 			$this->load_section_html();
 			require_once($this->get_path_lib_core('backend/tpl/legal.php'));
 			require_once($this->get_path_lib_core('backend/tpl/footer.php'));
 		}
 		public function load_section_menu(){
 			foreach($this->get_sections() as $section_name => $section) {
-				echo '<div data-target="#section_' . $section_name . '" class="sv_admin_menu_item section_' . $section['type'] . '"><h4>' . ($section['type'] == 'instance' ? 'Core Docs' : $section['object']->get_section_title()) . '</h4><span>' . $this->section_types[$section['type']] . '</span></div>';
+				echo '<div data-target="#section_' . $section_name . '" class="sv_admin_menu_item section_' . $section['object']->get_section_type() . '"><h4>' .  $section['object']->get_section_title() . '</h4><span>' . $this->section_types[$section['object']->get_section_type()] . '</span></div>';
 			}
 		}
 		public function load_section_html(){
 			foreach( $this->get_sections() as $section_name => $section ) {
-				require( $this->get_path_lib_core('backend/tpl/section_'.$section['type'].'.php') );
+				require( $this->get_path_lib_core('backend/tpl/section_'.$section['object']->get_section_type().'.php') );
 			}
+		}
+		public function plugin_action_links($actions) {
+			$links						= array(
+				'settings'				=> '<a href="admin.php?page=' . $this->get_root()->get_prefix() . '">Settings</a>',
+				'straightvisions'		=> '<a href="https://straightvisions.com" target="_blank">straightvisions.com</a>',
+			);
+
+			$actions			        = array_merge($links, $actions);
+
+			return $actions;
 		}
 	}

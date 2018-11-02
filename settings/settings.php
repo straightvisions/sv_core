@@ -16,7 +16,7 @@
 		private $options							= array('No Options defined!');
 		private $placeholder						= false;
 		private $callback							= array();
-		private $filter								= false;
+		private $filter								= array();
 		private $loop								= false; // true = unlimited (dynamic) entries, int = amount of entries, false = no loop (default).
 		private $prefix								= 'sv_';
 		protected static $new							= array();
@@ -268,9 +268,13 @@
 				
 				\register_setting(
 					$section,                                            // $option_group, A settings group name.
-					$setting->get_field_id()            // $option_name, The name of an option to sanitize and save.
+					$setting->get_field_id(),            // $option_name, The name of an option to sanitize and save.
+					array('sanitize_callback'	=> array($setting,'field_callback'))
 				);
 			}
+		}
+		public function field_callback($input){
+			return $input;
 		}
 		protected function get_field_id(): string{
 			return $this->get_parent()->get_prefix($this->get_parent()->get_ID());

@@ -15,9 +15,15 @@
 			$this->parent			= $parent;
 		}
 		public function html($ID,$title,$description,$name,$value,$placeholder=''){
+			if(!empty($description)) {
+				$tooltip = '<div class="sv_tooltip">?</div>
+				<div class="sv_tooltip_description">' . $description . '</div>';
+			} else {
+				$tooltip = '';
+			}
 			return '
+				<h4>' . $title . '</h4>
 				<label for="' . $ID . '">
-					<div class="title">'.$title.' <span class="description" title="'.$description.'">(?)</span></div>
 					<input
 					class="sv_input"
 					id="' . $ID . '"
@@ -25,7 +31,6 @@
 					type="number"
 					placeholder="'.$placeholder.'"
 					value="' . esc_attr($value) . '"/>
-				</label>
-			';
+				</label>' . $tooltip;
 		}
 	}
