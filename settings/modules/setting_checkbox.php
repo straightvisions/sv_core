@@ -17,7 +17,7 @@
 		public function get($value,$format,$object){
 			return $this->$format($value,$object);
 		}
-		public function html($ID,$title,$description,$name,$value){
+		public function html($ID, $title, $description, $name, $value, $required){
 			if(!empty($description)) {
 				$tooltip = '<div class="sv_tooltip">?</div>
 				<div class="sv_tooltip_description">' . $description . '</div>';
@@ -34,6 +34,7 @@
 					type="checkbox"
 					value="1"
 					' . (($value == '1') ? ' checked="checked"' : '') . '
+					' . $required . '
 					/>
 				</label>' . $tooltip;
 		}

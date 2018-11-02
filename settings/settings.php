@@ -15,6 +15,11 @@
 		private $description						= false;
 		private $options							= array('No Options defined!');
 		private $placeholder						= false;
+		private $maxlength						    = false;
+		private $minlength						    = false;
+		private $max	    					    = false;
+		private $min    						    = false;
+		private $required  						    = false;
 		private $callback							= array();
 		private $filter								= array();
 		private $loop								= false; // true = unlimited (dynamic) entries, int = amount of entries, false = no loop (default).
@@ -178,6 +183,50 @@
 		public function get_placeholder(): string{
 			return $this->placeholder;
 		}
+		public function set_maxlength( int $maxlength ) {
+			$this->maxlength						= $maxlength;
+
+			return $this;
+		}
+		public function get_maxlength(): int {
+			return $this->maxlength;
+		}
+		public function set_minlength( int $minlength ) {
+			$this->minlength						= 'pattern=".{' . $minlength .',}" title="' . __( "You need at least ", $this->get_name() ) . $minlength . ' characters."'; //@todo Add translation for this message
+
+			return $this;
+		}
+		public function get_minlength(): string {
+			return $this->minlength;
+		}
+		public function set_max( string $max ) {
+			$this->max						= $max;
+
+			return $this;
+		}
+		public function get_max(): string {
+			return $this->max;
+		}
+		public function set_min( string $min ) {
+			$this->min						= $min;
+
+			return $this;
+		}
+		public function get_min(): string {
+			return $this->min;
+		}
+		public function set_required( bool $required ) {
+			if( $required == true ) {
+				$this->required						= 'required';
+			} else {
+				$this->required						= '';
+			}
+
+			return $this;
+		}
+		public function get_required(): string {
+			return $this->required;
+		}
 		public function get_data(){
 			return get_option($this->get_field_id());
 		}
@@ -295,7 +344,12 @@
 					$this->get_parent()->get_description(),
 					$this->get_field_id(),
 					get_option($this->get_field_id()),
-					$this->get_parent()->get_placeholder()
+					$this->get_parent()->get_required(),
+					$this->get_parent()->get_placeholder(),
+					$this->get_parent()->get_maxlength(),
+					$this->get_parent()->get_minlength(),
+					$this->get_parent()->get_max(),
+					$this->get_parent()->get_min()
 				).'</div>';
 		}
 	}
