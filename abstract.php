@@ -213,7 +213,7 @@
 			}
 			return str_replace($this->get_root()->get_name(),'sv_common',$this->get_name()).$append;
 		}
-		public function get_settings(): array{
+		public function get_settings(){
 			return $this->s;
 		}
 		public function get_path($suffix='',$check_if_exists=false){
