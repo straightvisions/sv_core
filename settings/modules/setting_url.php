@@ -14,7 +14,7 @@
 		public function __construct($parent=false){
 			$this->parent			= $parent;
 		}
-		public function html($ID, $title, $description, $name, $value,  $required, $placeholder, $maxlength, $minlength){
+		public function html($ID, $title, $description, $name, $value,  $required, $disabled, $placeholder, $maxlength, $minlength){
 			if(!empty($description)) {
 				$tooltip = '<div class="sv_tooltip">?</div>
 				<div class="sv_tooltip_description">' . $description . '</div>';
@@ -33,7 +33,8 @@
 					value="' . esc_attr($value) . '"
 					maxlength="' . $maxlength . '"
 					' . $minlength . '
-					' . $required . '/>
+					' . $required . '
+					' . $disabled . '/>
 				</label>' . $tooltip;
 		}
 	}

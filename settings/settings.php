@@ -20,6 +20,7 @@
 		private $max	    					    = false;
 		private $min    						    = false;
 		private $required  						    = false;
+		private $disabled  						    = false;
 		private $callback							= array();
 		private $filter								= array();
 		private $loop								= false; // true = unlimited (dynamic) entries, int = amount of entries, false = no loop (default).
@@ -227,6 +228,18 @@
 		public function get_required(): string {
 			return $this->required;
 		}
+		public function set_disabled( bool $disabled ) {
+			if( $disabled == true ) {
+				$this->disabled					= 'disabled';
+			} else {
+				$this->disabled						= '';
+			}
+
+			return $this;
+		}
+		public function get_disabled(): string {
+			return $this->disabled;
+		}
 		public function get_data(){
 			return get_option($this->get_field_id());
 		}
@@ -345,6 +358,7 @@
 					$this->get_field_id(),
 					get_option($this->get_field_id()),
 					$this->get_parent()->get_required(),
+					$this->get_parent()->get_disabled(),
 					$this->get_parent()->get_placeholder(),
 					$this->get_parent()->get_maxlength(),
 					$this->get_parent()->get_minlength(),

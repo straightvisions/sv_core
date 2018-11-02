@@ -683,6 +683,20 @@ textarea.sv_input:focus {
     outline: none;
     box-shadow: none;
 }
+input.sv_input:disabled,
+select.sv_input:disabled,
+textarea.sv_input:disabled {
+    color: rgba(43, 45, 48, .1);
+    cursor: not-allowed;
+}
+input.sv_input:disabled:hover,
+input.sv_input:disabled:focus,
+select.sv_input:disabled:hover,
+select.sv_input:disabled:focus,
+textarea.sv_input:disabled:hover,
+textarea.sv_input:disabled:focus {
+    border-color: rgba(43, 45, 48, .1);
+}
 input.sv_input[type="number"] {
     max-width: 100px;
 }
