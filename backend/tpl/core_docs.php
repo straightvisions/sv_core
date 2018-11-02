@@ -2,6 +2,8 @@
 <section id="section_core_docs" class="sv_admin_section">
 	<h1 class="section_title section_core_docs">Core Docs</h1>
 	<div class="section_content">
+		<h3 class="divider">Description</h3>
+		<p>A detailed documentation of all helpful core methods and the returned values, that are used in all our products.</p>
 		<div class="col-50">
 			<h3 class="divider"><?php _e('get current url', $this->get_module_name()); ?></h3>
 			<p><?php _e('URL to current location', $this->get_module_name()); ?></p>

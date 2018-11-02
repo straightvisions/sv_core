@@ -170,13 +170,13 @@ section.sv_admin_section div.section_content ul.instance_list a {
     text-decoration: none;
     transition: .3s ease;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: auto 1fr auto;
     grid-template-areas:
-            'instance_title instance_title instance_title'
-            'instance_desc instance_desc instance_desc'
-            'instance_type instance_version instance_status'
-            'instance_msg instance_msg instance_msg';
+            'instance_title instance_title instance_title instance_title instance_title'
+            'instance_desc instance_desc instance_desc instance_desc instance_desc'
+            'instance_type instance_version instance_version_core instance_version_core_match instance_status'
+            'instance_msg instance_msg instance_msg instance_msg instance_msg';
     grid-column-gap: 10px;
     grid-row-gap: 10px;
     word-break: break-word;
@@ -203,14 +203,23 @@ section.sv_admin_section div.section_content ul.instance_list a p.instance_desc 
 }
 section.sv_admin_section div.section_content ul.instance_list a div.instance_type {
     grid-area: instance_type;
+    text-align: center;
 }
 section.sv_admin_section div.section_content ul.instance_list a div.instance_version {
     grid-area: instance_version;
     text-align: center;
 }
+section.sv_admin_section div.section_content ul.instance_list a div.instance_version_core {
+    grid-area: instance_version_core;
+    text-align: center;
+}
+section.sv_admin_section div.section_content ul.instance_list a div.instance_version_core_match {
+    grid-area: instance_version_core_match;
+    text-align: center;
+}
 section.sv_admin_section div.section_content ul.instance_list a div.instance_status {
     grid-area: instance_status;
-    text-align: right;
+    text-align: center;
     color: rgba(78, 212, 103, 1);
 }
 section.sv_admin_section div.section_content ul.instance_list a.disabled div.instance_status {
@@ -385,6 +394,12 @@ section.sv_admin_section div.section_content ul.instance_list a div.instance_typ
 section.sv_admin_section div.section_content ul.instance_list a div.instance_version::before {
     content: '\f135';
 }
+section.sv_admin_section div.section_content ul.instance_list a div.instance_version_core::before {
+    content: '\f5d2';
+}
+section.sv_admin_section div.section_content ul.instance_list a div.instance_version_core_match::before {
+    content: '\f2b5';
+}
 section.sv_admin_section div.section_content ul.instance_list a div.instance_status::before {
     content: '\f058';
 }
@@ -557,7 +572,7 @@ div.sv_setting_group_delete,
     background: rgba(255, 255, 255, 1);
     padding: 15px 20px;
     border: 2px solid rgba(43, 45, 48, 1);
-    width: 100%;
+    width: auto;
     text-align: center;
     transition: .5s ease;
     cursor: pointer;
@@ -567,10 +582,8 @@ div.sv_setting_group_delete,
     box-shadow: none;
     height: auto;
 }
-.wp-core-ui p .button,
 div.sv_setting_group_add_new_button,
 div.sv_setting_group_delete {
-	width: auto;
 	display: inline-block;
 }
 div.sv_setting_group_add_new_button,

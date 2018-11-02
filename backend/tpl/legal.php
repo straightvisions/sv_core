@@ -1,9 +1,29 @@
 <?php if( current_user_can( 'activate_plugins' ) ) { ?>
 	<section id="section_legal" class="sv_admin_section">
-		<h1 class="section_title section_legal">Legal</h1>
+		<h1 class="section_title section_legal">Legal Information</h1>
 		<div class="section_content">
-			<h3 class="divider">Copyright</h3>
-			<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+			<h3 class="divider">General Information</h3>
+			<ul class="info_list">
+				<li>Project Leader: <span>Matthias Reuter</span></li>
+				<li>Project Leader Website: <span><a href="https://straightvisions.com" target="_blank">straightvisions.com</a></span></li>
+			</ul>
+			<h3 class="divider">License</h3>
+			<p>
+				This program is free software:<br>
+				You can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.<br><br>
+
+				This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.<br>
+				See the GNU General Public License for more details.<br><br>
+
+				You should have received a copy of the GNU General Public License along with this program.<br>
+				If not, see <a href="http://www.gnu.org/licenses/" target="_blank">http://www.gnu.org/licenses/</a>.
+			</p>
+
+			<h3 class="divider">Privacy Statement</h3>
+			<p>
+				This plugin does not collect or share any data from clients or visitors.<br>
+				This plugin connects to the server from <a href="https://www.provenexpert.com/de-de/" target="_blank">www.provenexpert.com</a> and only sends the given API ID and API Key, to recieve the rating for the user.
+			</p>
 		</div>
 	</section>
 <?php }

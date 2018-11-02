@@ -18,7 +18,7 @@
 			</div>
 			<?php $this->load_section_menu(); ?>
 			<div data-target="#section_legal" class="sv_admin_menu_item section_legal">
-				<h4>Legal</h4>
+				<h4>Legal Information</h4>
 				<span>Copyright & Usage</span>
 			</div>
 		</div>
