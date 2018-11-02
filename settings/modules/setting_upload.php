@@ -35,7 +35,7 @@
 				</label>' . $tooltip;
 		}
 		public function field_callback($input){
-			if(isset($_FILES[$this->get_parent()->get_prefix($this->get_parent()->get_ID())])) {
+			if(intval($_FILES[$this->get_parent()->get_prefix($this->get_parent()->get_ID())]['size']) > 0) {
 				// remove old attachment
 				wp_delete_attachment($this->get_data(), true);
 				
@@ -60,6 +60,6 @@
 				return $input;
 			}
 			
-			return $input;
+			return $this->get_data();
 		}
 	}
