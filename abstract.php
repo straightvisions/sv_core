@@ -19,6 +19,7 @@
 		private static $instances_active	= array();
 		protected static $path_core			= false;
 		protected static $url_core			= false;
+		protected $curl_handler             = false;
 		protected $sections					= array();
 		protected $section_types			= array(
 			'settings'						=> 'Configuration &amp; Settings',
@@ -73,6 +74,9 @@
 		}
 		public function set_root($root){
 			$this->root								= $root;
+		}
+		public function get_previous_version(): int {
+			return intval(get_option($this->get_prefix('version')));
 		}
 		public function get_version(bool $formatted=false){
 			if(defined(get_called_class().'::version')){
@@ -180,6 +184,9 @@
 		}
 		public function plugins_loaded(){
 			load_plugin_textdomain($this->get_name(), false, basename($this->get_path()).'/languages');
+		}
+		public function update_routine() {
+			update_option($this->get_prefix('version'), $this->get_version());
 		}
 		protected function init(){
 
@@ -499,5 +506,69 @@
 			$actions			        = array_merge($links, $actions);
 
 			return $actions;
+		}
+		// CURL Methods
+		public function set_curl_handler() {
+			if( function_exists( 'curl_init' ) && !$this->curl_handler ) {
+				$this->curl_handler     = curl_init();
+			} else {
+				//@todo Add Error Message to Notices
+			}
+
+			return $this;
+		}
+		public function set_curl_timeout( int $timeout ) {
+			if( $this->curl_handler ) {
+				curl_setopt( $this->curl_handler, CURLOPT_TIMEOUT, $timeout );
+			} else {
+				$this->set_curl_handler()->set_curl_timeout( $timeout );
+			}
+
+			return $this;
+		}
+		public function set_curl_returntransfer( bool $bool ) {
+			if( $this->curl_handler ) {
+				curl_setopt( $this->curl_handler, CURLOPT_RETURNTRANSFER, $bool );
+			} else {
+				$this->set_curl_handler()->set_curl_returntransfer( $bool );
+			}
+
+			return $this;
+		}
+		public function set_curl_ssl_verifypeer( bool $bool ) {
+			if( $this->curl_handler ) {
+				curl_setopt( $this->curl_handler, CURLOPT_SSL_VERIFYPEER, $bool );
+			} else {
+				$this->set_curl_handler()->set_curl_verifypeer( $bool );
+			}
+
+			return $this;
+		}
+		public function set_curl_url( string $url ) {
+			if( $this->curl_handler ) {
+				curl_setopt( $this->curl_handler, CURLOPT_SSL_VERIFYPEER, $url );
+			} else {
+				$this->set_curl_handler()->set_curl_url( $url );
+			}
+
+			return $this;
+		}
+		public function set_curl_userpwd( string $userpwd ) {
+			if( $this->curl_handler ) {
+				curl_setopt( $this->curl_handler, CURLOPT_USERPWD, $userpwd );
+			} else {
+				$this->set_curl_handler()->set_curl_userpwd( $userpwd );
+			}
+
+			return $this;
+		}
+		public function set_curl_ipresolve( $ipresolve ) {
+			if( $this->curl_handler ) {
+				curl_setopt( $this->curl_handler, CURLOPT_IPRESOLVE, $ipresolve );
+			} else {
+				$this->set_curl_handler()->set_curl_ipresolve( $ipresolve );
+			}
+
+			return $this;
 		}
 	}

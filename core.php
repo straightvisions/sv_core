@@ -71,7 +71,9 @@ if(!class_exists('\sv_core\core')) {
 				add_action('admin_menu', array($this, 'build_sections'), 100);
 
 				add_filter( 'plugin_action_links_' . plugin_basename($path) . '/' . plugin_basename($path) . '.php', array($this, 'plugin_action_links'), 10, 5 );
-				
+
+				add_action('shutdown', array($this, 'update_routine'));
+
 				static::$initialized		= true;
 			}
 

@@ -251,6 +251,13 @@
 		// set data value from external source
 		public function set_data($data){
 			$this->data		= $data;
+
+			return $this;
+		}
+		public function save_option(): bool{
+			return update_option($this->get_field_id(), $this->get_data());
+
+			return $this;
 		}
 		public function set_callback(array $callback): settings{
 			$this->callback							= $callback;
