@@ -546,7 +546,7 @@
 		}
 		public function set_curl_url( string $url ) {
 			if( $this->curl_handler ) {
-				curl_setopt( $this->curl_handler, CURLOPT_SSL_VERIFYPEER, $url );
+				curl_setopt( $this->curl_handler, CURLOPT_URL, $url );
 			} else {
 				$this->set_curl_handler()->set_curl_url( $url );
 			}
