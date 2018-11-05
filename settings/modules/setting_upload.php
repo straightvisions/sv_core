@@ -1,11 +1,10 @@
 <?php
-	
+
 	namespace sv_core;
-	
+
 	class setting_upload extends settings{
 		private $parent				= false;
-		private static $init_once	= false;
-		
+
 		/**
 		 * @desc			initialize
 		 * @author			Matthias Reuter
@@ -15,80 +14,52 @@
 		public function __construct($parent=false){
 			$this->parent			= $parent;
 		}
-		public function get_page_ID(){
-			$blog_page_check        = get_page_by_title($this->get_field_id());
-			
-			if(!isset($blog_page_check->ID)){
-				$blog_page                 = array(
-					'post_type' => 'page',
-					'post_title' => $this->get_field_id(),
-					'post_content' => '',
-					'post_status' => 'private',
-					'post_author' => 0,
-				);
-				return wp_insert_post($blog_page);
-			}else{
-				return $blog_page_check->ID;
+		public function html($ID,$title,$description,$name,$value,$placeholder=''){
+			if(!empty($description)) {
+				$tooltip = '<div class="sv_tooltip">?</div>
+				<div class="sv_tooltip_description">' . $description . '</div>';
+			} else {
+				$tooltip = '';
 			}
-		}
-		public function form($title=false){
-			if(is_admin() && !self::$init_once) {
-				self::$init_once		= true;
-				$post_id                = $this->get_page_ID();
-				wp_enqueue_script('plupload-handlers');
-				
-				ob_start();
-				media_upload_form();
-				$form					= str_replace('"post_id":0', '"post_id":'.$post_id, ob_get_contents());
-				ob_end_clean();
-				
-				if($this->get_parent()->get_filter()) {
-					$allowed_extensions = ' mime_types : [{ title : "Allowed files", extensions : "'.implode(',',$this->get_parent()->get_filter()).'" }],';
-					$form = str_replace('"max_file_size"', $allowed_extensions.'"max_file_size"', $form);
-					$form = str_replace('<input type="file"', '<input type="file" accept=".'.implode(',.',$this->get_parent()->get_filter()).'"', $form);
-				}
-				
-				return '
-                <form enctype="multipart/form-data" method="post" action="'.admin_url('media-new.php').'" class="media-upload-form type-form validate" id="file-form">
-                '.$form.'
-                <p>'.__('Allowed Filetypes:',$this->get_module_name()).' '.
-					(
-					$this->get_parent()->get_filter() ?
-						'.'.implode(',.',$this->get_parent()->get_filter()) :
-						__('all', $this->get_module_name())
-					).'</p>
-                <script>
-                var post_id = '.$post_id.', shortform = 3;
-                </script>
-                <input type="hidden" name="post_id" id="post_id" value="'.$post_id.'" />
-                '.wp_nonce_field('media-form','_wpnonce',true,false).'
-                <div id="media-items" class="hide-if-no-js"></div>
-                </form>
-                ';
-			}else{
-				return __('Multi Upload cannot be implemented more than once on a page.',$this->get_module_name());
-			}
-		}
-		public function get_data(){
-			$post_id                = $this->get_page_ID();
-			$children               = get_children( array('post_parent' => $post_id) );
-			
-			return $children;
-		}
-		public function widget($value,$object){
 			return '
-            <p>
-                <label for="' . $object->get_field_id($this->parent->get_ID()) . '">
-                    '.$this->parent->get_title().'
-                    <input
-                    class="widefat"
-                    id="' . $object->get_field_id($this->parent->get_ID()) . '"
-                    name="' . $object->get_field_name($this->parent->get_ID()) . '"
-                    type="text"
-                    value="' . esc_attr($value) . '"/>
-                    '.$this->parent->get_description().'
-                </label>
-            </p>
-            ';
+				<h4>' . $title . '</h4>
+				<div>' . wp_get_attachment_link($value, 'medium', false, true) . '</div>
+				<label for="' . $ID . '">
+					<input
+					class="sv_file"
+					id="' . $ID . '"
+					name="' . $name . '"
+					type="file"
+					placeholder="'.$placeholder.'"
+					/>
+				</label>' . $tooltip;
+		}
+		public function field_callback($input){
+			if(isset($_FILES[$this->get_parent()->get_prefix($this->get_parent()->get_ID())])) {
+				// remove old attachment
+				wp_delete_attachment($this->get_data(), true);
+				
+				$file		= wp_handle_upload($_FILES[$this->get_parent()->get_prefix($this->get_parent()->get_ID())], array( 'test_form' => false ));
+				
+				$input				= wp_insert_attachment(array(
+					'guid'           => wp_upload_dir()['url'] . '/' . basename( $file['file'] ),
+					'post_mime_type' => $file['type'],
+					'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $file['file'] ) ),
+					'post_content'   => '',
+					'post_status'    => 'inherit',
+				),
+					$file['file']);
+				
+				// Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
+				require_once( ABSPATH . 'wp-admin/includes/image.php' );
+
+				// Generate the metadata for the attachment, and update the database record.
+				$attach_data = wp_generate_attachment_metadata( $input, $file['file'] );
+				wp_update_attachment_metadata( $input, $attach_data );
+				
+				return $input;
+			}
+			
+			return $input;
 		}
 	}

@@ -10,7 +10,7 @@ class info extends sv_abstract{
 	 * @ignore
 	 */
 	public function __construct($ID=false){
-
+	
 	}
 	/**
 	 * @desc			Load's requested libraries dynamicly
@@ -21,9 +21,9 @@ class info extends sv_abstract{
 	 * @ignore
 	 */
 	public function __get(string $name){
-		if($this->get_root()->get_path_lib_core($this->get_module_name().'/modules/'.$name.'.php', true)){ // look for class file in modules directory
+		if($this->get_path_lib_core($this->get_module_name().'/modules/'.$name.'.php', true)){ // look for class file in modules directory
 			if(!class_exists( __NAMESPACE__.'\\'.$name)) {
-				require_once($this->get_root()->get_path_lib_core($this->get_module_name() . '/modules/' . $name . '.php'));
+				require_once($this->get_path_lib_core($this->get_module_name() . '/modules/' . $name . '.php'));
 			}
 			
 			$class_name							= __NAMESPACE__.'\\'.$name;
@@ -34,23 +34,22 @@ class info extends sv_abstract{
 			
 			return $this->$name;
 		}else{
-			throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_root()->get_path_lib_core($this->get_module_name().'/modules/'.$name.'.php').')');
+			throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_path_lib_core($this->get_module_name().'/modules/'.$name.'.php').')');
 		}
 	}
-	protected function init(){
-		add_action('admin_menu', array($this, 'menu'), 1);
-		
-		$this->about->init();
+	public function init(){
+		add_action('admin_menu', array($this, 'menu'), 10);
 	}
 	public function menu(){
-		add_menu_page(
-			__('SV Info',$this->get_name()),
-			__('SV Info',$this->get_name()),
-			'manage_options',
-			$this->get_relative_prefix(),
-			'',
-			$this->get_root()->get_url_lib_section('core','assets','logo_icon.png'),
-			2
+		add_submenu_page(
+			'straightvisions',										// parent slug
+			'Info',														// page title
+			'Info',														// menu title
+			'manage_options',														// capability
+			'straightvisions',										// menu slug
+			function(){
+				$this->load_page($this->get_path_lib_core('info/backend/tpl/about.php'));
+			}	// callable function
 		);
 	}
 }
