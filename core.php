@@ -12,6 +12,7 @@ if(!class_exists('\sv_core\core')) {
 		public static $settings						= false;
 		public static $widgets						= false;
 		public static $info							= false;
+		public static $metabox						= false;
 		public $ajax_fragmented_requests			= false;
 		public static $initialized					= false;
 		
@@ -53,6 +54,12 @@ if(!class_exists('\sv_core\core')) {
 				static::$info->set_root($this->get_root());
 				static::$info->set_parent($this);
 				static::$info->init();
+				
+				require_once('metabox/metabox.php');
+				static::$metabox = new metabox;
+				static::$metabox->set_root($this->get_root());
+				static::$metabox->set_parent($this);
+				static::$metabox->init();
 
 				require_once('ajax_fragmented_requests/ajax_fragmented_requests.php');
 				$this->ajax_fragmented_requests = new ajax_fragmented_requests;
@@ -64,7 +71,9 @@ if(!class_exists('\sv_core\core')) {
 				add_action('admin_menu', array($this, 'build_sections'), 100);
 
 				add_filter( 'plugin_action_links_' . plugin_basename($path) . '/' . plugin_basename($path) . '.php', array($this, 'plugin_action_links'), 10, 5 );
-				
+
+				add_action('shutdown', array($this, 'update_routine'));
+
 				static::$initialized		= true;
 			}
 
