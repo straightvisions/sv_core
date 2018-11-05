@@ -14,7 +14,7 @@
 		public function __construct($parent=false){
 			$this->parent			= $parent;
 		}
-		public function html($ID,$title,$description,$name,$value){
+		public function html($ID, $title, $description, $name, $value, $required, $disabled) {
 			if(!empty($description)) {
 				$tooltip = '<div class="sv_tooltip">?</div>
 				<div class="sv_tooltip_description">' . $description . '</div>';
@@ -27,7 +27,9 @@
 					<textarea style="height:200px;"
 					class="sv_input"
 					id="' . $ID . '"
-					name="' . $name . '">' . esc_attr($value) . '</textarea>
+					name="' . $name . '
+					' . $required . '
+					' . $disabled . '">' . esc_attr($value) . '</textarea>
 				</label>' . $tooltip;
 		}
 	}
