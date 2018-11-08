@@ -56,7 +56,7 @@ class notices extends sv_abstract{
 				'public'						=> false,
 				'exclude_from_search'			=> true,
 				'publicly_queryable'			=> false,
-				'show_ui'						=> true,
+				'show_ui'						=> false,
 				'has_archive'					=> false,
 				'menu_icon'						=> $this->get_url_lib_core('assets/logo_icon.png'),
 				'supports'						=> array('custom-fields'),
