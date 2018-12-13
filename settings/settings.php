@@ -51,6 +51,9 @@
 				$class_name							= __NAMESPACE__.'\\'.$name;
 				
 				$this->$name						= new $class_name($this);
+				$this->$name->set_root($this->get_root());
+				$this->$name->set_parent($this);
+
 				return $this->$name;
 			}else{
 				throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_module_name().'/modules/'.$name.'.php'.')');

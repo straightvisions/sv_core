@@ -41,14 +41,15 @@
     right: 0;
 }
 */
+
 /* Admin Menu */
 div.sv_admin_menu {
     width: 100%;
     position: -webkit-sticky; /* Safari */
     position: sticky;
     top: 0;
-	background-color: #FFF;
-	z-index: 100;
+    background-color: #FFF;
+    z-index: 100;
 }
 div.sv_admin_menu_head {
     border-bottom: 1px solid rgba(43, 45, 48, .1);
@@ -71,7 +72,7 @@ div.sv_admin_menu .sv_admin_menu_item {
     background-color: #FFF;
 }
 div.sv_admin_menu .sv_admin_menu_item {
-	padding: 10px 15px;
+    padding: 10px 15px;
 }
 div.sv_admin_menu a.sv_admin_brand {
     align-items: center;
@@ -257,11 +258,6 @@ section.sv_admin_section div.section_content code {
 }
 
 /* Responsive Breakpoints */
-@media (min-width: 600px) {
-    div.sv_admin_menu {
-        top: 46px
-    }
-}
 @media (min-width: 800px) {
     #wpbody-content {
         flex-direction: row;
@@ -272,9 +268,9 @@ section.sv_admin_section div.section_content code {
     div.sv_admin_menu a.sv_admin_brand {
         padding: 30px 15px;
     }
-	div.sv_admin_menu .sv_admin_menu_item {
-		padding: 15px;
-	}
+    div.sv_admin_menu .sv_admin_menu_item {
+        padding: 15px;
+    }
     div.sv_admin_menu div.sv_admin_mobile_toggle {
         display: none;
     }
@@ -306,9 +302,6 @@ section.sv_admin_section div.section_content code {
     div.sv_admin_menu {
         max-width: 250px;
     }
-    section.sv_admin_section {
-        max-width: 1200px;
-    }
     section.sv_admi_sectionn div.section_content ul.info_list,
     section.sv_admin_section div.section_content ul.instance_list {
         grid-template-columns: 1fr 1fr;
@@ -323,7 +316,9 @@ section.sv_admin_section div.section_content ul.instance_list a h1::before,
 section.sv_admin_section div.section_content code::before,
 div.sv_admin_menu div.sv_admin_mobile_toggle::before,
 div.sv_setting_group_add_new_button::before,
-div.sv_setting_group_delete::before {
+div.sv_setting_group_delete::before,
+div.log_list table td.icon::before,
+div.log_summary table tr:first-child button#logs_filter::before {
     font-family: FontAwesomeSolid;
     font-weight: normal;
     font-style: normal;
@@ -419,12 +414,43 @@ section.sv_admin_section div.section_content code::before {
     content: '\f121';
 }
 div.sv_setting_group_add_new_button::before {
-	content: '\f067';
-	margin-right: 10px;
+    content: '\f067';
+    margin-right: 10px;
 }
 div.sv_setting_group_delete::before {
-	content: '\f068';
-	margin-right: 5px;
+    content: '\f068';
+    margin-right: 5px;
+}
+div.log_list table td.icon.success::before,
+i.fa-check {
+    content: '\f00c';
+    color: rgba( 78, 208, 123, 1 );
+}
+div.log_list table td.icon.info::before,
+i.fa-info {
+    content: '\f129';
+    color: rgba( 52, 172, 245, 1 );
+}
+div.log_list table td.icon.warning::before,
+i.fa-exclamation-triangle {
+    content: '\f071';
+    color: rgba( 255, 183, 14, 1 );
+}
+div.log_list table td.icon.error::before,
+i.fa-times {
+    content: '\f00d';
+    color: rgba( 255, 110, 110, 1);
+}
+div.log_list table td.icon.critical::before,
+i.fa-skull-crossbones {
+    content: '\f714';
+    color: rgba( 173, 122, 236, 1 );
+}
+i.fa-box-open {
+    color: rgba( 200, 200, 200, 1);
+}
+div.log_summary table tr:first-child button#logs_filter::before {
+    content: '\f0b0';
 }
 
 /* Scrollbar */
@@ -465,7 +491,7 @@ div.sv_setting_group_delete::before {
 /* ===== Form Inputs ===== */
 /* General */
 .form-table h4 {
-	margin: 10px 0 5px 2px;
+    margin: 10px 0 5px 2px;
 }
 /* Input - Checkbox */
 label.sv_checkbox {
@@ -584,7 +610,7 @@ div.sv_setting_group_delete,
 }
 div.sv_setting_group_add_new_button,
 div.sv_setting_group_delete {
-	display: inline-block;
+    display: inline-block;
 }
 div.sv_setting_group_add_new_button,
 div.sv_setting_group_delete {
@@ -798,37 +824,239 @@ input.sv_color::-webkit-color-swatch {
 
 /* Description (Tooltip) */
 div.sv_tooltip {
-	color: rgba(43, 45, 48, 1);
-	display: inline-block;
-	position: relative;
-	background: rgba(255, 255, 255, 1);
-	border: 2px solid rgba(43, 45, 48, .1);
-	transition: .3s ease;
-	margin-bottom: 10px;
-	text-align: center;
-	max-width: 10%;
-	cursor: pointer;
-	border-radius: 30px;
-	padding: 15px;
-	line-height: 1;
-	margin-left: 5px;
-	height: 15px;
-	width: 15px;
+    color: rgba(43, 45, 48, 1);
+    display: inline-block;
+    position: relative;
+    background: rgba(255, 255, 255, 1);
+    border: 2px solid rgba(43, 45, 48, .1);
+    transition: .3s ease;
+    margin-bottom: 10px;
+    text-align: center;
+    max-width: 10%;
+    cursor: pointer;
+    border-radius: 30px;
+    padding: 15px;
+    line-height: 1;
+    margin-left: 5px;
+    height: 15px;
+    width: 15px;
 }
 div.sv_tooltip_description {
-	background-color: rgba(43, 45, 48, 1);
-	color: #FFF;
-	max-width: calc(90% - 40px);
-	padding: 0;
-	font-style: italic;
-	height: 0;
-	transition: .3s ease;
-	margin-left: 1px;
-	margin-bottom: 5px;
+    background-color: rgba(43, 45, 48, 1);
+    color: #FFF;
+    max-width: calc(90% - 40px);
+    padding: 0;
+    font-style: italic;
+    height: 0;
+    transition: .3s ease;
+    margin-left: 1px;
+    margin-bottom: 5px;
     opacity: 0;
 }
 div.sv_tooltip_description.open {
-	height: auto;
-	padding: 15px 20px;
+    height: auto;
+    padding: 15px 20px;
     opacity: 1;
+}
+
+/* ===== Module: Log ===== */
+div.sv_log {
+    display: grid;
+    grid-template-columns: auto 1fr 30%;
+    grid-template-areas: 'log_summary log_list log_list';
+    transition: 1s ease;
+    grid-gap: 0;
+}
+div.sv_log table {
+    border-spacing: 0;
+}
+div.sv_log.show_details {
+    grid-template-areas: 'log_summary log_list log_details';
+}
+div.sv_log.show_filter {
+    grid-template-areas: 'log_summary log_list log_filter';
+}
+
+/* Log Summary */
+div.log_summary {
+    background-color: rgba( 43, 45, 48, 1 );
+    grid-area: log_summary;
+}
+div.log_summary table tr {
+    display: grid;
+    grid-template-columns: 40px 40px;
+    text-align: center;
+    color: #FFF;
+    padding: 0 5px;
+    height: 25px;
+    font-weight: 500;
+}
+div.log_summary table tr:first-child {
+    height: 50px;
+    padding: 0;
+    grid-template-columns: 1fr;
+}
+div.log_summary table tr:first-child button#logs_filter,
+div.log_list table tr:first-child th button#logs_delete {
+    background-color: transparent;
+    border: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    color: #FFF;
+    cursor: pointer;
+    outline: none;
+    transition: .3s ease;
+    font-size: 16px;
+}
+div.log_summary table tr:first-child button#logs_filter:hover {
+    background-color: rgba( 63, 65, 68, 1 );
+}
+div.sv_log.show_filter div.log_summary table tr:first-child button#logs_filter::before {
+    content: '\f057';
+}
+
+/* Log List */
+div.log_list {
+    grid-area: log_list;
+}
+div.log_list table {
+    width: 100%;
+}
+div.log_list table tr.log:hover td.icon::before {
+    content: '\f06e';
+    color: rgba( 43, 45, 48, 1 );
+}
+div.log_list table th,
+div.log_list table tr.log td {
+    padding: 0 10px;
+    height: 50px;
+}
+div.log_list table th {
+    text-align: left;
+    background-color: rgba( 43, 45, 48, 1);
+    color: #FFF;
+}
+div.log_list table tr:first-child th:first-child {
+    padding: 0;
+}
+div.log_list table tr:first-child th button#logs_delete {
+    visibility: hidden;
+    opacity: 0;
+    transition: .3s ease;
+}
+div.log_list table tr:first-child th button#logs_delete:hover {
+    background-color: rgba( 255, 110, 110, 1);
+}
+div.log_list table th.icon,
+div.log_list table td.icon {
+    width: 50px;
+}
+div.log_list table th.icon {
+    padding-left: 0;
+}
+div.log_list table th.select,
+div.log_list table td.select {
+    width: 20px;
+}
+div.log_list table th.calls,
+div.log_list table td.calls {
+    width: 40px;
+}
+div.log_list table td.log_details_title {
+    text-align: center;
+    margin: 0;
+}
+div.log_list table tr.log td {
+    border-bottom: 1px solid rgba( 43, 45, 48, .1 );
+    cursor: pointer;
+    transition: .3s ease;
+}
+div.sv_log.show_details div.log_list table tr.log td:last-child,
+div.sv_log.show_filter div.log_list table tr.log td:last-child {
+    border-right: 1px solid rgba( 43, 45, 48, .1 );
+}
+div.log_list table tr:last-child td {
+    border-bottom: 0;
+}
+div.log_list table tr.log:hover td,
+div.log_list table tr.log.active td {
+    background-color: rgba( 52, 172, 245, .1 );
+}
+div.log_list table tr.log.active td.icon::before {
+    content: '\f057';
+    color: rgba( 43, 45, 48, 1 );
+}
+div.log_list table tr.log.active:hover td.icon::before,
+div.sv_log.show_filter div.log_summary table tr:first-child button#logs_filter:hover::before {
+    color: rgba( 255, 110, 110, 1);
+}
+div.log_list table td.icon {
+    font-size: 25px;
+    text-align: center;
+}
+
+/* Log Details */
+div.log_details {
+    grid-area: log_details;
+    display: none;
+}
+div.sv_log.show_details div.log_details {
+    display: block;
+}
+div.log_details table,
+div.log_filter table {
+    display: none;
+    padding: 10px;
+}
+div.log_details table.show {
+    display: table;
+}
+div.log_details h3,
+div.log_filter h3 {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    height: 30px;
+    background-color: rgba(43, 45, 48, 1);
+    color: #FFF;
+    justify-content: center;
+}
+div.log_details table th,
+div.log_details table td {
+    height: 30px;
+}
+div.log_details table th {
+    text-align: left;
+    font-weight: 700;
+    padding-right: 10px;
+    width: 120px;
+}
+div.log_details table td {
+    overflow: auto;
+}
+
+/* Logs Filter */
+div.log_filter {
+    grid-area: log_filter;
+    display: none;
+}
+div.sv_log.show_filter div.log_filter {
+    display: block;
+}
+div.log_filter div.wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 10px;
+}
+div.log_filter div.wrapper label,
+div.log_filter div.wrapper label input,
+div.log_filter div.wrapper div.sv_tooltip_description {
+    margin: 0;
+}
+div.log_filter div.wrapper label input {
+    padding: 10px 15px;
 }
