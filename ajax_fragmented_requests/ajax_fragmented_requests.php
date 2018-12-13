@@ -1,8 +1,8 @@
 <?php
 	/**
-	 * @author			Matthias Reuter
+	 * @author			Matthias Bathke
 	 * @package			sv_bb_dashboard
-	 * @copyright		2018 Matthias Reuter
+	 * @copyright		2018 Matthias Bathke
 	 * @link			https://straightvisions.com/
 	 * @since			1.0
 	 * @license			This is no free software. See license.txt or https://straightvisions.com/

@@ -10,7 +10,7 @@ class log_list extends log {
 	/**
 	 * @desc			initialize actions and filters
 	 * @return	void
-	 * @author			Matthias Reuter
+	 * @author			Matthias Bathke
 	 * @since			1.0
 	 */
 	public function init() {

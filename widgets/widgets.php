@@ -11,7 +11,7 @@ class widgets extends sv_abstract{
 
 	/**
 	 * @desc			initialize
-	 * @author			Matthias Reuter
+	 * @author			Matthias Bathke
 	 * @since			1.0
 	 * @ignore
 	 */
@@ -22,7 +22,7 @@ class widgets extends sv_abstract{
 	 * @desc			Load's requested libraries dynamicly
 	 * @param	string	$name library-name
 	 * @return			class object of the requested library
-	 * @author			Matthias Reuter
+	 * @author			Matthias Bathke
 	 * @since			1.0
 	 * @ignore
 	 */
