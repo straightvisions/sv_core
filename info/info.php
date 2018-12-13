@@ -42,14 +42,14 @@ class info extends sv_abstract{
 	}
 	public function menu(){
 		add_submenu_page(
-			'straightvisions',										// parent slug
-			'Info',														// page title
-			'Info',														// menu title
-			'manage_options',														// capability
-			'straightvisions',										// menu slug
-			function(){
-				$this->load_page($this->get_path_lib_core('info/backend/tpl/about.php'));
-			}	// callable function
+			'straightvisions',				// parent slug
+			'Info',							// page title
+			'Info',							// menu title
+			'manage_options',			    // capability
+			'straightvisions',				// menu slug
+			function() {                    // callable function
+				$this->load_page( $this->get_path_lib_core( 'info/backend/tpl/about.php' ) );
+			}
 		);
 	}
 }
