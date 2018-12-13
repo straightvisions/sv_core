@@ -174,20 +174,18 @@ abstract class sv_abstract {
 	}
 	protected function setup( $name, $file ) {
 		$this->name								= $name;
-
-		if ( get_class( $this ) == 'sv_100\init' ) {
+		
+		if($this->is_theme_instance()) {
 			$this->path							= trailingslashit( get_template_directory() );
 			$this->url							= trailingslashit( get_template_directory_uri() );
 		} else {
 			$this->path							= plugin_dir_path( $file );
 			$this->url							= trailingslashit( plugins_url( '', $this->get_path() . $this->get_name() ) );
+			$this->plugins_loaded();
 		}
 
 		global $wpdb;
-
 		self::$wpdb								= $wpdb;
-
-		add_action( 'init', array( $this, 'plugins_loaded' ) );
 
 		$this->setup_core( $this->path );
 
@@ -211,9 +209,9 @@ abstract class sv_abstract {
 	}
 
 	public function plugins_loaded() {
-		$locale = apply_filters( 'plugin_locale', get_locale(), $this->get_root()->get_prefix() );
-		load_textdomain( $this->get_root()->get_prefix(), trailingslashit( WP_LANG_DIR ) . $this->get_root()->get_prefix() . '/' . $this->get_root()->get_prefix() . '-' . $locale . '.mo' );
-		load_plugin_textdomain( 'sv_provenexpert', false, basename( $this->get_path() ) . '/languages' );
+		if(!$this->is_theme_instance()) {
+			load_plugin_textdomain( $this->get_root()->get_prefix(), false, basename( $this->get_path() ) . '/languages' );
+		}
 	}
 
 	public function update_routine() {
