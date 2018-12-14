@@ -395,7 +395,8 @@
 					$this->get_parent()->get_maxlength(),
 					$this->get_parent()->get_minlength(),
 					$this->get_parent()->get_max(),
-					$this->get_parent()->get_min()
+					$this->get_parent()->get_min(),
+					$this->get_parent()->get_multiple(),
 				).'</div>';
 		}
 	}
