@@ -124,7 +124,7 @@ class widgets extends sv_abstract{
 			}
 		};
 		
-		add_action('widgets_init', function ($widget_class) use ($widget_class) {
+		add_action('widgets_init', function () use ($widget_class) {
 			register_widget(get_class($widget_class));
 		});
 

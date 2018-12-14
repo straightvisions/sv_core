@@ -99,7 +99,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				'straightvisions',
 				'',
 				$this->get_url_lib_core( 'assets/logo_icon.png' ),
-				2
+				100
 			);
 		}
 	}
