@@ -19,6 +19,7 @@
 		private $minlength						    = false;
 		private $max	    					    = false;
 		private $min    						    = false;
+		private $multiple 						    = false;
 		private $required  						    = false;
 		private $disabled  						    = false;
 		private $callback							= array();
@@ -219,6 +220,18 @@
 		}
 		public function get_min(): string {
 			return $this->min;
+		}
+		public function set_multiple( bool $multiple ) {
+			if( $multiple == true ) {
+				$this->multiple					    = 'multiple';
+			} else {
+				$this->multiple					    = '';
+			}
+
+			return $this;
+		}
+		public function get_multiple(): string {
+			return $this->multiple;
 		}
 		public function set_required( bool $required ) {
 			if( $required == true ) {

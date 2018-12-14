@@ -14,7 +14,7 @@
 		public function __construct($parent=false){
 			$this->parent			= $parent;
 		}
-		public function html($ID, $title, $description, $name, $value, $required, $disabled){
+		public function html(string $ID, string $title, string $description, string $name, $value, bool $multiple, bool $required, bool $disabled){
 			if(!empty($description)) {
 				$tooltip = '<div class="sv_tooltip">?</div>
 				<div class="sv_tooltip_description">' . $description . '</div>';
@@ -28,6 +28,7 @@
 					class="sv_input"
 					id="' . $ID . '"
 					name="' . $name . '"
+					' . $multiple . '
 					' . $required . '
 					' . $disabled . '>';
 			
