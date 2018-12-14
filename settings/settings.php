@@ -392,11 +392,11 @@
 					$this->get_parent()->get_required(),
 					$this->get_parent()->get_disabled(),
 					$this->get_parent()->get_placeholder(),
+					$this->get_parent()->get_multiple(),
 					$this->get_parent()->get_maxlength(),
 					$this->get_parent()->get_minlength(),
 					$this->get_parent()->get_max(),
-					$this->get_parent()->get_min(),
-					$this->get_parent()->get_multiple()
+					$this->get_parent()->get_min()
 				).'</div>';
 		}
 	}

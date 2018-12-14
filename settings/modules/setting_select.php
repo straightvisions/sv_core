@@ -15,7 +15,7 @@ class setting_select extends settings{
 		$this->parent			= $parent;
 	}
 
-	public function html( string $ID, string $title, string $description, string $name, $value, string $required, string $disabled, string $multiple ) {
+	public function html( string $ID, string $title, string $description, string $name, $value, string $required, string $disabled, $placeholder, string $multiple ) {
 		if ( ! empty( $description ) ) {
 			$tooltip = '<div class="sv_tooltip">?</div>
 			<div class="sv_tooltip_description">' . $description . '</div>';
@@ -27,7 +27,7 @@ class setting_select extends settings{
 			<h4>' . $title . '</h4>
 			<label for="' . $ID . '">
 				<select
-				class="' . ( empty( $multiple ) ? "sv_input" : "sv_select_multiple" ) . '"
+				class="sv_input"
 				id="' . $ID . '"
 				name="' . $name . '"
 				' . $multiple . '
