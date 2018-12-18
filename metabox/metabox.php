@@ -62,7 +62,7 @@
 		}
 		public function add_meta_boxes(){
 			add_meta_box(
-				$this->get_module_name(),								// Unique ID
+				$this->get_prefix(),								// Unique ID
 				$this->get_title(),		// Title
 				array($this,'post_class_meta_box'),				// Callback function
 				NULL,											// Admin page (or post type)
