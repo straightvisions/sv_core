@@ -7,14 +7,14 @@
 		
 		/**
 		 * @desc			initialize
-		 * @author			Matthias Reuter
+		 * @author			Matthias Bathke
 		 * @since			1.0
 		 * @ignore
 		 */
 		public function __construct($parent=false){
 			$this->parent			= $parent;
 		}
-		public function html($ID, $title, $description, $name, $value,  $required, $disabled, $placeholder, $maxlength, $minlength){
+		public function html($ID, $title, $description, $name, $value,  $required, $disabled, $placeholder, $multiple, $maxlength, $minlength){
 			if(!empty($description)) {
 				$tooltip = '<div class="sv_tooltip">?</div>
 				<div class="sv_tooltip_description">' . $description . '</div>';

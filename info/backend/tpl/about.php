@@ -28,9 +28,9 @@
 					}
 			?>
 			<a href="/wp-admin/admin.php?page=<?php echo $instance->get_name() ?>" class="<?php echo (($this->is_instance_active($instance->get_name())) ? '' : 'disabled'); ?>">
-				<h1 class="instance_title instance_plugin"><?php echo $instance->get_section_title(); ?></h1>
+				<h1 class="instance_title <?php echo $instance->is_theme_instance() ? 'instance_theme' : 'instance_plugin'; ?>"><?php echo $instance->get_section_title(); ?></h1>
 				<p class="instance_desc"><?php echo $instance->get_section_desc(); ?></p>
-				<div class="instance_type">Plugin</div>
+				<div class="instance_type"><?php echo $instance->is_theme_instance() ? 'Theme' : 'Plugin'; ?></div>
 				<div class="instance_version">v<?php echo $instance->get_version( true ); ?></div>
 				<div class="instance_version_core">v<?php echo $instance->get_version_core( true ); ?></div>
 				<div class="instance_version_core_match">v<?php echo $instance->get_version_core_match( true ); ?></div>

@@ -17,7 +17,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 		
 		/**
 		 * @desc        initialize
-		 * @author      Matthias Reuter
+		 * @author      Matthias Bathke
 		 * @since       1.0
 		 * @ignore
 		 */
@@ -99,7 +99,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				'straightvisions',
 				'',
 				$this->get_url_lib_core( 'assets/logo_icon.png' ),
-				2
+				100
 			);
 		}
 	}

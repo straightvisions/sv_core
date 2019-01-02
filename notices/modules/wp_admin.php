@@ -6,7 +6,7 @@
 		private $notice								= false;
 		/**
 		 * @desc			initialize
-		 * @author			Matthias Reuter
+		 * @author			Matthias Bathke
 		 * @since			1.0
 		 * @ignore
 		 */

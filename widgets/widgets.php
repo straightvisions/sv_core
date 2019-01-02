@@ -11,7 +11,7 @@ class widgets extends sv_abstract{
 
 	/**
 	 * @desc			initialize
-	 * @author			Matthias Reuter
+	 * @author			Matthias Bathke
 	 * @since			1.0
 	 * @ignore
 	 */
@@ -22,7 +22,7 @@ class widgets extends sv_abstract{
 	 * @desc			Load's requested libraries dynamicly
 	 * @param	string	$name library-name
 	 * @return			class object of the requested library
-	 * @author			Matthias Reuter
+	 * @author			Matthias Bathke
 	 * @since			1.0
 	 * @ignore
 	 */
@@ -113,7 +113,7 @@ class widgets extends sv_abstract{
 				return $instance;
 			}
 			public function widget( $args, $instance ) {
-				$title = apply_filters( 'widget_title', $instance['title'] );
+				$title = apply_filters( 'widget_title', isset($instance['title']) ? $instance['title'] : '' );
 				
 				echo $args['before_widget'];
 				if ( ! empty( $title ) ) {
@@ -124,7 +124,7 @@ class widgets extends sv_abstract{
 			}
 		};
 		
-		add_action('widgets_init', function ($widget_class) use ($widget_class) {
+		add_action('widgets_init', function () use ($widget_class) {
 			register_widget(get_class($widget_class));
 		});
 

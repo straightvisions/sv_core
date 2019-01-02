@@ -71,16 +71,18 @@ class log extends sv_abstract {
 	}
 
 	public function admin_menu() {
-		add_submenu_page(
-			'straightvisions',				        // parent slug
-			'Log',						            // page title
-			'Log',							        // menu title
-			'manage_options',			            // capability
-			'log',				                    // menu slug
-			function() {                            // callable function
-				$this->load_page( $this->get_path_lib_core('log/backend/tpl/about.php' ) );
-			}
-		);
+		if(defined('WP_DEBUG') && WP_DEBUG === true) {
+			add_submenu_page(
+				'straightvisions',                        // parent slug
+				'Log',                                    // page title
+				'Log',                                    // menu title
+				'manage_options',                        // capability
+				'log',                                    // menu slug
+				function () {                            // callable function
+					$this->load_page( $this->get_path_lib_core( 'log/backend/tpl/about.php' ) );
+				}
+			);
+		}
 	}
 
 	// Getter Methods

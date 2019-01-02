@@ -29,11 +29,12 @@ abstract class sv_abstract {
 	protected $section_template_path	= '';
 	protected $section_title			= false;
 	protected $section_desc				= false;
+	protected $section_privacy			= false;
 	protected $section_type             = '';
 
 	/**
 	 * @desc			initialize plugin
-	 * @author			Matthias Reuter
+	 * @author			Matthias Bathke
 	 * @since			1.0
 	 * @ignore
 	 */
@@ -46,7 +47,7 @@ abstract class sv_abstract {
 	 * @desc			Load's requested libraries dynamicly
 	 * @param	string	$name library-name
 	 * @return			class object of the requested library
-	 * @author			Matthias Reuter
+	 * @author			Matthias Bathke
 	 * @since			1.0
 	 * @ignore
 	 */
@@ -168,22 +169,23 @@ abstract class sv_abstract {
 		return false;
 	}
 
+	public function is_theme_instance(){
+		return get_class( $this->get_root() ) == 'sv_100\init' ? true : false;
+	}
 	protected function setup( $name, $file ) {
 		$this->name								= $name;
-
-		if ( get_class( $this ) == 'sv_100\init' ) {
+		
+		if($this->is_theme_instance()) {
 			$this->path							= trailingslashit( get_template_directory() );
 			$this->url							= trailingslashit( get_template_directory_uri() );
 		} else {
 			$this->path							= plugin_dir_path( $file );
 			$this->url							= trailingslashit( plugins_url( '', $this->get_path() . $this->get_name() ) );
+			$this->plugins_loaded();
 		}
 
 		global $wpdb;
-
 		self::$wpdb								= $wpdb;
-
-		add_action( 'init', array( $this, 'plugins_loaded' ) );
 
 		$this->setup_core( $this->path );
 
@@ -207,7 +209,9 @@ abstract class sv_abstract {
 	}
 
 	public function plugins_loaded() {
-		load_plugin_textdomain( $this->get_name(), false, basename( $this->get_path() ) . '/languages' );
+		if(!$this->is_theme_instance()) {
+			load_plugin_textdomain( $this->get_root()->get_prefix(), false, basename( $this->get_path() ) . '/languages' );
+		}
 	}
 
 	public function update_routine() {
@@ -499,6 +503,13 @@ abstract class sv_abstract {
 	public function get_section_desc(): string {
 		return $this->section_desc ? $this->section_desc : __( 'No description defined.', $this->get_root()->get_prefix() );
 	}
+	public function set_section_privacy( string $section_privacy ) {
+		$this->section_privacy = $section_privacy;
+	}
+	
+	public function get_section_privacy(): string {
+		return $this->section_privacy ? $this->section_privacy : __( 'No privacy statement defined.', $this->get_root()->get_prefix() );
+	}
 
 	public function set_section_type( string $type ) {
 		$this->section_type = $type;
@@ -546,7 +557,10 @@ abstract class sv_abstract {
 
 		require_once( $this->get_path_lib_core( 'backend/tpl/header.php' ) );
 		require_once( strlen( $custom_about_path ) > 0 ? $custom_about_path : $this->get_path_lib_core( 'backend/tpl/about.php' ) );
-		require_once( $this->get_path_lib_core( 'backend/tpl/core_docs.php' ) );
+		
+		if(defined('WP_DEBUG') && WP_DEBUG === true) {
+			require_once( $this->get_path_lib_core( 'backend/tpl/core_docs.php' ) );
+		}
 
 		$this->load_section_html();
 
