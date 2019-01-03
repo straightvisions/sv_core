@@ -390,7 +390,15 @@ class settings extends sv_abstract{
 				$this->get_parent()->get_title(),
 				$this->get_parent()->get_description(),
 				$object->get_field_name($this->get_parent()->get_ID()),
-				$value
+				$value,
+				$this->get_parent()->get_required(),
+				$this->get_parent()->get_disabled(),
+				$this->get_parent()->get_placeholder(),
+				$this->get_parent()->get_multiple(),
+				$this->get_parent()->get_maxlength(),
+				$this->get_parent()->get_minlength(),
+				$this->get_parent()->get_max(),
+				$this->get_parent()->get_min()
 			).'</p>';
 	}
 	public function form(bool $title=false): string{

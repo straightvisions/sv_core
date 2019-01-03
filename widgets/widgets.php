@@ -39,30 +39,35 @@ class widgets extends sv_abstract{
 	}
 	public function set_ID($ID){
 		$this->ID								= $ID;
+		return $this;
 	}
 	public function get_ID(){
 		return $this->ID;
 	}
 	public function set_title($title){
 		$this->title							= $title;
+		return $this;
 	}
 	public function get_title(){
 		return $this->title;
 	}
 	public function set_description($description){
 		$this->description						= $description;
+		return $this;
 	}
 	public function get_description(){
 		return $this->description;
 	}
 	public function set_widget_settings($settings){
 		$this->settings							= $settings;
+		return $this;
 	}
 	public function get_widget_settings(): array{
 		return $this->settings;
 	}
 	public function set_template_path($path){
 		$this->template_path					= $path;
+		return $this;
 	}
 	public function get_template_path(){
 		return $this->template_path;
