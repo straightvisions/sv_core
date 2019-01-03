@@ -4,8 +4,7 @@
 		<div class="section_content">
 			<h3 class="divider">General Information</h3>
 			<ul class="info_list">
-				<li>Project Leader: <span>Matthias Reuter</span></li>
-				<li>Project Leader Website: <span><a href="https://straightvisions.com" target="_blank">straightvisions.com</a></span></li>
+				<li>Project Website: <span><a href="https://straightvisions.com" target="_blank">straightvisions.com</a></span></li>
 			</ul>
 			<h3 class="divider">License</h3>
 			<p>
@@ -20,10 +19,7 @@
 			</p>
 
 			<h3 class="divider">Privacy Statement</h3>
-			<p>
-				This plugin does not collect or share any data from clients or visitors.<br>
-				This plugin connects to the server from <a href="https://www.provenexpert.com/de-de/" target="_blank">www.provenexpert.com</a> and only sends the given API ID and API Key, to recieve the rating for the user.
-			</p>
+			<?php echo $this->get_section_privacy(); ?>
 		</div>
 	</section>
 <?php }

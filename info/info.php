@@ -5,18 +5,22 @@ namespace sv_core;
 class info extends sv_abstract{
 	/**
 	 * @desc			initialize
-	 * @author			Matthias Reuter
+	 * @author			Matthias Bathke
 	 * @since			1.0
 	 * @ignore
 	 */
 	public function __construct($ID=false){
-	
+		$this->set_section_title('SV Core');
+		$this->set_section_desc('Our core framework is included in all recent plugins and themes by straightvisions.');
+		$this->set_section_privacy('<p>
+				'.$this->get_section_title().' does not collect or share any data from clients or visitors.<br />
+			</p>');
 	}
 	/**
 	 * @desc			Load's requested libraries dynamicly
 	 * @param	string	$name library-name
 	 * @return			class object of the requested library
-	 * @author			Matthias Reuter
+	 * @author			Matthias Bathke
 	 * @since			1.0
 	 * @ignore
 	 */

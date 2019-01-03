@@ -6,7 +6,7 @@
 
 		/**
 		 * @desc			initialize
-		 * @author			Matthias Reuter
+		 * @author			Matthias Bathke
 		 * @since			1.5
 		 * @ignore
 		 */
