@@ -8,6 +8,7 @@ class widgets extends sv_abstract{
 	private $description						= false;
 	private $settings							= false;
 	public $core								= false;
+	static $scripts_loaded		                = false;
 
 	/**
 	 * @desc			initialize
@@ -16,7 +17,7 @@ class widgets extends sv_abstract{
 	 * @ignore
 	 */
 	public function __construct(){
-	
+
 	}
 	/**
 	 * @desc			Load's requested libraries dynamicly
@@ -101,20 +102,26 @@ class widgets extends sv_abstract{
 					)
 				);
 			}
-			public function form($instance){
+			public function form( $instance ) {
 				if (static::$widget) {
+					if(!static::$widget::$scripts_loaded) {
+						static::$widget->get_parent()->admin_enqueue_scripts('toplevel_page_straightvisions');
+						static::$widget->get_root()->acp_style();
+						static::$widget::$scripts_loaded		= true;
+					}
+
 					foreach (static::$widget->get_widget_settings() as $setting) {
-						echo $setting->run_type()->widget((isset($instance[$setting->get_ID()]) ? $instance[$setting->get_ID()] : ''), $this);
+						echo $setting->run_type()->widget( ( isset ( $instance[ $setting->get_ID() ] ) ? $instance[ $setting->get_ID() ] : $setting->run_type()->get_default_value() ), $this );
 					}
 				}
 			}
 			public function update($new_instance, $old_instance){
 				$instance = array();
-				
+
 				foreach ($new_instance as $name => $field) {
 					$instance[$name] = (!empty($new_instance[$name])) ? strip_tags($new_instance[$name]) : '';
 				}
-				
+
 				return $instance;
 			}
 			public function widget( $args, $instance ) {
