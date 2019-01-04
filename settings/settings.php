@@ -28,6 +28,7 @@ class settings extends sv_abstract{
 	private $prefix								= 'sv_';
 	private $data								= false;
 	private $default_value						= false;
+	private $radio_style                        = false;
 	protected static $new						= array();
 
 	/**
@@ -68,6 +69,7 @@ class settings extends sv_abstract{
 		$new->prefix							= $parent->get_prefix().'_';
 		$new->set_root($parent->get_root());
 		$new->set_parent($parent);
+		$new->set_radio_style( 'radio' );
 
 		return $new;
 	}
@@ -266,6 +268,17 @@ class settings extends sv_abstract{
 	public function get_disabled(): string {
 		return $this->disabled;
 	}
+
+	public function get_radio_style(): string {
+		return $this->radio_style;
+	}
+
+	public function set_radio_style( string $style ) {
+		$this->radio_style            = $style;
+
+		return $this;
+	}
+
 	public function get_data(){
 		if($this->data){
 			return $this->data;
@@ -385,7 +398,7 @@ class settings extends sv_abstract{
 		return $this->get_parent()->get_prefix($this->get_parent()->get_ID());
 	}
 	public function widget(string $value, $object): string{
-		return '<p>'.$this->html(
+		return $this->html(
 				$object->get_field_id($this->get_parent()->get_ID()),
 				$this->get_parent()->get_title(),
 				$this->get_parent()->get_description(),
@@ -398,8 +411,9 @@ class settings extends sv_abstract{
 				$this->get_parent()->get_maxlength(),
 				$this->get_parent()->get_minlength(),
 				$this->get_parent()->get_max(),
-				$this->get_parent()->get_min()
-			).'</p>';
+				$this->get_parent()->get_min(),
+				$this->get_parent()->get_radio_style()
+			);
 	}
 	public function form(bool $title=false): string{
 		return '<div>'.$this->html(
@@ -415,7 +429,8 @@ class settings extends sv_abstract{
 				$this->get_parent()->get_maxlength(),
 				$this->get_parent()->get_minlength(),
 				$this->get_parent()->get_max(),
-				$this->get_parent()->get_min()
+				$this->get_parent()->get_min(),
+				$this->get_parent()->get_radio_style()
 			).'</div>';
 	}
 }

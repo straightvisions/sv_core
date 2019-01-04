@@ -495,9 +495,10 @@ div.log_summary table tr:first-child button#logs_filter::before {
 }
 /* Input - Checkbox */
 label.sv_checkbox {
-    display: inline-block;
+    display: block;
 }
-label.sv_checkbox input[type="checkbox"] {
+label.sv_checkbox input[type="checkbox"],
+label.sv_radio.checkbox input[type="radio"] {
     position: relative;
     width: 45px;
     height: 25px;
@@ -509,8 +510,10 @@ label.sv_checkbox input[type="checkbox"] {
     transition: .2s;
     cursor: pointer;
     margin: 0;
+    box-shadow: none;
 }
-label.sv_checkbox input[type="checkbox"]::before {
+label.sv_checkbox input[type="checkbox"]::before,
+label.sv_radio.checkbox input[type="radio"]::before {
     content: '';
     position: absolute;
     width: 23px;
@@ -535,11 +538,13 @@ label.sv_checkbox input[type="checkbox"]:checked + .desc::before  {
     content: 'On';
     color: rgba(43, 45, 48, 1);
 }
-label.sv_checkbox input[type="checkbox"]:checked {
+label.sv_checkbox input[type="checkbox"]:checked,
+label.sv_radio.checkbox input[type="radio"]:checked {
     background-color: rgba(43, 45, 48, 1);
     border-color: rgba(43, 45, 48, 1);
 }
-label.sv_checkbox input[type="checkbox"]:checked::before {
+label.sv_checkbox input[type="checkbox"]:checked::before,
+label.sv_radio.checkbox input[type="radio"]:checked::before {
     left: 19px;
     outline: none;
     margin: 0;
@@ -551,9 +556,6 @@ label.sv_radio {
     align-items: center;
     margin-bottom: 5px;
     cursor: pointer;
-}
-label.sv_radio .desc {
-    margin-left: 5px;
 }
 label.sv_radio input[type="radio"] {
     position: relative;
@@ -581,6 +583,56 @@ label.sv_radio input[type="radio"]::before {
 }
 label.sv_radio input[type="radio"]:checked::before {
     transform: scale(.75);
+    margin: 0;
+}
+label.sv_radio .name {
+    margin-left: 4px;
+}
+
+/* Radio - Checkbox Style */
+.sv_radio-checkbox-wrapper {
+    padding: 1em 0 1.5em 0;
+}
+label.sv_radio.checkbox {
+    margin-bottom: 0;
+}
+label.sv_radio.checkbox .wrapper {
+    position: absolute;
+}
+label.sv_radio.checkbox input[type="radio"] {
+    z-index: 100;
+}
+label.sv_radio.checkbox input[type="radio"]:checked {
+    z-index: 0;
+    border-color: transparent;
+}
+label.sv_radio.checkbox input[type="radio"]::before {
+    transform: scale(.9);
+    background-color: rgba(255, 255, 255, 1);
+}
+label.sv_radio.checkbox input[type="radio"].off {
+    background-color: transparent;
+}
+label.sv_radio.checkbox input[type="radio"].on {
+    background-color: rgb(233, 234, 234);
+}
+label.sv_radio.checkbox input[type="radio"].off:checked {
+    background-color: rgba(43, 45, 48, .1);
+}
+label.sv_radio.checkbox input[type="radio"].off::before {
+    opacity: 0;
+}
+label.sv_radio.checkbox input[type="radio"].off:checked::before {
+    opacity: 1;
+}
+label.sv_radio.checkbox input[type="radio"].on:checked {
+    background-color: rgba(43, 45, 48, 1);
+}
+label.sv_radio.checkbox input[type="radio"] + .name {
+    display: none;
+}
+label.sv_radio.checkbox input[type="radio"]:checked + .name {
+    display: inline-block;
 }
 
 /* Input - Buttons */
