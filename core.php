@@ -7,6 +7,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 	
 	class core extends sv_abstract {
 		public static $log                  = false;
+		public static $notices				= false;
 		public static $settings				= false;
 		public static $curl	    			= false;
 		public static $widgets				= false;
