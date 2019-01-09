@@ -24,6 +24,11 @@ jQuery(document).ready(function(){
 	sv_admin_load_page(window.location.hash);
 });
 
+/* Input - Radio checkbox style */
+jQuery(document).on('click', '.sv_radio.checkbox', function() {
+
+});
+
 /* Description (Tooltip) */
 jQuery(document).on('click', '.sv_tooltip', function() {
 	jQuery(this).next().toggleClass('open');

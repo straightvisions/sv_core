@@ -7,6 +7,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 	
 	class core extends sv_abstract {
 		public static $log                  = false;
+		public static $notices				= false;
 		public static $settings				= false;
 		public static $curl	    			= false;
 		public static $widgets				= false;
@@ -42,7 +43,13 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				static::$log = new log;
 				static::$log->set_root( $this->get_root() );
 				static::$log->set_parent( $this );
-
+				
+				require_once( 'notices/notices.php' );
+				
+				static::$notices = new notices;
+				static::$notices->set_root( $this->get_root() );
+				static::$notices->set_parent( $this );
+				
 				require_once( 'curl/curl.php' );
 
 				static::$curl = new curl;

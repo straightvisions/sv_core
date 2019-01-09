@@ -455,7 +455,7 @@ abstract class sv_abstract {
 
 	public function acp_style( $hook = false ) {
 		if ( !$hook || $hook == 'sv-100_page_' . $this->get_module_name() ) {
-			echo '<style>';
+			echo '<style data-id="sv_admin_css">';
 			require_once( $this->get_path_lib_core( 'assets/admin.css' ) );
 			echo '</style>';
 		}
