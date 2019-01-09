@@ -227,9 +227,7 @@ abstract class sv_abstract {
 	}
 
 	public function get_name() {
-		if ( property_exists( $this, 'core' ) ) { // todo: check if core is still needed
-			return $this->core->name;
-		} else if ( $this->name ) { // if name is set, use it
+		if ( $this->name ) { // if name is set, use it
 			return $this->name;
 		} else if ( $this != $this->get_parent() ) { // if there's a parent, go a step higher
 			return $this->get_parent()->get_name() . '_' . $this->get_module_name();
