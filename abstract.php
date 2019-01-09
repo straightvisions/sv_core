@@ -225,7 +225,10 @@ abstract class sv_abstract {
 	protected function start() {
 
 	}
-
+	
+	public function set_name(string $name) {
+		$this->name		= $name;
+	}
 	public function get_name() {
 		if ( $this->name ) { // if name is set, use it
 			return $this->name;
@@ -259,11 +262,12 @@ abstract class sv_abstract {
 	public function get_settings(): array {
 		return $this->s;
 	}
-
+	
+	public function set_path(string $path) {
+		$this->path	= $path;
+	}
 	public function get_path( $suffix = '', $check_if_exists = false ) {
-		if ( property_exists( $this, 'core' ) && get_class( $this->core ) != 'sv_100\init' ) { // todo: check if core is still needed
-			$path	= $this->core->path;
-		} else if ( $this->path ) { // if path is set, use it
+		if ( $this->path ) { // if path is set, use it
 			$path	= $this->path;
 		} else if ( $this != $this->get_parent() ) { // if there's a parent, go a step higher
 			$path	= $this->get_parent()->get_path();
@@ -289,7 +293,10 @@ abstract class sv_abstract {
 			}
 		}
 	}
-
+	
+	public function set_url(string $url) {
+		$this->url	= $url;
+	}
 	public function get_url( $suffix = '', $check_if_exists = false ) {
 		if ( $this->url ) { // if url is set, use it
 			$url	= $this->url;
