@@ -28,7 +28,7 @@ class settings extends sv_abstract{
 	private $prefix								= 'sv_';
 	private $data								= false;
 	private $default_value						= false;
-	private $radio_style                        = false;
+	private $radio_style                        = 'radio';
 	protected static $new						= array();
 
 	/**
@@ -69,7 +69,6 @@ class settings extends sv_abstract{
 		$new->prefix							= $parent->get_prefix().'_';
 		$new->set_root($parent->get_root());
 		$new->set_parent($parent);
-		$new->set_radio_style( 'radio' );
 
 		return $new;
 	}
