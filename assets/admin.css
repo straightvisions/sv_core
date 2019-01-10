@@ -679,9 +679,7 @@ div.sv_setting_group_add_new_button:focus,
 div.sv_setting_group_delete:hover,
 div.sv_setting_group_delete:focus,
 .wp-core-ui p .button:hover,
-.wp-core-ui p .button:focus,
-div.sv_tooltip:hover,
-div.sv_tooltip:focus {
+.wp-core-ui p .button:focus {
     background-color: rgba(43, 45, 48, 1);
     color: rgba(255, 255, 255, 1);
     box-shadow: none;
@@ -876,39 +874,38 @@ input.sv_color::-webkit-color-swatch {
 
 /* Description (Tooltip) */
 div.sv_tooltip {
-    color: rgba(43, 45, 48, 1);
     display: inline-block;
-    position: relative;
-    background: rgba(255, 255, 255, 1);
-    border: 2px solid rgba(43, 45, 48, .1);
-    transition: .3s ease;
-    margin-bottom: 10px;
-    text-align: center;
-    max-width: 10%;
+    transition: .25s ease;
     cursor: pointer;
-    border-radius: 30px;
-    padding: 10px;
     line-height: 1;
     margin-left: 5px;
-    height: 15px;
-    width: 15px;
+    height: auto;
+    width: auto;
+    color: rgba(43, 45, 48, .5);
+}
+div.sv_tooltip::before {
+    font-size: 28px;
+}
+
+div.sv_tooltip:hover,
+div.sv_tooltip:focus {
+    color: rgba(43, 45, 48, 1);
 }
 div.sv_tooltip_description {
     background-color: rgba(43, 45, 48, 1);
     color: #FFF;
-    max-width: calc(90% - 40px);
     padding: 0;
     font-style: italic;
     height: 0;
-    transition: .3s ease;
-    margin-left: 1px;
-    margin-bottom: 5px;
+    transition: .25s ease;
     opacity: 0;
+    border-radius: 5px;
 }
 div.sv_tooltip_description.open {
     height: auto;
     padding: 10px 15px;
     opacity: 1;
+    margin-top: 5px;
 }
 
 /* ===== Module: Log ===== */

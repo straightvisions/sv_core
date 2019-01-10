@@ -16,7 +16,7 @@
 		}
 		public function html($ID, $title, $description, $name, $value, $required, $disabled) {
 			if(!empty($description)) {
-				$tooltip = '<div class="sv_tooltip">?</div>
+				$tooltip = '<div class="sv_tooltip dashicons dashicons-info"></div>
 				<div class="sv_tooltip_description">' . $description . '</div>';
 			} else {
 				$tooltip = '';

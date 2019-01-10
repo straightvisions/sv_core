@@ -21,7 +21,7 @@ class setting_radio extends settings{
 
 	public function html( string $ID, string $title, string $description, string $name, $value, string $required, string $disabled, $placeholder, string $multiple, $maxlength, $minlength, $max, $min, $radio_style ) {
 		if(!empty($description)) {
-			$tooltip = '<div class="sv_tooltip">?</div>
+			$tooltip = '<div class="sv_tooltip dashicons dashicons-info"></div>
 				<div class="sv_tooltip_description">' . $description . '</div>';
 		} else {
 			$tooltip = '';
