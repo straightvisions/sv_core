@@ -33,7 +33,7 @@
 			foreach($this->get_scripts() as $script){
 				switch ($script->get_type()) {
 					case 'css':
-						if($this->get_inline()){
+						if($script->get_inline()){
 							echo '<style data-sv_100_module="'.$script->get_handle().'">';
 							require_once($script->get_source()['path']);
 							echo '</style>';
