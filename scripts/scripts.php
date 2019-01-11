@@ -12,7 +12,7 @@ class scripts extends sv_abstract {
 	private $deps								= array();
 	private $no_prefix							= false;
 	private $is_loaded							= false;
-	private $is_backend                         = false; //@todo: Review Changes for backend script support
+	private $is_backend                         = false;
 
 	// CSS specific
 	private $media								= 'all';
@@ -20,14 +20,13 @@ class scripts extends sv_abstract {
 
 	public function __construct() {
 		add_action( 'wp_footer', array( $this, 'wp_footer' ), 1 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'wp_footer' ), 1 ); //@todo: Review Changes for backend script support
+		add_action( 'admin_enqueue_scripts', array( $this, 'wp_footer' ), 1 );
 	}
 
 	public function get_scripts(): array {
 		return self::$scripts;
 	}
 
-	//@todo: Review Changes for backend script support
 	public function wp_footer() {
 		foreach ( $this->get_scripts() as $script ) {
 			if ( is_admin() ) {
@@ -40,7 +39,6 @@ class scripts extends sv_abstract {
 		}
 	}
 
-	//@todo: Review Changes for backend script support
 	public function add_script( scripts $script ) {
 		if ( ! $script->get_is_loaded() ) {
 			switch ( $script->get_type() ) {
@@ -133,13 +131,13 @@ class scripts extends sv_abstract {
 		return $this->type;
 	}
 
-	public function set_is_backend(): scripts { //@todo: Review Changes for backend script support
+	public function set_is_backend(): scripts {
 		$this->is_backend						= true;
 
 		return $this;
 	}
 
-	public function get_is_backend(): bool { //@todo: Review Changes for backend script support
+	public function get_is_backend(): bool {
 		return $this->is_backend;
 	}
 
