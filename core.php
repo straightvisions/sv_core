@@ -82,6 +82,8 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				$this->ajax_fragmented_requests->set_root( $this->get_root() );
 				$this->ajax_fragmented_requests->set_parent( $this );
 				$this->ajax_fragmented_requests->init();
+
+				add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 				
 				add_action( 'admin_menu', array( $this, 'menu' ), 1 );
 				add_action( 'admin_menu', array( $this , 'build_sections' ), 100 );

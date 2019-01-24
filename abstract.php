@@ -541,8 +541,6 @@ abstract class sv_abstract {
 					$instance->load_page();
 				}
 			);
-
-			add_action( 'admin_enqueue_scripts', array( $instance, 'admin_enqueue_scripts' ) );
 		}
 	}
 
