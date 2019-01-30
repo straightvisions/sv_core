@@ -101,13 +101,13 @@ class widgets extends sv_abstract{
 }
 
 class sv_widget extends \WP_Widget{
-	protected static $widget		= false;
+	protected static $sv;
 	
 	public function set_class($widget){
-		static::$widget		 = $widget;
+		static::$sv		 = $widget;
 	}
 	public function get_class(){
-		return static::$widget;
+		return static::$sv;
 	}
 	public function __construct($widget=false){
 		if($widget){
