@@ -26,7 +26,7 @@
 				<div>' . wp_get_attachment_link($value, 'medium', false, true) . '</div>
 				<label for="' . $ID . '">
 					<input
-					class="sv_file"
+					class="sv_form_field sv_file"
 					id="' . $ID . '"
 					name="' . $name . '"
 					type="file"

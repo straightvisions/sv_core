@@ -25,7 +25,7 @@
 				<h4>' . $title . '</h4>
 				<label for="' . $ID . '">
 					<textarea style="height:200px;"
-					class="sv_input"
+					class="sv_form_field sv_input"
 					id="' . $ID . '"
 					name="' . $name . '
 					' . $required . '
