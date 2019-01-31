@@ -23,13 +23,14 @@
 			}
 			return '
 				<h4>' . $title . '</h4>
-				<label for="' . $ID . '">
+				<label for="' . $ID . '" class="sv_label">
 					<textarea style="height:200px;"
 					class="sv_input"
 					id="' . $ID . '"
 					name="' . $name . '
 					' . $required . '
 					' . $disabled . '">' . esc_attr($value) . '</textarea>
-				</label>' . $tooltip;
+					'  . $tooltip . '
+				</label>';
 		}
 	}

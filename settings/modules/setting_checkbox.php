@@ -25,8 +25,9 @@
 				$tooltip = '';
 			}
 			return '
+			<div class="sv_checkbox-wrapper">
 				<label for="' . $ID . '" class="sv_checkbox">
-					<h4>' . $title . '</h4>
+					' . (  $title ? '<h4>' .  $title . '</h4>' : '') . '
 					<input
 					class="sv_form_field"
 					id="' . $ID . '"
@@ -37,6 +38,8 @@
 					' . $required . '
 					' . $disabled . '
 					/>
-				</label>' . $tooltip;
+				</label>
+				' . $tooltip . '
+			</div>';
 		}
 	}

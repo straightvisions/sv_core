@@ -21,7 +21,7 @@
 			} else {
 				$tooltip = '';
 			}
-			$output = '<h4>' . $title . '</h4><label for="' . $ID . '">';
+			$output = '<h4>' . $title . '</h4><label for="' . $ID . '" class="sv_label">';
 			
 			$args		= array(
 				'echo'					=> 0,
@@ -32,7 +32,7 @@
 			);
 			$output	.= wp_dropdown_pages($args);
 
-			$output .= '</label>' . $tooltip;
+			$output .= $tooltip . '</label>';
 			
 			return $output;
 		}

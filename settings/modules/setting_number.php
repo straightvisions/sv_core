@@ -23,7 +23,7 @@
 			}
 			return '
 				<h4>' . $title . '</h4>
-				<label for="' . $ID . '">
+				<label for="' . $ID . '" class="sv_label">
 					<input
 					class="sv_input"
 					id="' . $ID . '"
@@ -37,6 +37,7 @@
 					' . $minlength . '
 					' . $required . '
 					' . $disabled . '/>
-				</label>' . $tooltip;
+					'  . $tooltip . '
+				</label>';
 		}
 	}

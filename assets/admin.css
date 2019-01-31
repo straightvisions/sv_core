@@ -133,6 +133,7 @@ section.sv_admin_section h1.section_title {
     display: flex;
     align-items: center;
     background-color: #FFF;
+    line-height: 1;
 }
 section.sv_admin_section div.section_content {
     padding: 20px 0;
@@ -268,13 +269,6 @@ section.sv_admin_section div.section_content code {
     div.sv_admin_menu .sv_admin_menu_item {
         padding: 15px;
     }
-    div.sv_admin_menu div.sv_admin_mobile_toggle {
-        display: none;
-    }
-    div#sv_admin_menu_body {
-        opacity: 1;
-        display: block;
-    }
     div.sv_admin_menu .sv_admin_menu_item:last-child {
         border-bottom: 0;
     }
@@ -292,12 +286,19 @@ section.sv_admin_section div.section_content code {
     }
 }
 @media (min-width: 1200px) {
+    div.sv_admin_menu div.sv_admin_mobile_toggle {
+        display: none;
+    }
+    div#sv_admin_menu_body {
+        opacity: 1;
+        display: block;
+    }
     .sv_wrapper {
         flex-direction: row;
     }
 
     div.sv_admin_menu {
-        max-width: 25%;
+        max-width: 300px;
     }
     section.sv_admin_section {
         border-left: 1px solid rgba(43, 45, 48, .1);
@@ -426,10 +427,6 @@ div.sv_setting_group_add_new_button::before {
     content: '\f067';
     margin-right: 10px;
 }
-div.sv_setting_group_delete::before {
-    content: '\f068';
-    margin-right: 5px;
-}
 div.log_list table td.icon.success::before,
 i.fa-check {
     content: '\f00c';
@@ -476,7 +473,7 @@ div.log_summary table tr:first-child button#logs_filter::before {
     border: 0;
     border-radius: 0;
 }
-::-webkit-scrollbar-thumb:hover {
+::-webkit-crollbar-thumb:hover {
     background: rgba(43, 45, 48, .1);
 }
 ::-webkit-scrollbar-thumb:active {
@@ -502,7 +499,26 @@ div.log_summary table tr:first-child button#logs_filter::before {
 .form-table h4 {
     margin: 10px 0 5px 2px;
 }
+
+.form-table td,
+.form-table th {
+    padding: 0;
+    vertical-align: top;
+}
+
+label.sv_label {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
 /* Input - Checkbox */
+div.sv_checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
 label.sv_checkbox {
     /* display: block; Disabled to check*/
 }
@@ -645,6 +661,10 @@ label.sv_radio.checkbox input[type="radio"]:checked + .name {
 }
 
 /* Input - Buttons */
+#plupload-browse-button {
+    margin: 0 auto;
+}
+
 input.sv_btn,
 button.sv_btn,
 label.sv_file,
@@ -655,7 +675,6 @@ div.sv_setting_group_delete,
     display: block;
     position: relative;
     line-height: 1;
-    border-radius: 0;
     background: rgba(255, 255, 255, 1);
     padding: 10px 15px;
     border: 2px solid rgba(43, 45, 48, 1);
@@ -668,6 +687,7 @@ div.sv_setting_group_delete,
     text-shadow: none;
     box-shadow: none;
     height: auto;
+    border-radius: 5px;
 }
 div.sv_setting_group_add_new_button,
 div.sv_setting_group_delete {
@@ -758,18 +778,19 @@ textarea.sv_input {
     display: inline-block !important;
     position: relative;
     line-height: 1;
-    border-radius: 0;
     background: rgba(255, 255, 255, 1);
-    padding: 10px 15px;
     border: 2px solid rgba(43, 45, 48, .1);
     width: calc(100% - 60px) !important;
     min-width: 80px;
     text-align: left;
     transition: .3s ease;
     outline: none;
-    margin-bottom: 10px;
     box-shadow: none;
-    height: auto;
+    height: 40px;
+    padding: 10px;
+    flex-grow: 2;
+    border-radius: 5px;
+    margin: 0;
 }
 input.sv_input:hover,
 input.sv_input:focus,
@@ -883,17 +904,19 @@ input.sv_color::-webkit-color-swatch {
 
 /* Description (Tooltip) */
 div.sv_tooltip {
-    display: inline-block;
     transition: .25s ease;
     cursor: pointer;
     line-height: 1;
-    margin-left: 5px;
-    height: auto;
-    width: auto;
     color: rgba(43, 45, 48, .5);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
 }
 div.sv_tooltip::before {
-    font-size: 28px;
+    font-size: 30px;
 }
 
 div.sv_tooltip:hover,
@@ -905,17 +928,67 @@ div.sv_tooltip_description {
     color: #FFF;
     padding: 0;
     font-style: italic;
-    height: 0;
-    transition: .25s ease;
+    transition: opacity .25s ease, height .25s ease;
     opacity: 0;
     border-radius: 5px;
+    width: 0;
+    height: 0;
 }
 div.sv_tooltip_description.open {
     height: auto;
-    padding: 10px 15px;
+    padding: 10px;
     opacity: 1;
     margin-top: 5px;
+    width: calc(100% - 60px);
 }
+div.sv_checkbox-wrapper div.sv_tooltip_description.open {
+    margin: 0;
+    width: 100%;
+}
+
+/* Settings Group */
+div.sv_100_sv_woocommerce_settings_setting_group_item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-bottom: 10px;
+}
+div.sv_setting_group_header {
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+div.sv_setting_group_header h4 {
+    flex-grow: 2;
+    border-bottom: 2px solid rgba( 43, 45, 48, 1);
+    margin: 0;
+    line-height: 1.5;
+}
+div.sv_setting_group_delete {
+    padding: 0;
+    border: none;
+    margin: 0;
+    width: 40px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+div.sv_setting_group_delete:hover {
+    background-color: transparent;
+    border: 0;
+    color: rgba( 255, 110, 110, 1);
+}
+div.sv_setting_group_delete i {
+    font-size: 20px;
+}
+div.sv_100_sv_woocommerce_settings_setting_group_item div.sv_setting_group_input {
+    flex-grow: 2;
+}
+div.sv_100_sv_woocommerce_settings_setting_group_item .sv_input {
+    margin-bottom: 0;
+}
+
 
 /* ===== Module: Log ===== */
 div.sv_log {

@@ -25,7 +25,7 @@ class setting_select extends settings{
 
 		$output = '
 			<h4>' . $title . '</h4>
-			<label for="' . $ID . '">
+			<label for="' . $ID . '" class="sv_label">
 				<select
 				class="sv_input"
 				id="' . $ID . '"
@@ -42,7 +42,8 @@ class setting_select extends settings{
 
 		$output .= '
 				</select>
-			</label>' . $tooltip;
+				'  . $tooltip . '
+			</label>';
 
 		return $output;
 	}

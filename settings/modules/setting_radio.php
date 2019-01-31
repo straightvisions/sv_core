@@ -28,7 +28,7 @@ class setting_radio extends settings{
 		}
 
 		if ( $radio_style == 'checkbox' ) {
-			$output = '<h4>' . $title . '</h4><div class="sv_radio-checkbox-wrapper">';
+			$output = (  $title ? '<h4>' .  $title . '</h4>' : '') . '<div class="sv_radio-checkbox-wrapper">';
 
 			foreach( $this->get_parent()->get_options() as $o_value => $o_name ) {
 				$output .=
@@ -47,26 +47,27 @@ class setting_radio extends settings{
 				</label>';
 			}
 
-			$output .= '</div>' . $tooltip;
+			$output .= $tooltip . '</div>';
 		} else {
-			$output = '<h4>' . $title . '</h4>';
+			$output = (  $title ? '<h4>' .  $title . '</h4>' : '');
 
 			foreach( $this->get_parent()->get_options() as $o_value => $o_name ) {
 				$output .=
-					'<label for="' . $ID . '" class="sv_radio">
-					<input
-						name="' . $name . '"
-						type="radio"
-						class="' . ( ( $o_value < 1 ) ? 'off' : 'on' ) . '"
-						value="' . $o_value . '"
-						' . $disabled . '
-						' . ( ( $o_value == $value ) ? ' checked="checked" ' : '' ) . '
-					/>
-					<span class="name">' . $o_name . '</span>
-				</label>';
+				'<div class="sv_radio-wrapper">
+					<label for="' . $ID . '" class="sv_radio">
+						<input
+							name="' . $name . '"
+							type="radio"
+							class="' . ( ( $o_value < 1 ) ? 'off' : 'on' ) . '"
+							value="' . $o_value . '"
+							' . $disabled . '
+							' . ( ( $o_value == $value ) ? ' checked="checked" ' : '' ) . '
+						/>
+						<span class="name">' . $o_name . '</span>
+					</label>
+					' . $tooltip . '
+				</div>';
 			}
-
-			$output .= $tooltip;
 		}
 
 		return $output;

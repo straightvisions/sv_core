@@ -24,7 +24,7 @@
 			return '
 				<h4>' . $title . '</h4>
 				<div>' . wp_get_attachment_link($value, 'medium', false, true) . '</div>
-				<label for="' . $ID . '">
+				<label for="' . $ID . '" class="sv_label">
 					<input
 					class="sv_file"
 					id="' . $ID . '"
@@ -33,7 +33,8 @@
 					placeholder="'.$placeholder.'"
 					' . $disabled . '
 					/>
-				</label>' . $tooltip;
+					'  . $tooltip . '
+				</label>';
 		}
 		public function field_callback($input){
 			if(intval($_FILES[$this->get_parent()->get_prefix($this->get_parent()->get_ID())]['size']) > 0) {
