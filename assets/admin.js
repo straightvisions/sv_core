@@ -84,3 +84,8 @@ jQuery( document ).on( 'click', 'div.log_summary button#logs_filter', function()
 	jQuery( 'div.log_details table' ).removeClass( 'show' );
 	jQuery( 'div.sv_log' ).toggleClass( 'show_filter' );
 });
+
+/* set form referer for redirect to current subpage on submit */
+jQuery( document ).on('submit', 'section.sv_admin_section form', function(e){
+	jQuery(this).find('input[name="_wp_http_referer"]').val(jQuery(location).attr('href'));
+});
