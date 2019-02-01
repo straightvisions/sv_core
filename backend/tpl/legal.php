@@ -1,6 +1,10 @@
 <?php if( current_user_can( 'activate_plugins' ) ) { ?>
 	<section id="section_legal" class="sv_admin_section">
-		<h1 class="section_title section_legal">Legal Information</h1>
+		<div class="section_head section_legal">
+			<div class="textbox">
+				<h1 class="section_title">Legal Information</h1>
+			</div>
+		</div>
 		<div class="section_content">
 			<h3 class="divider">General Information</h3>
 			<ul class="info_list">

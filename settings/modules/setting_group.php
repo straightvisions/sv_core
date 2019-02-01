@@ -39,7 +39,7 @@
 				}
 			}
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_add_new">';
-			$output[]				= '<div class="sv_'.$this->get_module_name().'_add_new_button">'.__('Add Group',$this->get_module_name()).'</div>';
+			$output[]				= '<div class="sv_'.$this->get_module_name().'_add_new_button button">'.__('Add Group',$this->get_module_name()).'</div>';
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_new_entries"></div>';
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_new_draft" style="display:none;">'.$this->html_field($i).'</div>';
 			$output[]				= '</div>';

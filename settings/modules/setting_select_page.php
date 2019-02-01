@@ -15,24 +15,17 @@
 			$this->parent			= $parent;
 		}
 		public function html($ID, $title, $description, $name, $value){
-			if(!empty($description)) {
-				$tooltip = '<div class="sv_tooltip dashicons dashicons-info"></div>
-				<div class="sv_tooltip_description">' . $description . '</div>';
-			} else {
-				$tooltip = '';
-			}
-			$output = '<h4>' . $title . '</h4><label for="' . $ID . '" class="sv_label">';
+			$output = '<h4>' . $title . '</h4><div class="description">' . $description . '</div><label for="' . $ID . '"v>';
 			
 			$args		= array(
 				'echo'					=> 0,
 				'selected'				=> $value,
 				'name'					=> $name,
-				'class'					=> 'sv_input',
 				'show_option_none'		=> __('No Page selected',$this->get_module_name())
 			);
 			$output	.= wp_dropdown_pages($args);
 
-			$output .= $tooltip . '</label>';
+			$output .= '</label>';
 			
 			return $output;
 		}

@@ -197,7 +197,7 @@ class settings extends sv_abstract{
 		return $this;
 	}
 	public function get_placeholder(): string{
-		return $this->placeholder;
+		return ( $this->placeholder ? $this->placeholder : $this->title );
 	}
 	public function set_maxlength( int $maxlength ) {
 		$this->maxlength						= $maxlength;
@@ -415,9 +415,9 @@ class settings extends sv_abstract{
 			);
 	}
 	public function form(bool $title=false): string{
-		return '<div>'.$this->html(
+		return '<div class="sv_setting">'.$this->html(
 				$this->get_field_id(),
-				$title ? $this->get_parent()->get_title() : '',
+				$this->get_parent()->get_title(),
 				$this->get_parent()->get_description(),
 				$this->get_field_id(),
 				$this->get_data(),

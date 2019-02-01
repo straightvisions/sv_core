@@ -18,28 +18,19 @@
 			return $this->$format($value,$object);
 		}
 		public function html($ID, $title, $description, $name, $value, $required, $disabled){
-			if(!empty($description)) {
-				$tooltip = '<div class="sv_tooltip dashicons dashicons-info"></div>
-				<div class="sv_tooltip_description">' . $description . '</div>';
-			} else {
-				$tooltip = '';
-			}
 			return '
-			<div class="sv_checkbox-wrapper">
-				<label for="' . $ID . '" class="sv_checkbox">
-					' . (  $title ? '<h4>' .  $title . '</h4>' : '') . '
-					<input
-					class="sv_form_field"
-					id="' . $ID . '"
-					name="' . $name . '"
-					type="checkbox"
-					value="1"
-					' . (($value == '1') ? ' checked="checked"' : '') . '
-					' . $required . '
-					' . $disabled . '
-					/>
-				</label>
-				' . $tooltip . '
-			</div>';
+			<h4>' . $title . '</h4>
+			<div class="description">' . $description . '</div>
+			<label for="' . $ID . '" class="checkbox">
+				<input
+				id="' . $ID . '"
+				name="' . $name . '"
+				type="checkbox"
+				value="1"
+				' . (($value == '1') ? ' checked="checked"' : '') . '
+				' . $required . '
+				' . $disabled . '
+				/>
+			</label>';
 		}
 	}

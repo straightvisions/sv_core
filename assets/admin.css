@@ -1,326 +1,368 @@
+/* ==== Imports ===================================================================================================== */
 @import url('<?php echo $this->get_url_lib_core('assets/fonts/all.min.css'); ?>');
+/* ===/ Imports ===================================================================================================== */
 
-/* ===== Dashboard ===== */
+/* ==== Fonts ======================================================================================================= */
 @font-face {
-    font-family: FontAwesomeBrands;
-    src: url('<?php echo $this->get_url_lib_core('assets/fonts/fa-brands-400.woff'); ?>');
-    font-weight:400;
-}
-@font-face {
-    font-family: FontAwesomeSolid;
-    src: url('<?php echo $this->get_url_lib_core('assets/fonts/fa-solid-900.woff'); ?>');
-    font-weight:400;
-}
-@font-face {
-    font-family: FontAwesomeRegular;
-    src: url('<?php echo $this->get_url_lib_core('assets/fonts/fa-regular-400.woff'); ?>');
-    font-weight:400;
+	font-family: FontAwesomeBrands;
+	src: url('<?php echo $this->get_url_lib_core('assets/fonts/fa-brands-400.woff'); ?>');
+	font-weight:400;
 }
 
-.sv_wrapper{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0;
+@font-face {
+	font-family: FontAwesomeSolid;
+	src: url('<?php echo $this->get_url_lib_core('assets/fonts/fa-solid-900.woff'); ?>');
+	font-weight:400;
 }
 
-/* WP */
+@font-face {
+	font-family: FontAwesomeRegular;
+	src: url('<?php echo $this->get_url_lib_core('assets/fonts/fa-regular-400.woff'); ?>');
+	font-weight:400;
+}
+/* ===/ Fonts ======================================================================================================= */
+
+/* ==== Scrollbar =================================================================================================== */
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-button {
+	width: 0;
+	height: 0;
+}
+
+::-webkit-scrollbar-thumb {
+	background: rgba(43, 45, 48, .1);
+	border: 0;
+	border-radius: 0;
+}
+
+::-webkit-crollbar-thumb:hover {
+	background: rgba(43, 45, 48, .1);
+}
+
+::-webkit-scrollbar-thumb:active {
+	background: rgba(43, 45, 48, .1);
+}
+
+::-webkit-scrollbar-track {
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+}
+
+::-webkit-scrollbar-track:hover {
+	background: transparent;
+}
+
+::-webkit-scrollbar-track:active {
+	background: transparent;
+}
+
+::-webkit-scrollbar-corner {
+	background: transparent;
+}
+/* ===/ Scrollbar =================================================================================================== */
+
+/* ==== WordPress =================================================================================================== */
 #wpwrap {
-    background-color: #FFF;
+	background-color: #FFF;
 }
+
 #wpcontent {
-    padding: 0 20px !important;
+	padding: 0 20px !important;
 }
-#wpbody-content {
+/* ===/ WordPress =================================================================================================== */
 
+/* ==== straightvisions Dashboard - Page Layout ===================================================================== */
+.sv_wrapper{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 0;
 }
-/*
-.notice{
-    position: fixed !important;
-    z-index: 9999999;
-    right: 0;
-}
-*/
+/* ===/ straightvisions Dashboard - Page Layout ===================================================================== */
 
-/* Admin Menu */
+/* ==== straightvisions Dashboard - Menu ============================================================================ */
 div.sv_admin_menu {
-    width: 100%;
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
-    top: 0;
-    background-color: #FFF;
-    z-index: 100;
+	width: 100%;
+	position: -webkit-sticky; /* Safari */
+	position: sticky;
+	top: 0;
+	background-color: #FFF;
+	z-index: 100;
 }
+
 div.sv_admin_menu_head {
-    border-bottom: 1px solid rgba(43, 45, 48, .1);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+	border-bottom: 1px solid rgba( 50, 50, 48, .2 );
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
+
 div.sv_admin_menu a.sv_admin_brand,
 div.sv_admin_menu .sv_admin_menu_item {
-    display: flex;
-    height: 50px;
-    padding: 15px;
-    justify-content: center;
-    text-decoration: none;
-    color: rgba(43, 45, 48, 1);
-    border-left: 2px solid transparent;
-    transition: .3s ease;
-    outline: none;
-    box-shadow: none;
-    background-color: #FFF;
+	display: flex;
+	height: 50px;
+	padding: 15px;
+	justify-content: center;
+	text-decoration: none;
+	color: rgba(43, 45, 48, 1);
+	border-left: 2px solid transparent;
+	transition: .3s ease;
+	outline: none;
+	box-shadow: none;
+	background-color: #FFF;
 }
+
 div.sv_admin_menu .sv_admin_menu_item {
-    padding: 10px 15px;
+	padding: 10px 15px;
 }
+
 div.sv_admin_menu a.sv_admin_brand {
-    align-items: center;
-    padding: 15px;
-    width: 100%;
+	align-items: center;
+	padding: 15px;
+	width: 100%;
 }
+
 div.sv_admin_menu a.sv_admin_brand img {
-    max-height: 100%;
-    max-width: 100%;
+	max-height: 100%;
+	max-width: 100%;
 }
+
 div.sv_admin_menu div.sv_admin_mobile_toggle {
-    height: 30px;
-    line-height: 1;
-    cursor: pointer;
-    margin-left: 10px;
+	height: 30px;
+	line-height: 1;
+	cursor: pointer;
+	margin-left: 10px;
 }
+
 div#sv_admin_menu_body {
-    display: none;
-    transition: .3s ease;
+	display: none;
+	transition: .3s ease;
 }
+
 div.sv_admin_menu .sv_admin_menu_item {
-    flex-direction: column;
-    cursor: pointer;
-    border-bottom: 1px solid rgba(43, 45, 48, .1);
+	flex-direction: column;
+	cursor: pointer;
+	border-bottom: 1px solid rgba( 50, 50, 48, .2 );
 }
+
 div.sv_admin_menu .sv_admin_menu_item:last-child {
-    border-bottom-width: 1px;
+	border-bottom-width: 1px;
 }
+
 div.sv_admin_menu .sv_admin_menu_item:hover,
 div.sv_admin_menu .sv_admin_menu_item:focus,
 div.sv_admin_menu .sv_admin_menu_item.active {
-    color: rgba(43, 45, 48, 1);
-    border-left-color: rgba(43, 45, 48, 1);
-    outline: none;
+	color: rgba( 50, 50, 48, 1 );
+	border-left-color: rgba( 50, 50, 48, 1 );
+	outline: none;
 }
+
 div.sv_admin_menu .sv_admin_menu_item h4 {
-    margin: 0 0 3px 0;
+	margin: 0 0 3px 0;
+}
+/* ===/ straightvisions Dashboard - Menu ============================================================================ */
+
+/* ==== straightvisions Dashboard - Content ========================================================================= */
+.sv_wrapper .sv_dashboard_content {
+	width: 100%;
 }
 
-/* Admin Content */
 section.sv_admin_section {
-    display: none;
-    max-width: 100%;
-    padding: 0;
-    min-height: 500px;
-    width: 100%;
-    word-break: break-word;
-    background-color: #FFF;
-}
-section.sv_admin_section#section_about {
-    display: inline-block;
-}
-section.sv_admin_section h1.section_title {
-    border-bottom: 1px solid rgba(43, 45, 48, .1);
-    margin: 0;
-    height: 50px;
-    padding: 30px 0;
-    display: flex;
-    align-items: center;
-    background-color: #FFF;
-    line-height: 1;
-}
-section.sv_admin_section div.section_content {
-    padding: 20px 0;
+	display: none;
+	max-width: 100%;
+	padding: 0;
+	min-height: 500px;
+	width: 100%;
+	word-break: break-word;
+	background-color: #FFF;
 }
 
+section.sv_admin_section#section_about {
+	display: inline-block;
+}
+
+section.sv_admin_section .section_head {
+	border-bottom: 1px solid rgba( 50, 50, 48, .2 );
+	margin: 0;
+	height: 50px;
+	padding: 15px;
+	display: flex;
+	align-items: center;
+	background-color: #FFF;
+	line-height: 1;
+	z-index: 500;
+	position: sticky;
+	top: 0;
+	flex-direction: row;
+}
+
+section.sv_admin_section .section_head .textbox {
+	flex-grow: 1;
+}
+
+section.sv_admin_section .section_head .section_title {
+	margin: 0 0 3px 0;
+}
+
+section.sv_admin_section .section_head .section_desc {
+	margin: 0;
+	font-weight: normal;
+}
+
+section.sv_admin_section div.section_content {
+	padding: 15px 0 0 0;
+}
+
+section.sv_admin_section div.section_content form h2:first-of-type,
+section.sv_admin_section div.section_content form p:first-of-type{
+	display: none;
+}
+
+/* ===/ straightvisions Dashboard - Content ========================================================================= */
+
+/* ==== straightvisions Dashboard - Layout Elements ================================================================= */
 /* Admin Content Tags */
 section.sv_admin_section div.section_content h3.divider {
-    border-bottom: 1px solid rgba(43, 45, 48, .1);
-    padding-bottom: 10px;
-    margin: 20px 0;
-    font-size: 16px;
+	border-bottom: 1px solid rgba(43, 45, 48, .1);
+	padding-bottom: 10px;
+	margin: 20px 0;
+	font-size: 16px;
 }
 
 /* Lists */
 section.sv_admi_sectionn div.section_content ul.info_list,
 section.sv_admin_section div.section_content ul.instance_list {
-    list-style-type: none;
-    padding: 0;
-    font-size: 14px;
-    grid-template-columns: 1fr;
-    display: grid;
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
+	list-style-type: none;
+	padding: 0;
+	font-size: 14px;
+	grid-template-columns: 1fr;
+	display: grid;
+	grid-column-gap: 10px;
+	grid-row-gap: 10px;
 }
+
 section.sv_admin_section div.section_content ul.info_list li span {
-    color: rgba(52, 172, 245, 1);
+	color: rgba(52, 172, 245, 1);
 }
+
 section.sv_admin_section div.section_content ul.instance_list a {
-    padding: 10px 15px;
-    border-radius: 3px;
-    box-sizing: border-box;
-    outline: none;
-    box-shadow: none;
-    color: rgba(43, 45, 48, .8);
-    border: 2px solid rgba(43, 45, 48, .3);
-    text-decoration: none;
-    transition: .3s ease;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: auto 1fr auto;
-    grid-template-areas:
-            'instance_title instance_title instance_title instance_title instance_title'
-            'instance_desc instance_desc instance_desc instance_desc instance_desc'
-            'instance_type instance_version instance_version_core instance_version_core_match instance_status'
-            'instance_msg instance_msg instance_msg instance_msg instance_msg';
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
-    word-break: break-word;
-    cursor: pointer;
+	padding: 10px 15px;
+	border-radius: 3px;
+	box-sizing: border-box;
+	outline: none;
+	box-shadow: none;
+	color: rgba(43, 45, 48, .8);
+	border: 2px solid rgba(43, 45, 48, .3);
+	text-decoration: none;
+	transition: .3s ease;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-template-rows: auto 1fr auto;
+	grid-template-areas:
+			'instance_title instance_title instance_title instance_title instance_title'
+			'instance_desc instance_desc instance_desc instance_desc instance_desc'
+			'instance_type instance_version instance_version_core instance_version_core_match instance_status'
+			'instance_msg instance_msg instance_msg instance_msg instance_msg';
+	grid-column-gap: 10px;
+	grid-row-gap: 10px;
+	word-break: break-word;
+	cursor: pointer;
 }
+
 section.sv_admin_section div.section_content ul.instance_list a:hover,
 section.sv_admin_section div.section_content ul.instance_list a:active,
 section.sv_admin_section div.section_content ul.instance_list a:focus {
-    border-color: rgba(43, 45, 48, 1);
+	border-color: rgba(43, 45, 48, 1);
 }
+
 section.sv_admin_section div.section_content ul.instance_list a h1.instance_title {
-    grid-area: instance_title;
-    margin: 0;
-    padding: 10px 0;
-    color: rgba(43, 45, 48, .8);
-    border-bottom: 1px solid rgba(43, 45, 48, .3);
-    line-height: 1;
+	grid-area: instance_title;
+	margin: 0;
+	padding: 10px 0;
+	color: rgba(43, 45, 48, .8);
+	border-bottom: 1px solid rgba(43, 45, 48, .3);
+	line-height: 1;
 }
+
 section.sv_admin_section div.section_content ul.instance_list a p.instance_desc {
-    grid-area: instance_desc;
-    margin: 0;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(43, 45, 48, .3);
+	grid-area: instance_desc;
+	margin: 0;
+	padding-bottom: 10px;
+	border-bottom: 1px solid rgba(43, 45, 48, .3);
 }
+
 section.sv_admin_section div.section_content ul.instance_list a div.instance_type {
-    grid-area: instance_type;
-    text-align: center;
+	grid-area: instance_type;
+	text-align: center;
 }
+
 section.sv_admin_section div.section_content ul.instance_list a div.instance_version {
-    grid-area: instance_version;
-    text-align: center;
+	grid-area: instance_version;
+	text-align: center;
 }
+
 section.sv_admin_section div.section_content ul.instance_list a div.instance_version_core {
-    grid-area: instance_version_core;
-    text-align: center;
+	grid-area: instance_version_core;
+	text-align: center;
 }
+
 section.sv_admin_section div.section_content ul.instance_list a div.instance_version_core_match {
-    grid-area: instance_version_core_match;
-    text-align: center;
+	grid-area: instance_version_core_match;
+	text-align: center;
 }
+
 section.sv_admin_section div.section_content ul.instance_list a div.instance_status {
-    grid-area: instance_status;
-    text-align: center;
-    color: rgba(78, 212, 103, 1);
+	grid-area: instance_status;
+	text-align: center;
+	color: rgba(78, 212, 103, 1);
 }
+
 section.sv_admin_section div.section_content ul.instance_list a.disabled div.instance_status {
-    color: rgba(255, 63, 65, 1);
+	color: rgba(255, 63, 65, 1);
 }
+
 section.sv_admin_section div.section_content ul.instance_list a div.instance_msg {
-    grid-area: instance_msg;
-    font-style: italic;
-    font-weight: bold;
+	grid-area: instance_msg;
+	font-style: italic;
+	font-weight: bold;
 }
+
 section.sv_admin_section div.section_content ul.instance_list a.disabled div.instance_msg {
-    padding: 10px 0 5px 0;
-    border-top: 1px dashed rgba(43, 45, 48, .3);
-    color: rgba(255, 63, 65, 1);
+	padding: 10px 0 5px 0;
+	border-top: 1px dashed rgba(43, 45, 48, .3);
+	color: rgba(255, 63, 65, 1);
 }
 
 /* Columns */
 section.sv_admin_section div.section_content div.col-50 {
-    max-width: 100%;
-    display: inline-grid;
-    width: 100%;
+	max-width: 100%;
+	display: inline-grid;
+	width: 100%;
 }
 
 /* Tags */
 section.sv_admin_section div.section_content blockquote {
-    margin: 10px 0;
-    font-style: italic;
+	margin: 10px 0;
+	font-style: italic;
 }
+
 section.sv_admin_section div.section_content code {
-    padding: 10px;
-    border-radius: 3px;
-    font-weight: bold;
-    color: rgba(52, 172, 245, 1);
-    display: block;
+	padding: 10px;
+	border-radius: 3px;
+	font-weight: bold;
+	color: rgba(52, 172, 245, 1);
+	display: block;
 }
+/* ===/ straightvisions Dashboard - Layout Elements ================================================================= */
 
-/* Responsive Breakpoints */
-@media (min-width: 800px) {
-    #wpbody-content {
-        flex-direction: row;
-    }
-    div.sv_admin_menu a.sv_admin_brand {
-        padding: 30px 15px;
-    }
-    div.sv_admin_menu .sv_admin_menu_item {
-        padding: 15px;
-    }
-    div.sv_admin_menu .sv_admin_menu_item:last-child {
-        border-bottom: 0;
-    }
-    section.sv_admin_section div.section_content {
-        padding: 30px;
-    }
-    section.sv_admin_section h1.section_title {
-        margin: 0 30px;
-        position: sticky;
-        top: 32px;
-    }
-    section.sv_admin_section div.section_content div.col-50 {
-        max-width: calc(50% - 12px);
-        margin-right: 10px;
-    }
-}
-@media (min-width: 1200px) {
-    div.sv_admin_menu div.sv_admin_mobile_toggle {
-        display: none;
-    }
-    div#sv_admin_menu_body {
-        opacity: 1;
-        display: block;
-    }
-    .sv_wrapper {
-        flex-direction: row;
-    }
-
-    div.sv_admin_menu {
-        max-width: 300px;
-    }
-    section.sv_admin_section {
-        border-left: 1px solid rgba(43, 45, 48, .1);
-    }
-    section.sv_admi_sectionn div.section_content ul.info_list {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-@media (min-width: 1400px) {
-    section.sv_admin_section div.section_content ul.instance_list {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-@media (min-width: 2200px) {
-    section.sv_admin_section div.section_content ul.instance_list {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-}
-
-/* Admin Icons */
+/* ==== straightvisions Dashboard - Icons ============================================================================ */
 div.sv_admin_menu .sv_admin_menu_item::before,
-section.sv_admin_section h1.section_title::before,
+section.sv_admin_section .section_head::before,
 section.sv_admin_section div.section_content ul.instance_list a div::before,
 section.sv_admin_section div.section_content ul.instance_list a h1::before,
 section.sv_admin_section div.section_content code::before,
@@ -329,865 +371,793 @@ div.sv_setting_group_add_new_button::before,
 div.sv_setting_group_delete::before,
 div.log_list table td.icon::before,
 div.log_summary table tr:first-child button#logs_filter::before {
-    font-family: FontAwesomeSolid;
-    font-weight: normal;
-    font-style: normal;
+	font-family: FontAwesomeSolid;
+	font-weight: normal;
+	font-style: normal;
 }
+
 div.sv_admin_menu .sv_admin_menu_item::before {
-    display: flex;
-    align-self: flex-end;
-    position: relative;
-    font-size: 30px;
-    top: 40%;
-    line-height: 0;
-    color: rgba(43, 45, 48, .5);
-    transition: .3s ease;
+	display: flex;
+	align-self: flex-end;
+	position: relative;
+	font-size: 30px;
+	top: 40%;
+	line-height: 0;
+	color: rgba(43, 45, 48, .5);
+	transition: .3s ease;
 }
-section.sv_admin_section h1.section_title::before,
+
+section.sv_admin_section .section_head::before,
 section.sv_admin_section div.section_content ul.instance_list a h1.instance_title::before {
-    margin-right: 10px;
-    font-size: 30px;
+	margin-right: 10px;
+	font-size: 30px;
 }
+
 div.sv_admin_menu div.sv_admin_mobile_toggle::before {
-    font-size: 30px;
-    color: rgba(43, 45, 48, .5);
-    transition: .3s ease;
+	font-size: 30px;
+	color: rgba( 50, 50, 48, .5 );
+	transition: .3s ease;
 }
+
 div.sv_admin_menu .sv_admin_menu_item:hover::before,
 div.sv_admin_menu .sv_admin_menu_item:focus::before,
 div.sv_admin_menu .sv_admin_menu_item:active::before,
 div.sv_admin_menu .sv_admin_menu_item.active::before,
 div.sv_admin_menu div.sv_admin_mobile_toggle:hover::before {
-    color: rgba(43, 45, 48, 1);
+	color: rgba( 50, 50, 48, 1 );
 }
+
 section.sv_admin_section div.section_content ul.instance_list a div::before,
 section.sv_admin_section div.section_content code::before {
-    margin-right: 5px;
+	margin-right: 5px;
 }
+
 section.sv_admin_section div.section_content ul.instance_list a h1.instance_title::before,
 section.sv_admin_section div.section_content code::before {
-    color: rgba(43, 45, 48, .8);
+	color: rgba( 50, 50, 48, .8 );
 }
+
 div.sv_admin_menu div.sv_admin_mobile_toggle::before {
-    content: '\f0c9';
+	content: '\f0c9';
 }
+
 div.sv_admin_menu .sv_admin_menu_item.section_about::before,
-section.sv_admin_section h1.section_title.section_about::before {
-    content: '\f05a';
+section.sv_admin_section .section_head.section_about::before {
+	content: '\f05a';
 }
+
 div.sv_admin_menu .sv_admin_menu_item.section_legal::before,
-section.sv_admin_section h1.section_title.section_legal::before{
-    content: '\f24e';
+section.sv_admin_section .section_head.section_legal::before{
+	content: '\f24e';
 }
+
 div.sv_admin_menu .sv_admin_menu_item.section_core_docs::before,
 div.sv_admin_menu .sv_admin_menu_item.section_docs::before,
-section.sv_admin_section h1.section_title.section_core_docs::before,
-section.sv_admin_section h1.section_title.section_docs::before{
-    content: '\f02d';
+section.sv_admin_section .section_head.section_core_docs::before,
+section.sv_admin_section .section_head.section_docs::before{
+	content: '\f02d';
 }
+
 div.sv_admin_menu .sv_admin_menu_item.section_settings:before,
-section.sv_admin_section h1.section_title.section_settings::before{
-    content: '\f1de';
+section.sv_admin_section .section_head.section_settings::before{
+	content: '\f1de';
 }
+
 div.sv_admin_menu .sv_admin_menu_item.section_tools:before,
-section.sv_admin_section h1.section_title.section_tools::before{
-    content: '\f552';
+section.sv_admin_section .section_head.section_tools::before{
+	content: '\f552';
 }
+
 section.sv_admin_section div.section_content ul.instance_list a div.instance_type::before {
-    content: '\f6d1';
+	content: '\f6d1';
 }
+
 section.sv_admin_section div.section_content ul.instance_list a div.instance_version::before {
-    content: '\f135';
+	content: '\f135';
 }
+
 section.sv_admin_section div.section_content ul.instance_list a div.instance_version_core::before {
-    content: '\f5d2';
+	content: '\f5d2';
 }
+
 section.sv_admin_section div.section_content ul.instance_list a div.instance_version_core_match::before {
-    content: '\f2b5';
+	content: '\f2b5';
 }
+
 section.sv_admin_section div.section_content ul.instance_list a div.instance_status::before {
-    content: '\f058';
+	content: '\f058';
 }
+
 section.sv_admin_section div.section_content ul.instance_list a.disabled div.instance_status::before {
-    content: '\f057';
+	content: '\f057';
 }
+
 section.sv_admin_section div.section_content ul.instance_list a h1.instance_plugin::before {
-    content: '\f12e';
+	content: '\f12e';
 }
+
 section.sv_admin_section div.section_content ul.instance_list a h1.instance_theme::before {
-    content: '\f55d';
+	content: '\f55d';
 }
+
 section.sv_admin_section div.section_content ul.instance_list a.disabled div.instance_msg::before {
-    content: '\f06a';
+	content: '\f06a';
 }
+
 section.sv_admin_section div.section_content code::before {
-    content: '\f121';
+	content: '\f121';
 }
+
 div.sv_setting_group_add_new_button::before {
-    content: '\f067';
-    margin-right: 10px;
+	content: '\f067';
+	margin-right: 10px;
 }
+
 div.log_list table td.icon.success::before,
 i.fa-check {
-    content: '\f00c';
-    color: rgba( 78, 208, 123, 1 );
+	content: '\f00c';
+	color: rgba( 78, 208, 123, 1 );
 }
 div.log_list table td.icon.info::before,
 i.fa-info {
-    content: '\f129';
-    color: rgba( 52, 172, 245, 1 );
+	content: '\f129';
+	color: rgba( 52, 172, 245, 1 );
 }
+
 div.log_list table td.icon.warning::before,
 i.fa-exclamation-triangle {
-    content: '\f071';
-    color: rgba( 255, 183, 14, 1 );
+	content: '\f071';
+	color: rgba( 255, 183, 14, 1 );
 }
+
 div.log_list table td.icon.error::before,
 i.fa-times {
-    content: '\f00d';
-    color: rgba( 255, 110, 110, 1);
+	content: '\f00d';
+	color: rgba( 255, 110, 110, 1);
 }
+
 div.log_list table td.icon.critical::before,
 i.fa-skull-crossbones {
-    content: '\f714';
-    color: rgba( 173, 122, 236, 1 );
+	content: '\f714';
+	color: rgba( 173, 122, 236, 1 );
 }
+
 i.fa-box-open {
-    color: rgba( 200, 200, 200, 1);
+	color: rgba( 200, 200, 200, 1);
 }
+
 div.log_summary table tr:first-child button#logs_filter::before {
-    content: '\f0b0';
+	content: '\f0b0';
+}
+/* ===/ straightvisions Dashboard - Icons =========================================================================== */
+
+/* ==== straightvisions Dashboard - Form Elements =================================================================== */
+/* Form Table */
+table.form-table tbody {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-}
-::-webkit-scrollbar-button {
-    width: 0;
-    height: 0;
-}
-::-webkit-scrollbar-thumb {
-    background: rgba(43, 45, 48, .1);
-    border: 0;
-    border-radius: 0;
-}
-::-webkit-crollbar-thumb:hover {
-    background: rgba(43, 45, 48, .1);
-}
-::-webkit-scrollbar-thumb:active {
-    background: rgba(43, 45, 48, .1);
-}
-::-webkit-scrollbar-track {
-    border: 0;
-    border-radius: 0;
-    background: transparent;
-}
-::-webkit-scrollbar-track:hover {
-    background: transparent;
-}
-::-webkit-scrollbar-track:active {
-    background: transparent;
-}
-::-webkit-scrollbar-corner {
-    background: transparent;
+table.form-table tr {
+	width: 100%;
+	margin-bottom: 50px;
+	background-color: rgba( 50, 50, 48, .05 );
+	padding: 15px;
+	border-radius: 5px;
 }
 
-/* ===== Form Inputs ===== */
-/* General */
-.form-table h4 {
-    margin: 10px 0 5px 2px;
+table.form-table th {
+	display: none;
 }
 
-.form-table td,
-.form-table th {
-    padding: 0;
-    vertical-align: top;
+table.form-table td {
+	display: block;
+	padding: 0;
+	margin: 0;
 }
 
-label.sv_label {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
+/* Setting Info */
+.sv_setting h4 {
+	margin: 0 0 10px 0;
+	padding-bottom: 10px;
+	border-bottom: 1px solid rgba( 50, 50, 48, .2 );
+}
+
+.sv_setting .description {
+	margin-bottom: 10px;
+	color: rgba( 50, 50, 48, .8 );
+}
+
+/* Input - General */
+.sv_setting label {
+	display: flex;
+	align-items: center;
+	margin-bottom: 5px;
+}
+
+.sv_setting input,
+.sv_setting textarea,
+.sv_setting select {
+	color: rgba( 50, 50, 48, 1 );
+	width: 100%;
+	border-radius: 5px;
+	height: 50px;
+	padding: 10px;
+	background-color: #FFFFFF;
+	border: 1px solid rgba( 50, 50, 48, .2 );
+	box-shadow: none;
+	transition: .25s ease;
+}
+
+.sv_setting input:focus,
+.sv_setting textarea:focus,
+.sv_setting select:focus {
+	border-color: rgba( 50, 50, 48, .5 );
+	box-shadow: none;
+}
+
+.sv_setting select {
+	cursor: pointer;
 }
 
 /* Input - Checkbox */
-div.sv_checkbox-wrapper {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-}
-label.sv_checkbox {
-    /* display: block; Disabled to check*/
-}
-label.sv_checkbox input[type="checkbox"],
-label.sv_radio.checkbox input[type="radio"] {
-    position: relative;
-    width: 45px;
-    height: 25px;
-    -webkit-appearance: none;
-    background-color: rgba(43, 45, 48, .1);
-    outline: none !important;
-    border-radius: 20px;
-    border: 2px solid rgba(43, 45, 48, .05);
-    transition: .2s;
-    cursor: pointer;
-    margin: 0;
-    box-shadow: none;
-}
-label.sv_checkbox input[type="checkbox"]::before,
-label.sv_radio.checkbox input[type="radio"]::before {
-    content: '';
-    position: absolute;
-    width: 23px;
-    height: 23px;
-    border-radius: 23px;
-    top: -1px;
-    left: 0;
-    background-color: rgba(255, 255, 255, 1);
-    transition: .3s ease;
-    transform: scale(.9);
-    outline: none !important;
-}
-label.sv_checkbox input[type="checkbox"] + .desc::before {
-    content: 'Off';
-    display: block;
-    text-align: center;
-    color: rgba(43, 45, 48, .4);
-    transition: .3s ease;
-    font-size: .9rem;
-}
-label.sv_checkbox input[type="checkbox"]:checked + .desc::before  {
-    content: 'On';
-    color: rgba(43, 45, 48, 1);
-}
-label.sv_checkbox input[type="checkbox"]:checked,
-label.sv_radio.checkbox input[type="radio"]:checked {
-    background-color: rgba(43, 45, 48, 1);
-    border-color: rgba(43, 45, 48, 1);
-}
-label.sv_checkbox input[type="checkbox"]:checked::before,
-label.sv_radio.checkbox input[type="radio"]:checked::before {
-    left: 19px;
-    outline: none;
-    margin: 0;
+.sv_setting input[type="checkbox"] {
+	position: relative;
+	width: 45px;
+	height: 25px;
+	-webkit-appearance: none;
+	background-color: rgba( 50, 50, 48, .1 );
+	outline: none !important;
+	border-radius: 20px;
+	border: 1px solid rgba( 50, 50, 48, .1 );
+	transition: .2s;
+	cursor: pointer;
+	margin: 0;
+	box-shadow: none;
 }
 
-/* Input - Radio */
-label.sv_radio {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-    cursor: pointer;
+.sv_setting input[type="checkbox"]::before {
+	content: '';
+	position: absolute;
+	width: 24px;
+	height: 24px;
+	border-radius: 100%;
+	top: -1px;
+	left: 0;
+	background-color: #FFFFFF;
+	transition: .3s ease;
+	transform: scale(.9);
+	outline: none !important;
 }
-label.sv_radio input[type="radio"] {
-    position: relative;
-    width: 25px;
-    height: 25px;
-    -webkit-appearance: none;
-    background-color: transparent;
-    outline: none;
-    border-radius: 25px;
-    border: 2px solid rgba(43, 45, 48, 1);
-    cursor: pointer;
-    margin: 0;
+
+.sv_setting input[type="checkbox"]:checked {
+	background-color: rgba( 50, 50, 48, 1 );
+	border-color: rgba( 50, 50, 48, 1 );
 }
-label.sv_radio input[type="radio"]::before {
-    content: '';
-    position: absolute;
-    width: 21px;
-    height: 21px;
-    border-radius: 23px;
-    top: 0;
-    left: 0;
-    background-color: rgba(43, 45, 48, 1);
-    transition: .3s ease;
-    transform: scale(0);
+
+.sv_setting input[type="checkbox"]:checked::before {
+	left: 19px;
+	outline: none;
+	margin: 0
 }
-label.sv_radio input[type="radio"]:checked::before {
-    transform: scale(.75);
-    margin: 0;
+
+/* Input - File */
+.sv_setting input[type="file"],
+.wp-admin input[type=file] {
+	padding: 10px;
+	cursor: pointer;
+	height: auto;
+	margin-top: 5px;
+	border-style: dashed;
 }
-label.sv_radio .name {
-    margin-left: 4px;
+
+/* Input - Radio Buttons */
+.sv_setting input[type="radio"] {
+	position: relative;
+	width: 25px;
+	height: 25px;
+	-webkit-appearance: none;
+	background-color: #FFFFFF;
+	outline: none;
+	border-radius: 100%;
+	border: 1px solid rgba( 50, 50, 48, .2 );
+	cursor: pointer;
+	margin: 0 5px 0 0;
+	transition: .25s ease;
+}
+
+.sv_setting input[type="radio"]::before {
+	content: '';
+	position: absolute;
+	width: 23px;
+	height: 23px;
+	border-radius: 100%;
+	top: 0;
+	left: 0;
+	background-color: rgba( 50, 50, 48, 1 );
+	transition: .25s ease;
+	transform: scale( 0 );
+}
+
+.sv_setting input[type="radio"]:checked {
+	border-color: rgba( 50, 50, 48, 1 );
+}
+
+.sv_setting input[type="radio"]:checked::before {
+	transform: scale( .6 );
+	margin: 0;
+}
+
+/* Input - Buttons */
+input[type="submit"]#submit,
+.sv_setting button,
+.sv_setting .button,
+.sv_setting input[type="button"],
+.sv_setting input[type="submit"] {
+	text-shadow: none;
+	color: rgba( 50, 50, 48, 1 );
+	border-radius: 5px;
+	background-color: #FFFFFF;
+	border: 1px solid rgba( 50, 50, 48, .2 );
+	box-shadow: none;
+	transition: .25s ease;
+	height: 40px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px 15px;
+	line-height: 1;
+}
+
+input[type="submit"]#submit:hover,
+.sv_setting button:hover,
+.sv_setting .button:hover,
+.sv_setting input[type="button"]:hover,
+.sv_setting input[type="submit"]:hover {
+	background-color: rgba( 50, 50, 48, 1 );
+	border-color: rgba( 50, 50, 48, 1 );
+	color: #FFFFFF;
 }
 
 /* Radio - Checkbox Style */
 .sv_radio-checkbox-wrapper {
-    padding: 1em 0 1.5em 0;
+	padding: 1em 0 1.5em 0;
 }
+
 label.sv_radio.checkbox {
-    margin-bottom: 0;
+	margin-bottom: 0;
 }
+
 label.sv_radio.checkbox .wrapper {
-    position: absolute;
+	position: absolute;
 }
+
 label.sv_radio.checkbox input[type="radio"] {
-    z-index: 100;
+	z-index: 100;
 }
+
 label.sv_radio.checkbox input[type="radio"]:checked {
-    z-index: 0;
-    border-color: transparent;
+	z-index: 0;
+	border-color: transparent;
 }
+
 label.sv_radio.checkbox input[type="radio"]::before {
-    transform: scale(.9);
-    background-color: rgba(255, 255, 255, 1);
+	transform: scale(.9);
+	background-color: rgba(255, 255, 255, 1);
 }
+
 label.sv_radio.checkbox input[type="radio"].off {
-    background-color: transparent;
+	background-color: transparent;
 }
+
 label.sv_radio.checkbox input[type="radio"].on {
-    background-color: rgb(233, 234, 234);
+	background-color: rgb(233, 234, 234);
 }
+
 label.sv_radio.checkbox input[type="radio"].off:checked {
-    background-color: rgba(43, 45, 48, .1);
+	background-color: rgba(43, 45, 48, .1);
 }
+
 label.sv_radio.checkbox input[type="radio"].off::before {
-    opacity: 0;
+	opacity: 0;
 }
+
 label.sv_radio.checkbox input[type="radio"].off:checked::before {
-    opacity: 1;
+	opacity: 1;
 }
+
 label.sv_radio.checkbox input[type="radio"].on:checked {
-    background-color: rgba(43, 45, 48, 1);
+	background-color: rgba(43, 45, 48, 1);
 }
+
 label.sv_radio.checkbox input[type="radio"] + .name {
-    display: none;
+	display: none;
 }
+
 label.sv_radio.checkbox input[type="radio"]:checked + .name {
-    display: inline-block;
-}
-
-/* Input - Buttons */
-#plupload-browse-button {
-    margin: 0 auto;
-}
-
-input.sv_btn,
-button.sv_btn,
-label.sv_file,
-div.sv_setting_group_add_new_button,
-div.sv_setting_group_delete,
-.wp-core-ui p .button {
-    color: rgba(43, 45, 48, 1);
-    display: block;
-    position: relative;
-    line-height: 1;
-    background: rgba(255, 255, 255, 1);
-    padding: 10px 15px;
-    border: 2px solid rgba(43, 45, 48, 1);
-    width: auto;
-    text-align: center;
-    transition: .5s ease;
-    cursor: pointer;
-    margin-bottom: 10px;
-    outline: none;
-    text-shadow: none;
-    box-shadow: none;
-    height: auto;
-    border-radius: 5px;
-}
-div.sv_setting_group_add_new_button,
-div.sv_setting_group_delete {
-    display: inline-block;
-}
-div.sv_setting_group_add_new_button,
-div.sv_setting_group_delete {
-    margin-top: 10px;
-}
-input.sv_btn:hover,
-input.sv_btn:focus,
-button.sv_btn:hover,
-button.sv_btn:focus,
-label.sv_file:hover,
-label.sv_file:focus,
-div.sv_setting_group_add_new_button:hover,
-div.sv_setting_group_add_new_button:focus,
-div.sv_setting_group_delete:hover,
-div.sv_setting_group_delete:focus,
-.wp-core-ui p .button:hover,
-.wp-core-ui p .button:focus {
-    background-color: rgba(43, 45, 48, 1);
-    color: rgba(255, 255, 255, 1);
-    box-shadow: none;
-    border: 2px solid rgba(43, 45, 48, 1);
-    text-shadow: none;
-}
-
-/* Input - Button Group */
-.sv_btn_group {
-    margin-bottom: 10px;
-}
-.sv_btn_group input.sv_btn,
-.sv_btn_group button.sv_btn {
-    margin-bottom: 0;
-    border-top: 0;
-    border-bottom: 1px solid rgba(43, 45, 48, .1);
-}
-.sv_btn_group input.sv_btn:hover,
-.sv_btn_group button.sv_btn:hover {
-    border-color: rgba(43, 45, 48, 1);
-}
-.sv_btn_group input.sv_btn:first-child,
-.sv_btn_group button.sv_btn:first-child {
-    border-top: 2px solid rgba(43, 45, 48, 1);
-}
-.sv_btn_group input.sv_btn:last-child,
-.sv_btn_group button.sv_btn:last-child {
-    border-bottom: 2px solid rgba(43, 45, 48, 1);
-}
-
-/* Input - Button Group Horizontal */
-.sv_btn_group.horizontal {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-}
-.sv_btn_group.horizontal input.sv_btn,
-.sv_btn_group.horizontal button.sv_btn {
-    width: auto;
-    text-align: center;
-    border-top: 2px solid rgba(43, 45, 48, 1);
-    border-right: 1px solid rgba(43, 45, 48, .1);
-    border-bottom: 2px solid rgba(43, 45, 48, 1);
-    border-left: 0;
-    display: flex;
-    flex: 1;
-    justify-content: center;
-}
-.sv_btn_group.horizontal input.sv_btn:first-child,
-.sv_btn_group.horizontal button.sv_btn:first-child {
-    border-left: 2px solid rgba(43, 45, 48, 1);
-}
-.sv_btn_group.horizontal input.sv_btn:last-child,
-.sv_btn_group.horizontal button.sv_btn:last-child {
-    border-right: 2px solid rgba(43, 45, 48, 1);
-}
-
-
-/* Inputs */
-input.sv_input,
-select.sv_input,
-textarea.sv_input {
-    color: rgba(43, 45, 48, 1);
-    display: inline-block !important;
-    position: relative;
-    line-height: 1;
-    background: rgba(255, 255, 255, 1);
-    border: 2px solid rgba(43, 45, 48, .1);
-    width: calc(100% - 60px) !important;
-    min-width: 80px;
-    text-align: left;
-    transition: .3s ease;
-    outline: none;
-    box-shadow: none;
-    height: 40px;
-    padding: 10px;
-    flex-grow: 2;
-    border-radius: 5px;
-    margin: 0;
-}
-input.sv_input:hover,
-input.sv_input:focus,
-select.sv_input:hover,
-select.sv_input:focus,
-textarea.sv_input:hover,
-textarea.sv_input:focus {
-    border-color: rgba(43, 45, 48, 1);
-    outline: none;
-    box-shadow: none;
-}
-input.sv_input:disabled,
-select.sv_input:disabled,
-textarea.sv_input:disabled {
-    color: rgba(43, 45, 48, .1);
-    cursor: not-allowed;
-}
-input.sv_input:disabled:hover,
-input.sv_input:disabled:focus,
-select.sv_input:disabled:hover,
-select.sv_input:disabled:focus,
-textarea.sv_input:disabled:hover,
-textarea.sv_input:disabled:focus {
-    border-color: rgba(43, 45, 48, .1);
-}
-input.sv_input[type="number"] {
-    max-width: 100px;
-}
-textarea.sv_input {
-    font-family: sans-serif;
-    min-height: 100px;
-}
-select.sv_input {
-    cursor: pointer;
-}
-select.sv_input option:hover {
-    background-color: rgba(43, 45, 48, 1);
-    color: rgba(255, 255, 255, 1);
-}
-
-/* Input - File */
-label.sv_file {
-    cursor: pointer;
-}
-label.sv_file input[type="file"] {
-    opacity: 0;
-    z-index: -1;
-    overflow: hidden;
-    position: absolute;
-    width: 0.1px;
-    height: 0.1px;
-}
-label.sv_file .desc::before {
-    content: 'Choose a file...';
-    display: block;
-    color: rgba(43, 45, 48, 1);
-}
-label.sv_file:hover .desc::before,
-label.sv_file:focus .desc::before {
-    color: rgba(255, 255, 255, 1);
-}
-
-/* Input - Range */
-input.sv_range {
-    -webkit-appearance: none;
-    width: 100%;
-    background: transparent;
-}
-input.sv_range:focus {
-    outline: none;
-}
-input.sv_range::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 20px;
-    background-color: rgba(43, 45, 48, 1);
-    cursor: pointer;
-    transform: translateY(-40%);
-}
-input.sv_range::-webkit-slider-runnable-track {
-    width: 100%;
-    cursor: pointer;
-    background: rgba(43, 45, 48, .1);
-    border-color: transparent;
-    color: transparent;
-    height: 5px;
-    border-radius: 5px;
-}
-
-/* Input - Color */
-input.sv_color {
-    -webkit-appearance: none;
-    border: 0;
-    height: 50px;
-    width: 100%;
-    max-width: 100px;
-    outline: none;
-    background: transparent;
-    cursor: pointer;
-}
-input.sv_color::-webkit-color-swatch-wrapper {
-    border: 2px solid rgba(43, 45, 48, 1);
-    padding: 5px;
-    background: rgba(255, 255, 255, 1);
-}
-input.sv_color::-webkit-color-swatch {
-    border: none;
-    background: transparent;
-}
-
-/* Description (Tooltip) */
-div.sv_tooltip {
-    transition: .25s ease;
-    cursor: pointer;
-    line-height: 1;
-    color: rgba(43, 45, 48, .5);
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-}
-div.sv_tooltip::before {
-    font-size: 30px;
-}
-
-div.sv_tooltip:hover,
-div.sv_tooltip:focus {
-    color: rgba(43, 45, 48, 1);
-}
-div.sv_tooltip_description {
-    background-color: rgba(43, 45, 48, 1);
-    color: #FFF;
-    padding: 0;
-    font-style: italic;
-    transition: opacity .25s ease, height .25s ease;
-    opacity: 0;
-    border-radius: 5px;
-    width: 0;
-    height: 0;
-}
-div.sv_tooltip_description.open {
-    height: auto;
-    padding: 10px;
-    opacity: 1;
-    margin-top: 5px;
-    width: calc(100% - 60px);
-}
-div.sv_checkbox-wrapper div.sv_tooltip_description.open {
-    margin: 0;
-    width: 100%;
+	display: inline-block;
 }
 
 /* Settings Group */
 div.sv_100_sv_woocommerce_settings_setting_group_item {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    margin-bottom: 10px;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	margin-bottom: 10px;
 }
+
 div.sv_setting_group_header {
-    display: flex;
-    align-items: center;
-    height: 40px;
+	display: flex;
+	align-items: center;
+	height: 40px;
 }
+
 div.sv_setting_group_header h4 {
-    flex-grow: 2;
-    border-bottom: 2px solid rgba( 43, 45, 48, 1);
-    margin: 0;
-    line-height: 1.5;
+	flex-grow: 2;
+	border-bottom: 2px solid rgba( 43, 45, 48, 1);
+	margin: 0;
+	line-height: 1.5;
 }
+
 div.sv_setting_group_delete {
-    padding: 0;
-    border: none;
-    margin: 0;
-    width: 40px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	padding: 0;
+	border: none;
+	margin: 0;
+	width: 40px;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
+
 div.sv_setting_group_delete:hover {
-    background-color: transparent;
-    border: 0;
-    color: rgba( 255, 110, 110, 1);
+	background-color: transparent;
+	border: 0;
+	color: rgba( 255, 110, 110, 1);
 }
+
 div.sv_setting_group_delete i {
-    font-size: 20px;
+	font-size: 20px;
 }
+
 div.sv_100_sv_woocommerce_settings_setting_group_item div.sv_setting_group_input {
-    flex-grow: 2;
+	flex-grow: 2;
 }
+
 div.sv_100_sv_woocommerce_settings_setting_group_item .sv_input {
-    margin-bottom: 0;
+	margin-bottom: 0;
 }
+/* ===/ straightvisions Dashboard - Form Elements =================================================================== */
 
 
-/* ===== Module: Log ===== */
+/* ==== straightvisions Dashboard - Log Module ====================================================================== */
 div.sv_log {
-    display: grid;
-    grid-template-columns: auto 1fr 30%;
-    grid-template-areas: 'log_summary log_list log_list';
-    transition: 1s ease;
-    grid-gap: 0;
+	display: grid;
+	grid-template-columns: auto 1fr 30%;
+	grid-template-areas: 'log_summary log_list log_list';
+	transition: 1s ease;
+	grid-gap: 0;
 }
+
 div.sv_log table {
-    border-spacing: 0;
+	border-spacing: 0;
 }
+
 div.sv_log.show_details {
-    grid-template-areas: 'log_summary log_list log_details';
+	grid-template-areas: 'log_summary log_list log_details';
 }
+
 div.sv_log.show_filter {
-    grid-template-areas: 'log_summary log_list log_filter';
+	grid-template-areas: 'log_summary log_list log_filter';
 }
 
 /* Log Summary */
 div.log_summary {
-    background-color: rgba( 43, 45, 48, 1 );
-    grid-area: log_summary;
+	background-color: rgba( 43, 45, 48, 1 );
+	grid-area: log_summary;
 }
+
 div.log_summary table tr {
-    display: grid;
-    grid-template-columns: 40px 40px;
-    text-align: center;
-    color: #FFF;
-    padding: 0 5px;
-    height: 25px;
-    font-weight: 500;
+	display: grid;
+	grid-template-columns: 40px 40px;
+	text-align: center;
+	color: #FFF;
+	padding: 0 5px;
+	height: 25px;
+	font-weight: 500;
 }
+
 div.log_summary table tr:first-child {
-    height: 50px;
-    padding: 0;
-    grid-template-columns: 1fr;
+	height: 50px;
+	padding: 0;
+	grid-template-columns: 1fr;
 }
+
 div.log_summary table tr:first-child button#logs_filter,
 div.log_list table tr:first-child th button#logs_delete {
-    background-color: transparent;
-    border: 0;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    color: #FFF;
-    cursor: pointer;
-    outline: none;
-    transition: .3s ease;
-    font-size: 16px;
+	background-color: transparent;
+	border: 0;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	color: #FFF;
+	cursor: pointer;
+	outline: none;
+	transition: .3s ease;
+	font-size: 16px;
 }
+
 div.log_summary table tr:first-child button#logs_filter:hover {
-    background-color: rgba( 63, 65, 68, 1 );
+	background-color: rgba( 63, 65, 68, 1 );
 }
+
 div.sv_log.show_filter div.log_summary table tr:first-child button#logs_filter::before {
-    content: '\f057';
+	content: '\f057';
 }
 
 /* Log List */
 div.log_list {
-    grid-area: log_list;
+	grid-area: log_list;
 }
+
 div.log_list table {
-    width: 100%;
+	width: 100%;
 }
+
 div.log_list table tr.log:hover td.icon::before {
-    content: '\f06e';
-    color: rgba( 43, 45, 48, 1 );
+	content: '\f06e';
+	color: rgba( 43, 45, 48, 1 );
 }
+
 div.log_list table th,
 div.log_list table tr.log td {
-    padding: 0 10px;
-    height: 50px;
+	padding: 0 10px;
+	height: 50px;
 }
+
 div.log_list table th {
-    text-align: left;
-    background-color: rgba( 43, 45, 48, 1);
-    color: #FFF;
+	text-align: left;
+	background-color: rgba( 43, 45, 48, 1);
+	color: #FFF;
 }
+
 div.log_list table tr:first-child th:first-child {
-    padding: 0;
+	padding: 0;
 }
+
 div.log_list table tr:first-child th button#logs_delete {
-    visibility: hidden;
-    opacity: 0;
-    transition: .3s ease;
+	visibility: hidden;
+	opacity: 0;
+	transition: .3s ease;
 }
+
 div.log_list table tr:first-child th button#logs_delete:hover {
-    background-color: rgba( 255, 110, 110, 1);
+	background-color: rgba( 255, 110, 110, 1);
 }
+
 div.log_list table th.icon,
 div.log_list table td.icon {
-    width: 50px;
+	width: 50px;
 }
+
 div.log_list table th.icon {
-    padding-left: 0;
+	padding-left: 0;
 }
+
 div.log_list table th.select,
 div.log_list table td.select {
-    width: 20px;
+	width: 20px;
 }
+
 div.log_list table th.calls,
 div.log_list table td.calls {
-    width: 40px;
+	width: 40px;
 }
+
 div.log_list table td.log_details_title {
-    text-align: center;
-    margin: 0;
+	text-align: center;
+	margin: 0;
 }
+
 div.log_list table tr.log td {
-    border-bottom: 1px solid rgba( 43, 45, 48, .1 );
-    cursor: pointer;
-    transition: .3s ease;
+	border-bottom: 1px solid rgba( 43, 45, 48, .1 );
+	cursor: pointer;
+	transition: .3s ease;
 }
+
 div.sv_log.show_details div.log_list table tr.log td:last-child,
 div.sv_log.show_filter div.log_list table tr.log td:last-child {
-    border-right: 1px solid rgba( 43, 45, 48, .1 );
+	border-right: 1px solid rgba( 43, 45, 48, .1 );
 }
+
 div.log_list table tr:last-child td {
-    border-bottom: 0;
+	border-bottom: 0;
 }
+
 div.log_list table tr.log:hover td,
 div.log_list table tr.log.active td {
-    background-color: rgba( 52, 172, 245, .1 );
+	background-color: rgba( 52, 172, 245, .1 );
 }
+
 div.log_list table tr.log.active td.icon::before {
-    content: '\f057';
-    color: rgba( 43, 45, 48, 1 );
+	content: '\f057';
+	color: rgba( 43, 45, 48, 1 );
 }
+
 div.log_list table tr.log.active:hover td.icon::before,
 div.sv_log.show_filter div.log_summary table tr:first-child button#logs_filter:hover::before {
-    color: rgba( 255, 110, 110, 1);
+	color: rgba( 255, 110, 110, 1);
 }
+
 div.log_list table td.icon {
-    font-size: 25px;
-    text-align: center;
+	font-size: 25px;
+	text-align: center;
 }
 
 /* Log Details */
 div.log_details {
-    grid-area: log_details;
-    display: none;
+	grid-area: log_details;
+	display: none;
 }
+
 div.sv_log.show_details div.log_details {
-    display: block;
+	display: block;
 }
+
 div.log_details table,
 div.log_filter table {
-    display: none;
-    padding: 10px;
+	display: none;
+	padding: 10px;
 }
+
 div.log_details table.show {
-    display: table;
+	display: table;
 }
+
 div.log_details h3,
 div.log_filter h3 {
-    display: flex;
-    align-items: center;
-    margin: 0;
-    padding: 10px;
-    font-size: 13px;
-    font-weight: 700;
-    height: 30px;
-    background-color: rgba(43, 45, 48, 1);
-    color: #FFF;
-    justify-content: center;
+	display: flex;
+	align-items: center;
+	margin: 0;
+	padding: 10px;
+	font-size: 13px;
+	font-weight: 700;
+	height: 30px;
+	background-color: rgba(43, 45, 48, 1);
+	color: #FFF;
+	justify-content: center;
 }
+
 div.log_details table th,
 div.log_details table td {
-    height: 30px;
+	height: 30px;
 }
+
 div.log_details table th {
-    text-align: left;
-    font-weight: 700;
-    padding-right: 10px;
-    width: 120px;
+	text-align: left;
+	font-weight: 700;
+	padding-right: 10px;
+	width: 120px;
 }
+
 div.log_details table td {
-    overflow: auto;
+	overflow: auto;
 }
 
 /* Logs Filter */
 div.log_filter {
-    grid-area: log_filter;
-    display: none;
+	grid-area: log_filter;
+	display: none;
 }
+
 div.sv_log.show_filter div.log_filter {
-    display: block;
+	display: block;
 }
+
 div.log_filter div.wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 10px;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	padding: 10px;
 }
+
 div.log_filter div.wrapper label,
 div.log_filter div.wrapper label input,
 div.log_filter div.wrapper div.sv_tooltip_description {
-    margin: 0;
+	margin: 0;
 }
+
 div.log_filter div.wrapper label input {
-    padding: 10px 15px;
+	padding: 10px 15px;
 }
+/* ===/ straightvisions Dashboard - Log Module ====================================================================== */
+
+/* ==== straightvisions Dashboard - Breakpoints ===================================================================== */
+@media (min-width: 600px) {
+	section.sv_admin_section .section_head,
+	div.sv_admin_menu {
+		top: 46px;
+	}
+}
+
+@media (min-width: 783px) {
+	section.sv_admin_section .section_head,
+	div.sv_admin_menu {
+		top: 32px;
+	}
+}
+
+@media (min-width: 800px) {
+	#wpbody-content {
+		flex-direction: row;
+	}
+
+	section.sv_admin_section .section_head {
+		padding: 30px;
+	}
+
+	div.sv_admin_menu a.sv_admin_brand {
+		padding: 30px 15px;
+	}
+
+	div.sv_admin_menu .sv_admin_menu_item {
+		padding: 15px;
+	}
+
+	div.sv_admin_menu .sv_admin_menu_item:last-child {
+		border-bottom: 0;
+	}
+
+	section.sv_admin_section div.section_content div.col-50 {
+		max-width: calc(50% - 12px);
+		margin-right: 10px;
+	}
+}
+
+@media (min-width: 1200px) {
+	section.sv_admin_section div.section_content {
+		padding: 15px 0 0 20px;
+	}
+
+	.sv_wrapper .sv_dashboard_content {
+		max-width: 1000px;
+	}
+
+	div.sv_admin_menu div.sv_admin_mobile_toggle {
+		display: none;
+	}
+
+	div#sv_admin_menu_body {
+		opacity: 1;
+		display: block;
+	}
+
+	.sv_wrapper {
+		flex-direction: row;
+	}
+
+	div.sv_admin_menu {
+		max-width: 300px;
+	}
+
+	section.sv_admin_section {
+		border-left: 1px solid rgba(43, 45, 48, .1);
+	}
+
+	section.sv_admi_sectionn div.section_content ul.info_list {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (min-width: 1400px) {
+	section.sv_admin_section div.section_content ul.instance_list {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (min-width: 2200px) {
+	section.sv_admin_section div.section_content ul.instance_list {
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+}
+/* ===/ straightvisions Dashboard - Breakpoints ===================================================================== */

@@ -16,18 +16,11 @@ class setting_select extends settings{
 	}
 
 	public function html( string $ID, string $title, string $description, string $name, $value, string $required, string $disabled, $placeholder, string $multiple ) {
-		if ( ! empty( $description ) ) {
-			$tooltip = '<div class="sv_tooltip dashicons dashicons-info"></div>
-			<div class="sv_tooltip_description">' . $description . '</div>';
-		} else {
-			$tooltip = '';
-		}
-
 		$output = '
 			<h4>' . $title . '</h4>
-			<label for="' . $ID . '" class="sv_label">
+			<div class="description">' . $description . '</div>
+			<label for="' . $ID . '">
 				<select
-				class="sv_input"
 				id="' . $ID . '"
 				name="' . $name . '"
 				' . $multiple . '

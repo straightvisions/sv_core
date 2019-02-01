@@ -25,4 +25,5 @@
 			</div>
 		</div>
 	</div>
+	<div class="sv_dashboard_content">
 <?php }
