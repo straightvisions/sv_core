@@ -15,7 +15,7 @@
 				See the GNU General Public License for more details.<br><br>
 
 				You should have received a copy of the GNU General Public License along with this program.<br>
-				If not, see <a href="http://www.gnu.org/licenses/" target="_blank">http://www.gnu.org/licenses/</a>.
+				If not,See <a href="http://www.gnu.org/licenses/" target="_blank">http://www.gnu.org/licenses/</a>.
 			</p>
 
 			<h3 class="divider">Privacy Statement</h3>

@@ -12,7 +12,7 @@
 			</div>
 			<div class="col-50">
 				<h3 class="divider">Description</h3>
-				<p class="instance_description">Here you can see and manage the log.</p>
+				<p class="instance_description">Here you canSee and manage the log.</p>
 			</div>
 		</div>
 	</section>
