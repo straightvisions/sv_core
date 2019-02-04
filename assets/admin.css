@@ -1154,10 +1154,4 @@ div.log_filter div.wrapper label input {
 		grid-template-columns: 1fr 1fr;
 	}
 }
-
-@media (min-width: 2200px) {
-	section.sv_admin_section div.section_content ul.instance_list {
-		grid-template-columns: 1fr 1fr 1fr;
-	}
-}
 /* ===/ straightvisions Dashboard - Breakpoints ===================================================================== */
