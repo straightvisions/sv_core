@@ -261,13 +261,14 @@ section.sv_admin_section div.section_content ul.instance_list a {
 	text-decoration: none;
 	transition: .3s ease;
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-	grid-template-rows: auto 1fr auto;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: auto 1fr auto auto;
 	grid-template-areas:
-			'instance_title instance_title instance_title instance_title instance_title'
-			'instance_desc instance_desc instance_desc instance_desc instance_desc'
-			'instance_type instance_version instance_version_core instance_version_core_match instance_status'
-			'instance_msg instance_msg instance_msg instance_msg instance_msg';
+			'instance_title instance_title instance_title'
+			'instance_desc instance_desc instance_desc'
+			'instance_type instance_version instance_version_core'
+			'instance_version_core_match instance_status .'
+			'instance_msg instance_msg instance_msg';
 	grid-column-gap: 10px;
 	grid-row-gap: 10px;
 	word-break: break-word;
@@ -1073,6 +1074,17 @@ div.log_filter div.wrapper label input {
 /* ===/ straightvisions Dashboard - Log Module ====================================================================== */
 
 /* ==== straightvisions Dashboard - Breakpoints ===================================================================== */
+@media (min-width: 400px) {
+	section.sv_admin_section div.section_content ul.instance_list a {
+		grid-template-rows: auto 1fr auto;
+		grid-template-areas:
+				'instance_title instance_title instance_title instance_title instance_title'
+				'instance_desc instance_desc instance_desc instance_desc instance_desc'
+				'instance_type instance_version instance_version_core instance_version_core_match instance_status'
+				'instance_msg instance_msg instance_msg instance_msg instance_msg';
+	}
+}
+
 @media (min-width: 600px) {
 	section.sv_admin_section .section_head,
 	div.sv_admin_menu {
