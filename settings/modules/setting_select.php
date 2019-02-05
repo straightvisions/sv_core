@@ -27,7 +27,7 @@ class setting_select extends settings{
 			<h4>' . $title . '</h4>
 			<label for="' . $ID . '">
 				<select
-				class="sv_input"
+				class="sv_form_field sv_input"
 				id="' . $ID . '"
 				name="' . $name . '"
 				' . $multiple . '
