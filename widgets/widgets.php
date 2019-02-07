@@ -74,7 +74,7 @@ class widgets extends sv_abstract{
 	public function get_template_path(){
 		return $this->template_path;
 	}
-	public function get_template(){
+	public function get_template($args, $instance){
 		include($this->get_template_path());
 	}
 
@@ -153,7 +153,7 @@ class sv_widget extends \WP_Widget{
 		if ( ! empty( $title ) ) {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
-		$this->get_class()->get_template();
+		$this->get_class()->get_template($args, $instance);
 		echo $args['after_widget'];
 	}
 }
