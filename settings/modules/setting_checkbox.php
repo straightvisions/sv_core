@@ -18,25 +18,19 @@
 			return $this->$format($value,$object);
 		}
 		public function html($ID, $title, $description, $name, $value, $required, $disabled){
-			if(!empty($description)) {
-				$tooltip = '<div class="sv_tooltip">?</div>
-				<div class="sv_tooltip_description">' . $description . '</div>';
-			} else {
-				$tooltip = '';
-			}
 			return '
-				<label for="' . $ID . '" class="sv_checkbox">
-					<h4>' . $title . '</h4>
-					<input
-					class="sv_form_field"
-					id="' . $ID . '"
-					name="' . $name . '"
-					type="checkbox"
-					value="1"
-					' . (($value == '1') ? ' checked="checked"' : '') . '
-					' . $required . '
-					' . $disabled . '
-					/>
-				</label>' . $tooltip;
+			<h4>' . $title . '</h4>
+			<div class="description">' . $description . '</div>
+			<label for="' . $ID . '" class="checkbox">
+				<input
+				id="' . $ID . '"
+				name="' . $name . '"
+				type="checkbox"
+				value="1"
+				' . (($value == '1') ? ' checked="checked"' : '') . '
+				' . $required . '
+				' . $disabled . '
+				/>
+			</label>';
 		}
 	}

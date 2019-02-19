@@ -11,6 +11,8 @@ jQuery('body').on('click','.sv_setting_group_add_new_button', function(){
 		jQuery(this).closest('label').attr('for', jQuery(this).attr('name'));
 	});
 
+	form_clone.find( '.sv_setting_group_header h4' ).append(  jQuery( '.sv_setting_group_header' ).length );
+
 	form_new.closest('.sv_setting_group_wrapper').data('sv_form_field_index', form_new.closest('.sv_setting_group_wrapper').data('sv_form_field_index')+1);
 	form_clone.removeClass('sv_setting_group_new_draft').addClass('sv_setting_group');
 	form_clone.appendTo('.sv_setting_group_new_entries');

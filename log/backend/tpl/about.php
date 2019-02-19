@@ -1,6 +1,10 @@
 <?php if( current_user_can( 'activate_plugins' ) ) { ?>
 	<section id="section_about" class="sv_admin_section">
-		<h1 class="section_title section_about">About</h1>
+		<div class="section_head section_settings">
+			<div class="textbox">
+				<h1 class="section_title">About</h1>
+			</div>
+		</div>
 		<div class="section_content">
 			<div class="col-50">
 				<h3 class="divider">Info</h3>
@@ -12,7 +16,7 @@
 			</div>
 			<div class="col-50">
 				<h3 class="divider">Description</h3>
-				<p class="instance_description">Here you can see and manage the log.</p>
+				<p class="instance_description">Here you canSee and manage the log.</p>
 			</div>
 		</div>
 	</section>

@@ -8,7 +8,8 @@ class widgets extends sv_abstract{
 	private $description						= false;
 	private $settings							= false;
 	public $core								= false;
-	static $scripts_loaded		                = false;
+	public static $scripts_loaded		        = false;
+	private $widget_class_name					= false;
 
 	/**
 	 * @desc			initialize
@@ -73,7 +74,7 @@ class widgets extends sv_abstract{
 	public function get_template_path(){
 		return $this->template_path;
 	}
-	public function get_template($instance){
+	public function get_template(){
 		include($this->get_template_path());
 	}
 
@@ -85,61 +86,74 @@ class widgets extends sv_abstract{
 		$new->init();
 		return $new;
 	}
-	public function load(): string{
-		$widget_class = new class($this) extends \WP_Widget{
-			private static $widget = false;
-			
-			public function __construct($widget=false){
-				if($widget){
-					static::$widget = $widget;
-				}
-				
-				parent::__construct(
-					static::$widget->get_ID(),			// Base ID
-					static::$widget->get_title(),		// Name
-					array(
-						'description' => static::$widget->get_description()
-					)
-				);
-			}
-			public function form( $instance ) {
-				if (static::$widget) {
-					if(!static::$widget::$scripts_loaded) {
-						static::$widget->get_parent()->admin_enqueue_scripts('toplevel_page_straightvisions');
-						static::$widget->get_root()->acp_style();
-						static::$widget::$scripts_loaded		= true;
-					}
-
-					foreach (static::$widget->get_widget_settings() as $setting) {
-						echo $setting->run_type()->widget( ( isset ( $instance[ $setting->get_ID() ] ) ? $instance[ $setting->get_ID() ] : $setting->run_type()->get_default_value() ), $this );
-					}
-				}
-			}
-			public function update($new_instance, $old_instance){
-				$instance = array();
-
-				foreach ($new_instance as $name => $field) {
-					$instance[$name] = (!empty($new_instance[$name])) ? strip_tags($new_instance[$name]) : '';
-				}
-
-				return $instance;
-			}
-			public function widget( $args, $instance ) {
-				$title = apply_filters( 'widget_title', isset($instance['title']) ? $instance['title'] : '' );
-				
-				echo $args['before_widget'];
-				if ( ! empty( $title ) ) {
-					echo $args['before_title'] . $title . $args['after_title'];
-				}
-				static::$widget->get_template($instance);
-				echo $args['after_widget'];
-			}
-		};
-		
-		add_action('widgets_init', function () use ($widget_class) {
-			register_widget(get_class($widget_class));
+	public function load(){
+		add_action('widgets_init', function () {
+			register_widget($this->get_widget_class_name());
 		});
+	}
+	public function set_widget_class_name(string $name){
+		$this->widget_class_name				= $name;
+		return $this;
+	}
+	public function get_widget_class_name(): string{
+		return $this->widget_class_name;
+	}
+}
 
-		return get_class($widget_class);
+class sv_widget extends \WP_Widget{
+	protected static $sv;
+	
+	public function set_class($widget){
+		static::$sv		 = $widget;
+	}
+	public function get_class(){
+		return static::$sv;
+	}
+	public function __construct($widget=false){
+		if($widget){
+			$this->set_class($widget);
+		}elseif($this->get_class()){
+			parent::__construct(
+				$this->get_class()->get_ID(),			// Base ID
+				$this->get_class()->get_title(),		// Name
+				array(
+					'description' => $this->get_class()->get_description()
+				)
+			);
+		}else{
+			die('class not defined.'); // @todo: proper error handling
+		}
+	}
+	public function form( $instance ) {
+		if ($this->get_class()) {
+			if(!$this->get_class()::$scripts_loaded) {
+				$this->get_class()->get_parent()->admin_enqueue_scripts('toplevel_page_straightvisions');
+				$this->get_class()->get_root()->acp_style();
+				$this->get_class()::$scripts_loaded		= true;
+			}
+			
+			foreach ($this->get_class()->get_widget_settings() as $setting) {
+				echo $setting->run_type()->widget( ( isset ( $instance[ $setting->get_ID() ] ) ? $instance[ $setting->get_ID() ] : $setting->run_type()->get_default_value() ), $this );
+			}
+		}
+	}
+	public function update($new_instance, $old_instance){
+		$instance = array();
+		
+		foreach ($new_instance as $name => $field) {
+			$instance[$name] = (!empty($new_instance[$name])) ? strip_tags($new_instance[$name]) : '';
+		}
+		
+		return $instance;
+	}
+	public function widget( $args, $instance ) {
+		$title = apply_filters( 'widget_title', isset($instance['title']) ? $instance['title'] : '' );
+		
+		echo $args['before_widget'];
+		if ( ! empty( $title ) ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
+		$this->get_class()->get_template();
+		echo $args['after_widget'];
 	}
 }
