@@ -218,11 +218,6 @@ section.sv_admin_section div.section_content {
 	padding: 15px 0 0 0;
 }
 
-section.sv_admin_section div.section_content form h2:first-of-type,
-section.sv_admin_section div.section_content form p:first-of-type{
-	display: none;
-}
-
 /* ===/ straightvisions Dashboard - Content ========================================================================= */
 
 /* ==== straightvisions Dashboard - Layout Elements ================================================================= */
