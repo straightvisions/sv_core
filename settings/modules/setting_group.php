@@ -14,8 +14,11 @@
 		 */
 		public function __construct($parent=false){
 			$this->parent			= $parent;
-			
-			if(is_admin()) {
+
+			add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
+		}
+		public function admin_enqueue_scripts($hook){
+			if ( strpos($hook,'straightvisions') !== false ) {
 				wp_enqueue_script($this->get_prefix(), $this->get_url_lib_core('assets/admin_setting_group.js'), array('jquery'), filemtime($this->get_path_lib_core('assets/admin_setting_group.js')), true);
 			}
 		}
