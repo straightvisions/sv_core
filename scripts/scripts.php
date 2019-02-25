@@ -41,6 +41,7 @@ class scripts extends sv_abstract {
 
 	public function add_script( scripts $script ) {
 		if ( ! $script->get_is_loaded() ) {
+			$script->set_is_loaded();
 			switch ( $script->get_type() ) {
 				case 'css':
 					if ( $script->get_inline() ) {
