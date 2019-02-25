@@ -138,8 +138,12 @@
 	}
 ?>
 <form method="POST">
-	<button type="submit" name="test_logs" class="sv_btn">Create Test Logs</button>
-	<p><i>Will be removed on staging/master.</i></p>
+	<div class="sv_setting">
+		<button type="submit" name="test_logs" class="sv_btn">Create Test Logs</button>
+		<p><i>Will be removed on staging/master.</i></p>
+		<br>
+		<br>
+	</div>
 </form>
 <div class="sv_log">
 	<div class="log_summary">

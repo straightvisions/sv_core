@@ -28,7 +28,7 @@ class settings extends sv_abstract{
 	private $prefix								= 'sv_';
 	private $data								= false;
 	private $default_value						= false;
-	private $radio_style                        = false;
+	private $radio_style                        = 'radio';
 	protected static $new						= array();
 
 	/**
@@ -69,7 +69,6 @@ class settings extends sv_abstract{
 		$new->prefix							= $parent->get_prefix().'_';
 		$new->set_root($parent->get_root());
 		$new->set_parent($parent);
-		$new->set_radio_style( 'radio' );
 
 		return $new;
 	}
@@ -198,7 +197,7 @@ class settings extends sv_abstract{
 		return $this;
 	}
 	public function get_placeholder(): string{
-		return $this->placeholder;
+		return ( $this->placeholder ? $this->placeholder : $this->title );
 	}
 	public function set_maxlength( int $maxlength ) {
 		$this->maxlength						= $maxlength;
@@ -416,9 +415,9 @@ class settings extends sv_abstract{
 			);
 	}
 	public function form(bool $title=false): string{
-		return '<div>'.$this->html(
+		return '<div class="sv_setting">'.$this->html(
 				$this->get_field_id(),
-				$title ? $this->get_parent()->get_title() : '',
+				$this->get_parent()->get_title(),
 				$this->get_parent()->get_description(),
 				$this->get_field_id(),
 				$this->get_data(),

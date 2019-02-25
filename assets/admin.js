@@ -1,6 +1,5 @@
 function sv_admin_load_page(target){
 	if(jQuery(target).length) {
-		console.log(target);
 		jQuery('.sv_admin_menu_item.active').removeClass('active');
 		jQuery('*[data-target="' + target + '"]').addClass('active');
 		jQuery('.sv_admin_section').hide();
@@ -71,7 +70,6 @@ jQuery( document ).on( 'click', 'div.log_list tr.log', function() {
 			table.toggleClass( 'show' );
 			jQuery( 'div.sv_log' ).toggleClass( 'show_details' );
 		}
-		console.log( log_id + ' - ' + table_id);
 	} else {
 		jQuery( this ).addClass( 'active' );
 		jQuery( 'div.sv_log' ).toggleClass( 'show_details' );
@@ -85,4 +83,9 @@ jQuery( document ).on( 'click', 'div.log_summary button#logs_filter', function()
 	jQuery( 'div.sv_log' ).removeClass( 'show_details' );
 	jQuery( 'div.log_details table' ).removeClass( 'show' );
 	jQuery( 'div.sv_log' ).toggleClass( 'show_filter' );
+});
+
+/* set form referer for redirect to current subpage on submit */
+jQuery( document ).on('submit', 'section.sv_admin_section form', function(e){
+	jQuery(this).find('input[name="_wp_http_referer"]').val(jQuery(location).attr('href'));
 });

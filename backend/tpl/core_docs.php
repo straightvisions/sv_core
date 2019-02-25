@@ -1,6 +1,10 @@
 <?php if( current_user_can( 'activate_plugins' ) ) { ?>
 <section id="section_core_docs" class="sv_admin_section">
-	<h1 class="section_title section_core_docs">Core Docs</h1>
+	<div class="section_head section_core_docs">
+		<div class="textbox">
+			<h1 class="section_title">Core Docs</h1>
+		</div>
+	</div>
 	<div class="section_content">
 		<h3 class="divider">Description</h3>
 		<p>A detailed documentation of all helpful core methods and the returned values, that are used in all our products.</p>

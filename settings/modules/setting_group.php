@@ -14,8 +14,11 @@
 		 */
 		public function __construct($parent=false){
 			$this->parent			= $parent;
-			
-			if(is_admin()) {
+
+			add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
+		}
+		public function admin_enqueue_scripts($hook){
+			if ( strpos($hook,'straightvisions') !== false ) {
 				wp_enqueue_script($this->get_prefix(), $this->get_url_lib_core('assets/admin_setting_group.js'), array('jquery'), filemtime($this->get_path_lib_core('assets/admin_setting_group.js')), true);
 			}
 		}
@@ -39,8 +42,8 @@
 				}
 			}
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_add_new">';
+			$output[]				= '<div class="sv_'.$this->get_module_name().'_add_new_button button">'.__('Add Group',$this->get_module_name()).'</div>';
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_new_entries"></div>';
-			$output[]				= '<div class="sv_'.$this->get_module_name().'_add_new_button">'.__('Add new Entry',$this->get_module_name()).'</div>';
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_new_draft" style="display:none;">'.$this->html_field($i).'</div>';
 			$output[]				= '</div>';
 			$output[]				= '</div>';
@@ -54,23 +57,23 @@
 				$output[]				= ($setting_id !== false ? '<div class="sv_'.$this->get_module_name().'">' : '');
 				$output[]				= '
 					<div class="sv_'.$this->get_module_name().'_header">
-						<h4>'.($setting_id !== false ? __('Entry',$this->get_module_name()).' #'.($i+1) : __('New Entry',$this->get_module_name())).'</h4>
-						<div class="sv_'.$this->get_module_name().'_delete">'.__('Delete Entry', $this->get_module_name()).'</div>
+						<h4>'.($setting_id !== false ? __('Entry',$this->get_module_name()).' #'.($i+1) : __('Group #',$this->get_module_name())).'</h4> 
+						<div class="sv_'.$this->get_module_name().'_delete"><i class="far fa-trash-alt"></i></div>
 					</div>
 					';
+
+				$run = 0;
 				foreach($this->get_children() as $child) {
 					$output[]			= '<div class="'.$this->get_prefix($this->get_type()).'_item">';
-					
-					$output[]			= '<div>'.$child->run_type()->html(
+					$output[]			= '<div class="sv_'.$this->get_module_name().'_input">'.$child->run_type()->html(
 							($setting_id !== false ? $child->get_field_id().'['.$i.']['.$child->get_ID().']' : $child->get_field_id().'[sv_form_field_index]['.$child->get_ID().']'),
 							$child->get_title(),
 							$child->get_description(),
 							($setting_id !== false ? $child->get_field_id().'['.$i.']['.$child->get_ID().']' : ''),
 							($setting_id !== false ? get_option($child->get_field_id())[$setting_id][$child->get_ID()] : ''),
 							$child->get_placeholder()
-						).'</div>';
-					
-					$output[]			= '</div>';
+						);
+					$output[]			= '</div></div>';
 				}
 				$output[]				= ($setting_id !== false ? '</div>' : '');
 			}

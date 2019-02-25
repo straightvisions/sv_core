@@ -27,9 +27,9 @@
 					<textarea style="height:200px;"
 					class="sv_form_field sv_input"
 					id="' . $ID . '"
-					name="' . $name . '
+					name="' . $name . '"
 					' . $required . '
-					' . $disabled . '">' . esc_attr($value) . '</textarea>
+					' . $disabled . '">' . esc_textarea($value) . '</textarea>
 				</label>' . $tooltip;
 		}
 	}
