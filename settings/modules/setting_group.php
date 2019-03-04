@@ -33,6 +33,7 @@
 		protected function html($ID,$title,$description,$name,$value){
 			$i						= 0;
 			$output					= array();
+			$output[]               = '<h4>' . $title . '</h4><div class="description">' . $description . '</div>';
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_wrapper" data-sv_form_field_index="'.count(get_option($this->get_field_id())).'">';
 			$output[]				= '<input type="hidden" name="'.$this->get_field_id().'" value="" />';
 			if($this->get_children() && get_option($this->get_field_id())) {
@@ -58,7 +59,7 @@
 				$output[]				= '
 					<div class="sv_'.$this->get_module_name().'_header">
 						<h4>'.($setting_id !== false ? __('Entry',$this->get_module_name()).' #'.($i+1) : __('Group #',$this->get_module_name())).'</h4> 
-						<div class="sv_'.$this->get_module_name().'_delete"><i class="far fa-trash-alt"></i></div>
+						<div class="sv_'.$this->get_module_name().'_delete"><i class="fas fa-trash"></i></div>
 					</div>
 					';
 
@@ -71,7 +72,14 @@
 							$child->get_description(),
 							($setting_id !== false ? $child->get_field_id().'['.$i.']['.$child->get_ID().']' : ''),
 							($setting_id !== false ? get_option($child->get_field_id())[$setting_id][$child->get_ID()] : ''),
-							$child->get_placeholder()
+							$child->get_required(),
+							$child->get_disabled(),
+							$child->get_placeholder(),
+							$child->get_maxlength(),
+							$child->get_minlength(),
+							$child->get_max(),
+							$child->get_min(),
+							$child->get_radio_style()
 						);
 					$output[]			= '</div></div>';
 				}

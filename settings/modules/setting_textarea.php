@@ -15,14 +15,9 @@
 			$this->parent			= $parent;
 		}
 		public function html($ID, $title, $description, $name, $value, $required, $disabled) {
-			if(!empty($description)) {
-				$tooltip = '<div class="sv_tooltip">?</div>
-				<div class="sv_tooltip_description">' . $description . '</div>';
-			} else {
-				$tooltip = '';
-			}
 			return '
 				<h4>' . $title . '</h4>
+				<div class="description">' . $description . '</div>
 				<label for="' . $ID . '">
 					<textarea style="height:200px;"
 					class="sv_form_field sv_input"
@@ -30,6 +25,6 @@
 					name="' . $name . '"
 					' . $required . '
 					' . $disabled . '">' . esc_textarea($value) . '</textarea>
-				</label>' . $tooltip;
+				</label>';
 		}
 	}

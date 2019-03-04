@@ -19,30 +19,27 @@ class setting_radio extends settings{
 		return $this->$format($value,$object);
 	}
 
-	public function html( string $ID, string $title, string $description, string $name, $value, string $required, string $disabled, $placeholder, string $multiple, $maxlength, $minlength, $max, $min, $radio_style ) {
-		if ( $radio_style == 'checkbox' ) {
-			$output = '<h4>' . $title . '</h4><div class="description">' . $description . '</div><div class="sv_radio-checkbox-wrapper">';
+	public function html( string $ID, string $title, string $description, string $name, $value, string $required, string $disabled, $placeholder, $maxlength, $minlength, $max, $min, $radio_style ) {
+		if ( $radio_style == 'switch' ) { //@todo Does not work anymore, needs to be reworked by AC
+			$output = '<h4>' . $title . '</h4><div class="description">' . $description . '</div><div class="sv_radio_switch_wrapper">';
+			$output .= '<label for="' . $ID . '"><div class="switch_field">';
 
 			foreach( $this->get_parent()->get_options() as $o_value => $o_name ) {
 				$output .=
-				'<label for="' . $ID . '">
-					<div class="wrapper">
-						<input
-							name="' . $name . '"
-							type="radio"
-							class="sv_form_field ' . ( ( $o_value < 1 ) ? 'off' : 'on' ) . '"
-							value="' . $o_value . '"
-							' . $disabled . '
-							' . ( ( $o_value == $value ) ? ' checked="checked" ' : '' ) . '
-						/>
-						<span class="name">' . $o_name . '</span>
-					</div>
-				</label>';
+				'<input
+					name="' . $name . '"
+					type="radio"
+					class="sv_form_field ' . ( ( $o_value < 1 ) ? 'off' : 'on' ) . '"
+					value="' . $o_value . '"
+					' . $disabled . '
+					' . ( ( $o_value == $value ) ? ' checked="checked" ' : '' ) . '
+				/>
+				<span class="name">' . $o_name . '</span>';
 			}
 
-			$output .= '</div>';
+			$output .= '</div></label></div>';
 		} else {
-			$output = (  $title ? '<h4>' .  $title . '</h4>' : '');
+			$output = '<h4>' . $title . '</h4><div class="description">' . $description . '</div>';
 
 			foreach( $this->get_parent()->get_options() as $o_value => $o_name ) {
 				$output .=
