@@ -11,7 +11,10 @@ class scripts extends sv_abstract {
 	private $script_path						= '';
 	private $deps								= array();
 	private $no_prefix							= false;
-	private static $is_loaded					= array();
+	private static $is_loaded					= array(
+		'css'									=> array(),
+		'js'									=> array()
+	);
 	private $is_backend                         = false;
 
 	// CSS specific
@@ -113,13 +116,13 @@ class scripts extends sv_abstract {
 	}
 
 	public function set_is_loaded(): scripts {
-		static::$is_loaded[$this->get_handle()]	= true;
+		static::$is_loaded[$this->get_type()][$this->get_handle()]	= true;
 
 		return $this;
 	}
 
 	public function get_is_loaded(): bool {
-		return isset(static::$is_loaded[$this->get_handle()]);
+		return isset(static::$is_loaded[$this->get_type()][$this->get_handle()]);
 	}
 
 	public function set_type( string $type ): scripts {
