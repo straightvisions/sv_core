@@ -22,26 +22,27 @@ class setting_radio extends settings{
 	public function html( string $ID, string $title, string $description, string $name, $value, string $required, string $disabled, $placeholder, $maxlength, $minlength, $max, $min, $radio_style ) {
 		$output = '<h4>' . $title . '</h4><div class="description">' . $description . '</div>';
 
-		if ( $radio_style == 'switch' ) {
-			$output .= '<div class="sv_radio_switch_wrapper">';
-			$output .= '<label for="' . $ID . '"><div class="switch_field">';
-		}
+		$output .= ( $radio_style == 'switch'
+			? '<div class="sv_radio_switch_wrapper"><label for="' . $ID . '"><div class="switch_field">'
+			: '' );
 
 		foreach( $this->get_parent()->get_options() as $o_value => $o_name ) {
+			$output .= ( $radio_style == 'switch' ? '' : '<label for="' . $ID . '">' );
 			$output .=
-			'<label for="' . $ID . '">
-				<input
-					id="'.$ID.'"
+				'<input
 					name="' . $name . '"
+					id="' . $ID . '"
 					type="radio"
 					class="sv_form_field ' . ( ( $o_value < 1 ) ? 'off' : 'on' ) . '"
 					value="' . $o_value . '"
 					' . $disabled . '
 					' . ( ( $o_value == $value ) ? ' checked="checked" ' : '' ) . '
 				/>
-				<span class="name">' . $o_name . '</span>
-			</label>';
+				<span class="name">' . $o_name . '</span>';
+			$output .= ( $radio_style == 'switch' ? '' : '</label>' );
 		}
+
+		$output .= ( $radio_style == 'switch' ? '</div></label></div>' : '' );
 
 		return $output;
 	}
