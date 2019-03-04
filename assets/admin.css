@@ -824,9 +824,23 @@ div.sv_100_sv_woocommerce_settings_setting_group_item {
 	margin-bottom: 10px;
 }
 
-div.sv_setting.sv_setting_group {
+div.sv_setting.sv_setting_group_parent {
+	background-color: transparent;
+	padding: 0;
+	border-radius: 0;
+}
+
+div.sv_setting.sv_setting_group_parent div.sv_setting_group_add_new {
+	background-color: rgba( 50, 50, 48, .05 );
+	padding: 15px;
+	border-radius: 5px;
+}
+
+div.sv_setting_group_wrapper div.sv_setting_group {
 	margin-top: 25px;
 	background: rgba(0, 131, 255, 0.1);
+	border-radius: 5px;
+	padding: 15px;
 }
 
 div.sv_setting_group_input {
