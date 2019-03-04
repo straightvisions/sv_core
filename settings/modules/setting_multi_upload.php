@@ -49,6 +49,9 @@
 				}
 				
 				return '
+				<div class="sv_setting">
+					<h4>' . $this->get_parent()->get_title() . '</h4>
+					<div class="description">' . $this->get_parent()->get_description() . '</div>
                 <form enctype="multipart/form-data" method="post" action="'.admin_url('media-new.php').'" class="media-upload-form type-form validate" id="file-form">
                 '.$form.'
                 <p>'.__('Allowed Filetypes:',$this->get_module_name()).' '.
@@ -63,7 +66,7 @@
                 <input type="hidden" name="post_id" id="post_id" value="'.$post_id.'" />
                 '.wp_nonce_field('media-form','_wpnonce',true,false).'
                 <div id="media-items" class="hide-if-no-js"></div>
-                </form>
+                </form></div>
                 ';
 			}else{
 				return __('Multi Upload cannot be implemented more than once on a page.',$this->get_module_name());

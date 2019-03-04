@@ -15,14 +15,9 @@
 			$this->parent			= $parent;
 		}
 		public function html($ID, $title, $description, $name, $value, $required, $disabled, $placeholder){
-			if(!empty($description)) {
-				$tooltip = '<div class="sv_tooltip">?</div>
-				<div class="sv_tooltip_description">' . $description . '</div>';
-			} else {
-				$tooltip = '';
-			}
 			return '
 				<h4>' . $title . '</h4>
+				<div class="description">' . $description . '</div>
 				<div>' . wp_get_attachment_link($value, 'medium', false, true) . '</div>
 				<label for="' . $ID . '">
 					<input
@@ -33,7 +28,7 @@
 					placeholder="'.$placeholder.'"
 					' . $disabled . '
 					/>
-				</label>' . $tooltip;
+				</label>';
 		}
 		public function field_callback($input){
 			if(intval($_FILES[$this->get_parent()->get_prefix($this->get_parent()->get_ID())]['size']) > 0) {

@@ -19,7 +19,6 @@ class settings extends sv_abstract{
 	private $minlength						    = false;
 	private $max	    					    = false;
 	private $min    						    = false;
-	private $multiple 						    = false;
 	private $required  						    = false;
 	private $disabled  						    = false;
 	private $callback							= array();
@@ -231,18 +230,6 @@ class settings extends sv_abstract{
 	public function get_min(): string {
 		return $this->min;
 	}
-	public function set_multiple( bool $multiple ) {
-		if( $multiple == true ) {
-			$this->multiple					    = 'multiple';
-		} else {
-			$this->multiple					    = '';
-		}
-
-		return $this;
-	}
-	public function get_multiple(): string {
-		return $this->multiple;
-	}
 	public function set_required( bool $required ) {
 		if( $required == true ) {
 			$this->required						= 'required';
@@ -406,7 +393,6 @@ class settings extends sv_abstract{
 				$this->get_parent()->get_required(),
 				$this->get_parent()->get_disabled(),
 				$this->get_parent()->get_placeholder(),
-				$this->get_parent()->get_multiple(),
 				$this->get_parent()->get_maxlength(),
 				$this->get_parent()->get_minlength(),
 				$this->get_parent()->get_max(),
@@ -424,7 +410,6 @@ class settings extends sv_abstract{
 				$this->get_parent()->get_required(),
 				$this->get_parent()->get_disabled(),
 				$this->get_parent()->get_placeholder(),
-				$this->get_parent()->get_multiple(),
 				$this->get_parent()->get_maxlength(),
 				$this->get_parent()->get_minlength(),
 				$this->get_parent()->get_max(),
