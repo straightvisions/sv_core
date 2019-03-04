@@ -23,6 +23,7 @@
 				'echo'					=> 0,
 				'selected'				=> $value,
 				'name'					=> $name,
+				'id'                    => $ID,
 				'class'					=> 'sv_form_field sv_input',
 				'show_option_none'		=> __('No Page selected',$this->get_module_name())
 			);

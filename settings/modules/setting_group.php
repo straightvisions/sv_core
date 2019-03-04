@@ -63,7 +63,6 @@
 					</div>
 					';
 
-				$run = 0;
 				foreach($this->get_children() as $child) {
 					$output[]			= '<div class="'.$this->get_prefix($this->get_type()).'_item">';
 					$output[]			= '<div class="sv_'.$this->get_module_name().'_input">'.$child->run_type()->html(

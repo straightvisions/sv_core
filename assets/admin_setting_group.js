@@ -19,7 +19,7 @@ jQuery('body').on('click','.sv_setting_group_add_new_button', function(){
 
 	form_new.closest('.sv_setting_group_wrapper').data('sv_form_field_index', form_new.closest('.sv_setting_group_wrapper').data('sv_form_field_index')+1);
 	form_clone.removeClass('sv_setting_group_new_draft').addClass('sv_setting_group').addClass('sv_setting');
-	console.log(jQuery( '.sv_setting_group' ).last());
+
 	if ( jQuery( '.sv_setting_group' ).last().length > 0 ) {
 		form_clone.insertAfter( jQuery( '.sv_setting_group' ).last() );
 	} else {
