@@ -21,6 +21,9 @@ class scripts extends sv_abstract {
 	// CSS specific
 	private $media								= 'all';
 	private $inline								= false;
+	
+	// JS specific
+	private $localized							= array();
 
 	public function __construct() {
 		add_action( 'wp_footer', array( $this, 'wp_footer' ), 1 );
@@ -71,10 +74,8 @@ class scripts extends sv_abstract {
 						true                                       // print in footer
 					);
 					
-					$script->set_localized(array('test' => 'jo'));
-					die('test');
 					if($script->is_localized()){
-						wp_localize_script($script->get_handle(), $script->get_handle(), $script->get_localized());
+						wp_localize_script($script->get_handle(), $script->get_prefix($script->get_handle()), $script->get_localized());
 					}
 					break;
 			}
@@ -124,6 +125,8 @@ class scripts extends sv_abstract {
 	
 	public function set_localized(array $settings): scripts{
 		$this->localized						= $settings;
+		
+		return $this;
 	}
 	public function get_localized(): array{
 		return $this->localized;
@@ -162,8 +165,8 @@ class scripts extends sv_abstract {
 		return $this->is_backend;
 	}
 	
-	public function set_path(string $path, bool $absolute_url = false): scripts {
-		if($absolute_url){
+	public function set_path(string $path): scripts {
+		if($this->is_valid_url($path)){
 			$this->script_url					= $path;
 			$this->is_external					= true;
 		}else {
@@ -173,10 +176,16 @@ class scripts extends sv_abstract {
 		
 		return $this;
 	}
-	public function get_path(): string {
+	public function get_path($suffix = '', $check_if_exists = false): string {
+		if($check_if_exists) {
+			error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ': Parameter $check_if_exists will be deprecated in v3.000. Use file_exists($this->get_path($suffix)) instead.' );
+		}
 		return $this->script_path;
 	}
-	public function get_url(): string {
+	public function get_url($suffix = '', $check_if_exists = false): string {
+		if($check_if_exists) {
+			error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ': Parameter $check_if_exists will be deprecated in v3.000. Use file_exists($this->get_path($suffix)) instead.' );
+		}
 		return $this->script_url;
 	}
 	public function is_external(): bool{

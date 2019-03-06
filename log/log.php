@@ -19,7 +19,7 @@ class log extends sv_abstract {
 	}
 
 	public function __get( string $name ) {
-		if( $this->get_path_core( 'log/modules/' . $name . '.php',true ) ) {
+		if( file_exists($this->get_path_core( 'log/modules/' . $name . '.php')) ) {
 			require_once( $this->get_path_core('log/modules/' . $name . '.php' ) );
 			$class_name							    = __NAMESPACE__ . '\\' . $name;
 

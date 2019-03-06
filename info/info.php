@@ -25,7 +25,7 @@ class info extends sv_abstract{
 	 * @ignore
 	 */
 	public function __get(string $name){
-		if($this->get_path_core($this->get_module_name().'/modules/'.$name.'.php', true)){ // look for class file in modules directory
+		if(file_exists($this->get_path_core($this->get_module_name().'/modules/'.$name.'.php'))){ // look for class file in modules directory
 			if(!class_exists( __NAMESPACE__.'\\'.$name)) {
 				require_once($this->get_path_core($this->get_module_name() . '/modules/' . $name . '.php'));
 			}
