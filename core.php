@@ -115,7 +115,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				'manage_options',
 				'straightvisions',
 				'',
-				$this->get_url_lib_core( 'assets/logo_icon.png' ),
+				$this->get_url_core( 'assets/logo_icon.png' ),
 				100
 			);
 		}

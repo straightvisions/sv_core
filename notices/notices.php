@@ -36,8 +36,8 @@ class notices extends sv_abstract{
 	 * @ignore
 	 */
 	public function __get(string $name){
-		if($this->get_path_lib_core('notices/modules/'.$name.'.php',true)){ // look for class file in modules directory
-			require_once($this->get_path_lib_core('notices/modules/'.$name.'.php'));
+		if($this->get_path_core('notices/modules/'.$name.'.php',true)){ // look for class file in modules directory
+			require_once($this->get_path_core('notices/modules/'.$name.'.php'));
 			$class_name							= __NAMESPACE__.'\\'.$name;
 
 			$this->$name						= new $class_name($this);
@@ -58,7 +58,7 @@ class notices extends sv_abstract{
 				'publicly_queryable'			=> false,
 				'show_ui'						=> false,
 				'has_archive'					=> false,
-				'menu_icon'						=> $this->get_url_lib_core('assets/logo_icon.png'),
+				'menu_icon'						=> $this->get_url_core('assets/logo_icon.png'),
 				'supports'						=> array('custom-fields'),
 				'delete_with_user'				=> false,
 				'rewrite'						=> array(

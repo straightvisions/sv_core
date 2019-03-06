@@ -145,18 +145,6 @@ class scripts extends sv_abstract {
 	public function get_is_backend(): bool {
 		return $this->is_backend;
 	}
-
-	public function set_source( string $url, string $path ): scripts {
-		error_log( "DEPRECATED: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in core v1.100. Use set_path() instead. ' . $suffix );
-		$this->script_url					    = $url;
-		$this->script_path					    = $path;
-
-		return $this;
-	}
-	public function get_source(): array {
-		error_log( "DEPRECATED: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in core v1.100. Use get_path() or get_url() instead. ' . $suffix );
-		return array( 'url' => $this->script_url, 'path' => $this->script_path );
-	}
 	
 	public function set_path(string $path, bool $absolute_url = false): scripts {
 		if($absolute_url){

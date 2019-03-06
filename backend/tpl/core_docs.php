@@ -56,14 +56,14 @@
 		<div class="col-50">
 			<h3 class="divider">get core path</h3>
 			<p><?php _e('Absolute path to core:', $this->get_module_name()); ?></p>
-			<code>$this->get_path_lib_core($suffix='',$check_if_exists=false);</code>
-			<blockquote><?php echo $this->get_path_lib_core(); ?></blockquote>
+			<code>$this->get_path_core($suffix='',$check_if_exists=false);</code>
+			<blockquote><?php echo $this->get_path_core(); ?></blockquote>
 		</div>
 		<div class="col-50">
 			<h3 class="divider">get core url</h3>
 			<p><?php _e('Absolute url to core:', $this->get_module_name()); ?></p>
-			<code>$this->get_url_lib_core($suffix='',$check_if_exists=false);</code>
-			<blockquote><?php echo $this->get_url_lib_core(); ?></blockquote>
+			<code>$this->get_url_core($suffix='',$check_if_exists=false);</code>
+			<blockquote><?php echo $this->get_url_core(); ?></blockquote>
 		</div>
 		<div class="col-50">
 			<h3 class="divider"><?php _e('Enqueue Admin Styles', $this->get_module_name()); ?></h3>

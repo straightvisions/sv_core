@@ -3,7 +3,7 @@
 namespace sv_core;
 
 abstract class sv_abstract {
-	const version_core					= 1014;
+	const version_core					= 1100;
 
 	protected $name						= false;
 	protected $module_name				= false;
@@ -322,141 +322,12 @@ abstract class sv_abstract {
 			}
 		}
 	}
-
-	public function get_path_lib( $suffix = '', $check_if_exists = false ) {
-		error_log( "DEPRECATED: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in core v1.100. Use get_path() instead. ' . $suffix );
-		if ( file_exists( $this->get_path( 'lib/' ) . $suffix ) ) {
-			if ( $check_if_exists ) {
-				return true;
-			} else {
-				return $this->get_path( 'lib/' ) . $suffix;
-			}
-		} else {
-			if ( $check_if_exists ) {
-				return false;
-			} else {
-				error_log( "Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: ' . $suffix );
-
-				return false;
-			}
-		}
+	public function get_path_core($suffix = '', $check_if_exists = false): string{
+		return $this->get_path(self::$path_core.$suffix, $check_if_exists);
 	}
-
-	public function get_url_lib( $suffix = '', $check_if_exists = false ) {
-		error_log( "DEPRECATED: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in core v1.100. Use get_path() instead. ' . $suffix );
-		if ( file_exists( $this->get_path( 'lib/' ) . $suffix ) ) {
-			if ( $check_if_exists ) {
-				return true;
-			} else {
-				return $this->get_url( 'lib/' ) . $suffix;
-			}
-		} else {
-			if ( $check_if_exists ) {
-				return false;
-			} else {
-				error_log( "Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: ' . $suffix );
-
-				return false;
-			}
-		}
+	public function get_url_core($suffix = '', $check_if_exists = false): string{
+		return $this->get_path(self::$url_core.$suffix, $check_if_exists);
 	}
-
-	public function get_path_lib_modules( $suffix = '', $check_if_exists = false ) {
-		error_log( "DEPRECATED: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in core v1.100. Use get_path() instead. ' . $suffix );
-		if ( file_exists( $this->get_path_lib( 'modules/' ) . $suffix ) ) {
-			if ( $check_if_exists ) {
-				return true;
-			} else {
-				return $this->get_path_lib( 'modules/' ) . $suffix;
-			}
-		} else {
-			if ( $check_if_exists ) {
-				return false;
-			} else {
-				error_log( "Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: ' . $suffix );
-
-				return false;
-			}
-		}
-	}
-
-	public function get_path_lib_core( $suffix = '', $check_if_exists = false ) {
-		error_log( "DEPRECATED: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in core v1.100. Use get_path() instead. ' . $suffix );
-		if ( file_exists( self::$path_core . $suffix ) ) {
-			if ( $check_if_exists ) {
-				return true;
-			} else {
-				return self::$path_core . $suffix;
-			}
-		} else {
-			if ( $check_if_exists ) {
-				return false;
-			} else {
-				error_log( "Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: ' . self::$path_core . $suffix );
-
-				return false;
-			}
-		}
-	}
-
-	public function get_url_lib_core( $suffix = '', $check_if_exists = false ) {
-		error_log( "DEPRECATED: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in core v1.100. Use get_url() instead. ' . $suffix );
-		if ( file_exists( self::$path_core . $suffix ) ) {
-			if ( $check_if_exists ) {
-				return true;
-			} else {
-				return self::$url_core . $suffix;
-			}
-		} else {
-			if ( $check_if_exists ) {
-				return false;
-			} else {
-				error_log( "Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - url not found: ' . self::$url_core . $suffix );
-
-				return false;
-			}
-		}
-	}
-	/*
-		default hierarchy:
-		/lib/frontend/(img|css|js|tpl)/
-		/lib/backend/(img|css|js|tpl)/
-	*/
-
-	public function get_path_lib_section( $section = false, $dir = false, $suffix = '', $check_if_exists = false ) {
-		error_log( "DEPRECATED: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in core v1.100. Use get_url() instead. ' . $suffix );
-		$path = $this->get_path_lib( ( $section ? trailingslashit( $section ) : '' ) . ( $dir ? trailingslashit( $dir ) : '' ) ) . $suffix;
-
-		if ( file_exists( $path ) ) {
-			if ( $check_if_exists ) {
-				return true;
-			} else {
-				return $path;
-			}
-		} else {
-			if ( $check_if_exists ) {
-				return false;
-			} else {
-				error_log( "Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: ' . $path );
-
-				return false;
-			}
-		}
-	}
-
-	public function get_url_lib_section( $section = false, $dir = false, $suffix = '', $check_if_exists = false ) {
-		error_log( "DEPRECATED: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in core v1.100. Use get_url() instead. ' . $suffix );
-		$path = $this->get_path_lib( ( $section ? trailingslashit( $section ) : '' ) . ( $dir ? trailingslashit( $dir ) : '' ) ) . $suffix;
-
-		if ( file_exists( $path ) ) {
-			return $this->get_url_lib( ( $section ? trailingslashit( $section ) : '' ) . ( $dir ? trailingslashit( $dir ) : '' ) ) .$suffix;
-		} else {
-			error_log( "Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ' - path not found: ' . $path );
-
-			return false;
-		}
-	}
-
 	public function get_current_url() {
 		return ( isset( $_SERVER[ 'HTTPS' ] ) ? 'https' : 'http' ) . '://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
 	}
@@ -468,7 +339,7 @@ abstract class sv_abstract {
 	public function acp_style( $hook = false ) {
 		if ( !$hook || $hook == 'sv-100_page_' . $this->get_module_name() ) {
 			echo '<style data-id="sv_admin_css">';
-			require_once( $this->get_path_lib_core( 'assets/admin.css' ) );
+			require_once( $this->get_path_core( 'assets/admin.css' ) );
 			echo '</style>';
 		}
 	}
@@ -558,24 +429,24 @@ abstract class sv_abstract {
 
 	public function admin_enqueue_scripts( $hook ) {
 		if ( strpos($hook,'straightvisions') !== false ) {
-			wp_enqueue_script( $this->get_prefix(), $this->get_url_lib_core( 'assets/admin.js' ), array( 'jquery' ), filemtime( $this->get_path_lib_core( 'assets/admin.js' ) ), true );
+			wp_enqueue_script( $this->get_prefix(), $this->get_url_core( 'assets/admin.js' ), array( 'jquery' ), filemtime( $this->get_path_core( 'assets/admin.js' ) ), true );
 		}
 	}
 
 	public function load_page( string $custom_about_path = '' ) {
 		$this->get_root()->acp_style();
 
-		require_once( $this->get_path_lib_core( 'backend/tpl/header.php' ) );
-		require_once( strlen( $custom_about_path ) > 0 ? $custom_about_path : $this->get_path_lib_core( 'backend/tpl/about.php' ) );
+		require_once( $this->get_path_core( 'backend/tpl/header.php' ) );
+		require_once( strlen( $custom_about_path ) > 0 ? $custom_about_path : $this->get_path_core( 'backend/tpl/about.php' ) );
 		
 		if(defined('WP_DEBUG') && WP_DEBUG === true) {
-			require_once( $this->get_path_lib_core( 'backend/tpl/core_docs.php' ) );
+			require_once( $this->get_path_core( 'backend/tpl/core_docs.php' ) );
 		}
 
 		$this->load_section_html();
 
-		require_once( $this->get_path_lib_core( 'backend/tpl/legal.php' ) );
-		require_once( $this->get_path_lib_core( 'backend/tpl/footer.php' ) );
+		require_once( $this->get_path_core( 'backend/tpl/legal.php' ) );
+		require_once( $this->get_path_core( 'backend/tpl/footer.php' ) );
 	}
 
 	public function load_section_menu() {
@@ -586,7 +457,7 @@ abstract class sv_abstract {
 
 	public function load_section_html() {
 		foreach( $this->get_sections() as $section_name => $section ) {
-			require( $this->get_path_lib_core( 'backend/tpl/section_' . $section[ 'object' ]->get_section_type() . '.php' ) );
+			require( $this->get_path_core( 'backend/tpl/section_' . $section[ 'object' ]->get_section_type() . '.php' ) );
 		}
 	}
 

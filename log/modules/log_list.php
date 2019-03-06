@@ -15,6 +15,6 @@ class log_list extends log {
 	 */
 	public function init() {
 		$this->get_parent()->add_section( $this )
-		                   ->set_section_template_path( $this->get_path_lib_core( 'log/backend/tpl/log_list.php' ) );
+		                   ->set_section_template_path( $this->get_path_core( 'log/backend/tpl/log_list.php' ) );
 	}
 }

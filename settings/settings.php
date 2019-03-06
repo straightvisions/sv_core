@@ -48,8 +48,8 @@ class settings extends sv_abstract{
 	 * @ignore
 	 */
 	public function __get(string $name){
-		if($this->get_path_lib_core('settings/modules/'.$name.'.php',true)){ // look for class file in modules directory
-			require_once($this->get_path_lib_core('settings/modules/'.$name.'.php'));
+		if($this->get_path_core('settings/modules/'.$name.'.php',true)){ // look for class file in modules directory
+			require_once($this->get_path_core('settings/modules/'.$name.'.php'));
 			$class_name							= __NAMESPACE__.'\\'.$name;
 
 			$this->$name						= new $class_name($this);

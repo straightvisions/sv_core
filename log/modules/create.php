@@ -49,7 +49,7 @@ class create extends log {
 				'publicly_queryable'			    => false,
 				'show_ui'						    => false,
 				'has_archive'					    => false,
-				'menu_icon'						    => $this->get_url_lib_core( 'assets/logo_icon.png' ),
+				'menu_icon'						    => $this->get_url_core( 'assets/logo_icon.png' ),
 				'supports'					    	=> array( 'custom-fields' ),
 				'delete_with_user'			    	=> false,
 				'rewrite'					    	=> array(

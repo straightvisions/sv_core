@@ -3,7 +3,7 @@
 	<div class="sv_admin_menu">
 		<div class="sv_admin_menu_head">
 			<a href="https://straightvisions.com" target="_blank" class="sv_admin_brand">
-				<img src="<?php echo $this->get_url_lib_core('assets/logo.png'); ?>">
+				<img src="<?php echo $this->get_url_core('assets/logo.png'); ?>">
 			</a>
 			<div class="sv_admin_mobile_toggle" data-target="#sv_admin_menu_body"></div>
 		</div>

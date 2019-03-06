@@ -19,7 +19,7 @@
 		}
 		public function admin_enqueue_scripts($hook){
 			if ( strpos($hook,'straightvisions') !== false ) {
-				wp_enqueue_script($this->get_prefix(), $this->get_url_lib_core('assets/admin_setting_group.js'), array('jquery'), filemtime($this->get_path_lib_core('assets/admin_setting_group.js')), true);
+				wp_enqueue_script($this->get_prefix(), $this->get_url_core('assets/admin_setting_group.js'), array('jquery'), filemtime($this->get_path_core('assets/admin_setting_group.js')), true);
 			}
 		}
 		public function add_child(){
