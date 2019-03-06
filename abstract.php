@@ -381,7 +381,7 @@ abstract class sv_abstract {
 	}
 
 	public function get_path_lib_core( $suffix = '', $check_if_exists = false ) {
-		error_log( "DEPRECATED: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in core v1.100. Use get_path() instead. ' . $suffix );
+		error_log( "DEPRECATED: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in core v1.100. Use get_path_core() instead. ' . $suffix );
 		if ( file_exists( self::$path_core . $suffix ) ) {
 			if ( $check_if_exists ) {
 				return true;
@@ -400,7 +400,7 @@ abstract class sv_abstract {
 	}
 
 	public function get_url_lib_core( $suffix = '', $check_if_exists = false ) {
-		error_log( "DEPRECATED: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in core v1.100. Use get_url() instead. ' . $suffix );
+		error_log( "DEPRECATED: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in core v1.100. Use get_url_core() instead. ' . $suffix );
 		if ( file_exists( self::$path_core . $suffix ) ) {
 			if ( $check_if_exists ) {
 				return true;
