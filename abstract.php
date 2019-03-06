@@ -30,7 +30,11 @@ abstract class sv_abstract {
 	protected $section_title			= false;
 	protected $section_desc				= false;
 	protected $section_privacy			= false;
-	protected $section_type             = '';
+	protected $section_type				= '';
+
+	/* scripts behavior will be inherited if not overwritten in child via setting or parameter */
+	protected $scripts_css_inline		= false;
+	protected $scripts_output_mode		= 'all'; // accepted values: 'all', 'no_css', 'no_js', 'none'
 
 	/**
 	 * @desc			initialize plugin
@@ -61,6 +65,8 @@ abstract class sv_abstract {
 			$this->$name    = new $class_name();
 			$this->$name->set_root( $root );
 			$this->$name->set_parent( $this );
+			$this->$name->set_scripts_inline( $this->get_scripts_inline() );
+			$this->$name->set_scripts_output_mode( $this->set_scripts_output_mode() );
 
 			return $this->$name;
 		} else {
@@ -68,6 +74,20 @@ abstract class sv_abstract {
 		}
 	}
 
+	public function set_scripts_inline( bool $inline =  true) {
+		$this->scripts_css_inline = $inline;
+	}
+	public function get_scripts_inline(): bool{
+		return $this->scripts_css_inline;
+	}
+	public function set_scripts_output_mode(string $mode = 'all'){
+		if(in_array($mode,array('all', 'no_css', 'no_js', 'none'))){
+			$this->scripts_output_mode			= $mode;
+		}else{
+			error_log();
+		}
+	}
+	
 	public function set_parent( $parent ) {
 		$this->parent = $parent;
 	}
