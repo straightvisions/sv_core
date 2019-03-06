@@ -3,7 +3,7 @@
 namespace sv_core;
 
 abstract class sv_abstract {
-	const version_core					= 1100;
+	const version_core					= 1101;
 
 	protected $name						= false;
 	protected $module_name				= false;
