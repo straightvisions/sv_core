@@ -263,6 +263,7 @@ abstract class sv_abstract {
 		$this->path	= $path;
 	}
 	public function get_path( $suffix = '', $check_if_exists = false ) {
+		error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ': Parameter $check_if_exists will be deprecated in v1.300. Use file_exists($this->>get_path()) instead.');
 		if ( $this->path ) { // if path is set, use it
 			$path	= $this->path;
 		} else if ( $this != $this->get_parent() ) { // if there's a parent, go a step higher
@@ -294,6 +295,7 @@ abstract class sv_abstract {
 		$this->url	= $url;
 	}
 	public function get_url( $suffix = '', $check_if_exists = false ) {
+		error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ': Parameter $check_if_exists will be deprecated in v1.300. Use file_exists($this->get_path($suffix)) instead.');
 		if ( $this->url ) { // if url is set, use it
 			$url	= $this->url;
 		} else if ( $this != $this->get_parent() ) { // if there's a parent, go a step higher
