@@ -398,7 +398,13 @@ abstract class sv_abstract {
 			}
 		}
 	}
-
+	
+	public function get_path_core($suffix = '', $check_if_exists = false): string{
+		return $this->get_path(self::$path_core.$suffix, $check_if_exists);
+	}
+	public function get_url_core($suffix = '', $check_if_exists = false): string{
+		return $this->get_path(self::$url_core.$suffix, $check_if_exists);
+	}
 	public function get_url_lib_core( $suffix = '', $check_if_exists = false ) {
 		error_log( "DEPRECATED: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in core v1.100. Use get_url_core() instead. ' . $suffix );
 		if ( file_exists( self::$path_core . $suffix ) ) {
