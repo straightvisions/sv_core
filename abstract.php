@@ -221,10 +221,6 @@ abstract class sv_abstract {
 	protected function init() {
 
 	}
-
-	protected function start() {
-		error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in v1.200');
-	}
 	
 	public function set_name(string $name) {
 		$this->name		= $name;
@@ -401,17 +397,7 @@ abstract class sv_abstract {
 	public function get_section_type(): string {
 		return $this->section_type;
 	}
-
-	public function get_constant( string $constant_name ) {
-		error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in v1.200');
-		return constant( get_class( $this ) . '::' . $constant_name );
-	}
-
-	public function constant_exists( string $constant_name ) {
-		error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in v1.200');
-		return defined( get_class( $this ) .'::' . $constant_name );
-	}
-
+	
 	public function build_sections() {
 		foreach ( $this->get_instances() as $name => $instance ) {
 			$instance->add_section( $instance );
@@ -466,89 +452,11 @@ abstract class sv_abstract {
 	public function plugin_action_links( $actions ) {
 		$links						= array(
 			'settings'				=> '<a href="admin.php?page=' . $this->get_root()->get_prefix() . '">Settings</a>',
-			'straightvisions'		=> '<a href="https://straightvisions.com" target="_blank">straightvisions.com</a>',
+			'straightvisions'		=> '<a href="https://straightvisions.com" target="_blank">straightvisions GmbH</a>',
 		);
 
 		$actions			        = array_merge( $links, $actions );
 
 		return $actions;
-	}
-
-	// CURL Methods
-	public function set_curl_handler() {
-		error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in v1.200 - use curl->set_handler() instead ');
-		if( function_exists( 'curl_init' ) && !$this->curl_handler ) {
-			$this->curl_handler     = curl_init();
-		} else {
-			//@todo Add Error Message to Notices
-		}
-
-		return $this;
-	}
-
-	public function set_curl_timeout( int $timeout ) {
-		error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in v1.200 - use curl->set_timeout() instead ');
-		if( $this->curl_handler ) {
-			curl_setopt( $this->curl_handler, CURLOPT_TIMEOUT, $timeout );
-		} else {
-			$this->set_curl_handler()->set_curl_timeout( $timeout );
-		}
-
-		return $this;
-	}
-
-	public function set_curl_returntransfer( bool $bool ) {
-		error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in v1.200 - use curl->set_returntransfer() instead ');
-		if( $this->curl_handler ) {
-			curl_setopt( $this->curl_handler, CURLOPT_RETURNTRANSFER, $bool );
-		} else {
-			$this->set_curl_handler()->set_curl_returntransfer( $bool );
-		}
-
-		return $this;
-	}
-
-	public function set_curl_ssl_verifypeer( bool $bool ) {
-		error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in v1.200 - use curl->set_ssl_verifypeer() instead ');
-		if( $this->curl_handler ) {
-			curl_setopt( $this->curl_handler, CURLOPT_SSL_VERIFYPEER, $bool );
-		} else {
-			$this->set_curl_handler()->set_curl_verifypeer( $bool );
-		}
-
-		return $this;
-	}
-
-	public function set_curl_url( string $url ) {
-		error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in v1.200 - use curl->set_url() instead ');
-		if( $this->curl_handler ) {
-			curl_setopt( $this->curl_handler, CURLOPT_URL, $url );
-		} else {
-			$this->set_curl_handler()->set_curl_url( $url );
-		}
-
-		return $this;
-	}
-
-	public function set_curl_userpwd( string $userpwd ) {
-		error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in v1.200 - use curl->set_userpwd() instead ');
-		if( $this->curl_handler ) {
-			curl_setopt( $this->curl_handler, CURLOPT_USERPWD, $userpwd );
-		} else {
-			$this->set_curl_handler()->set_curl_userpwd( $userpwd );
-		}
-
-		return $this;
-	}
-
-	public function set_curl_ipresolve( $ipresolve ) {
-		error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ' will be removed in v1.200 - use curl->set_ipresolve() instead ');
-		if( $this->curl_handler ) {
-			curl_setopt( $this->curl_handler, CURLOPT_IPRESOLVE, $ipresolve );
-		} else {
-			$this->set_curl_handler()->set_curl_ipresolve( $ipresolve );
-		}
-
-		return $this;
 	}
 }
