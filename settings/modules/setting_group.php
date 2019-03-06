@@ -40,7 +40,7 @@
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_new_draft" style="display:none;">'.$this->html_field($i).'</div>';
 			$output[]				= '</div>';
 
-			$output[]				= '<div class="sv_'.$this->get_module_name().'_wrapper" data-sv_form_field_index="'.count(get_option($this->get_field_id())).'">';
+			$output[]				= '<div class="sv_'.$this->get_module_name().'_wrapper" data-sv_form_field_index="'.count((array)get_option($this->get_field_id())).'">';
 			$output[]				= '<input type="hidden" name="'.$this->get_field_id().'" value="" />';
 			if($this->get_children() && get_option($this->get_field_id())) {
 				foreach (get_option($this->get_field_id()) as $setting_id => $setting) {

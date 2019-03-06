@@ -70,20 +70,6 @@
 			<p><?php _e('Enqueue SV style for admin menu pages:', $this->get_module_name()); ?></p>
 			<code>$this->acp_style($hook=false);</code>
 		</div>
-		<div>
-			<h3 class="divider"><?php _e('Path Structure', $this->get_module_name()); ?></h3>
-			<p><?php _e('To encourage following default path structures and to make maintenance easier, the following methods follow the default structure.', $this->get_module_name()); ?></p>
-			<code>$this->get_path_lib($suffix='',$check_if_exists=false);</code>
-			<blockquote><?php echo $this->get_path_lib(); ?></blockquote>
-			<code>$this->get_url_lib($suffix='',$check_if_exists=false);</code>
-			<blockquote><?php echo $this->get_url_lib(); ?></blockquote>
-			<code>$this->get_path_lib_modules();</code>
-			<blockquote><?php echo $this->get_path_lib_modules(); ?></blockquote>
-			<code>$this->get_path_lib_section($section=false,$dir=false,$suffix='',$check_if_exists=false);</code>
-			<blockquote><?php echo $this->get_path_lib_section(); ?></blockquote>
-			<code>$this->get_url_lib_section($section=false,$dir=false,$suffix='',$check_if_exists=false);</code>
-			<blockquote><?php echo $this->get_url_lib_section(); ?></blockquote>
-		</div>
 	</div>
 </section>
 <?php }
