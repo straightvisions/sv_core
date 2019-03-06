@@ -40,7 +40,6 @@ abstract class sv_abstract {
 	 */
 	public function __construct() {
 		$this->init();
-		$this->start();
 	}
 
 	/**
