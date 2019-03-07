@@ -62,8 +62,6 @@ abstract class sv_abstract {
 			$this->$name    = new $class_name();
 			$this->$name->set_root( $root );
 			$this->$name->set_parent( $this );
-			$this->$name->set_scripts_inline( $this->get_scripts_inline() );
-			$this->$name->set_scripts_output_mode( $this->set_scripts_output_mode() );
 
 			return $this->$name;
 		} else {
