@@ -3,7 +3,7 @@
 namespace sv_core;
 
 abstract class sv_abstract {
-	const version_core					= 2001;
+	const version_core					= 2010;
 
 	protected $name						= false;
 	protected $module_name				= false;
@@ -30,7 +30,7 @@ abstract class sv_abstract {
 	protected $section_title			= false;
 	protected $section_desc				= false;
 	protected $section_privacy			= false;
-	protected $section_type             = '';
+	protected $section_type				= '';
 
 	/**
 	 * @desc			initialize plugin
@@ -61,13 +61,14 @@ abstract class sv_abstract {
 			$this->$name    = new $class_name();
 			$this->$name->set_root( $root );
 			$this->$name->set_parent( $this );
+			$this->$name->set_scripts_inline( $this->get_scripts_inline() );
+			$this->$name->set_scripts_output_mode( $this->set_scripts_output_mode() );
 
 			return $this->$name;
 		} else {
 			throw new \Exception( 'Class ' . $name . ' could not be loaded (tried to load class-file ' . $this->get_path_lib_modules() . $name . '.php)' );
 		}
 	}
-
 	public function set_parent( $parent ) {
 		$this->parent = $parent;
 	}
