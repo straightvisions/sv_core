@@ -3,7 +3,7 @@
 namespace sv_core;
 
 abstract class sv_abstract {
-	const version_core					= 2001;
+	const version_core					= 2010;
 
 	protected $name						= false;
 	protected $module_name				= false;
@@ -31,10 +31,6 @@ abstract class sv_abstract {
 	protected $section_desc				= false;
 	protected $section_privacy			= false;
 	protected $section_type				= '';
-
-	/* scripts behavior will be inherited if not overwritten in child via setting or parameter */
-	protected $scripts_css_inline		= false;
-	protected $scripts_output_mode		= 'all'; // accepted values: 'all', 'no_css', 'no_js', 'none'
 
 	/**
 	 * @desc			initialize plugin
@@ -73,21 +69,6 @@ abstract class sv_abstract {
 			throw new \Exception( 'Class ' . $name . ' could not be loaded (tried to load class-file ' . $this->get_path_lib_modules() . $name . '.php)' );
 		}
 	}
-
-	public function set_scripts_inline( bool $inline =  true) {
-		$this->scripts_css_inline = $inline;
-	}
-	public function get_scripts_inline(): bool{
-		return $this->scripts_css_inline;
-	}
-	public function set_scripts_output_mode(string $mode = 'all'){
-		if(in_array($mode,array('all', 'no_css', 'no_js', 'none'))){
-			$this->scripts_output_mode			= $mode;
-		}else{
-			error_log();
-		}
-	}
-	
 	public function set_parent( $parent ) {
 		$this->parent = $parent;
 	}

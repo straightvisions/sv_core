@@ -23,7 +23,6 @@ class settings extends sv_abstract{
 	private $disabled  						    = false;
 	private $callback							= array();
 	private $filter								= array();
-	private $loop								= false; // true = unlimited (dynamic) entries, int = amount of entries, false = no loop (default).
 	private $prefix								= 'sv_';
 	private $data								= false;
 	private $default_value						= false;
@@ -313,12 +312,14 @@ class settings extends sv_abstract{
 		return $this->filter;
 	}
 	public function set_loop(int $loop): settings{
-		$this->loop								= $loop;
+		error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ': will be deprecated and removed in v3.000.' );
 
 		return $this;
 	}
 	public function get_loop(): int{
-		return $this->loop;
+		error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ': will be deprecated and removed in v3.000.' );
+
+		return 0;
 	}
 	public static function get_module_settings_form($module): string{
 		ob_start();
@@ -332,7 +333,7 @@ class settings extends sv_abstract{
 		return $form;
 	}
 	public function section_callback(){
-		echo '<p>'.$this->get_section_description().'</p>';
+		echo '<div class="'.$this->get_root()->get_prefix('section_description').'">'.$this->get_section_description().'</div>';
 	}
 
 	/* methods for inheritance */
@@ -349,7 +350,7 @@ class settings extends sv_abstract{
 
 			$section = $this->get_section();
 			$section_group = $setting->get_parent()->get_section_group();
-			$section_name = $setting->get_parent()->get_section_name();
+			$section_name = '';
 
 			\add_settings_section(
 				$section_group,                                            // $id, String for use in the 'id' attribute of tags.
