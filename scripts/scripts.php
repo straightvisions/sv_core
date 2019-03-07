@@ -37,32 +37,34 @@ class scripts extends sv_abstract {
 		$this->set_section_title( 'Scripts' );
 		$this->set_section_desc( __( 'Override Scripts Loading.', $this->get_name() ) );
 		$this->set_section_type( 'settings' );
-		$this->get_root()->add_section( $this );
 
 		add_action( 'wp_footer', array( $this, 'wp_footer' ), 1 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'wp_footer' ), 1 );
 
 		// Loads Settings
 		add_action('after_setup_theme', array($this, 'load_settings'));
-		//$this->load_settings();
 	}
 
 	public function load_settings() {
-		foreach ($this->get_scripts() as $script) {
-			$options				= array(
-				'default'		=> __('Default', $this->get_name()).': '.($script->get_inline() ? __('Inline', $this->get_name()) : __('Attached', $this->get_name())),
-				'inline'		=> __('Inline', $this->get_name()),
-				'attached'		=> __('Attached', $this->get_name()),
-				'disable'		=> __('Disabled', $this->get_name())
-			);
-
-			$this->s[$script->get_UID()]		= $this->get_parent()::$settings->create($this)
-					->set_ID($script->get_UID())
-					->set_default_value('default')
-					->set_title('<div class="fab fa-'.($script->get_type() == 'css' ? 'css3' : 'js').'" style="font-size:24px;margin-right:12px;"></div>'.$script->get_handle())
-					->set_description($script->get_url())
-					->load_type('select')
-					->set_options($options);
+		if(count($this->get_scripts()) > 0) {
+			$this->get_root()->add_section( $this );
+			
+			foreach ( $this->get_scripts() as $script ) {
+				$options = array(
+					'default'  => __( 'Default', $this->get_name() ) . ': ' . ( $script->get_inline() ? __( 'Inline', $this->get_name() ) : __( 'Attached', $this->get_name() ) ),
+					'inline'   => __( 'Inline', $this->get_name() ),
+					'attached' => __( 'Attached', $this->get_name() ),
+					'disable'  => __( 'Disabled', $this->get_name() )
+				);
+				
+				$this->s[ $script->get_UID() ] = $this->get_parent()::$settings->create( $this )
+																			   ->set_ID( $script->get_UID() )
+																			   ->set_default_value( 'default' )
+																			   ->set_title( '<div class="fab fa-' . ( $script->get_type() == 'css' ? 'css3' : 'js' ) . '" style="font-size:24px;margin-right:12px;"></div>' . $script->get_handle() )
+																			   ->set_description( $script->get_url() )
+																			   ->load_type( 'select' )
+																			   ->set_options( $options );
+			}
 		}
 	}
 

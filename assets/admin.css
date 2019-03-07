@@ -217,14 +217,14 @@ section.sv_admin_section .section_head .section_desc {
 section.sv_admin_section div.section_content {
 	padding: 15px 0 0 0;
 }
-.sv_100_section_description {
+.sv_section_description {
 	margin-bottom: 24px;
 	background-color: rgba( 50, 50, 48, .05 );
 	border-left: 2px dashed;
 	padding: 15px;
 	border-radius: 0 5px 5px 0;
 	font-weight: 600;
-	font-size: 16px;
+	font-size: 14px;
 }
 
 /* ===/ straightvisions Dashboard - Content ========================================================================= */

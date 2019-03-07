@@ -3,7 +3,7 @@
 namespace sv_core;
 
 abstract class sv_abstract {
-	const version_core					= 3000;
+	const version_core					= 3001;
 
 	protected $name						= false;
 	protected $module_name				= false;
@@ -52,15 +52,13 @@ abstract class sv_abstract {
 	 * @ignore
 	 */
 	public function __get( string $name ) {
-		$root = $this->get_root();
-
 		// look for class file in modules directory
-		if ( $root->get_path( 'lib/modules/'.$name . '.php' ) ) {
-			require_once( $root->get_path( 'lib/modules/'.$name . '.php' ) );
+		if ( file_exists($this->get_root()->get_path( 'lib/modules/'.$name . '.php' )) ) {
+			require_once( $this->get_root()->get_path( 'lib/modules/'.$name . '.php' ) );
 
-			$class_name	    = $root->get_name() . '\\' . $name;
+			$class_name	    = $this->get_root()->get_name() . '\\' . $name;
 			$this->$name    = new $class_name();
-			$this->$name->set_root( $root );
+			$this->$name->set_root( $this->get_root() );
 			$this->$name->set_parent( $this );
 
 			return $this->$name;

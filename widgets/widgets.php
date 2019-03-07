@@ -7,9 +7,9 @@ class widgets extends sv_abstract{
 	private $title								= false;
 	private $description						= false;
 	private $settings							= false;
-	public $core								= false;
 	public static $scripts_loaded		        = false;
 	private $widget_class_name					= false;
+	private $template_path						= array();
 
 	/**
 	 * @desc			initialize
@@ -67,29 +67,31 @@ class widgets extends sv_abstract{
 	public function get_widget_settings(): array{
 		return $this->settings;
 	}
-	public function set_template_path($path){
-		$this->template_path					= $path;
+	public function set_template_path($object,$path){
+		$this->template_path					= array($object,$path);
 		return $this;
 	}
-	public function get_template_path(){
+	public function get_template_path(): array{
 		return $this->template_path;
 	}
 	public function get_template($args, $instance){
-		include($this->get_template_path());
+		include($this->template_path[0]->get_path($this->template_path[1]));
 	}
 
 	// OBJECT METHODS
 	public function create($parent){
 		$new									= new self();
-		$new->core								= isset($parent->core) ? $parent->core : $parent;
+		$new->set_parent($parent);
+		$new->set_root($parent->get_root());
 		
 		$new->init();
 		return $new;
 	}
-	public function load(){
+	public function load(): string{
 		add_action('widgets_init', function () {
 			register_widget($this->get_widget_class_name());
 		});
+		return $this->widget_class_name;
 	}
 	public function set_widget_class_name(string $name){
 		$this->widget_class_name				= $name;

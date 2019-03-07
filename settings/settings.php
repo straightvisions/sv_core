@@ -323,7 +323,7 @@ class settings extends sv_abstract{
 		return $form;
 	}
 	public function section_callback(){
-		echo '<div class="'.$this->get_root()->get_prefix('section_description').'">'.$this->get_section_description().'</div>';
+		echo '<div class="sv_section_description">'.$this->get_section_description().'</div>';
 	}
 
 	/* methods for inheritance */
