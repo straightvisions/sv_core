@@ -3,7 +3,7 @@
 namespace sv_core;
 
 abstract class sv_abstract {
-	const version_core					= 2010;
+	const version_core					= 3000;
 
 	protected $name						= false;
 	protected $module_name				= false;
@@ -31,6 +31,7 @@ abstract class sv_abstract {
 	protected $section_desc				= false;
 	protected $section_privacy			= false;
 	protected $section_type				= '';
+	protected $scripts_queue			= array();
 
 	/**
 	 * @desc			initialize plugin
@@ -54,8 +55,8 @@ abstract class sv_abstract {
 		$root = $this->get_root();
 
 		// look for class file in modules directory
-		if ( $root->get_path_lib_modules( $name . '.php' ) ) {
-			require_once( $root->get_path_lib_modules( $name . '.php' ) );
+		if ( $root->get_path( 'lib/modules/'.$name . '.php' ) ) {
+			require_once( $root->get_path( 'lib/modules/'.$name . '.php' ) );
 
 			$class_name	    = $root->get_name() . '\\' . $name;
 			$this->$name    = new $class_name();
@@ -66,7 +67,7 @@ abstract class sv_abstract {
 
 			return $this->$name;
 		} else {
-			throw new \Exception( 'Class ' . $name . ' could not be loaded (tried to load class-file ' . $this->get_path_lib_modules() . $name . '.php)' );
+			throw new \Exception( 'Class ' . $name . ' could not be loaded (tried to load class-file ' . $this->get_path() . 'lib/modules/'.$name . '.php)' );
 		}
 	}
 	public function set_parent( $parent ) {
@@ -262,10 +263,7 @@ abstract class sv_abstract {
 	public function set_path(string $path) {
 		$this->path	= $path;
 	}
-	public function get_path( $suffix = '', $check_if_exists = false ): string {
-		if($check_if_exists) {
-			error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ': Parameter $check_if_exists will be deprecated in v3.000. Use file_exists($this->>get_path()) instead.' );
-		}
+	public function get_path( $suffix = ''): string {
 		if ( $this->path ) { // if path is set, use it
 			$path	= $this->path;
 		} else if ( $this != $this->get_parent() ) { // if there's a parent, go a step higher
@@ -282,10 +280,7 @@ abstract class sv_abstract {
 	public function set_url(string $url) {
 		$this->url	= $url;
 	}
-	public function get_url( $suffix = '', $check_if_exists = false ): string {
-		if($check_if_exists) {
-			error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ': Parameter $check_if_exists will be deprecated in v3.000. Use file_exists($this->get_path($suffix)) instead.' );
-		}
+	public function get_url( $suffix = ''): string {
 		if ( $this->url ) { // if url is set, use it
 			$url	= $this->url;
 		} else if ( $this != $this->get_parent() ) { // if there's a parent, go a step higher
@@ -296,16 +291,10 @@ abstract class sv_abstract {
 
 		return $this->url . $suffix;
 	}
-	public function get_path_core($suffix = '', $check_if_exists = false): string{
-		if($check_if_exists) {
-			error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ': Parameter $check_if_exists will be deprecated in v3.000. Use file_exists($this->get_path_core($suffix)) instead.' );
-		}
+	public function get_path_core($suffix = ''): string{
 		return self::$path_core.$suffix;
 	}
-	public function get_url_core($suffix = '', $check_if_exists = false): string{
-		if($check_if_exists) {
-			error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ': Parameter $check_if_exists will be deprecated in v3.000. Use file_exists($this->get_path_core($suffix)) instead.' );
-		}
+	public function get_url_core($suffix = ''): string{
 		return self::$url_core.$suffix;
 	}
 	public function get_current_url() {

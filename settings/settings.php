@@ -311,16 +311,6 @@ class settings extends sv_abstract{
 	public function get_filter(): array{
 		return $this->filter;
 	}
-	public function set_loop(int $loop): settings{
-		error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ': will be deprecated and removed in v3.000.' );
-
-		return $this;
-	}
-	public function get_loop(): int{
-		error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ': will be deprecated and removed in v3.000.' );
-
-		return 0;
-	}
 	public static function get_module_settings_form($module): string{
 		ob_start();
 		echo '<form method="post" action="options.php" enctype="multipart/form-data">';

@@ -56,8 +56,8 @@ class scripts extends sv_abstract {
 				'disable'		=> __('Disabled', $this->get_name())
 			);
 
-			$this->s[$script->get_type().'_'.$script->get_ID()]		= $this->get_parent()::$settings->create($this)
-					->set_ID($script->get_type().'_'.$script->get_ID())
+			$this->s[$script->get_UID()]		= $this->get_parent()::$settings->create($this)
+					->set_ID($script->get_UID())
 					->set_default_value('default')
 					->set_title('<div class="fab fa-'.($script->get_type() == 'css' ? 'css3' : 'js').'" style="font-size:24px;margin-right:12px;"></div>'.$script->get_handle())
 					->set_description($script->get_url())
@@ -89,16 +89,29 @@ class scripts extends sv_abstract {
 	}
 
 	public function add_script( scripts $script ) {
-		// @todo: activate enqueue feature in v3.000
-		if(!$script->get_is_enqueued()) {
-			error_log("Warning: " . __CLASS__ . ' - ' . __FUNCTION__ . ': Make sure to enqueue all scripts (css & js) with $script->set_is_enqueued(); to make it is still loaded in v3.000 - '.$script->get_url());
-		}
-		// if($script->get_is_enqueued()) {
-			if (!$script->get_is_loaded()) {
+		// run all registered scripts
+
+		// check if script is enqueued
+		if($script->get_is_enqueued()) {
+
+			// check is script isn't loaded already and not disabled
+			if (!$script->get_is_loaded() && $this->s[$script->get_UID()]->run_type()->get_data() != 'disable') {
+
+				// set as loaded
 				$script->set_is_loaded();
+
+				// CSS or JS
 				switch ($script->get_type()) {
 					case 'css':
-						if ($script->get_inline()) {
+
+						// check if inline per settings (higher prio) or per parameter (lower prio)
+						if (
+							$this->s[$script->get_UID()]->run_type()->get_data() == 'inline' ||
+							(
+								$this->s[$script->get_UID()]->run_type()->get_data() == 'default' &&
+								$script->get_inline()
+							)
+						) {
 							echo '<style data-sv_100_module="' . $script->get_handle() . '">';
 							require_once($script->get_path());
 							echo '</style>';
@@ -128,7 +141,7 @@ class scripts extends sv_abstract {
 				}
 				self::$scripts_active[]						= $script;
 			}
-		//}
+		}
 	}
 
 	// OBJECT METHODS
@@ -168,6 +181,9 @@ class scripts extends sv_abstract {
 		} else {
 			return $this->get_prefix( $this->get_ID() );
 		}
+	}
+	public function get_UID(): string {
+		return $this->get_type().'_'.$this->get_prefix( $this->get_ID() );
 	}
 
 	public function set_ID( string $ID ): scripts {
@@ -232,16 +248,10 @@ class scripts extends sv_abstract {
 		
 		return $this;
 	}
-	public function get_path($suffix = '', $check_if_exists = false): string {
-		if($check_if_exists) {
-			error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ': Parameter $check_if_exists will be deprecated in v3.000. Use file_exists($this->get_path($suffix)) instead.' );
-		}
+	public function get_path($suffix = ''): string {
 		return $this->script_path;
 	}
-	public function get_url($suffix = '', $check_if_exists = false): string {
-		if($check_if_exists) {
-			error_log( "Deprecated: " . __CLASS__ . ' - ' . __FUNCTION__ . ': Parameter $check_if_exists will be deprecated in v3.000. Use file_exists($this->get_path($suffix)) instead.' );
-		}
+	public function get_url($suffix = ''): string {
 		return $this->script_url;
 	}
 	public function is_external(): bool{
