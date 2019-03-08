@@ -97,7 +97,7 @@ class scripts extends sv_abstract {
 		if($script->get_is_enqueued()) {
 
 			// check is script isn't loaded already and not disabled
-			if (!$script->get_is_loaded() && $this->s[$script->get_UID()]->run_type()->get_data() != 'disable') {
+			if (!$script->get_is_loaded() && isset($this->s[$script->get_UID()]) && $this->s[$script->get_UID()]->run_type()->get_data() != 'disable') {
 
 				// set as loaded
 				$script->set_is_loaded();
@@ -137,7 +137,7 @@ class scripts extends sv_abstract {
 						);
 
 						if ($script->is_localized()) {
-							wp_localize_script($script->get_handle(), $script->get_prefix($script->get_handle()), $script->get_localized());
+							wp_localize_script($script->get_handle(), $script->get_uid(), $script->get_localized());
 						}
 						break;
 				}
