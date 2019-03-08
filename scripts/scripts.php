@@ -38,11 +38,15 @@ class scripts extends sv_abstract {
 		$this->set_section_desc( __( 'Override Scripts Loading.', $this->get_name() ) );
 		$this->set_section_type( 'settings' );
 
-		add_action( 'wp_footer', array( $this, 'wp_footer' ), 1 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'wp_footer' ), 1 );
+		add_action( 'wp_footer', array( $this, 'wp_footer' ), 10 );
+		add_action( 'init', array( $this, 'admin_scripts' ), 99999);
 
 		// Loads Settings
-		add_action('after_setup_theme', array($this, 'load_settings'));
+		if(!is_admin()) {
+			add_action( 'wp_footer', array( $this, 'load_settings' ), 1 );
+		}else{
+			add_action( 'init', array( $this, 'load_settings' ));
+		}
 	}
 
 	public function load_settings() {
@@ -56,7 +60,6 @@ class scripts extends sv_abstract {
 					'attached' => __( 'Attached', $this->get_name() ),
 					'disable'  => __( 'Disabled', $this->get_name() )
 				);
-				
 				$this->s[ $script->get_UID() ] = $this->get_parent()::$settings->create( $this )
 																			   ->set_ID( $script->get_UID() )
 																			   ->set_default_value( 'default' )
@@ -80,24 +83,29 @@ class scripts extends sv_abstract {
 
 	public function wp_footer() {
 		foreach ( $this->get_scripts() as $script ) {
-			if (is_admin()) {
-				if ($script->get_is_backend()) {
-					$this->add_script($script);
-				}
-			} elseif (!$script->get_is_backend()) {
+			if(!$script->get_is_backend()) {
 				$this->add_script($script);
 			}
 		}
 	}
+	public function admin_scripts(){
+		if(is_admin()) {
+			foreach ( $this->get_scripts() as $script ) {
+				if ( $script->get_is_backend() ) {
+					$this->add_script( $script );
+				}
+			}
+		}
+	}
 
-	public function add_script( scripts $script ) {
+	private function add_script( scripts $script ) {
 		// run all registered scripts
 
 		// check if script is enqueued
 		if($script->get_is_enqueued()) {
 
 			// check is script isn't loaded already and not disabled
-			if (!$script->get_is_loaded() && isset($this->s[$script->get_UID()]) && $this->s[$script->get_UID()]->run_type()->get_data() != 'disable') {
+			if (!$script->get_is_loaded() && $this->s[$script->get_UID()]->run_type()->get_data() != 'disable') {
 
 				// set as loaded
 				$script->set_is_loaded();
