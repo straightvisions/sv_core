@@ -840,13 +840,14 @@ div.sv_setting.sv_setting_group_parent {
 }
 
 div.sv_setting.sv_setting_group_parent div.sv_setting_group_add_new {
+    margin-bottom: 25px;
 	background-color: rgba( 50, 50, 48, .05 );
 	padding: 15px;
 	border-radius: 5px;
 }
 
 div.sv_setting_group_wrapper div.sv_setting_group {
-	margin-top: 25px;
+	margin-bottom: 25px;
 	background: rgba(0, 131, 255, 0.1);
 	border-radius: 5px;
 	padding: 15px;
