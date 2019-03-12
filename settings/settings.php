@@ -408,4 +408,10 @@ class settings extends sv_abstract{
 				$this->get_parent()->get_radio_style()
 			).'</div>';
 	}
+
+	public function delete() :settings {
+		delete_option( $this->run_type()->get_field_id() );
+
+		return $this;
+	}
 }
