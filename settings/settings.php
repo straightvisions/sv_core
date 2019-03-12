@@ -410,6 +410,10 @@ class settings extends sv_abstract{
 	}
 
 	public function delete() :settings {
+		if ( $this->get_type() == 'setting_upload' ) {
+			wp_delete_attachment( $this->run_type()->get_data(), true );
+		}
+
 		delete_option( $this->run_type()->get_field_id() );
 
 		return $this;
