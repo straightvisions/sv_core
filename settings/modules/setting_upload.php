@@ -30,12 +30,12 @@ class setting_upload extends settings{
 				/>
 			</label>';
 	}
-	public function field_callback($input){
+	public function field_callback($input){ //@todo This method get's triggered twice, that's why a second upload is attempted
 		if(intval($_FILES[$this->get_parent()->get_prefix($this->get_parent()->get_ID())]['size']) > 0 ) {
+			$file		= wp_handle_upload($_FILES[$this->get_parent()->get_prefix($this->get_parent()->get_ID())], array( 'test_form' => false ));
+
 			// remove old attachment
 			wp_delete_attachment( $this->get_data(), true );
-
-			$file		= wp_handle_upload($_FILES[$this->get_parent()->get_prefix($this->get_parent()->get_ID())], array( 'test_form' => false ));
 
 			$input				= wp_insert_attachment(array(
 				'guid'           => wp_upload_dir()['url'] . '/' . basename( $file['file'] ),
