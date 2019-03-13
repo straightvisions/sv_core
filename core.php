@@ -30,6 +30,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 		public function setup_core( $path ) {
 			// these modules are available in all instances and should be initialized once only.
 			if ( !static::$initialized ) {
+				$this->credits();
 				self::$path_core			= trailingslashit( dirname( __FILE__ ) );
 				self::$url_core				= trailingslashit( get_site_url() ) . str_replace( ABSPATH,'', self::$path_core );
 
@@ -115,9 +116,17 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				'manage_options',
 				'straightvisions',
 				'',
-				$this->get_url_lib_core( 'assets/logo_icon.png' ),
+				$this->get_url_core( 'assets/logo_icon.png' ),
 				100
 			);
+		}
+
+
+		public function credits() {
+			add_filter('wp_headers', function($headers){ $headers['X-straightvisions'] = 'Website enhanced by straightvisions.com'; return $headers; });
+			add_action('wp_footer', function(){ echo "\n\n".'<!-- Website enhanced by straightvisions.com -->'."\n\n"; }, 999999);
+			add_filter('rocket_buffer', function($buffer){ return $buffer."\n\n".'<!-- Website enhanced by straightvisions.com -->'."\n\n"; }, 999999);
+			define('WP_ROCKET_WHITE_LABEL_FOOTPRINT', true);
 		}
 	}
 }

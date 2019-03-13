@@ -19,8 +19,8 @@ class log extends sv_abstract {
 	}
 
 	public function __get( string $name ) {
-		if( $this->get_path_lib_core( 'log/modules/' . $name . '.php',true ) ) {
-			require_once( $this->get_path_lib_core('log/modules/' . $name . '.php' ) );
+		if( file_exists($this->get_path_core( 'log/modules/' . $name . '.php')) ) {
+			require_once( $this->get_path_core('log/modules/' . $name . '.php' ) );
 			$class_name							    = __NAMESPACE__ . '\\' . $name;
 
 			$this->$name						    = new $class_name( $this );
@@ -79,7 +79,7 @@ class log extends sv_abstract {
 				'manage_options',                        // capability
 				'log',                                    // menu slug
 				function () {                            // callable function
-					$this->load_page( $this->get_path_lib_core( 'log/backend/tpl/about.php' ) );
+					$this->load_page( $this->get_path_core( 'log/backend/tpl/about.php' ) );
 				}
 			);
 		}

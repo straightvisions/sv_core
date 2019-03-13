@@ -25,9 +25,9 @@ class info extends sv_abstract{
 	 * @ignore
 	 */
 	public function __get(string $name){
-		if($this->get_path_lib_core($this->get_module_name().'/modules/'.$name.'.php', true)){ // look for class file in modules directory
+		if(file_exists($this->get_path_core($this->get_module_name().'/modules/'.$name.'.php'))){ // look for class file in modules directory
 			if(!class_exists( __NAMESPACE__.'\\'.$name)) {
-				require_once($this->get_path_lib_core($this->get_module_name() . '/modules/' . $name . '.php'));
+				require_once($this->get_path_core($this->get_module_name() . '/modules/' . $name . '.php'));
 			}
 			
 			$class_name							= __NAMESPACE__.'\\'.$name;
@@ -38,7 +38,7 @@ class info extends sv_abstract{
 			
 			return $this->$name;
 		}else{
-			throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_path_lib_core($this->get_module_name().'/modules/'.$name.'.php').')');
+			throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_path_core($this->get_module_name().'/modules/'.$name.'.php').')');
 		}
 	}
 	public function init(){
@@ -52,7 +52,7 @@ class info extends sv_abstract{
 			'manage_options',			    // capability
 			'straightvisions',				// menu slug
 			function() {                    // callable function
-				$this->load_page( $this->get_path_lib_core( 'info/backend/tpl/about.php' ) );
+				$this->load_page( $this->get_path_core( 'info/backend/tpl/about.php' ) );
 			}
 		);
 	}

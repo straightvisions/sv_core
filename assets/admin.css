@@ -1,23 +1,23 @@
 /* ==== Imports ===================================================================================================== */
-@import url('<?php echo $this->get_url_lib_core('assets/fonts/all.min.css'); ?>');
+@import url('<?php echo $this->get_url_core('assets/fonts/all.min.css'); ?>');
 /* ===/ Imports ===================================================================================================== */
 
 /* ==== Fonts ======================================================================================================= */
 @font-face {
 	font-family: FontAwesomeBrands;
-	src: url('<?php echo $this->get_url_lib_core('assets/fonts/fa-brands-400.woff'); ?>');
+	src: url('<?php echo $this->get_url_core('assets/fonts/fa-brands-400.woff'); ?>');
 	font-weight:400;
 }
 
 @font-face {
 	font-family: FontAwesomeSolid;
-	src: url('<?php echo $this->get_url_lib_core('assets/fonts/fa-solid-900.woff'); ?>');
+	src: url('<?php echo $this->get_url_core('assets/fonts/fa-solid-900.woff'); ?>');
 	font-weight:400;
 }
 
 @font-face {
 	font-family: FontAwesomeRegular;
-	src: url('<?php echo $this->get_url_lib_core('assets/fonts/fa-regular-400.woff'); ?>');
+	src: url('<?php echo $this->get_url_core('assets/fonts/fa-regular-400.woff'); ?>');
 	font-weight:400;
 }
 /* ===/ Fonts ======================================================================================================= */
@@ -216,6 +216,15 @@ section.sv_admin_section .section_head .section_desc {
 
 section.sv_admin_section div.section_content {
 	padding: 15px 0 0 0;
+}
+.sv_section_description {
+	margin-bottom: 24px;
+	background-color: rgba( 50, 50, 48, .05 );
+	border-left: 2px dashed;
+	padding: 15px;
+	border-radius: 0 5px 5px 0;
+	font-weight: 600;
+	font-size: 14px;
 }
 
 /* ===/ straightvisions Dashboard - Content ========================================================================= */
@@ -831,13 +840,14 @@ div.sv_setting.sv_setting_group_parent {
 }
 
 div.sv_setting.sv_setting_group_parent div.sv_setting_group_add_new {
+    margin-bottom: 25px;
 	background-color: rgba( 50, 50, 48, .05 );
 	padding: 15px;
 	border-radius: 5px;
 }
 
 div.sv_setting_group_wrapper div.sv_setting_group {
-	margin-top: 25px;
+	margin-bottom: 25px;
 	background: rgba(0, 131, 255, 0.1);
 	border-radius: 5px;
 	padding: 15px;

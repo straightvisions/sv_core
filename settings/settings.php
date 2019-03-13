@@ -23,7 +23,6 @@ class settings extends sv_abstract{
 	private $disabled  						    = false;
 	private $callback							= array();
 	private $filter								= array();
-	private $loop								= false; // true = unlimited (dynamic) entries, int = amount of entries, false = no loop (default).
 	private $prefix								= 'sv_';
 	private $data								= false;
 	private $default_value						= false;
@@ -48,8 +47,8 @@ class settings extends sv_abstract{
 	 * @ignore
 	 */
 	public function __get(string $name){
-		if($this->get_path_lib_core('settings/modules/'.$name.'.php',true)){ // look for class file in modules directory
-			require_once($this->get_path_lib_core('settings/modules/'.$name.'.php'));
+		if(file_exists($this->get_path_core('settings/modules/'.$name.'.php'))){ // look for class file in modules directory
+			require_once($this->get_path_core('settings/modules/'.$name.'.php'));
 			$class_name							= __NAMESPACE__.'\\'.$name;
 
 			$this->$name						= new $class_name($this);
@@ -312,14 +311,6 @@ class settings extends sv_abstract{
 	public function get_filter(): array{
 		return $this->filter;
 	}
-	public function set_loop(int $loop): settings{
-		$this->loop								= $loop;
-
-		return $this;
-	}
-	public function get_loop(): int{
-		return $this->loop;
-	}
 	public static function get_module_settings_form($module): string{
 		ob_start();
 		echo '<form method="post" action="options.php" enctype="multipart/form-data">';
@@ -332,7 +323,7 @@ class settings extends sv_abstract{
 		return $form;
 	}
 	public function section_callback(){
-		echo '<p>'.$this->get_section_description().'</p>';
+		echo '<div class="sv_section_description">'.$this->get_section_description().'</div>';
 	}
 
 	/* methods for inheritance */
@@ -349,7 +340,7 @@ class settings extends sv_abstract{
 
 			$section = $this->get_section();
 			$section_group = $setting->get_parent()->get_section_group();
-			$section_name = $setting->get_parent()->get_section_name();
+			$section_name = '';
 
 			\add_settings_section(
 				$section_group,                                            // $id, String for use in the 'id' attribute of tags.
@@ -416,5 +407,15 @@ class settings extends sv_abstract{
 				$this->get_parent()->get_min(),
 				$this->get_parent()->get_radio_style()
 			).'</div>';
+	}
+
+	public function delete() :settings {
+		if ( $this->get_type() == 'setting_upload' ) {
+			wp_delete_attachment( $this->run_type()->get_data(), true );
+		}
+
+		delete_option( $this->run_type()->get_field_id() );
+
+		return $this;
 	}
 }

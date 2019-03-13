@@ -18,7 +18,7 @@
 			wp_enqueue_script('jquery-ui-core');
 			wp_enqueue_script('jquery-ui-widget');
 			wp_enqueue_script('jquery-ui-progressbar');
-			wp_enqueue_script('sv_ajax_fragmented_requests', $this->get_url_lib_core($this->get_module_name().'/backend/js/'.$this->get_module_name().'.js'), array('jquery-ui-core'), filemtime($this->get_path_lib_core($this->get_module_name().'/backend/js/'.$this->get_module_name().'.js')), true);
+			wp_enqueue_script('sv_ajax_fragmented_requests', $this->get_url_core($this->get_module_name().'/backend/js/'.$this->get_module_name().'.js'), array('jquery-ui-core'), filemtime($this->get_path_core($this->get_module_name().'/backend/js/'.$this->get_module_name().'.js')), true);
 
 			wp_enqueue_style('jquery-ui-css', '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css');
 		}
@@ -39,6 +39,6 @@
 			));
 		}
 		public function load_form(string $prefix = ''){
-			include($this->get_path_lib_core($this->get_module_name().'/backend/tpl/form.php'));
+			include($this->get_path_core($this->get_module_name().'/backend/tpl/form.php'));
 		}
 	}

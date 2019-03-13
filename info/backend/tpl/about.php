@@ -7,7 +7,7 @@
 			<ul class="info_list">
 				<li>Name: <span><?php echo get_admin_page_title(); ?></span></li>
 				<li>Active Core Version: <span><?php echo $this->get_version_core(true); ?></span></li>
-				<li>Active Core Path: <span><?php echo $this->get_path_lib_core(); ?></span></li>
+				<li>Active Core Path: <span><?php echo $this->get_path_core(); ?></span></li>
 			</ul>
 		</div>
 		<div class="col-50">
