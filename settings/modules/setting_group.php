@@ -30,9 +30,10 @@
 		public function get_children(){
 			return $this->children;
 		}
-		private function add_group_html(){
+		private function add_group_html( $title, $description ){
 			$output					= array();
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_add_new">';
+			$output[]               = '<h4>' . $title . '</h4><div class="description">' . $description . '</div>';
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_add_new_button button">'.__('Add',$this->get_module_name()).'</div>';
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_new_draft" style="display:none;">'.$this->html_field().'</div>';
 			$output[]				= '</div>';
@@ -43,9 +44,7 @@
 			$i						= 0;
 			$output					= array();
 			
-			$output[]               = '<h4>' . $title . '</h4><div class="description">' . $description . '</div>';
-			
-			$output[]				= $this->add_group_html();
+			$output[]				= $this->add_group_html( $title, $description );
 			
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_wrapper" data-sv_form_field_index="'.count((array)get_option($this->get_field_id())).'">';
 			$output[]				= '<input type="hidden" name="'.$this->get_field_id().'" value="" />';
@@ -57,8 +56,6 @@
 				}
 			}
 			$output[]				= '</div>';
-			
-			$output[]				= $this->add_group_html();
 
 			return implode('',$output);
 		}
