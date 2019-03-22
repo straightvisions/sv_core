@@ -66,10 +66,12 @@
 				$output[]				= ($setting_id !== false ? '<div class="sv_'.$this->get_module_name().'">' : '');
 				$output[]				= '
 					<div class="sv_'.$this->get_module_name().'_header">
-						<h4>'.($setting_id !== false ? __('Entry',$this->get_module_name()).' #'.($i+1) : __('Group #',$this->get_module_name())).'</h4> 
+						<h4 class="sv_' .$this->get_module_name() .'_title"><i class="fas fa-angle-right"></i> '.($setting_id !== false ? __('Entry',$this->get_module_name()).' #'.($i+1) : __('Group #',$this->get_module_name())).'</h4> 
 						<div class="sv_'.$this->get_module_name().'_delete"><i class="fas fa-trash"></i></div>
 					</div>
 					';
+
+				$output[]               = '<div class="sv_' . $this->get_module_name() . '_settings_wrapper">';
 
 				$run = 0;
 				foreach($this->get_children() as $child) {
@@ -91,7 +93,7 @@
 						);
 					$output[]			= '</div></div>';
 				}
-				$output[]				= ($setting_id !== false ? '</div>' : '');
+				$output[]				= ($setting_id !== false ? '</div></div>' : '</div>');
 			}
 
 			return implode('',$output);
