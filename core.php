@@ -79,11 +79,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				static::$metabox->init();
 				
 				require_once( 'scripts/scripts.php' );
-				
-				static::$scripts = new scripts;
-				static::$scripts->set_root( $this->get_root() );
-				static::$scripts->set_parent( $this );
-				static::$scripts->init();
 
 				require_once( 'ajax_fragmented_requests/ajax_fragmented_requests.php' );
 
