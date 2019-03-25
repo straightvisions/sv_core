@@ -77,8 +77,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				static::$metabox->set_root( $this->get_root() );
 				static::$metabox->set_parent( $this );
 				static::$metabox->init();
-				
-				require_once( 'scripts/scripts.php' );
 
 				require_once( 'ajax_fragmented_requests/ajax_fragmented_requests.php' );
 
@@ -98,6 +96,13 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
 				static::$initialized = true;
 			}
+
+			require_once( 'scripts/scripts.php' );
+
+			static::$scripts = new scripts;
+			static::$scripts->set_root( $this->get_root() );
+			static::$scripts->set_parent( $this );
+			static::$scripts->init();
 
 			if( file_exists( $path . 'lib/modules/modules.php' ) ) {
 				$this->modules->init();

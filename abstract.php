@@ -185,10 +185,6 @@ abstract class sv_abstract {
 		self::$wpdb								= $wpdb;
 
 		$this->setup_core( $this->path );
-		static::$scripts = new scripts;
-		static::$scripts->set_root( $this->get_root() );
-		static::$scripts->set_parent( $this );
-		static::$scripts->init();
 
 		if ( $this->get_root()->get_version_core_match() == $this->get_version_core() ) {
 			self::$instances_active[ $name ]    = $this;
