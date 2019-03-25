@@ -47,6 +47,8 @@ class scripts extends sv_abstract {
 		}else{
 			add_action( 'init', array( $this, 'load_settings' ));
 		}
+
+		$this->load_settings();
 	}
 
 	public function load_settings() {
@@ -72,7 +74,7 @@ class scripts extends sv_abstract {
 	}
 
 	public function get_scripts(): array {
-		return self::$scripts;
+		return isset( self::$scripts[ $this->get_root()->get_name() ] ) ? self::$scripts[ $this->get_root()->get_name() ] : array();
 	}
 	public function get_enqueued_scripts(): array{
 		return self::$scripts_enqueued;
@@ -162,7 +164,7 @@ class scripts extends sv_abstract {
 		$new->set_root( $parent->get_root() );
 		$new->set_parent( $parent );
 
-		self::$scripts[]						= $new;
+		self::$scripts[ $parent->get_root()->get_name() ][]						= $new;
 
 		return $new;
 	}
