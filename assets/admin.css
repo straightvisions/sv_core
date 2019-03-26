@@ -863,11 +863,25 @@ div.sv_setting_group_header {
 	height: 40px;
 }
 
-div.sv_setting_group_header h4 {
+h4.sv_setting_group_title {
 	flex-grow: 2;
 	border-bottom: 2px solid rgba( 43, 45, 48, 1);
 	margin: 0;
 	line-height: 1.5;
+	cursor: pointer;
+	transition: color .25s ease;
+}
+
+h4.sv_setting_group_title:hover {
+	color: rgb(98, 173, 249);
+}
+
+h4.sv_setting_group_title i.fa-angle-right {
+	transition: transform .4s ease;
+}
+
+h4.sv_setting_group_title i.fa-angle-right.open {
+	transform: rotate(90deg);
 }
 
 div.sv_setting_group_delete {
@@ -890,6 +904,10 @@ div.sv_setting_group_delete:hover {
 
 div.sv_setting_group_delete i {
 	font-size: 20px;
+}
+
+div.sv_setting_group_settings_wrapper {
+	display: none;
 }
 
 div.sv_100_sv_woocommerce_settings_setting_group_item div.sv_setting_group_input {
