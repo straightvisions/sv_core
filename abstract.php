@@ -387,12 +387,6 @@ abstract class sv_abstract {
 		}
 	}
 
-	public function admin_enqueue_scripts( $hook ) {
-		if ( strpos($hook,'straightvisions') !== false ) {
-			wp_enqueue_script( $this->get_prefix(), $this->get_url_core( 'assets/admin.js' ), array( 'jquery' ), filemtime( $this->get_path_core( 'assets/admin.js' ) ), true );
-		}
-	}
-
 	public function load_page( string $custom_about_path = '' ) {
 		$this->get_root()->acp_style();
 

@@ -39,7 +39,7 @@ class scripts extends sv_abstract {
 		$this->set_section_type( 'settings' );
 
 		add_action( 'wp_footer', array( $this, 'wp_footer' ), 10 );
-		add_action( 'init', array( $this, 'admin_scripts' ), 99999);
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 99999);
 
 		// Loads Settings
 		if(!is_admin()) {
@@ -90,8 +90,8 @@ class scripts extends sv_abstract {
 			}
 		}
 	}
-	public function admin_scripts(){
-		if(is_admin()) {
+	public function admin_scripts($hook){
+		if(is_admin() && strpos($hook,'straightvisions') !== false ) {
 			foreach ( $this->get_scripts() as $script ) {
 				if ( $script->get_is_backend() ) {
 					$this->add_script( $script );

@@ -93,8 +93,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				add_filter( 'plugin_action_links_' . plugin_basename( $path ) . '/' . plugin_basename( $path ) . '.php', array( $this, 'plugin_action_links' ), 10, 5 );
 
 				add_action( 'shutdown', array( $this, 'update_routine' ) );
-
-				static::$initialized = true;
 			}
 
 			require_once( 'scripts/scripts.php' );
@@ -104,9 +102,21 @@ if ( !class_exists( '\sv_core\core' ) ) {
 			static::$scripts->set_parent( $this );
 			static::$scripts->init();
 
+			if ( !static::$initialized ) {
+				static::$scripts->create($this)
+					->set_ID('admin')
+					->set_path($this->get_url_core('assets/admin.js'))
+					->set_is_backend()
+					->set_is_enqueued()
+					->set_type('js')
+					->set_deps(array('jquery'));
+			}
+
 			if( file_exists( $path . 'lib/modules/modules.php' ) ) {
 				$this->modules->init();
 			}
+
+			static::$initialized = true;
 		}
 
 		public function menu() {

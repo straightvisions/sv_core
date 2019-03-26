@@ -5,6 +5,7 @@
 	class setting_group extends settings{
 		private $parent				= false;
 		private $children			= array();
+		public static $initialized			= false;
 		
 		/**
 		 * @desc			initialize
@@ -18,9 +19,10 @@
 			add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
 		}
 		public function admin_enqueue_scripts($hook){
-			if ( strpos($hook,'straightvisions') !== false ) {
+			if ( !static::$initialized && strpos($hook,'straightvisions') !== false ) {
 				wp_enqueue_script($this->get_prefix(), $this->get_url_core('assets/admin_setting_group.js'), array('jquery'), filemtime($this->get_path_core('assets/admin_setting_group.js')), true);
 			}
+			static::$initialized = true;
 		}
 		public function add_child(){
 			$child					= static::create($this->get_parent());
@@ -81,7 +83,7 @@
 							$child->get_title(),
 							$child->get_description(),
 							($setting_id !== false ? $child->get_field_id().'['.$i.']['.$child->get_ID().']' : ''),
-							($setting_id !== false ? get_option($child->get_field_id())[$setting_id][$child->get_ID()] : ''),
+							(($setting_id !== false && isset(get_option($child->get_field_id())[$setting_id][$child->get_ID()])) ? get_option($child->get_field_id())[$setting_id][$child->get_ID()] : ''),
 							$child->get_required(),
 							$child->get_disabled(),
 							$child->get_placeholder(),
