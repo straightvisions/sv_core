@@ -28,3 +28,7 @@ jQuery('body').on('click', '.sv_setting_group_delete', function(){
 		jQuery(this).remove();
 	});
 });
+jQuery('body').on('click', '.sv_setting_group_title', function(){
+	jQuery(this).find('.fa-angle-right').toggleClass('open');
+	jQuery(this).parent().parent().find('.sv_setting_group_settings_wrapper').slideToggle(400);
+});
