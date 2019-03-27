@@ -72,7 +72,6 @@
 		}
 		public function post_class_meta_box($post){
 			if(!static::$scripts_loaded) {
-				$this->get_parent()->admin_enqueue_scripts('toplevel_page_straightvisions');
 				$this->get_root()->acp_style();
 				static::$scripts_loaded		= true;
 			}
