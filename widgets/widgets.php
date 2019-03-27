@@ -129,7 +129,6 @@
 		public function form( $instance ) {
 			if ($this->get_class()) {
 				if(!$this->get_class()::$scripts_loaded) {
-					$this->get_class()->get_parent()->admin_enqueue_scripts('toplevel_page_straightvisions');
 					$this->get_class()->get_root()->acp_style();
 					$this->get_class()::$scripts_loaded		= true;
 				}
