@@ -19,6 +19,7 @@ class scripts extends sv_abstract {
 		'js'									=> array()
 	);
 	private $is_backend                         = false;
+	private $is_gutenberg						= false;
 	private $is_external						= false;
 
 	// CSS specific
@@ -40,6 +41,7 @@ class scripts extends sv_abstract {
 
 		add_action( 'wp_footer', array( $this, 'wp_footer' ), 10 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 99999);
+		add_action( 'enqueue_block_editor_assets', array( $this, 'gutenberg_scripts' ));
 
 		// Loads Settings
 		if(!is_admin()) {
@@ -96,6 +98,13 @@ class scripts extends sv_abstract {
 				if ( $script->get_is_backend() ) {
 					$this->add_script( $script );
 				}
+			}
+		}
+	}
+	public function gutenberg_scripts(){
+		foreach ( $this->get_scripts() as $script ) {
+			if ( $script->get_is_gutenberg() ) {
+				$this->add_script( $script );
 			}
 		}
 	}
@@ -244,9 +253,17 @@ class scripts extends sv_abstract {
 
 		return $this;
 	}
-
 	public function get_is_backend(): bool {
 		return $this->is_backend;
+	}
+	
+	public function set_is_gutenberg(): scripts {
+		$this->is_gutenberg						= true;
+		
+		return $this;
+	}
+	public function get_is_gutenberg(): bool {
+		return $this->is_gutenberg;
 	}
 	
 	public function set_path(string $path): scripts {
