@@ -39,6 +39,8 @@ class scripts extends sv_abstract {
 		$this->set_section_desc( __( 'Override Scripts Loading.', $this->get_name() ) );
 		$this->set_section_type( 'settings' );
 
+		add_action( 'init', array( $this, 'register_scripts' ), 10 );
+
 		add_action( 'wp_footer', array( $this, 'wp_footer' ), 10 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 99999);
 		add_action( 'enqueue_block_editor_assets', array( $this, 'gutenberg_scripts' ));
@@ -105,6 +107,25 @@ class scripts extends sv_abstract {
 		foreach ( $this->get_scripts() as $script ) {
 			if ( $script->get_is_gutenberg() ) {
 				$this->add_script( $script );
+			}
+		}
+	}
+	public function register_scripts(){
+		foreach ( $this->get_scripts() as $script ) {
+			if($script->get_type() == 'js'){
+				wp_register_script(
+					$script->get_handle(),
+					$script->get_url(),
+					$script->get_deps(),
+					($this->is_external() ? md5($script->get_url()) : filemtime($script->get_path()))
+				);
+			}else{
+				wp_register_style(
+					$script->get_handle(),
+					$script->get_url(),
+					$script->get_deps(),
+					($this->is_external() ? md5($script->get_url()) : filemtime($script->get_path()))
+				);
 			}
 		}
 	}
@@ -272,7 +293,12 @@ class scripts extends sv_abstract {
 			$this->is_external					= true;
 		}else {
 			$this->script_url  = $this->get_parent()->get_url($path);
-			$this->script_path = $this->get_parent()->get_path($path);
+			if(file_exists($this->script_path = $this->get_parent()->get_parent()->get_path($path))){
+				$this->script_path = $this->get_parent()->get_parent()->get_path($path);
+			}elseif(file_exists($this->get_parent()->get_path($path))){
+				$this->script_path = $this->get_parent()->get_path($path);
+			}
+
 		}
 		
 		return $this;
