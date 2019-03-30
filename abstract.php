@@ -243,6 +243,13 @@ abstract class sv_abstract {
 
 		return $this->get_name() . $append;
 	}
+	public function get_prefix_gutenberg( $append = '' ) {
+		if( strlen( $append ) > 0 ) {
+			$append = '/' . $append;
+		}
+
+		return str_replace('_', '-', $this->get_name() . $append);
+	}
 
 	public function get_relative_prefix( $append = '' ) {
 		if( strlen( $append ) > 0 ) {
