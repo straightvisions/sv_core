@@ -3,7 +3,7 @@
 namespace sv_core;
 
 abstract class sv_abstract {
-	const version_core					= 3015;
+	const version_core					= 3016;
 
 	protected $name						= false;
 	protected $module_name				= false;
@@ -242,6 +242,13 @@ abstract class sv_abstract {
 		}
 
 		return $this->get_name() . $append;
+	}
+	public function get_prefix_gutenberg( $append = '' ) {
+		if( strlen( $append ) > 0 ) {
+			$append = '/' . $append;
+		}
+
+		return str_replace('_', '-', $this->get_name() . $append);
 	}
 
 	public function get_relative_prefix( $append = '' ) {
