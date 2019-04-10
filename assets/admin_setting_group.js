@@ -2,11 +2,9 @@ jQuery( document ).ready( function() {
 	jQuery( '.sv_setting_group_wrapper' ).parent( '.sv_setting' ).addClass( 'sv_setting_group_parent' );
 });
 
-jQuery('body').on('click','.sv_setting_group_add_new_button', function() {
-	var form_new	= jQuery(this)
-		.parent('.sv_setting_group_add_new')
-		.children('.sv_setting_group_new_draft');
-
+jQuery( 'body' ).on( 'click','.sv_setting_group_add_new_button', function() {
+	let parent 		= jQuery( this ).parents( '.sv_setting_group_parent' );
+	var form_new	= parent.find( '.sv_setting_group_new_draft' );
 	var form_clone	= form_new.clone();
 
 	form_clone.find('.sv_form_field').each(function(e) {
@@ -15,20 +13,22 @@ jQuery('body').on('click','.sv_setting_group_add_new_button', function() {
 		jQuery(this).closest('label').attr('for', jQuery(this).attr('name'));
 	});
 
-	form_clone.find( '.sv_setting_group_header h4' ).append(  jQuery( '.sv_setting_group_header' ).length );
+	form_clone.find( '.sv_setting_group_header h4' ).append(  parent.find( '.sv_setting_group_header' ).length );
+	parent.find( '.sv_setting_group_wrapper' ).data( 'sv_form_field_index', parent.find('.sv_setting_group_wrapper').data( 'sv_form_field_index' ) + 1 );
 
-	form_new.parent().parent().find('.sv_setting_group_wrapper').data('sv_form_field_index', form_new.parent().parent().find('.sv_setting_group_wrapper').data('sv_form_field_index')+1);
-	form_clone.removeClass('sv_setting_group_new_draft').addClass('sv_setting_group');
-	form_clone.appendTo( '.sv_setting_group_wrapper' );
+	form_clone.removeClass( 'sv_setting_group_new_draft' ).addClass( 'sv_setting_group' );
+	form_clone.appendTo( parent.find( '.sv_setting_group_wrapper' ) );
 
 	form_clone.show('slow');
 });
-jQuery('body').on('click', '.sv_setting_group_delete', function(){
-	jQuery(this).parent().parent().hide('slow', function(){
-		jQuery(this).remove();
+
+jQuery( 'body' ).on( 'click', '.sv_setting_group_delete', function() {
+	jQuery( this ).parents( '.sv_setting_group' ).hide('slow', function() {
+		jQuery( this ).remove();
 	});
 });
-jQuery('body').on('click', '.sv_setting_group_title', function(){
-	jQuery(this).find('.fa-angle-right').toggleClass('open');
-	jQuery(this).parent().parent().find('.sv_setting_group_settings_wrapper').slideToggle(400);
+
+jQuery( 'body' ).on('click', '.sv_setting_group_title', function() {
+	jQuery( this ).find( '.fa-angle-right' ).toggleClass( 'open' );
+	jQuery( this ).parents( '.sv_setting_group' ).find( '.sv_setting_group_settings_wrapper' ).slideToggle( 400 );
 });

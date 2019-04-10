@@ -87,7 +87,8 @@
 						);
 					$fields[]			= '</div></div>';
 
-					if ( isset( get_option( $child->get_field_id() )[ $setting_id ]['entry_label'] ) ) {
+					if ( isset( get_option( $child->get_field_id() )[ $setting_id ]['entry_label'] )
+					     && ! empty( get_option($child->get_field_id())[$setting_id]['entry_label'] ) ) {
 						$label = get_option($child->get_field_id())[$setting_id]['entry_label'];
 					}
 				}
