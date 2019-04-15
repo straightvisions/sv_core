@@ -21,6 +21,7 @@ class scripts extends sv_abstract {
 	private $is_backend                         = false;
 	private $is_gutenberg						= false;
 	private $is_external						= false;
+	private $is_required						= false;
 
 	// CSS specific
 	private $media								= 'all';
@@ -59,20 +60,47 @@ class scripts extends sv_abstract {
 		if(count($this->get_scripts()) > 0) {
 			$this->get_root()->add_section( $this );
 			
+			$this->s[ 'disable_all_css' ] = $this->get_parent()::$settings->create( $this )
+																		   ->set_ID( 'disable_all_css' )
+																		   ->set_title( __('Disable all CSS per Default', $this->get_name()) )
+																		   ->set_description( __('CSS enqueued will be disabled by default - you may override this later down below.', $this->get_name()) )
+																		   ->load_type( 'checkbox' );
+			
+			$this->s[ 'disable_all_js' ] = $this->get_parent()::$settings->create( $this )
+																		  ->set_ID( 'disable_all_js' )
+																		  ->set_title( __('Disable all JS per Default', $this->get_name()) )
+																		  ->set_description( __('JS enqueued will be disabled by default - you may override this later down below.', $this->get_name()) )
+																		  ->load_type( 'checkbox' );
+			
 			foreach ( $this->get_scripts() as $script ) {
+				$this->s[ $script->get_UID() ] = $this->get_parent()::$settings->create( $this )
+																		   ->set_ID( $script->get_UID() )
+																		   ->set_default_value( 'default' )
+																		   ->set_title( '<div class="fab fa-' . ( $script->get_type() == 'css' ? 'css3' : 'js' ) . '" style="font-size:24px;margin-right:12px;"></div>' . $script->get_handle() )
+																		   ->set_description( $script->get_url() )
+																		   ->load_type( 'select' )
+																		   ->set_disabled( $script->get_is_required() ? true : false );
+				
+				if(
+					($this->s[ 'disable_all_css' ]->run_type()->get_data() == 1 && $script->get_type() == 'css') ||
+					($this->s[ 'disable_all_js' ]->run_type()->get_data() == 1 && $script->get_type() == 'js')
+				){
+					
+					$default_label											= 'Disabled';
+				}else{
+					$default_label											= $script->get_inline() ? __( 'Inline', $this->get_name() ) : __( 'Attached', $this->get_name() );
+				}
+				
+				
 				$options = array(
-					'default'  => __( 'Default', $this->get_name() ) . ': ' . ( $script->get_inline() ? __( 'Inline', $this->get_name() ) : __( 'Attached', $this->get_name() ) ),
+					'default'  => __( 'Default', $this->get_name() ) . ': ' . $default_label,
 					'inline'   => __( 'Inline', $this->get_name() ),
 					'attached' => __( 'Attached', $this->get_name() ),
 					'disable'  => __( 'Disabled', $this->get_name() )
 				);
-				$this->s[ $script->get_UID() ] = $this->get_parent()::$settings->create( $this )
-																			   ->set_ID( $script->get_UID() )
-																			   ->set_default_value( 'default' )
-																			   ->set_title( '<div class="fab fa-' . ( $script->get_type() == 'css' ? 'css3' : 'js' ) . '" style="font-size:24px;margin-right:12px;"></div>' . $script->get_handle() )
-																			   ->set_description( $script->get_url() )
-																			   ->load_type( 'select' )
-																			   ->set_options( $options );
+				
+				$this->s[ $script->get_UID() ]->set_options( $options );
+
 			}
 		}
 	}
@@ -130,15 +158,40 @@ class scripts extends sv_abstract {
 		}
 	}
 
+	private function check_for_enqueue(scripts $script): bool{
+		if($script->get_is_loaded()){ // always load scripts once only
+			return false;
+		}
+		
+		if($script->get_is_required()){ // always load required scripts
+			return true;
+		}
+		
+		if($this->s[$script->get_UID()]->run_type()->get_data() == 'disable'){ // don't load disabled scripts
+			return false;
+		}
+		
+		if( // if script has no user load settings
+			$this->s[$script->get_UID()]->run_type()->get_data() == '' ||
+			$this->s[$script->get_UID()]->run_type()->get_data() == 'default'
+		){
+			if( // make sure they are not globally disabled
+				($this->s[ 'disable_all_css' ]->run_type()->get_data() == 1 && $script->get_type() == 'css') ||
+				($this->s[ 'disable_all_js' ]->run_type()->get_data() == 1 && $script->get_type() == 'js')
+			){
+				return false;
+			}
+		}
+		
+		return true;
+	}
 	private function add_script( scripts $script ) {
 		// run all registered scripts
 
 		// check if script is enqueued
 		if($script->get_is_enqueued()) {
-
 			// check is script isn't loaded already and not disabled
-			if (!$script->get_is_loaded() && $this->s[$script->get_UID()]->run_type()->get_data() != 'disable') {
-
+			if ($this->check_for_enqueue($script)) {
 				// set as loaded
 				$script->set_is_loaded();
 
@@ -199,7 +252,15 @@ class scripts extends sv_abstract {
 		return $new;
 	}
 
-	public function set_no_prefix( bool $no_prefix ): scripts {
+	public function set_is_required( bool $is_required = true ): scripts {
+		$this->is_required						= $is_required;
+		
+		return $this;
+	}
+	public function get_is_required(): bool {
+		return $this->is_required;
+	}
+	public function set_no_prefix( bool $no_prefix = true ): scripts {
 		$this->no_prefix						= $no_prefix;
 
 		return $this;

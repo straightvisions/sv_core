@@ -107,7 +107,8 @@ if ( !class_exists( '\sv_core\core' ) ) {
 					->set_is_backend()
 					->set_is_enqueued()
 					->set_type('js')
-					->set_deps(array('jquery'));
+					->set_deps(array('jquery'))
+					->set_is_required();
 			}
 
 			if( file_exists( $path . 'lib/modules/modules.php' ) ) {
