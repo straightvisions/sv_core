@@ -51,8 +51,8 @@ class setting_upload extends settings{
 		}
 		
 		if(isset($_POST[$this->get_parent()->get_prefix($this->get_parent()->get_ID()).'_delete'])){
-			delete_option($this->get_parent()->get_prefix($this->get_parent()->get_ID()));
 			wp_delete_attachment( $this->get_data(), true );
+			delete_option($this->get_parent()->get_prefix($this->get_parent()->get_ID()));
 		}elseif(intval($_FILES[$this->get_parent()->get_prefix($this->get_parent()->get_ID())]['size']) > 0 ) {
 			static::$updated[$this->get_parent()->get_prefix($this->get_parent()->get_ID())] = true;
 			
