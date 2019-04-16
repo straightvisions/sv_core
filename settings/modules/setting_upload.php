@@ -4,6 +4,7 @@ namespace sv_core;
 
 class setting_upload extends settings{
 	private $parent				= false;
+	protected static $updated			= array();
 
 	/**
 	 * @desc			initialize
@@ -28,10 +29,33 @@ class setting_upload extends settings{
 				placeholder="'.$placeholder.'"
 				' . $disabled . '
 				/>
-			</label>';
+			</label>
+			<label for="' . $ID . '_delete" style="justify-content: flex-end;">
+			<input
+				class="sv_form_field"
+				id="' . $ID . '_delete"
+				name="' . $name . '_delete"
+				value="1"
+				type="checkbox"
+				' . $disabled . '
+				style="margin-right:16px;"
+				/>
+				
+				'.__('Delete File', $this->get_prefix()).'
+				</label>
+			';
 	}
 	public function field_callback($input){ //@todo This method get's triggered twice, that's why a second upload is attempted
-		if(intval($_FILES[$this->get_parent()->get_prefix($this->get_parent()->get_ID())]['size']) > 0 ) {
+		if(isset(static::$updated[$this->get_parent()->get_prefix($this->get_parent()->get_ID())])){
+			return $input;
+		}
+		
+		if(isset($_POST[$this->get_parent()->get_prefix($this->get_parent()->get_ID()).'_delete'])){
+			delete_option($this->get_parent()->get_prefix($this->get_parent()->get_ID()));
+			wp_delete_attachment( $this->get_data(), true );
+		}elseif(intval($_FILES[$this->get_parent()->get_prefix($this->get_parent()->get_ID())]['size']) > 0 ) {
+			static::$updated[$this->get_parent()->get_prefix($this->get_parent()->get_ID())] = true;
+			
 			$file		= wp_handle_upload($_FILES[$this->get_parent()->get_prefix($this->get_parent()->get_ID())], array( 'test_form' => false ));
 
 			// remove old attachment
