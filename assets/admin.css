@@ -666,11 +666,6 @@ table.form-table td {
 }
 
 /* Input - File */
-.sv_setting img {
-	max-width: 50%;
-	height: auto;
-}
-
 .sv_setting input[type="file"],
 .wp-admin input[type=file] {
 	padding: 10px;
