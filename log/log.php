@@ -41,7 +41,8 @@ class log extends sv_abstract {
 		$this->log_list->init();
 		$this->log_docs->init();
 
-		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		//add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		// @todo Deactivated, because not in use
 	}
 
 	// Init Methods
