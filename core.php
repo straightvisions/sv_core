@@ -17,16 +17,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 		public $ajax_fragmented_requests	= false;
 		public static $initialized			= false;
 		
-		/**
-		 * @desc        initialize
-		 * @author      Matthias Bathke
-		 * @since       1.0
-		 * @ignore
-		 */
-		public function __construct() {
-		
-		}
-		
 		public function setup_core( $path ) {
 			// these modules are available in all instances and should be initialized once only.
 			if ( !static::$initialized ) {
@@ -99,21 +89,22 @@ if ( !class_exists( '\sv_core\core' ) ) {
 			static::$scripts->set_root( $this->get_root() );
 			static::$scripts->set_parent( $this );
 			static::$scripts->init();
+			
+			static::$scripts->create($this)
+							->set_ID('admin')
+							->set_path($this->get_url_core('assets/admin.js'))
+							->set_is_backend()
+							->set_is_enqueued()
+							->set_type('js')
+							->set_deps(array('jquery'))
+							->set_is_required();
 
-			if ( !static::$initialized ) {
-				static::$scripts->create($this)
-					->set_ID('admin')
-					->set_path($this->get_url_core('assets/admin.js'))
-					->set_is_backend()
-					->set_is_enqueued()
-					->set_type('js')
-					->set_deps(array('jquery'))
-					->set_is_required();
-			}
-
-			if( file_exists( $path . 'lib/modules/modules.php' ) ) {
-				$this->modules->init();
-			}
+			//if ( !static::$initialized ) {
+				
+				if( file_exists( $path . 'lib/modules/modules.php' ) ) {
+					$this->modules->init();
+				}
+			//}
 
 			static::$initialized = true;
 		}

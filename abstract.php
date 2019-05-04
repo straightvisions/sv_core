@@ -17,6 +17,7 @@ abstract class sv_abstract {
 	protected static $wpdb				= false;
 	private static $instances			= array();
 	private static $instances_active	= array();
+	protected $loaded			= array();
 	protected static $path_core			= false;
 	protected static $url_core			= false;
 	protected $curl_handler             = false;
@@ -40,6 +41,12 @@ abstract class sv_abstract {
 	 * @ignore
 	 */
 	public function __construct() {
+		// make sure to init only once
+		$namespace = strstr(get_class($this->get_root()), '\\', true);
+		if(isset($this->get_instances()[$namespace])){
+			return;
+		}
+
 		$this->init();
 	}
 
@@ -183,13 +190,15 @@ abstract class sv_abstract {
 
 		global $wpdb;
 		self::$wpdb								= $wpdb;
-
-		$this->setup_core( $this->path );
-
+		
+		if(!isset(self::$instances[ $name ])){
+			$this->setup_core( $this->path );
+		}
+		
 		if ( $this->get_root()->get_version_core_match() == $this->get_version_core() ) {
 			self::$instances_active[ $name ]    = $this;
 		}
-
+		
 		self::$instances[ $name ]				= $this;
 	}
 
