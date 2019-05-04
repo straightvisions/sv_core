@@ -624,6 +624,27 @@ table.form-table td {
 	cursor: pointer;
 }
 
+/* Code Editor */
+.sv_setting .CodeMirror {
+	color: rgba( 50, 50, 48, 1 );
+	width: 100%;
+	border-radius: 5px;
+	height: 300px;
+	background-color: #FFFFFF;
+	border: 1px solid rgba( 50, 50, 48, .2 );
+	box-shadow: none;
+	outline: none !important;
+	transition: .25s ease;
+}
+
+.sv_setting .CodeMirror .CodeMirror-gutters {
+	width: 46px;
+}
+
+.sv_setting .CodeMirror pre {
+	margin-left: 46px;
+}
+
 /* Input - Checkbox */
 .sv_setting input[type="checkbox"] {
 	position: relative;

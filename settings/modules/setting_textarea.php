@@ -14,7 +14,20 @@
 		public function __construct($parent=false){
 			$this->parent			= $parent;
 		}
-		public function html($ID, $title, $description, $name, $value, $required, $disabled) {
+		public function html(string $ID, string $title, string $description, string $name, $value, string $required, string $disabled, $placeholder, $maxlength, $minlength, $max, $mix, $radio_style, $code_editor ) {
+			if ( $code_editor ) {
+				if ( empty( $code_editor ) ) {
+					$code_editor = 'css';
+				}
+				
+				wp_enqueue_code_editor( array( 'type' => 'text/' . $code_editor ) );
+				
+				echo '<script>jQuery( document ).ready( function() {
+					wp.codeEditor.initialize( jQuery( "#' . $ID . '" ), { mode: "' . $code_editor . '" } );
+				});
+				</script>';
+			}
+			
 			return '
 				<h4>' . $title . '</h4>
 				<div class="description">' . $description . '</div>

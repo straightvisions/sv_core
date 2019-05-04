@@ -27,6 +27,7 @@ class settings extends sv_abstract{
 	private $data								= false;
 	private $default_value						= false;
 	private $radio_style                        = 'radio';
+	private $code_editor						= '';
 	protected static $new						= array();
 
 	/**
@@ -263,6 +264,16 @@ class settings extends sv_abstract{
 
 		return $this;
 	}
+	
+	public function get_code_editor(): string {
+		return $this->code_editor;
+	}
+	
+	public function set_code_editor( string $code_editor ) {
+		$this->code_editor           = $code_editor;
+		
+		return $this;
+	}
 
 	public function get_data(){
 		if($this->data){
@@ -388,7 +399,8 @@ class settings extends sv_abstract{
 				$this->get_parent()->get_minlength(),
 				$this->get_parent()->get_max(),
 				$this->get_parent()->get_min(),
-				$this->get_parent()->get_radio_style()
+				$this->get_parent()->get_radio_style(),
+				$this->get_parent()->get_code_editor()
 			);
 	}
 	public function form(bool $title=false): string{
@@ -405,7 +417,8 @@ class settings extends sv_abstract{
 				$this->get_parent()->get_minlength(),
 				$this->get_parent()->get_max(),
 				$this->get_parent()->get_min(),
-				$this->get_parent()->get_radio_style()
+				$this->get_parent()->get_radio_style(),
+				$this->get_parent()->get_code_editor()
 			).'</div>';
 	}
 
