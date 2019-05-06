@@ -639,6 +639,7 @@ table.form-table td {
 
 .sv_setting .CodeMirror .CodeMirror-gutters {
 	width: 46px;
+	left: 0 !important;
 }
 
 .sv_setting .CodeMirror pre {
