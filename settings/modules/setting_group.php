@@ -83,7 +83,8 @@
 							$child->get_minlength(),
 							$child->get_max(),
 							$child->get_min(),
-							$child->get_radio_style()
+							$child->get_radio_style(),
+							$this->get_code_editor()
 						);
 					$fields[]			= '</div></div>';
 
