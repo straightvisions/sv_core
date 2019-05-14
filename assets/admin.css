@@ -538,22 +538,22 @@ div.log_summary table tr:first-child button#logs_filter::before {
 
 /* ==== straightvisions Dashboard - Form Elements =================================================================== */
 /* Form Table */
-table.form-table tbody {
+.sv_dashboard_content table.form-table tbody {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 }
 
-table.form-table tr {
+.sv_dashboard_content table.form-table tr {
 	width: 100%;
 	margin-bottom: 50px;
 }
 
-table.form-table th {
+.sv_dashboard_content table.form-table th {
 	display: none;
 }
 
-table.form-table td {
+.sv_dashboard_content table.form-table td {
 	display: block;
 	padding: 0;
 	margin: 0;
