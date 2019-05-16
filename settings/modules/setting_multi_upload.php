@@ -73,6 +73,8 @@
 			}
 		}
 		public function get_data(){
+			error_log('Deprecated: setting_multi_upload will be removed in core v3.120');
+			
 			$post_id                = $this->get_page_ID();
 			$children               = get_children( array('post_parent' => $post_id) );
 			
