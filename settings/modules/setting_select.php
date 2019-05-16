@@ -21,7 +21,8 @@ class setting_select extends settings{
 			<div class="description">' . $description . '</div>
 			<label for="' . $ID . '">
 				<select
-				class="sv_form_field sv_input"
+					data-sv_type="sv_form_field"
+					class="sv_input"
 				id="' . $ID . '"
 				name="' . $name . '"
 				' . $required . '

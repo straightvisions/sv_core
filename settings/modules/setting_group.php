@@ -18,6 +18,16 @@
 
 			add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
 		}
+		public function field_callback($input){
+			if($this->get_children()) {
+				foreach ( $this->get_children() as $setting ) {
+					if(method_exists($setting->run_type(), 'field_callback')) {
+						$input = $setting->run_type()->field_callback( $input );
+					}
+				}
+			}
+			return $input;
+		}
 		public function admin_enqueue_scripts($hook){
 			if ( !static::$initialized && strpos($hook,'straightvisions') !== false ) {
 				wp_enqueue_script($this->get_prefix(), $this->get_url_core('assets/admin_setting_group.js'), array('jquery'), filemtime($this->get_path_core('assets/admin_setting_group.js')), true);
@@ -53,7 +63,7 @@
 			
 			if($this->get_children() && get_option($this->get_field_id())) {
 				foreach (get_option($this->get_field_id()) as $setting_id => $setting) {
-					$output[]		= $this->html_field($i,$setting_id);
+					$output[]		= $this->html_field($i,intval($setting_id));
 					$i++;
 				}
 			}
@@ -75,7 +85,7 @@
 							$child->get_title(),
 							$child->get_description(),
 							($setting_id !== false ? $child->get_field_id().'['.$i.']['.$child->get_ID().']' : ''),
-							(($setting_id !== false && isset(get_option($child->get_field_id())[$setting_id][$child->get_ID()])) ? get_option($child->get_field_id())[$setting_id][$child->get_ID()] : ''),
+							(($setting_id !== false && get_option($child->get_field_id())[$setting_id][$child->get_ID()]) ? get_option($child->get_field_id())[$setting_id][$child->get_ID()] : array( get_option($child->get_field_id()), $i,$child->get_ID())),
 							$child->get_required(),
 							$child->get_disabled(),
 							$child->get_placeholder(),

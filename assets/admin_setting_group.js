@@ -7,7 +7,7 @@ jQuery( 'body' ).on( 'click','.sv_setting_group_add_new_button', function() {
 	var form_new	= parent.find( '.sv_setting_group_new_draft' );
 	var form_clone	= form_new.clone();
 
-	form_clone.find('.sv_form_field').each(function(e) {
+	form_clone.find('.data_sv_type_sv_form_field, [data-sv_type="sv_form_field"]').each(function(e) {
 		jQuery(this).attr('name', jQuery(this).attr('id').replace("sv_form_field_index", form_new.parent().parent().find('.sv_setting_group_wrapper').data('sv_form_field_index')));
 		jQuery(this).attr('id', jQuery(this).attr('name'));
 		jQuery(this).closest('label').attr('for', jQuery(this).attr('name'));

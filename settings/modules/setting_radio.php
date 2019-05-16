@@ -33,7 +33,8 @@ class setting_radio extends settings{
 					name="' . $name . '"
 					id="' . $ID . '"
 					type="radio"
-					class="sv_form_field ' . ( ( $o_value < 1 ) ? 'off' : 'on' ) . '"
+					data-sv_type="sv_form_field"
+					class="' . ( ( $o_value < 1 ) ? 'off' : 'on' ) . '"
 					value="' . $o_value . '"
 					' . $disabled . '
 					' . ( ( $o_value == $value ) ? ' checked="checked" ' : '' ) . '

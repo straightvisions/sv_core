@@ -421,7 +421,7 @@ abstract class sv_abstract {
 
 	public function load_section_menu() {
 		foreach ( $this->get_sections() as $section_name => $section ) {
-			echo '<div data-target="#section_' . $section_name . '" class="sv_admin_menu_item section_' . $section[ 'object' ]->get_section_type() . '"><h4>' .  $section[ 'object' ]->get_section_title() . '</h4><span>' . $this->section_types[ $section[ 'object' ]->get_section_type() ] . '</span></div>';
+			echo '<div data-target="#section_' . $section_name . '" class="sv_admin_menu_item section_' . $section[ 'object' ]->get_section_type() . '"><h4>' .  $section[ 'object' ]->get_section_title() . '</h4><span>' . $section[ 'object' ]->get_section_desc() . '</span></div>';
 		}
 	}
 
