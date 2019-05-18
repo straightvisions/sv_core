@@ -26,6 +26,7 @@ class setting_upload extends settings{
 	}
 	public function html($ID, $title, $description, $name, $value, $required, $disabled, $placeholder){
 		$value = is_array($value) ? $value['file'] : $value;
+
 		$output = '
 			<h4>'. $title . '</h4>
 			<div>' . ($value ? wp_get_attachment_link($value, 'full', false, true) : '') . '</div>
@@ -122,6 +123,21 @@ class setting_upload extends settings{
 		return $input ? $input : $this->get_data();
 	}
 	private function field_group($input){
+		if ( ! empty( $this->get_parent()->get_data() ) ) {
+			echo 'Second time: ';
+			var_dump($input);
+			foreach( $input as $i => $field ) {
+				if ( ! empty( $this->get_parent()->get_data()[ $i ] ) ) {
+					$input[ $i ] = $this->get_parent()->get_data()[ $i ];
+				}
+			}
+		} else {
+			echo 'First time: ';
+			var_dump($input);
+		}
+		
+		//die();
+		
 		// make sure it's a group field
 		if(method_exists($this->get_parent()->get_parent(), 'get_ID') && isset($_FILES[$this->get_parent()->get_parent()->get_prefix($this->get_parent()->get_parent()->get_ID())])) {
 			// reformat data to convert group uploads to single uploads
@@ -140,7 +156,7 @@ class setting_upload extends settings{
 							wp_handle_upload( $fields, array( 'test_form' => false ) )
 						);
 					// make sure existing uploads are carried
-					} elseif ( empty($input[ $i ][ $name ]['file']) && isset( $this->get_parent()->get_data()[ $i ][ $name ] ) && intval( $this->get_parent()->get_data()[ $i ][ $name ] ) > 0 ) {
+					} elseif ( !isset($input[ $i ][ $name ]['file']) && isset( $this->get_parent()->get_data()[ $i ][ $name ] ) && intval( $this->get_parent()->get_data()[ $i ][ $name ] ) > 0 ) {
 						$input[ $i ][ $name ] = $this->get_parent()->get_data()[ $i ][ $name ];
 					}
 				}

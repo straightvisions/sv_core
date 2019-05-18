@@ -58,7 +58,7 @@
 			
 			$output[]				= $this->add_group_html( $title, $description );
 			
-			$output[]				= '<div class="sv_'.$this->get_module_name().'_wrapper" data-sv_form_field_index="'.count((array)get_option($this->get_field_id())).'">';
+			$output[]				= '<div class="sv_'.$this->get_module_name().'_wrapper" data-sv_form_field_index="'.(count((array)get_option($this->get_field_id()))-1).'">';
 			$output[]				= '<input type="hidden" name="'.$this->get_field_id().'" value="" />';
 			
 			if($this->get_children() && get_option($this->get_field_id())) {
