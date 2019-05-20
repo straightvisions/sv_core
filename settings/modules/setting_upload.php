@@ -124,18 +124,12 @@ class setting_upload extends settings{
 	}
 	private function field_group($input){
 		if ( ! empty( $this->get_parent()->get_data() ) ) {
-			echo 'Second time: ';
-			var_dump($input);
 			foreach( $input as $i => $field ) {
 				if ( ! empty( $this->get_parent()->get_data()[ $i ] ) ) {
 					$input[ $i ] = $this->get_parent()->get_data()[ $i ];
 				}
 			}
-		} else {
-			echo 'First time: ';
-			var_dump($input);
 		}
-		
 		//die();
 		
 		// make sure it's a group field
