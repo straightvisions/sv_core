@@ -3,8 +3,8 @@
 	namespace sv_core;
 	
 	class setting_group extends settings{
-		private $parent				= false;
-		private $children			= array();
+		private $parent						= false;
+		private $children					= array();
 		public static $initialized			= false;
 		
 		/**
@@ -57,8 +57,7 @@
 			$output					= array();
 			
 			$output[]				= $this->add_group_html( $title, $description );
-			
-			$output[]				= '<div class="sv_'.$this->get_module_name().'_wrapper" data-sv_form_field_index="'.(count((array)get_option($this->get_field_id()))-1).'">';
+			$output[]				= '<div class="sv_'.$this->get_module_name().'_wrapper">';
 			$output[]				= '<input type="hidden" name="'.$this->get_field_id().'" value="" />';
 			
 			if($this->get_children() && get_option($this->get_field_id())) {
