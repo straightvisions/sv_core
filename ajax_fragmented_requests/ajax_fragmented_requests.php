@@ -11,6 +11,9 @@
 	namespace sv_core;
 	
 	class ajax_fragmented_requests extends sv_abstract{
+
+	    private $settings_js = '';
+
 		public function init(){
 		
 		}
@@ -23,10 +26,9 @@
 			wp_enqueue_style('jquery-ui-css', '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css');
 		}
 		public function scripts_block(array $forms){
-			$settings_js = '';
 
 			foreach ($forms as $ID => $vars) {
-				$settings_js .= 'sv_ajax_fragmented_requests_vars["' . $ID . '"] = ' . json_encode(array(
+				$this->settings_js .= 'sv_ajax_fragmented_requests_vars["' . $ID . '"] = ' . json_encode(array(
 						'total' => $vars['total'],
 						'total_cycles' => ceil($vars['total'] / $vars['amount_per_cycle']),
 						'per_cycle' => $vars['amount_per_cycle'],
@@ -34,9 +36,9 @@
 					)).';';
 			}
 
-			wp_localize_script('sv_ajax_fragmented_requests', 'sv_ajax_fragmented_requests_vars', array(
-				'l10n_print_after' => $settings_js
-			));
+            wp_localize_script('sv_ajax_fragmented_requests', 'sv_ajax_fragmented_requests_vars', array(
+                'l10n_print_after' => $this->settings_js
+            ));
 		}
 		public function load_form(string $prefix = ''){
 			include($this->get_path_core($this->get_module_name().'/backend/tpl/form.php'));
