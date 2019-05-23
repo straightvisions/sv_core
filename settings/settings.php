@@ -28,6 +28,7 @@ class settings extends sv_abstract{
 	private $default_value						= false;
 	private $radio_style                        = 'radio';
 	private $code_editor						= '';
+	private $is_label						    = false;
 	protected static $new						= array();
 
 	/**
@@ -166,6 +167,14 @@ class settings extends sv_abstract{
 	public function get_title(): string{
 		return $this->title;
 	}
+    public function set_is_label(bool $check): settings{
+        $this->is_label							= $check;
+
+        return $this;
+    }
+    public function get_is_label(): bool{
+        return $this->is_label;
+    }
 	public function set_default_value($default_value): settings{
 		$this->default_value							= $default_value;
 

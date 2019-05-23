@@ -75,7 +75,7 @@
 
 			if($this->get_children()){
 				// allow custom labels for groups.
-				$label = ($setting_id !== false ? __('Entry', $this->get_module_name()) . ' #' . ($i + 1) : __('Group #', $this->get_module_name()));
+                $label = ($setting_id !== false ? __('Entry', $this->get_module_name()) . ' #' . ($i + 1) : __('Group #', $this->get_module_name()));
 
 				foreach($this->get_children() as $child) {
 					$fields[]			= '<div class="'.$this->get_prefix($this->get_type()).'_item">';
@@ -97,10 +97,26 @@
 						);
 					$fields[]			= '</div></div>';
 
-					if ( $setting_id !== false && isset( get_option( $child->get_field_id() )[ $setting_id ]['entry_label'] )
-					     && ! empty( get_option($child->get_field_id())[$setting_id]['entry_label'] ) ) {
-						$label = get_option($child->get_field_id())[$setting_id]['entry_label'];
-					}
+					// overwrite child group label
+					// take label from custom field
+                    if( $child->get_is_label() ){
+
+                        if ( $setting_id !== false && isset( get_option( $child->get_field_id() )[ $setting_id ][ $child->get_ID() ] )
+                            && ! empty( get_option($child->get_field_id())[$setting_id][ $child->get_ID() ] ) ) {
+                            $label = get_option($child->get_field_id())[$setting_id][ $child->get_ID() ];
+                        }
+
+                    }else{
+
+                        // take label from entry label field
+                        if ( $setting_id !== false && isset( get_option( $child->get_field_id() )[ $setting_id ]['entry_label'] )
+                            && ! empty( get_option($child->get_field_id())[$setting_id]['entry_label'] ) ) {
+                            $label = get_option($child->get_field_id())[$setting_id]['entry_label'];
+                        }
+
+                    }
+
+
 				}
 
 				$header[]				= ($setting_id !== false ? '<div class="sv_'.$this->get_module_name().'">' : '');
