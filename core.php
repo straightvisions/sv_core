@@ -105,7 +105,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 					$this->modules->init();
 				}
 			//}
-
+			
 			static::$initialized = true;
 		}
 
