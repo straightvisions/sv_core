@@ -33,7 +33,6 @@ abstract class sv_abstract {
 	protected $section_privacy			= false;
 	protected $section_type				= '';
 	protected $scripts_queue			= array();
-	protected static $min_php           = '7.0.0';
 
 	/**
 	 * @desc			initialize plugin
@@ -42,10 +41,6 @@ abstract class sv_abstract {
 	 * @ignore
 	 */
 	public function __construct() {
-		if(!$this->php_version_check()){
-		    return false;
-        }
-	 
 		// make sure to init only once
 		$namespace = strstr(get_class($this->get_root()), '\\', true);
 		if(isset($this->get_instances()[$namespace])){
@@ -77,12 +72,6 @@ abstract class sv_abstract {
 			throw new \Exception( 'Class ' . $name . ' could not be loaded (tried to load class-file ' . $this->get_path() . 'lib/modules/'.$name . '.php)' );
 		}
 	}
-	public function set_min_php($v){
-	    static::$min_php          = $v;
-    }
-    public function get_min_php(){
-	    return static::$min_php;
-    }
 	public function wordpress_version_check($min_version = '5.0.0'){
 		// Get unmodified $wp_version.
 		include ABSPATH . WPINC . '/version.php';
@@ -96,40 +85,6 @@ abstract class sv_abstract {
 	public function wordpress_version_notice(){
 		// extend in childs when needed.
 	}
-	public function php_version_check(){
-		if(version_compare( phpversion(), $this->get_min_php(), '>=' )){
-		    return true;
-		}else{
-			add_action( 'admin_notices', array($this, 'php_version_notice' ));
-			add_action( 'after_switch_theme', function($oldtheme_name, $oldtheme){
-				switch_theme( $oldtheme->stylesheet );
-			}, 10, 2 );
-			
-			return false;
-        }
-	}
-	public function php_version_notice(){
-	    //add_action('admin_init', array($this, 'deactivate_plugin'));
-        $this->deactivate_plugin();
-	    
-		$namespace = strstr(get_class($this->get_root()), '\\', true);
-		// extend in childs when needed.
-		?>
-				<div class="update-nag">
-					<?php _e( 'You need to update your PHP version to run '. $namespace, $this->get_root()->get_prefix() ); ?> <br/>
-					<?php _e( 'Actual version is:', $this->get_root()->get_prefix() ) ?>
-					<strong><?php echo phpversion(); ?></strong>, <?php _e( 'required is', $this->get_root()->get_prefix() ) ?>
-					<strong><?php echo $this->get_min_php(); ?></strong>
-				</div>
-<?php
-	}
-	public function deactivate_plugin(){
-		$namespace = strstr(get_class($this->get_root()), '\\', true);
-		
-		if(!$this->is_theme_instance()) {
-			deactivate_plugins( array( basename($this->get_path()) . '/' . $namespace.'.php' ) );
-		}
-    }
 	public function set_parent( $parent ) {
 		$this->parent = $parent;
 	}
