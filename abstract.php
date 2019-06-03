@@ -33,7 +33,7 @@ abstract class sv_abstract {
 	protected $section_privacy			= false;
 	protected $section_type				= '';
 	protected $scripts_queue			= array();
-	protected static $min_php           = '8.0.0';
+	protected static $min_php           = '7.0.0';
 
 	/**
 	 * @desc			initialize plugin
@@ -109,6 +109,9 @@ abstract class sv_abstract {
         }
 	}
 	public function php_version_notice(){
+	    //add_action('admin_init', array($this, 'deactivate_plugin'));
+        $this->deactivate_plugin();
+	    
 		$namespace = strstr(get_class($this->get_root()), '\\', true);
 		// extend in childs when needed.
 		?>
@@ -120,6 +123,13 @@ abstract class sv_abstract {
 				</div>
 <?php
 	}
+	public function deactivate_plugin(){
+		$namespace = strstr(get_class($this->get_root()), '\\', true);
+		
+		if(!$this->is_theme_instance()) {
+			deactivate_plugins( array( basename($this->get_path()) . '/' . $namespace.'.php' ) );
+		}
+    }
 	public function set_parent( $parent ) {
 		$this->parent = $parent;
 	}
