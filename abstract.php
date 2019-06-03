@@ -3,7 +3,7 @@
 namespace sv_core;
 
 abstract class sv_abstract {
-	const version_core					= 3124;
+	const version_core					= 3125;
 
 	protected $name						= false;
 	protected $module_name				= false;
@@ -16,7 +16,7 @@ abstract class sv_abstract {
 	protected $s						= array(); // settings object array
 	protected static $wpdb				= false;
 	private static $instances			= array();
-	private static $instances_active	= array();
+	protected static $instances_active	= array();
 	protected $loaded			        = array();
 	protected static $path_core			= false;
 	protected static $url_core			= false;
@@ -203,15 +203,14 @@ abstract class sv_abstract {
 		global $wpdb;
 		self::$wpdb								= $wpdb;
 		
+		$state                                  = true;
 		if(!isset(self::$instances[ $name ])){
-			$this->setup_core( $this->path );
-		}
-		
-		if ( $this->get_root()->get_version_core_match() == $this->get_version_core() ) {
-			self::$instances_active[ $name ]    = $this;
+			$state                              = $this->setup_core( $this->path, $name );
 		}
 		
 		self::$instances[ $name ]				= $this;
+		
+		return $state;
 	}
 
 	public static function get_instances(): array {

@@ -17,7 +17,26 @@ if ( !class_exists( '\sv_core\core' ) ) {
 		public $ajax_fragmented_requests	= false;
 		public static $initialized			= false;
 		
-		public function setup_core( $path ) {
+		public function setup_core( $path, $name ) {
+			if(
+			($this->get_root()->get_version_core_match() == $this->get_version_core())
+			|| (defined('WP_DEBUG') && WP_DEBUG === true)
+			) {
+				parent::$instances_active[ $name ]    = $this;
+			}else{
+				add_action('admin_init', function() {
+					?>
+					<div class="update-nag">
+						<?php echo 'You need to update to run ' . $name; ?> <br/>
+						<?php echo 'SV Core was loaded from <em>' . $this->get_path_core() . '</em>  with version:'; ?>
+						<strong><?php echo $this->get_version_core(); ?></strong>, but software requires version
+						<strong><?php echo $this->get_root()->get_version_core_match(); ?></strong>
+					</div>
+					<?php
+				});
+				return false;
+			}
+			
 			// these modules are available in all instances and should be initialized once only.
 			if ( !static::$initialized ) {
 				$this->credits();
@@ -107,6 +126,8 @@ if ( !class_exists( '\sv_core\core' ) ) {
 			//}
 			
 			static::$initialized = true;
+				
+			return true;
 		}
 
 		public function menu() {
