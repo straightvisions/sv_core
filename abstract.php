@@ -17,7 +17,7 @@ abstract class sv_abstract {
 	protected static $wpdb				= false;
 	private static $instances			= array();
 	private static $instances_active	= array();
-	protected $loaded			= array();
+	protected $loaded			        = array();
 	protected static $path_core			= false;
 	protected static $url_core			= false;
 	protected $curl_handler             = false;
@@ -77,13 +77,13 @@ abstract class sv_abstract {
 			throw new \Exception( 'Class ' . $name . ' could not be loaded (tried to load class-file ' . $this->get_path() . 'lib/modules/'.$name . '.php)' );
 		}
 	}
-	public function set_min_php(string $v){
+	public function set_min_php($v){
 	    static::$min_php          = $v;
     }
-    public function get_min_php(): string{
+    public function get_min_php(){
 	    return static::$min_php;
     }
-	public function wordpress_version_check(string $min_version = '5.0.0'){
+	public function wordpress_version_check($min_version = '5.0.0'){
 		// Get unmodified $wp_version.
 		include ABSPATH . WPINC . '/version.php';
 		// Strip '-src' from the version string. Messes up version_compare().
