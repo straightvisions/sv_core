@@ -33,7 +33,7 @@ abstract class sv_abstract {
 	protected $section_privacy			= false;
 	protected $section_type				= '';
 	protected $scripts_queue			= array();
-	protected static $min_php           = '7.0.0';
+	protected static $min_php           = '8.0.0';
 
 	/**
 	 * @desc			initialize plugin
@@ -96,16 +96,16 @@ abstract class sv_abstract {
 	public function wordpress_version_notice(){
 		// extend in childs when needed.
 	}
-	public function php_version_check(string $min_version = '8.0.0'){
-		if(version_compare( phpversion(), $min_version, '<' )){
+	public function php_version_check(){
+		if(version_compare( phpversion(), $this->get_min_php(), '>=' )){
+		    return true;
+		}else{
 			add_action( 'admin_notices', array($this, 'php_version_notice' ));
 			add_action( 'after_switch_theme', function($oldtheme_name, $oldtheme){
 				switch_theme( $oldtheme->stylesheet );
-            }, 10, 2 );
+			}, 10, 2 );
 			
 			return false;
-		}else{
-		    return true;
         }
 	}
 	public function php_version_notice(){
