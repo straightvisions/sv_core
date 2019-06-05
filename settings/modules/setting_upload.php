@@ -175,18 +175,20 @@ class setting_upload extends settings{
 		return false;
 	}
 	public function field_callback($input){
-		//var_dump($_POST);
-		//@todo This method get's triggered twice, that's why a second upload is attempted
-		if(isset(static::$updated[$this->get_parent()->get_prefix($this->get_parent()->get_ID())])){
-			return $input;
-		}
-		static::$updated[$this->get_parent()->get_prefix($this->get_parent()->get_ID())] = true;
-		
-		// check if single or group field
-		if($this->is_single_field()){
-			return $this->field_single($input);
-		}else{
-			return $this->field_group($input);
+		if(isset($_POST['option_page'])) {
+			//var_dump($_POST);
+			//@todo This method get's triggered twice, that's why a second upload is attempted
+			if ( isset( static::$updated[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ] ) ) {
+				return $input;
+			}
+			static::$updated[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ] = true;
+			
+			// check if single or group field
+			if ( $this->is_single_field() ) {
+				return $this->field_single( $input );
+			} else {
+				return $this->field_group( $input );
+			}
 		}
 	}
 	private function handle_file_upload(array $file){
