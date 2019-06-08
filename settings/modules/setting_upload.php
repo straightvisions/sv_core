@@ -126,18 +126,15 @@ class setting_upload extends settings{
 		if ( ! empty( $this->get_parent()->get_data() ) ) {
 			foreach( $input as $i => $field ) {
 				if ( ! empty( $this->get_parent()->get_data()[ $i ] ) ) {
-					$input[ $i ] = $this->get_parent()->get_data()[ $i ];
+					$input[ $i ] = array_merge($this->get_parent()->get_data()[ $i ], $field);
 				}
 			}
 		}
-		//die();
-		
+
 		// make sure it's a group field
 		if(method_exists($this->get_parent()->get_parent(), 'get_ID') && isset($_FILES[$this->get_parent()->get_parent()->get_prefix($this->get_parent()->get_parent()->get_ID())])) {
 			// reformat data to convert group uploads to single uploads
-			//var_dump($_FILES[ $this->get_parent()->get_parent()->get_prefix( $this->get_parent()->get_parent()->get_ID() ) ]);
 			$data_new					= $this->reformat_file_data($_FILES[ $this->get_parent()->get_parent()->get_prefix( $this->get_parent()->get_parent()->get_ID() ) ]);
-			//var_dump($data_new);
 			// new uploads
 			foreach ( $data_new as $i => $data ) {
 				foreach ( $data as $name => $fields ) {
@@ -189,6 +186,8 @@ class setting_upload extends settings{
 			} else {
 				return $this->field_group( $input );
 			}
+		}else{
+			return $input;
 		}
 	}
 	private function handle_file_upload(array $file){
