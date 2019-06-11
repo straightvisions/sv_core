@@ -165,6 +165,12 @@ div.sv_admin_menu .sv_admin_menu_item.active {
 div.sv_admin_menu .sv_admin_menu_item h4 {
 	margin: 0 0 3px 0;
 }
+
+div.sv_admin_menu .sv_admin_menu_item h4,
+div.sv_admin_menu .sv_admin_menu_item span {
+	max-width: calc( 100% - 40px );
+}
+
 /* ===/ straightvisions Dashboard - Menu ============================================================================ */
 
 /* ==== straightvisions Dashboard - Content ========================================================================= */
