@@ -287,16 +287,20 @@ abstract class sv_abstract {
 		return $this->s;
 	}
 
-	public function get_setting(bool $load_settings = false, string $setting = ''): settings {
-		if($load_settings && count($this->s) === 0){
-			$this->load_settings();
+	public function get_setting(string $setting = ''): settings {
+		if(strlen($setting) > 0 && isset($this->s[$setting])){
+			if(!isset($this->s[$setting]) === 0){
+				$this->load_settings();
+			}
+
+			if(!isset($this->s[$setting]) === 0){
+				return static::$settings->create( $this ); // return empty setting if not exist
+			}
+
+			return $this->s[$setting];
 		}
 
-		if(strlen($setting) > 0 && isset($this->s[$setting])){
-			return $this->s[$setting];
-		}else{
-			return static::$settings->create( $this ); // return empty setting if not exist
-		}
+		return static::$settings->create( $this ); // return empty setting if not exist
 	}
 	
 	public function set_path(string $path) {
