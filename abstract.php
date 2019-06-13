@@ -3,7 +3,7 @@
 namespace sv_core;
 
 abstract class sv_abstract {
-	const version_core					= 3128;
+	const version_core					= 3129;
 
 	protected $name						= false;
 	protected $module_name				= false;
@@ -280,7 +280,23 @@ abstract class sv_abstract {
 	}
 
 	public function get_settings(): array {
+		if(count($this->s) === 0){
+			$this->load_settings();
+		}
+
 		return $this->s;
+	}
+
+	public function get_setting(bool $load_settings = false, string $setting = ''): settings {
+		if($load_settings && count($this->s) === 0){
+			$this->load_settings();
+		}
+
+		if(strlen($setting) > 0 && isset($this->s[$setting])){
+			return $this->s[$setting];
+		}else{
+			return static::$settings->create( $this ); // return empty setting if not exist
+		}
 	}
 	
 	public function set_path(string $path) {
