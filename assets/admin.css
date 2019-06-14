@@ -77,6 +77,10 @@
 /* ===/ WordPress =================================================================================================== */
 
 /* ==== straightvisions Dashboard - Page Layout ===================================================================== */
+body.sv_admin_menu_open {
+	overflow: hidden;
+}
+
 .sv_wrapper{
 	display: flex;
 	flex-direction: column;
@@ -142,6 +146,20 @@ div.sv_admin_menu div.sv_admin_mobile_toggle {
 div#sv_admin_menu_body {
 	display: none;
 	transition: .3s ease;
+	max-height: calc( 100vh - ( 80px + 46px ) );
+	overflow-y: auto;
+}
+
+@media ( min-width: 782px ) {
+	div#sv_admin_menu_body {
+		max-height: calc( 100vh - ( 80px + 32px ) );
+	}
+}
+
+@media ( min-width: 800px ) {
+	div#sv_admin_menu_body {
+		max-height: calc( 100vh - ( 110px + 32px ) );
+	}
 }
 
 div.sv_admin_menu .sv_admin_menu_item {
