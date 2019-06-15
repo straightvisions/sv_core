@@ -12,8 +12,6 @@
 		 */
 		public function __construct( $parent = false ) {
 			$this->parent			= $parent;
-
-			add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
 		}
 
 		public function html( $ID, $title, $description, $name, $value ) {

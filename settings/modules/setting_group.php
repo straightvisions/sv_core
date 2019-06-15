@@ -84,7 +84,14 @@
 							$child->get_title(),
 							$child->get_description(),
 							($setting_id !== false ? $child->get_field_id().'['.$i.']['.$child->get_ID().']' : ''),
-							(($setting_id !== false && get_option($child->get_field_id())[$setting_id][$child->get_ID()]) ? get_option($child->get_field_id())[$setting_id][$child->get_ID()] : ''),
+							(
+								(
+								$setting_id !== false &&
+								isset(get_option($child->get_field_id())[$setting_id][$child->get_ID()]) &&
+								get_option($child->get_field_id())[$setting_id][$child->get_ID()]
+								)
+						? get_option($child->get_field_id())[$setting_id][$child->get_ID()]
+						: ''),
 							$child->get_required(),
 							$child->get_disabled(),
 							$child->get_placeholder(),

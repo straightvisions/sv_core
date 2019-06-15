@@ -335,7 +335,11 @@ class settings extends sv_abstract{
 		ob_start();
 		echo '<form method="post" action="options.php" enctype="multipart/form-data">';
 		\settings_fields($module->get_name()); // $option_group from register_settings()
-		\do_settings_sections($module->get_name()); // $page from add_settings_section()
+		if($module->get_section_template_path()){
+			require_once($module->get_section_template_path());
+		}else {
+			\do_settings_sections($module->get_name()); // $page from add_settings_section()
+		}
 		\submit_button();
 		echo '</form>';
 		$form			= ob_get_contents();

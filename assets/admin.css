@@ -588,6 +588,21 @@ div.log_summary table tr:first-child button#logs_filter::before {
 	background-color: rgba( 50, 50, 48, .05 );
 	padding: 15px;
 	border-radius: 5px;
+	width:100%;
+	margin-bottom:12px;
+	margin-right:12px;
+	box-sizing:border-box;
+}
+.sv_setting:last-child{
+	margin-right:0;
+}
+.sv_setting_flex{
+	display:flex;
+}
+@media screen and (max-width: 782px){
+	.sv_setting_flex{
+		display:block;
+	}
 }
 
 .sv_setting.sv_setting_group {
@@ -616,9 +631,9 @@ div.log_summary table tr:first-child button#logs_filter::before {
 	margin-bottom: 5px;
 }
 
-.sv_setting input,
-.sv_setting textarea,
-.sv_setting select {
+#wpbody .sv_setting input:not([type="checkbox"]):not([type="radio"]),
+#wpbody .sv_setting textarea,
+#wpbody .sv_setting select {
 	color: rgba( 50, 50, 48, 1 );
 	width: 100%;
 	border-radius: 5px;

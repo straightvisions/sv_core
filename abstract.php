@@ -3,7 +3,7 @@
 namespace sv_core;
 
 abstract class sv_abstract {
-	const version_core					= 3131;
+	const version_core					= 3132;
 
 	protected $name						= false;
 	protected $module_name				= false;
@@ -375,6 +375,13 @@ abstract class sv_abstract {
 	public function get_sections(): array {
 		return $this->sections;
 	}
+	public function get_sections_sorted_by_title(): array {
+		foreach($this->sections as $section){
+			$sections[$section['object']->get_section_title()] = $section;
+		}
+		ksort($sections);
+		return $sections;
+	}
 
 	public function get_section_template_path(): string {
 		return $this->section_template_path;
@@ -388,6 +395,8 @@ abstract class sv_abstract {
 
 	public function set_section_title( string $title ) {
 		$this->section_title = $title;
+
+		return $this;
 	}
 
 	public function get_section_title(): string {
@@ -396,6 +405,8 @@ abstract class sv_abstract {
 
 	public function set_section_desc( string $desc ) {
 		$this->section_desc = $desc;
+
+		return $this;
 	}
 
 	public function get_section_desc(): string {
@@ -403,6 +414,8 @@ abstract class sv_abstract {
 	}
 	public function set_section_privacy( string $section_privacy ) {
 		$this->section_privacy = $section_privacy;
+
+		return $this;
 	}
 	
 	public function get_section_privacy(): string {
@@ -411,6 +424,8 @@ abstract class sv_abstract {
 
 	public function set_section_type( string $type ) {
 		$this->section_type = $type;
+
+		return $this;
 	}
 
 	public function get_section_type(): string {
@@ -451,13 +466,15 @@ abstract class sv_abstract {
 	}
 
 	public function load_section_menu() {
-		foreach ( $this->get_sections() as $section_name => $section ) {
+		foreach ( $this->get_sections_sorted_by_title() as $section ) {
+			$section_name = $section['object']->get_prefix();
 			echo '<div data-target="#section_' . $section_name . '" class="sv_admin_menu_item section_' . $section[ 'object' ]->get_section_type() . '"><h4>' .  $section[ 'object' ]->get_section_title() . '</h4><span>' . $section[ 'object' ]->get_section_desc() . '</span></div>';
 		}
 	}
 
 	public function load_section_html() {
-		foreach( $this->get_sections() as $section_name => $section ) {
+		foreach( $this->get_sections_sorted_by_title() as $section ) {
+			$section_name = $section['object']->get_prefix();
 			require( $this->get_path_core( 'backend/tpl/section_' . $section[ 'object' ]->get_section_type() . '.php' ) );
 		}
 	}
