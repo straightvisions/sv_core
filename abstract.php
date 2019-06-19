@@ -376,16 +376,10 @@ abstract class sv_abstract {
 		return $this->sections;
 	}
 	public function get_sections_sorted_by_title(): array {
-		$sections = array();
-		
-		if ( ! empty( $this->sections ) ) {
-			foreach($this->sections as $section){
-				$sections[$section['object']->get_section_title()] = $section;
-			}
-			
-			ksort($sections);
+		foreach($this->sections as $section){
+			$sections[$section['object']->get_section_title()] = $section;
 		}
-		
+		ksort($sections);
 		return $sections;
 	}
 
