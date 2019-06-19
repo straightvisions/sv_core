@@ -27,11 +27,15 @@
 		public function html($ID, $title, $description, $name, $value, $required, $disabled, $placeholder){
 			$output = '<h4>'. $title . '</h4>';
 			
-			if ( is_array( $value ) && isset( $value['file'] ) ) {
-				$value = $value['file'];
+			if ( is_string( $value ) && ! empty( $value ) ) {
+				$attachment = wp_get_attachment_link( $value, 'full', false, true )
+					? wp_get_attachment_link( $value, 'full', false, true ) : false;
 				
-				$output .= '<div>' . ($value ? wp_get_attachment_link($value, 'full', false, true) : '') . '</div>
-			<div><a href="/wp-admin/post.php?post='.$value.'&action=edit" target="_blank">'.get_the_title($value).'</a></div>';
+				if ( $attachment ) {
+					$output .= '<div>' . $attachment . '</div>';
+					$output .= '<div><a href="/wp-admin/post.php?post=' . $value . '&action=edit" target="_blank">';
+					$output .= get_the_title( $value ) . '</a></div>';
+				}
 			}
 			
 			$output .= '
@@ -50,7 +54,7 @@
 			</label>
 			';
 			
-			if($value){
+			if( is_string( $value ) && ! empty( $value ) ) {
 				$output .= '
 			<label for="' . $ID . '[delete]" style="justify-content: flex-end;">
 			<input
@@ -115,9 +119,9 @@
 				);
 				
 				if($data['name'] != '' &&
-				   $data['type'] != '' &&
-				   $data['tmp_name'] != '' &&
-				   file_exists($data['tmp_name'])) {
+					$data['type'] != '' &&
+					$data['tmp_name'] != '' &&
+					file_exists($data['tmp_name'])) {
 					$input = $this->handle_file_upload(
 						wp_handle_upload( $data, array( 'test_form' => false ) )
 					);
@@ -144,9 +148,9 @@
 					foreach ( $data as $name => $fields ) {
 						// do not attempt empty upload fields
 						if ( $fields['name'] != '' &&
-							 $fields['type'] != '' &&
-							 $fields['tmp_name'] != '' &&
-							 file_exists( $fields['tmp_name'] ) ) {
+							$fields['type'] != '' &&
+							$fields['tmp_name'] != '' &&
+							file_exists( $fields['tmp_name'] ) ) {
 							$input[ $i ][ $name ]['file'] = $this->handle_file_upload(
 								wp_handle_upload( $fields, array( 'test_form' => false ) )
 							);
