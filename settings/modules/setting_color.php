@@ -15,6 +15,8 @@
 		}
 
 		public function html( $ID, $title, $description, $name, $value ) {
+			$value = ! empty( $value ) ? 'value="' . esc_attr( $value ) . '"' : '';
+			
 			return '
 				<h4>' . $title . '</h4>
 				<div class="description">' . $description . '</div>
@@ -25,7 +27,7 @@
 					id="' . $ID . '"
 					name="' . $name . '"
 					type="color"
-					value="' . esc_attr($value) . '"
+					' . $value . '
 					/>
 				</label>';
 		}
