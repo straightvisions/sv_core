@@ -1323,3 +1323,64 @@ div.log_filter div.wrapper label input {
 	}
 }
 /* ===/ straightvisions Dashboard - Breakpoints ===================================================================== */
+
+/* ==== straightvisions Dashboard - Notifications ===================================================================== */
+:root {
+	--sv_notice_info: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 18h-2v-8h2v8zm-1-12.25c.69 0 1.25.56 1.25 1.25s-.56 1.25-1.25 1.25-1.25-.56-1.25-1.25.56-1.25 1.25-1.25z"/></svg>');
+	--sv_notice_success: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.25 8.891l-1.421-1.409-6.105 6.218-3.078-2.937-1.396 1.436 4.5 4.319 7.5-7.627z"/></svg>');
+	--sv_notice_warning: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1 6h2v8h-2v-8zm1 12.25c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"/></svg>');
+	--sv_notice_error: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16.142 2l5.858 5.858v8.284l-5.858 5.858h-8.284l-5.858-5.858v-8.284l5.858-5.858h8.284zm.829-2h-9.942l-7.029 7.029v9.941l7.029 7.03h9.941l7.03-7.029v-9.942l-7.029-7.029zm-5.971 6h2v8h-2v-8zm1 12.25c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"/></svg>');
+}
+
+.sv_dashboard_content .sv_100_notice {
+	background-color: #23282d;
+	padding: 17px 20px 17px 16px;
+	color: #EEEEEE;
+	display: flex;
+	position: fixed;
+	line-height: 1rem;
+	opacity: 0;
+	bottom: 0;
+	border-left-style: solid;
+	border-left-width: 4px;
+	transition: all .5s ease-in-out;
+}
+
+@media ( min-width: 1200px ) {
+	.sv_dashboard_content .sv_100_notice {
+		margin-left: 20px;
+	}
+}
+
+.sv_dashboard_content .sv_100_notice::before {
+	content: '';
+	display: inline-block;
+	width: 1rem;
+	height: 1rem;
+	background-color: #FFFFFF;
+	margin-right: 10px;
+	-webkit-mask-size: 100%;
+	-webkit-mask-position: center;
+	-webkit-mask-repeat: no-repeat;
+}
+
+.sv_dashboard_content .sv_100_notice.notice-info::before {
+	-webkit-mask-image: var( --sv_notice_info );
+}
+
+.sv_dashboard_content .sv_100_notice.notice-success::before {
+	-webkit-mask-image: var( --sv_notice_success );
+}
+
+.sv_dashboard_content .sv_100_notice.notice-warning::before {
+	-webkit-mask-image: var( --sv_notice_warning );
+}
+
+.sv_dashboard_content .sv_100_notice.notice-error::before {
+	-webkit-mask-image: var( --sv_notice_error );
+}
+
+.sv_dashboard_content .sv_100_notice.show {
+	opacity: 1;
+	bottom: 20px;
+}

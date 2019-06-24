@@ -1,4 +1,7 @@
-<?php if( current_user_can( 'activate_plugins' ) ) { ?>
+<?php
+	if( current_user_can( 'activate_plugins' ) ) {
+	wp_enqueue_script( 'jquery-form' );
+	?>
 <div class="sv_wrapper">
 	<div class="sv_admin_menu">
 		<div class="sv_admin_menu_head">

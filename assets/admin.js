@@ -91,3 +91,88 @@ jQuery( document ).on( 'click', 'div.log_summary button#logs_filter', function()
 jQuery( document ).on('submit', 'section.sv_admin_section form', function(e){
 	jQuery(this).find('input[name="_wp_http_referer"]').val(jQuery(location).attr('href'));
 });
+
+/* Ajax Save Settings */
+function show_notice( msg, type = 'info' ) {
+	var types 	= [ 'info', 'success', 'warning', 'error' ];
+
+	if ( jQuery.inArray( type, types ) >= 0 ) {
+		var el = jQuery( '.sv_100_notice' );
+		type = 'notice-' + type;
+
+		el.html( msg );
+		el.toggleClass( type );
+		el.toggleClass( 'show' );
+
+		setTimeout( function () {
+			el.toggleClass( 'show' );
+		}, 5000 );
+
+		setTimeout( function () {
+			el.toggleClass( type );
+			el.html( '' );
+		}, 6000 );
+	}
+}
+
+/**
+ * This part prevents spamming of the ajax request.
+ * When update_option is called, it starts a timeout with the duration define in the timeout var,
+ * if the save_option function is called in this time window, the timeout will reset and start again.
+ */
+var timeout			= 2000;
+var forms			= {};
+var timeout_handle	= setTimeout( save_settings , timeout );
+
+function update_option( form ) {
+	forms[ form.attr( 'id' ) ] = form;
+
+	window.clearTimeout( timeout_handle );
+	timeout_handle = setTimeout( save_settings , timeout );
+}
+
+function save_settings() {
+	for ( const [ id, form ] of Object.entries( forms ) ) {
+		jQuery( form ).ajaxSubmit({
+			success: function () {
+				show_notice( 'Settings Saved!', 'success' );
+			},
+		});
+	}
+
+	forms 	= [];
+}
+
+jQuery('.sv_dashboard_content form').submit( function ( e ) {
+	e.preventDefault();
+
+	update_option( jQuery( this ) );
+});
+
+jQuery( '.sv_dashboard_content input[type="checkbox"]' ).on( 'click', function() {
+	update_option( jQuery( this ).parents( 'form' ) );
+});
+
+jQuery( '.sv_dashboard_content input, .sv_dashboard_content select' ).on( 'focusin', function() {
+	jQuery( this ).data( 'val', jQuery( this ).val() );
+});
+
+
+jQuery( '.sv_dashboard_content input, .sv_dashboard_content select' ).on( 'change', function() {
+	var prev 	= jQuery( this ).data( 'val' );
+	var current = jQuery( this ).val();
+
+	if ( current !== prev ) {
+		update_option( jQuery( this ).parents( 'form' ) );
+	}
+});
+
+
+jQuery( '.sv_dashboard_content textarea' ).on( 'change', function() {
+	var prev 	= jQuery( this ).data( 'text' );
+	var current = jQuery( this ).val();
+
+	if ( current !== prev ) {
+		update_option( jQuery( this ).parents( 'form' ) );
+	}
+});
