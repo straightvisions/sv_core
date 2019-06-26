@@ -140,9 +140,9 @@ class settings extends sv_abstract{
 			$this->$type->set_parent($this);
 
 			$this->init_wp_setting($this->$type);
-		}else{
+		}//else{
 			// @todo: proper error notice
-		}
+		//}
 		return $this;
 	}
 	public function get_type(){
@@ -216,7 +216,7 @@ class settings extends sv_abstract{
 		return $this->maxlength;
 	}
 	public function set_minlength( int $minlength ) {
-		$this->minlength						= 'pattern=".{' . $minlength .',}" title="' . __( "You need at least ", $this->get_name() ) . $minlength . ' characters."'; //@todo Add translation for this message
+		$this->minlength						= 'pattern=".{' . $minlength .',}" title="' . __( "You need at least ", 'sv_core' ) . $minlength . ' characters."'; //@todo Add translation for this message
 
 		return $this;
 	}

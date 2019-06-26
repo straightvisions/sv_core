@@ -46,7 +46,7 @@
 			$output					= array();
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_add_new">';
 			$output[]               = '<h4>' . $title . '</h4><div class="description">' . $description . '</div>';
-			$output[]				= '<div class="sv_'.$this->get_module_name().'_add_new_button button">'.__('Add',$this->get_module_name()).'</div>';
+			$output[]				= '<div class="sv_'.$this->get_module_name().'_add_new_button button">'.__('Add', 'sv_core').'</div>';
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_new_draft" style="display:none;">'.$this->html_field().'</div>';
 			$output[]				= '</div>';
 			
@@ -75,7 +75,7 @@
 
 			if($this->get_children()){
 				// allow custom labels for groups.
-                $label = ($setting_id !== false ? __('Entry', $this->get_module_name()) . ' #' . ($i + 1) : __('Group #', $this->get_module_name()));
+                $label = ($setting_id !== false ? __('Entry', 'sv_core') . ' #' . ($i + 1) : __('Group #', 'sv_core'));
 
 				foreach($this->get_children() as $child) {
 					$fields[]			= '<div class="'.$this->get_prefix($this->get_type()).'_item">';

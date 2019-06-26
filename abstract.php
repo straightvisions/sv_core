@@ -1,9 +1,8 @@
 <?php
-
 namespace sv_core;
 
 abstract class sv_abstract {
-	const version_core					= 3134;
+	const version_core					= 3200;
 
 	protected $name						= false;
 	protected $module_name				= false;
@@ -41,6 +40,12 @@ abstract class sv_abstract {
 	 * @ignore
 	 */
 	public function __construct() {
+		if(did_action('plugins_loaded')){
+			$this->load_translation();
+		}else{
+			add_action('plugins_loaded', array($this, 'load_translation'));
+		}
+		
 		// make sure to init only once
 		$namespace = strstr(get_class($this->get_root()), '\\', true);
 		if(isset($this->get_instances()[$namespace])){
@@ -48,7 +53,10 @@ abstract class sv_abstract {
 		}
 		$this->init();
 	}
-
+	public function load_translation(){
+		$locale = apply_filters( 'plugin_locale', determine_locale(), 'sv_core' );
+		load_textdomain( 'sv_core', dirname( __FILE__ ) . '/languages/sv_core-'.$locale.'.mo' );
+	}
 	/**
 	 * @desc			Load's requested libraries dynamicly
 	 * @param	string	$name library-name
@@ -114,7 +122,7 @@ abstract class sv_abstract {
 			}
 		} else {
 			if ( $formatted ) {
-				return __( 'not defined', $this->get_module_name() );
+				return __( 'not defined', 'sv_core' );
 			} else {
 				return 0;
 			}
@@ -130,7 +138,7 @@ abstract class sv_abstract {
 			}
 		} else {
 			if ( $formatted ) {
-				return __( 'not defined', $this->get_module_name() );
+				return __( 'not defined', 'sv_core' );
 			} else {
 				return 0;
 			}
@@ -146,7 +154,7 @@ abstract class sv_abstract {
 			}
 		} else {
 			if ( $formatted ) {
-				return __( 'not defined', $this->get_module_name() );
+				return __( 'not defined', 'sv_core' );
 			} else {
 				return 0;
 			}
@@ -406,7 +414,7 @@ abstract class sv_abstract {
 	}
 
 	public function get_section_title(): string {
-		return $this->section_title ? $this->section_title : __( 'No Title defined.', $this->get_root()->get_prefix() );
+		return $this->section_title ? $this->section_title : __( 'No Title defined.', 'sv_core' );
 	}
 
 	public function set_section_desc( string $desc ) {
@@ -416,7 +424,7 @@ abstract class sv_abstract {
 	}
 
 	public function get_section_desc(): string {
-		return $this->section_desc ? $this->section_desc : __( 'No description defined.', $this->get_root()->get_prefix() );
+		return $this->section_desc ? $this->section_desc : __( 'No description defined.', 'sv_core' );
 	}
 	public function set_section_privacy( string $section_privacy ) {
 		$this->section_privacy = $section_privacy;
@@ -425,7 +433,7 @@ abstract class sv_abstract {
 	}
 	
 	public function get_section_privacy(): string {
-		return $this->section_privacy ? $this->section_privacy : __( 'No privacy statement defined.', $this->get_root()->get_prefix() );
+		return $this->section_privacy ? $this->section_privacy : __( 'No privacy statement defined.', 'sv_core' );
 	}
 
 	public function set_section_type( string $type ) {
@@ -487,7 +495,7 @@ abstract class sv_abstract {
 
 	public function plugin_action_links( $actions ) {
 		$links						= array(
-			'settings'				=> '<a href="admin.php?page=' . $this->get_root()->get_prefix() . '">Settings</a>',
+			'settings'				=> '<a href="admin.php?page=' . $this->get_root()->get_prefix() . '">'.__('Settings', 'sv_core').'</a>',
 			'straightvisions'		=> '<a href="https://straightvisions.com" target="_blank">straightvisions GmbH</a>',
 		);
 

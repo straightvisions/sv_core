@@ -1,0 +1,158 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: SV Core\n"
+"POT-Creation-Date: 2019-06-26 15:38+0200\n"
+"PO-Revision-Date: 2019-06-26 15:39+0200\n"
+"Last-Translator: \n"
+"Language-Team: straightvisions GmbH\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.1\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: abstract.php:125 abstract.php:141 abstract.php:157
+msgid "not defined"
+msgstr "nicht definiert"
+
+#: abstract.php:417
+msgid "No Title defined."
+msgstr "Kein Titel definiert."
+
+#: abstract.php:427
+msgid "No description defined."
+msgstr "Keine Beschreibung definiert."
+
+#: abstract.php:436
+msgid "No privacy statement defined."
+msgstr "Keine Datenschutzerklärung definiert."
+
+#: abstract.php:498
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: core.php:122 core.php:123
+msgid "straightvisions"
+msgstr "straightvisions"
+
+#: info/backend/tpl/about.php:31
+msgid "This plugin version is outdated, please update this plugin!"
+msgstr ""
+"Diese Pluginversion ist nicht mehr aktuell, bitte aktualisiere das Plugin!"
+
+#: info/backend/tpl/about.php:37
+msgid "Theme"
+msgstr "Theme"
+
+#: info/backend/tpl/about.php:37
+msgid "Plugin"
+msgstr "Plugin"
+
+#: info/backend/tpl/about.php:41
+msgid "Active"
+msgstr "Aktiv"
+
+#: info/backend/tpl/about.php:41 scripts/scripts.php:89 scripts/scripts.php:99
+msgid "Disabled"
+msgstr "Deaktiviert"
+
+#: scripts/scripts.php:40
+msgid "Override Scripts Loading."
+msgstr "Überschreib das Ladeverhalten von Scripts."
+
+#: scripts/scripts.php:65
+msgid "Disable all CSS per Default"
+msgstr "Deaktiviere standardmäßig das Laden von CSS"
+
+#: scripts/scripts.php:66
+msgid ""
+"CSS enqueued will be disabled by default - you may override this later down "
+"below."
+msgstr ""
+"CSS wird standardmäßig deaktiviert - du kannst das weiter unten jeweils "
+"überschreiben."
+
+#: scripts/scripts.php:71
+msgid "Disable all JS per Default"
+msgstr "Deaktiviere standardmäßig das Laden von JS"
+
+#: scripts/scripts.php:72
+msgid ""
+"JS enqueued will be disabled by default - you may override this later down "
+"below."
+msgstr ""
+"JS wird standardmäßig deaktiviert - du kannst das weiter unten jeweils "
+"überschreiben."
+
+#: scripts/scripts.php:91 scripts/scripts.php:97
+msgid "Inline"
+msgstr "Eingebettet"
+
+#: scripts/scripts.php:91 scripts/scripts.php:98
+msgid "Attached"
+msgstr "Angehängt"
+
+#: scripts/scripts.php:96
+msgid "Default"
+msgstr "Standard"
+
+#: settings/modules/setting_group.php:49
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: settings/modules/setting_group.php:78
+msgid "Entry"
+msgstr "Eintrag"
+
+#: settings/modules/setting_group.php:78
+msgid "Group #"
+msgstr "Gruppe #"
+
+#: settings/modules/setting_select_page.php:28
+msgid "No Page selected"
+msgstr "Keine Seite ausgewählt"
+
+#: settings/modules/setting_upload.php:70
+msgid "Delete File"
+msgstr "Datei löschen"
+
+#: settings/settings.php:219
+msgid "You need at least "
+msgstr "Du brauchst mindestens "
+
+#~ msgid "Allowed Filetypes:"
+#~ msgstr "Erlaubte Dateitypen:"
+
+#~ msgid "all"
+#~ msgstr "alle"
+
+#~ msgid "WooCommerce Order Note creation failed."
+#~ msgstr "Bestellnotizerstellung in WooCommerce gescheitert."
+
+#~ msgid "Order does not exist"
+#~ msgstr "Bestellung existiert nicht"
+
+#~ msgid "WooCommerce is not available."
+#~ msgstr "WooCommerce ist nicht verfügbar."
+
+#~ msgid "SV Notices"
+#~ msgstr "SV Notices"
+
+#~ msgid "SV Notice"
+#~ msgstr "SV Notice"
+
+#~ msgid "SV Notices Groups"
+#~ msgstr "SV Notices Groups"
+
+#~ msgid "SV Notices Group"
+#~ msgstr "SV Notice Group"
+
+#~ msgid "Success"
+#~ msgstr "Erfolg"
+
+#~ msgid "Info"
+#~ msgstr "Info"

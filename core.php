@@ -6,7 +6,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 	require_once('abstract.php');
 	
 	class core extends sv_abstract {
-		public static $log                  = false;
 		public static $notices				= false;
 		public static $settings				= false;
 		public static $curl	    			= false;
@@ -48,18 +47,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				static::$settings = new settings;
 				static::$settings->set_root( $this->get_root() );
 				static::$settings->set_parent( $this );
-
-				require_once( 'log/log.php' );
-
-				static::$log = new log;
-				static::$log->set_root( $this->get_root() );
-				static::$log->set_parent( $this );
-				
-				require_once( 'notices/notices.php' );
-				
-				static::$notices = new notices;
-				static::$notices->set_root( $this->get_root() );
-				static::$notices->set_parent( $this );
 				
 				require_once( 'curl/curl.php' );
 
@@ -132,8 +119,8 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
 		public function menu() {
 			add_menu_page(
-				__( 'straightvisions', $this->get_root()->get_prefix() ),
-				__( 'straightvisions', $this->get_root()->get_prefix() ),
+				__( 'straightvisions', 'sv_core' ),
+				__( 'straightvisions', 'sv_core' ),
 				'manage_options',
 				'straightvisions',
 				'',

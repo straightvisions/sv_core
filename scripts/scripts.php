@@ -37,7 +37,7 @@ class scripts extends sv_abstract {
 	public function init(){
 		// Section Info
 		$this->set_section_title( 'Scripts' );
-		$this->set_section_desc( __( 'Override Scripts Loading.', $this->get_name() ) );
+		$this->set_section_desc( __( 'Override Scripts Loading.', 'sv_core' ) );
 		$this->set_section_type( 'settings' );
 
 		add_action( 'init', array( $this, 'register_scripts' ), 10 );
@@ -62,14 +62,14 @@ class scripts extends sv_abstract {
 			
 			$this->s[ 'disable_all_css' ] = $this->get_parent()::$settings->create( $this )
 																		   ->set_ID( 'disable_all_css' )
-																		   ->set_title( __('Disable all CSS per Default', $this->get_name()) )
-																		   ->set_description( __('CSS enqueued will be disabled by default - you may override this later down below.', $this->get_name()) )
+																		   ->set_title( __('Disable all CSS per Default', 'sv_core') )
+																		   ->set_description( __('CSS enqueued will be disabled by default - you may override this later down below.', 'sv_core') )
 																		   ->load_type( 'checkbox' );
 			
 			$this->s[ 'disable_all_js' ] = $this->get_parent()::$settings->create( $this )
 																		  ->set_ID( 'disable_all_js' )
-																		  ->set_title( __('Disable all JS per Default', $this->get_name()) )
-																		  ->set_description( __('JS enqueued will be disabled by default - you may override this later down below.', $this->get_name()) )
+																		  ->set_title( __('Disable all JS per Default', 'sv_core') )
+																		  ->set_description( __('JS enqueued will be disabled by default - you may override this later down below.', 'sv_core') )
 																		  ->load_type( 'checkbox' );
 			
 			foreach ( $this->get_scripts() as $script ) {
@@ -86,17 +86,17 @@ class scripts extends sv_abstract {
 					($this->s[ 'disable_all_js' ]->run_type()->get_data() == 1 && $script->get_type() == 'js')
 				){
 					
-					$default_label											= 'Disabled';
+					$default_label											=  __( 'Disabled', 'sv_core' );
 				}else{
-					$default_label											= $script->get_inline() ? __( 'Inline', $this->get_name() ) : __( 'Attached', $this->get_name() );
+					$default_label											= $script->get_inline() ? __( 'Inline', 'sv_core' ) : __( 'Attached', 'sv_core' );
 				}
 				
 				
 				$options = array(
-					'default'  => __( 'Default', $this->get_name() ) . ': ' . $default_label,
-					'inline'   => __( 'Inline', $this->get_name() ),
-					'attached' => __( 'Attached', $this->get_name() ),
-					'disable'  => __( 'Disabled', $this->get_name() )
+					'default'  => __( 'Default', 'sv_core' ) . ': ' . $default_label,
+					'inline'   => __( 'Inline', 'sv_core' ),
+					'attached' => __( 'Attached', 'sv_core' ),
+					'disable'  => __( 'Disabled', 'sv_core' )
 				);
 				
 				$this->s[ $script->get_UID() ]->set_options( $options );
