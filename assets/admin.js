@@ -126,10 +126,12 @@ var forms			= {};
 var timeout_handle	= setTimeout( save_settings , timeout );
 
 function update_option( form ) {
-	forms[ form.attr( 'id' ) ] = form;
+	if ( jQuery( form ).find( 'input[type="file"]' ).length < 1 ) {
+		forms[ form.attr('id') ] = form;
 
-	window.clearTimeout( timeout_handle );
-	timeout_handle = setTimeout( save_settings , timeout );
+		window.clearTimeout( timeout_handle );
+		timeout_handle = setTimeout( save_settings, timeout );
+	}
 }
 
 function save_settings() {
@@ -158,20 +160,16 @@ jQuery( '.sv_dashboard_content input[type="checkbox"]' ).on( 'click', function()
 });
 
 jQuery( '.sv_dashboard_content input, .sv_dashboard_content select' ).on( 'focusin', function() {
-	if ( ! jQuery( this ).is( 'input[type="file"]' ) ) {
-		jQuery( this ).data( 'val', jQuery( this ).val() );
-	}
+	jQuery( this ).data( 'val', jQuery( this ).val() );
 });
 
 
 jQuery( '.sv_dashboard_content input, .sv_dashboard_content select' ).on( 'change', function() {
-	if ( ! jQuery( this ).is( 'input[type="file"]' ) ) {
-		var prev 	= jQuery( this ).data( 'val' );
-		var current = jQuery( this ).val();
+	var prev 	= jQuery( this ).data( 'val' );
+	var current = jQuery( this ).val();
 
-		if ( current !== prev ) {
-			update_option( jQuery( this ).parents( 'form' ) );
-		}
+	if ( current !== prev ) {
+		update_option( jQuery( this ).parents( 'form' ) );
 	}
 });
 
