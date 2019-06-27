@@ -1,3 +1,3 @@
-		<div class="<?php echo $this->get_prefix( 'notice' ); ?>">Settings Saved!</div>
+		<div class="sv_admin_notice"></div>
 	</div> <!-- END sv_dashboard_content -->
 </div> <!-- END sv_wrapper -->

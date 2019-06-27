@@ -208,7 +208,7 @@ class scripts extends sv_abstract {
 							)
 						) {
 							if(defined('WP_DEBUG') && WP_DEBUG === true && current_user_can( 'activate_plugins' )){
-								$module_note =  ' data-sv_100_module="' . $script->get_handle() . '"';
+								$module_note =  ' data-sv100_module="' . $script->get_handle() . '"';
 							}else{
 								$module_note = '';
 							}

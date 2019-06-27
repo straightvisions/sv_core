@@ -194,7 +194,7 @@ abstract class sv_abstract {
 	}
 
 	public function is_theme_instance(){
-		return get_class( $this->get_root() ) == 'sv_100\init' ? true : false;
+		return get_class( $this->get_root() ) == 'sv100\init' ? true : false;
 	}
 	protected function setup( $name, $file ) {
 		$this->name								= $name;

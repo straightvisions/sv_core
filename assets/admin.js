@@ -97,14 +97,14 @@ function show_notice( msg, type = 'info' ) {
 	var types 	= [ 'info', 'success', 'warning', 'error' ];
 
 	if ( jQuery.inArray( type, types ) >= 0 ) {
-		var el = jQuery( '.sv_100_notice' );
+		var el = jQuery( '.sv_admin_notice' );
 		type = 'notice-' + type;
 
 		// Removes old message and replaces it with the new one
 		el.html( msg );
 
 		if ( ! el.hasClass( type ) ) {
-			el.attr( 'class', 'sv_100_notice' );
+			el.attr( 'class', 'sv_admin_notice' );
 			el.toggleClass( type );
 		}
 
