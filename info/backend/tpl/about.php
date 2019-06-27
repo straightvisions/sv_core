@@ -28,7 +28,7 @@
 					if($this->is_instance_active($instance->get_name())) {
 						$instance_msg = '';
 					} else {
-						$instance_msg = __('This plugin version is outdated, please update this plugin!', 'sv_core'); ?>;
+						$instance_msg = __('This plugin version is outdated, please update this plugin!', 'sv_core');
 					}
 			?>
 			<a href="/wp-admin/admin.php?page=<?php echo $instance->get_name() ?>" class="<?php echo (($this->is_instance_active($instance->get_name())) ? '' : 'disabled'); ?>">
