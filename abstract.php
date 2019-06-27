@@ -450,6 +450,8 @@ abstract class sv_abstract {
 		foreach ( $this->get_instances() as $name => $instance ) {
 			$instance->add_section( $instance );
 
+			//if($this->is_theme_instance())
+			
 			add_submenu_page(
 				'straightvisions',		// parent slug
 				$instance->get_section_title(),		// page title
