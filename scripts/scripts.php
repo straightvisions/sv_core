@@ -129,7 +129,6 @@ class scripts extends sv_abstract {
 		wp_enqueue_style('sv_core_init_style');
 		
 		// now remove the attached style
-		ob_start();
 		add_action('wp_print_footer_scripts', function(){
 			$html = ob_get_clean();
 			$html = preg_replace("/<link rel='stylesheet' id='sv_core_init_style-css'(.*)\/>/", '', $html);
