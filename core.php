@@ -82,11 +82,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				$this->ajax_fragmented_requests->set_parent( $this );
 				$this->ajax_fragmented_requests->init();
 				
-				add_action( 'admin_menu', array( $this, 'menu' ), 1 );
-				add_action( 'admin_menu', array( $this , 'build_sections' ), 100 );
-
 				add_filter( 'plugin_action_links_' . plugin_basename( $path ) . '/' . plugin_basename( $path ) . '.php', array( $this, 'plugin_action_links' ), 10, 5 );
-
 				add_action( 'shutdown', array( $this, 'update_routine' ) );
 			}
 
@@ -105,32 +101,17 @@ if ( !class_exists( '\sv_core\core' ) ) {
 							->set_type('js')
 							->set_deps(array('jquery'))
 							->set_is_required();
-
-			//if ( !static::$initialized ) {
-				
-				if( file_exists( $path . 'lib/modules/modules.php' ) ) {
-					$this->modules->init();
-				}
-			//}
+			
+            if( file_exists( $path . 'lib/modules/modules.php' ) ) {
+                $this->modules->init();
+            }
 			
 			static::$initialized = true;
+            
+            $this->init_subcore();
 				
 			return true;
 		}
-
-		public function menu() {
-			add_menu_page(
-				__( 'straightvisions', 'sv_core' ),
-				__( 'straightvisions', 'sv_core' ),
-				'manage_options',
-				'straightvisions',
-				'',
-				$this->get_url_core( 'assets/logo_icon.png' ),
-				100
-			);
-		}
-
-
 		public function credits() {
 			add_filter('wp_headers', function($headers){ $headers['X-straightvisions'] = 'Website enhanced by straightvisions.com'; return $headers; });
 			add_action('wp_footer', function(){ echo "\n\n".'<!-- Website enhanced by straightvisions.com -->'."\n\n"; }, 999999);
