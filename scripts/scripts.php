@@ -136,7 +136,7 @@ class scripts extends sv_abstract {
 		});
 	}
 	public function admin_scripts($hook){
-		if(is_admin() && strpos($hook,'straightvisions') !== false ) {
+		if(is_admin() && ( strpos( $hook,'straightvisions' ) !== false || strpos( $hook,'appearance_page_sv100' ) !== false ) ) {
 			foreach ( $this->get_scripts() as $script ) {
 				if ( $script->get_is_backend() ) {
 					$this->add_script( $script );

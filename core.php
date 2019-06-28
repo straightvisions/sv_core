@@ -96,7 +96,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 			static::$scripts->set_root( $this->get_root() );
 			static::$scripts->set_parent( $this );
 			static::$scripts->init();
-			
+
 			static::$scripts->create($this)
 							->set_ID('admin')
 							->set_path($this->get_url_core('assets/admin.js'))

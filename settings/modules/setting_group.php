@@ -29,7 +29,7 @@
 			return $input;
 		}
 		public function admin_enqueue_scripts($hook){
-			if ( !static::$initialized && strpos($hook,'straightvisions') !== false ) {
+			if ( !static::$initialized && ( strpos( $hook,'straightvisions' ) !== false || strpos( $hook,'appearance_page_sv100' ) !== false ) ) {
 				wp_enqueue_script($this->get_prefix(), $this->get_url_core('assets/admin_setting_group.js'), array('jquery'), filemtime($this->get_path_core('assets/admin_setting_group.js')), true);
 			}
 			static::$initialized = true;
