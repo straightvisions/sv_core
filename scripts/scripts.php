@@ -41,7 +41,7 @@ class scripts extends sv_abstract {
 		$this->set_section_type( 'settings' );
 
 		add_action( 'init', array( $this, 'register_scripts' ), 10 );
-
+		
 		add_action( 'wp_footer', array( $this, 'wp_footer' ), 10 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 99999);
 		add_action( 'enqueue_block_editor_assets', array( $this, 'gutenberg_scripts' ));
@@ -116,11 +116,25 @@ class scripts extends sv_abstract {
 	}
 
 	public function wp_footer() {
+		// we need to register an attached style to be allowed to add inline styles with WP function
+		wp_register_style('sv_core_init_style', $this->get_url_core('frontend/css/style.css'));
+		
 		foreach ( $this->get_scripts() as $script ) {
 			if(!$script->get_is_backend()) {
 				$this->add_script($script);
 			}
 		}
+		
+		// inline styles are printed
+		wp_enqueue_style('sv_core_init_style');
+		
+		// now remove the attached style
+		ob_start();
+		add_action('wp_print_footer_scripts', function(){
+			$html = ob_get_clean();
+			$html = preg_replace("/<link rel='stylesheet' id='sv_core_init_style-css'(.*)\/>/", '', $html);
+			echo $html;
+		});
 	}
 	public function admin_scripts($hook){
 		if(is_admin() && strpos($hook,'straightvisions') !== false ) {
@@ -207,14 +221,10 @@ class scripts extends sv_abstract {
 								$script->get_inline()
 							)
 						) {
-							if(defined('WP_DEBUG') && WP_DEBUG === true && current_user_can( 'activate_plugins' )){
-								$module_note =  ' data-sv100_module="' . $script->get_handle() . '"';
-							}else{
-								$module_note = '';
-							}
-							echo '<style'.$module_note.'>';
-							require_once($script->get_path());
-							echo '</style>';
+							ob_start();
+							include_once($script->get_path());
+							$css		= ob_get_clean();
+							wp_add_inline_style('sv_core_init_style', $css);
 						} else {
 							wp_enqueue_style(
 								$script->get_handle(),                          // script handle

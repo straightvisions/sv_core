@@ -39,6 +39,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 			// these modules are available in all instances and should be initialized once only.
 			if ( !static::$initialized ) {
 				$this->credits();
+
 				self::$path_core			= trailingslashit( dirname( __FILE__ ) );
 				self::$url_core				= trailingslashit( get_site_url() ) . str_replace( ABSPATH,'', self::$path_core );
 

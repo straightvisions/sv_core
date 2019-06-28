@@ -31,7 +31,7 @@
 						$instance_msg = __('This plugin version is outdated, please update this plugin!', 'sv_core');
 					}
 			?>
-			<a href="/wp-admin/admin.php?page=<?php echo $instance->get_name() ?>" class="<?php echo (($this->is_instance_active($instance->get_name())) ? '' : 'disabled'); ?>">
+			<a href="/wp-admin/<?php echo ($instance->is_theme_instance() ? 'themes' : 'admin'); ?>.php?page=<?php echo $instance->get_name() ?>" class="<?php echo (($this->is_instance_active($instance->get_name())) ? '' : 'disabled'); ?>">
 				<h1 class="instance_title <?php echo $instance->is_theme_instance() ? 'instance_theme' : 'instance_plugin'; ?>"><?php echo $instance->get_section_title(); ?></h1>
 				<p class="instance_desc"><?php echo $instance->get_section_desc(); ?></p>
 				<div class="instance_type"><?php echo $instance->is_theme_instance() ? __('Theme', 'sv_core') : __('Plugin', 'sv_core'); ?></div>

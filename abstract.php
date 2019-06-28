@@ -2,7 +2,7 @@
 namespace sv_core;
 
 abstract class sv_abstract {
-	const version_core					= 4000;
+	const version_core					= 4001;
 
 	protected $name						= false;
 	protected $module_name				= false;
@@ -445,26 +445,6 @@ abstract class sv_abstract {
 	public function get_section_type(): string {
 		return $this->section_type;
 	}
-	
-	public function build_sections() {
-		foreach ( $this->get_instances() as $name => $instance ) {
-			$instance->add_section( $instance );
-
-			//if($this->is_theme_instance())
-			
-			add_submenu_page(
-				'straightvisions',		// parent slug
-				$instance->get_section_title(),		// page title
-				$instance->get_section_title(),	    // menu title
-				'manage_options',		    // capability
-				$instance->get_prefix(),		    // menu slug
-				function() use( $instance ) {       // callable function
-					$instance->load_page();
-				}
-			);
-		}
-	}
-
 	public function load_page( string $custom_about_path = '' ) {
 		$this->get_root()->acp_style();
 
