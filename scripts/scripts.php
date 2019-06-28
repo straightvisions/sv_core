@@ -131,7 +131,7 @@ class scripts extends sv_abstract {
 		// now remove the attached style
 		add_action('wp_print_footer_scripts', function(){
 			$html = ob_get_clean();
-			$html = preg_replace("/<link rel='stylesheet' id='sv_core_init_style-css'(.*)\/>/", '', $html);
+			$html = preg_replace("/<link rel='st".""."ylesheet' id='sv_core_init_style-css'(.*)\/>/", '', $html);
 			echo $html;
 		});
 	}
