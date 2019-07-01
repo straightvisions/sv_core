@@ -136,7 +136,7 @@ class scripts extends sv_abstract {
 		});
 	}
 	public function admin_scripts($hook){
-		if(is_admin() && ( strpos( $hook,'straightvisions' ) !== false || strpos( $hook,'appearance_page_sv100' ) !== false ) ) {
+		if ( is_admin() && ( strpos( $hook,'straightvisions' ) !== false || strpos( $hook,'appearance_page_sv100' ) !== false ) ) {
 			foreach ( $this->get_scripts() as $script ) {
 				if ( $script->get_is_backend() ) {
 					$this->add_script( $script );
@@ -214,11 +214,15 @@ class scripts extends sv_abstract {
 
 						// check if inline per settings (higher prio) or per parameter (lower prio)
 						if (
-							$this->s[$script->get_UID()]->run_type()->get_data() == 'inline' ||
 							(
-								$this->s[$script->get_UID()]->run_type()->get_data() == 'default' &&
-								$script->get_inline()
+								$this->s[$script->get_UID()]->run_type()->get_data() === 'inline'
+								|| (
+									$this->s[$script->get_UID()]->run_type()->get_data() === 'default'
+									&& $script->get_inline()
+								)
 							)
+							&& ! $script->get_is_gutenberg()
+							&& ! $script->get_is_backend()
 						) {
 							ob_start();
 							include_once($script->get_path());
