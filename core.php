@@ -6,7 +6,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 	require_once('abstract.php');
 	
 	class core extends sv_abstract {
-		public static $log                  = false;
 		public static $notices				= false;
 		public static $settings				= false;
 		public static $curl	    			= false;
@@ -40,6 +39,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 			// these modules are available in all instances and should be initialized once only.
 			if ( !static::$initialized ) {
 				$this->credits();
+
 				self::$path_core			= trailingslashit( dirname( __FILE__ ) );
 				self::$url_core				= trailingslashit( get_site_url() ) . str_replace( ABSPATH,'', self::$path_core );
 
@@ -48,18 +48,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				static::$settings = new settings;
 				static::$settings->set_root( $this->get_root() );
 				static::$settings->set_parent( $this );
-
-				require_once( 'log/log.php' );
-
-				static::$log = new log;
-				static::$log->set_root( $this->get_root() );
-				static::$log->set_parent( $this );
-				
-				require_once( 'notices/notices.php' );
-				
-				static::$notices = new notices;
-				static::$notices->set_root( $this->get_root() );
-				static::$notices->set_parent( $this );
 				
 				require_once( 'curl/curl.php' );
 
@@ -94,11 +82,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				$this->ajax_fragmented_requests->set_parent( $this );
 				$this->ajax_fragmented_requests->init();
 				
-				add_action( 'admin_menu', array( $this, 'menu' ), 1 );
-				add_action( 'admin_menu', array( $this , 'build_sections' ), 100 );
-
 				add_filter( 'plugin_action_links_' . plugin_basename( $path ) . '/' . plugin_basename( $path ) . '.php', array( $this, 'plugin_action_links' ), 10, 5 );
-
 				add_action( 'shutdown', array( $this, 'update_routine' ) );
 			}
 
@@ -108,7 +92,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 			static::$scripts->set_root( $this->get_root() );
 			static::$scripts->set_parent( $this );
 			static::$scripts->init();
-			
+
 			static::$scripts->create($this)
 							->set_ID('admin')
 							->set_path($this->get_url_core('assets/admin.js'))
@@ -117,32 +101,17 @@ if ( !class_exists( '\sv_core\core' ) ) {
 							->set_type('js')
 							->set_deps(array('jquery'))
 							->set_is_required();
-
-			//if ( !static::$initialized ) {
-				
-				if( file_exists( $path . 'lib/modules/modules.php' ) ) {
-					$this->modules->init();
-				}
-			//}
+			
+            if( file_exists( $path . 'lib/modules/modules.php' ) ) {
+                $this->modules->init();
+            }
 			
 			static::$initialized = true;
+            
+            $this->init_subcore();
 				
 			return true;
 		}
-
-		public function menu() {
-			add_menu_page(
-				__( 'straightvisions', $this->get_root()->get_prefix() ),
-				__( 'straightvisions', $this->get_root()->get_prefix() ),
-				'manage_options',
-				'straightvisions',
-				'',
-				$this->get_url_core( 'assets/logo_icon.png' ),
-				100
-			);
-		}
-
-
 		public function credits() {
 			add_filter('wp_headers', function($headers){ $headers['X-straightvisions'] = 'Website enhanced by straightvisions.com'; return $headers; });
 			add_action('wp_footer', function(){ echo "\n\n".'<!-- Website enhanced by straightvisions.com -->'."\n\n"; }, 999999);

@@ -41,19 +41,4 @@ class info extends sv_abstract{
 			throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_path_core($this->get_module_name().'/modules/'.$name.'.php').')');
 		}
 	}
-	public function init(){
-		add_action('admin_menu', array($this, 'menu'), 10);
-	}
-	public function menu(){
-		add_submenu_page(
-			'straightvisions',				// parent slug
-			'Info',							// page title
-			'Info',							// menu title
-			'manage_options',			    // capability
-			'straightvisions',				// menu slug
-			function() {                    // callable function
-				$this->load_page( $this->get_path_core( 'info/backend/tpl/about.php' ) );
-			}
-		);
-	}
 }

@@ -32,9 +32,9 @@
 		private function set_handler() {
 			if( function_exists( 'curl_init' ) && !$this->handler ) {
 				$this->handler     = curl_init();
-			} else {
+			}// else {
 				//@todo Add Error Message to Notices
-			}
+			//}
 
 			return $this;
 		}

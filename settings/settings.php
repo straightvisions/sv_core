@@ -38,7 +38,7 @@ class settings extends sv_abstract{
 	 * @ignore
 	 */
 	public function __construct(){
-
+	
 	}
 	/**
 	 * @desc			Load's requested libraries dynamicly
@@ -140,9 +140,9 @@ class settings extends sv_abstract{
 			$this->$type->set_parent($this);
 
 			$this->init_wp_setting($this->$type);
-		}else{
+		}//else{
 			// @todo: proper error notice
-		}
+		//}
 		return $this;
 	}
 	public function get_type(){
@@ -216,7 +216,7 @@ class settings extends sv_abstract{
 		return $this->maxlength;
 	}
 	public function set_minlength( int $minlength ) {
-		$this->minlength						= 'pattern=".{' . $minlength .',}" title="' . __( "You need at least ", $this->get_name() ) . $minlength . ' characters."'; //@todo Add translation for this message
+		$this->minlength						= 'pattern=".{' . $minlength .',}" title="' . __( "You need at least ", 'sv_core' ) . $minlength . ' characters."'; //@todo Add translation for this message
 
 		return $this;
 	}
@@ -333,7 +333,7 @@ class settings extends sv_abstract{
 	}
 	public static function get_module_settings_form($module): string{
 		ob_start();
-		echo '<form method="post" action="options.php" enctype="multipart/form-data">';
+		echo '<form id="' . $module->get_name() . '" method="post" action="options.php" enctype="multipart/form-data">';
 		\settings_fields($module->get_name()); // $option_group from register_settings()
 		if($module->get_section_template_path()){
 			require_once($module->get_section_template_path());

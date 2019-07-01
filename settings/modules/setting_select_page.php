@@ -25,7 +25,7 @@
 				'name'					=> $name,
 				'id'                    => $ID,
 				'class'					=> 'data_sv_type_sv_form_field sv_input',
-				'show_option_none'		=> __('No Page selected',$this->get_module_name())
+				'show_option_none'		=> __('No Page selected', 'sv_core')
 			);
 			$output	.= wp_dropdown_pages($args);
 

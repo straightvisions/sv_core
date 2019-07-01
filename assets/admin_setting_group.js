@@ -20,11 +20,16 @@ jQuery( 'body' ).on( 'click','.sv_setting_group_add_new_button', function() {
 	form_clone.appendTo( parent.find( '.sv_setting_group_wrapper' ) );
 
 	form_clone.show('slow');
+
+	update_option( jQuery( this ).parents( 'form' ) );
 });
 
 jQuery( 'body' ).on( 'click', '.sv_setting_group_delete', function() {
 	jQuery( this ).parents( '.sv_setting_group' ).hide('slow', function() {
+		var form = jQuery( this ).parents( 'form' );
+
 		jQuery( this ).remove();
+		update_option( form );
 	});
 });
 

@@ -37,11 +37,11 @@ class scripts extends sv_abstract {
 	public function init(){
 		// Section Info
 		$this->set_section_title( 'Scripts' );
-		$this->set_section_desc( __( 'Override Scripts Loading.', $this->get_name() ) );
+		$this->set_section_desc( __( 'Override Scripts Loading.', 'sv_core' ) );
 		$this->set_section_type( 'settings' );
 
 		add_action( 'init', array( $this, 'register_scripts' ), 10 );
-
+		
 		add_action( 'wp_footer', array( $this, 'wp_footer' ), 10 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 99999);
 		add_action( 'enqueue_block_editor_assets', array( $this, 'gutenberg_scripts' ));
@@ -62,14 +62,14 @@ class scripts extends sv_abstract {
 			
 			$this->s[ 'disable_all_css' ] = $this->get_parent()::$settings->create( $this )
 																		   ->set_ID( 'disable_all_css' )
-																		   ->set_title( __('Disable all CSS per Default', $this->get_name()) )
-																		   ->set_description( __('CSS enqueued will be disabled by default - you may override this later down below.', $this->get_name()) )
+																		   ->set_title( __('Disable all CSS per Default', 'sv_core') )
+																		   ->set_description( __('CSS enqueued will be disabled by default - you may override this later down below.', 'sv_core') )
 																		   ->load_type( 'checkbox' );
 			
 			$this->s[ 'disable_all_js' ] = $this->get_parent()::$settings->create( $this )
 																		  ->set_ID( 'disable_all_js' )
-																		  ->set_title( __('Disable all JS per Default', $this->get_name()) )
-																		  ->set_description( __('JS enqueued will be disabled by default - you may override this later down below.', $this->get_name()) )
+																		  ->set_title( __('Disable all JS per Default', 'sv_core') )
+																		  ->set_description( __('JS enqueued will be disabled by default - you may override this later down below.', 'sv_core') )
 																		  ->load_type( 'checkbox' );
 			
 			foreach ( $this->get_scripts() as $script ) {
@@ -86,17 +86,17 @@ class scripts extends sv_abstract {
 					($this->s[ 'disable_all_js' ]->run_type()->get_data() == 1 && $script->get_type() == 'js')
 				){
 					
-					$default_label											= 'Disabled';
+					$default_label											=  __( 'Disabled', 'sv_core' );
 				}else{
-					$default_label											= $script->get_inline() ? __( 'Inline', $this->get_name() ) : __( 'Attached', $this->get_name() );
+					$default_label											= $script->get_inline() ? __( 'Inline', 'sv_core' ) : __( 'Attached', 'sv_core' );
 				}
 				
 				
 				$options = array(
-					'default'  => __( 'Default', $this->get_name() ) . ': ' . $default_label,
-					'inline'   => __( 'Inline', $this->get_name() ),
-					'attached' => __( 'Attached', $this->get_name() ),
-					'disable'  => __( 'Disabled', $this->get_name() )
+					'default'  => __( 'Default', 'sv_core' ) . ': ' . $default_label,
+					'inline'   => __( 'Inline', 'sv_core' ),
+					'attached' => __( 'Attached', 'sv_core' ),
+					'disable'  => __( 'Disabled', 'sv_core' )
 				);
 				
 				$this->s[ $script->get_UID() ]->set_options( $options );
@@ -116,14 +116,27 @@ class scripts extends sv_abstract {
 	}
 
 	public function wp_footer() {
+		// we need to register an attached style to be allowed to add inline styles with WP function
+		wp_register_style('sv_core_init_style', $this->get_url_core('frontend/css/style.css'));
+		
 		foreach ( $this->get_scripts() as $script ) {
 			if(!$script->get_is_backend()) {
 				$this->add_script($script);
 			}
 		}
+		
+		// inline styles are printed
+		wp_enqueue_style('sv_core_init_style');
+		
+		// now remove the attached style
+		add_action('wp_print_footer_scripts', function(){
+			$html = ob_get_clean();
+			$html = preg_replace("/<link rel='st".""."ylesheet' id='sv_core_init_style-css'(.*)\/>/", '', $html);
+			echo $html;
+		});
 	}
 	public function admin_scripts($hook){
-		if(is_admin() && strpos($hook,'straightvisions') !== false ) {
+		if ( is_admin() && ( strpos( $hook,'straightvisions' ) !== false || strpos( $hook,'appearance_page_sv100' ) !== false ) ) {
 			foreach ( $this->get_scripts() as $script ) {
 				if ( $script->get_is_backend() ) {
 					$this->add_script( $script );
@@ -201,20 +214,20 @@ class scripts extends sv_abstract {
 
 						// check if inline per settings (higher prio) or per parameter (lower prio)
 						if (
-							$this->s[$script->get_UID()]->run_type()->get_data() == 'inline' ||
 							(
-								$this->s[$script->get_UID()]->run_type()->get_data() == 'default' &&
-								$script->get_inline()
+								$this->s[$script->get_UID()]->run_type()->get_data() === 'inline'
+								|| (
+									$this->s[$script->get_UID()]->run_type()->get_data() === 'default'
+									&& $script->get_inline()
+								)
 							)
+							&& ! $script->get_is_gutenberg()
+							&& ! $script->get_is_backend()
 						) {
-							if(defined('WP_DEBUG') && WP_DEBUG === true && current_user_can( 'activate_plugins' )){
-								$module_note =  ' data-sv_100_module="' . $script->get_handle() . '"';
-							}else{
-								$module_note = '';
-							}
-							echo '<style'.$module_note.'>';
-							require_once($script->get_path());
-							echo '</style>';
+							ob_start();
+							include_once($script->get_path());
+							$css		= ob_get_clean();
+							wp_add_inline_style('sv_core_init_style', $css);
 						} else {
 							wp_enqueue_style(
 								$script->get_handle(),                          // script handle

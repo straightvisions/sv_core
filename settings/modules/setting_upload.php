@@ -67,7 +67,7 @@
 				style="margin-right:16px;"
 				/>
 				
-				'.__('Delete File', $this->get_prefix()).'
+				'.__('Delete File', 'sv_core').'
 				</label>
 			';
 			}
