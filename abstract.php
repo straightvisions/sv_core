@@ -2,7 +2,7 @@
 namespace sv_core;
 
 abstract class sv_abstract {
-	const version_core					= 4003;
+	const version_core					= 4004;
 
 	protected $name						= false;
 	protected $module_name				= false;
@@ -413,6 +413,9 @@ abstract class sv_abstract {
 		$this->section_template_path = $path;
 
 		return $this;
+	}
+	public function has_section_template_path(): bool{
+		return (strlen($this->get_section_template_path()) > 0 && file_exists($this->get_section_template_path())) ? true : false;
 	}
 
 	public function set_section_title( string $title ) {
