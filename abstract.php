@@ -2,7 +2,7 @@
 namespace sv_core;
 
 abstract class sv_abstract {
-	const version_core					= 4001;
+	const version_core					= 4003;
 
 	protected $name						= false;
 	protected $module_name				= false;
@@ -39,20 +39,6 @@ abstract class sv_abstract {
 	 * @since			1.0
 	 * @ignore
 	 */
-	public function __construct() {
-		if(did_action('plugins_loaded')){
-			$this->load_translation();
-		}else{
-			add_action('plugins_loaded', array($this, 'load_translation'));
-		}
-		
-		// make sure to init only once
-		$namespace = strstr(get_class($this->get_root()), '\\', true);
-		if(isset($this->get_instances()[$namespace])){
-			return;
-		}
-		$this->init();
-	}
 	public function load_translation(){
 		$locale = apply_filters( 'plugin_locale', determine_locale(), 'sv_core' );
 		load_textdomain( 'sv_core', dirname( __FILE__ ) . '/languages/sv_core-'.$locale.'.mo' );
@@ -76,9 +62,20 @@ abstract class sv_abstract {
 			$this->$name->set_parent( $this );
 
 			return $this->$name;
-		} else {
-			throw new \Exception( 'Class ' . $name . ' could not be loaded (tried to load class-file ' . $this->get_path() . 'lib/modules/'.$name . '.php)' );
 		}
+		
+		if ( file_exists($this->get_root()->get_path( 'lib/modules/'.$name . '/'.$name . '.php' )) ) {
+			require_once( $this->get_root()->get_path( 'lib/modules/'.$name . '/'.$name . '.php' ) );
+			
+			$class_name	    = $this->get_root()->get_name() . '\\' . $name;
+			$this->$name    = new $class_name();
+			$this->$name->set_root( $this->get_root() );
+			$this->$name->set_parent( $this );
+			
+			return $this->$name;
+		}
+		
+		throw new \Exception( 'Class ' . $name . ' could not be loaded (tried to load class-file ' . $this->get_path() . 'lib/modules/'.$name . '.php)' );
 	}
 	public function wordpress_version_check($min_version = '5.0.0'){
 		// Get unmodified $wp_version.
@@ -197,6 +194,13 @@ abstract class sv_abstract {
 		return get_class( $this->get_root() ) == 'sv100\init' ? true : false;
 	}
 	protected function setup( $name, $file ) {
+		// make sure to init only once
+		//$namespace = strstr(get_class($this->get_root()), '\\', true);
+		//if(isset($this->get_instances()[$namespace])){
+		if(isset($this->get_instances()[$name])){
+			return;
+		}
+		
 		$this->name								= $name;
 		
 		if($this->is_theme_instance()) {
@@ -243,8 +247,12 @@ abstract class sv_abstract {
 		update_option( $this->get_prefix( 'version' ), $this->get_version() );
 	}
 
-	protected function init() {
-
+	public function init() {
+		if(did_action('plugins_loaded')){
+			$this->load_translation();
+		}else{
+			add_action('plugins_loaded', array($this, 'load_translation'));
+		}
 	}
 	
 	public function set_name(string $name) {
