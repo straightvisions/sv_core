@@ -21,18 +21,43 @@
 			return '
 			<h4>' . $title . '</h4>
 			<div class="description">' . $description . '</div>
-			<label for="' . $ID . '" class="checkbox">
-				<input
+							<!--<input
 				data-sv_type="sv_form_field"
 				class="sv_input"
-				id="' . $ID . '"
+				id="' . $ID . '_on"
 				name="' . $name . '"
 				type="checkbox"
 				value="1"
 				' . (($value == '1') ? ' checked="checked"' : '') . '
 				' . $required . '
 				' . $disabled . '
+				/>-->
+			<div class="sv_setting_checkbox">
+				<input
+				data-sv_type="sv_form_field"
+				class="sv_input sv_input_off"
+				id="' . $ID . '_off"
+				name="' . $name . '"
+				type="radio"
+				value="0"
+				' . (($value == '' || $value == '0') ? ' checked="checked"' : '') . '
+				' . $required . '
+				' . $disabled . '
 				/>
-			</label>';
+				<label for="' . $ID . '_off" class="button"><i class="fa fa-times"></i></label>
+				<input
+				data-sv_type="sv_form_field"
+				class="button sv_input sv_input_on"
+				id="' . $ID . '_on"
+				name="' . $name . '"
+				type="radio"
+				value="1"
+				' . (($value == '1') ? ' checked="checked"' : '') . '
+				' . $required . '
+				' . $disabled . '
+				/>
+				<label for="' . $ID . '_on" class="button"><i class="fa fa-check"></i></label>
+			</div>
+			';
 		}
 	}
