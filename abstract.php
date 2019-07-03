@@ -369,9 +369,11 @@ abstract class sv_abstract {
 
 	public function acp_style( $hook = false ) {
 		if ( !$hook || $hook == 'sv-100_page_' . $this->get_module_name() ) {
-			echo '<style data-id="sv_admin_css">';
-			require_once( $this->get_path_core( 'assets/admin.css' ) );
-			echo '</style>';
+			wp_enqueue_style($this->get_prefix(), $this->get_url_core('assets/admin.css'));
+			ob_start();
+			include_once($this->get_path_core('assets/admin_inline.css'));
+			$css = ob_get_clean();
+			wp_add_inline_style($this->get_prefix(), $css);
 		}
 	}
 
