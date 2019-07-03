@@ -127,10 +127,12 @@ class scripts extends sv_abstract {
 		
 		// inline styles are printed
 		wp_enqueue_style('sv_core_init_style');
-		
+
+		ob_start();
 		// now remove the attached style
 		add_action('wp_print_footer_scripts', function(){
-			$html = ob_get_clean();
+			$html = ob_get_contents();
+			ob_end_clean();
 			$html = preg_replace("/<link rel='st".""."ylesheet' id='sv_core_init_style-css'(.*)\/>/", '', $html);
 			echo $html;
 		});
