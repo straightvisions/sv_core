@@ -23,7 +23,7 @@
 			wp_enqueue_script('jquery-ui-progressbar');
 			wp_enqueue_script('sv_ajax_fragmented_requests', $this->get_url_core($this->get_module_name().'/backend/js/'.$this->get_module_name().'.js'), array('jquery-ui-core'), filemtime($this->get_path_core($this->get_module_name().'/backend/js/'.$this->get_module_name().'.js')), true);
 
-			wp_enqueue_style('jquery-ui-css', '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css');
+			wp_enqueue_style('jquery-ui-css', $this->get_url_core($this->get_module_name().'/backend/css/'.$this->get_module_name().'.css'));
 		}
 		public function scripts_block(array $forms){
 
