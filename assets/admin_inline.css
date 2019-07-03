@@ -1,0 +1,23 @@
+/* ==== Imports ===================================================================================================== */
+@import url('<?php echo $this->get_url_core('assets/fonts/all.min.css'); ?>');
+/* ===/ Imports ===================================================================================================== */
+
+/* ==== Fonts ======================================================================================================= */
+@font-face {
+	font-family: FontAwesomeBrands;
+	src: url('<?php echo $this->get_url_core('assets/fonts/fa-brands-400.woff'); ?>');
+	font-weight:400;
+}
+
+@font-face {
+	font-family: FontAwesomeSolid;
+	src: url('<?php echo $this->get_url_core('assets/fonts/fa-solid-900.woff'); ?>');
+	font-weight:400;
+}
+
+@font-face {
+	font-family: FontAwesomeRegular;
+	src: url('<?php echo $this->get_url_core('assets/fonts/fa-regular-400.woff'); ?>');
+	font-weight:400;
+}
+/* ===/ Fonts ======================================================================================================= */

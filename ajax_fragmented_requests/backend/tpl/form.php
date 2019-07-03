@@ -1,12 +1,3 @@
-<style data-id="<?php echo $this->get_prefix(); ?>">
-	.sv_ajax_fragmented_requests_start > span > .label{
-		padding-right:10px;
-	}
-	.sv_ajax_fragmented_requests_start .processing,
-	.sv_ajax_fragmented_requests_start .finished{
-		display:none;
-	}
-</style>
 <form class="sv_ajax_fragmented_requests" data-id="<?php echo $prefix; ?>">
 		<button class="sv_ajax_fragmented_requests_start button button-primary">
 			<span class="start"><span class="label"><?php _e('Start', 'sv_core'); ?></span><i class="fas fa-play"></i></span>
