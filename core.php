@@ -116,7 +116,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 			add_filter('wp_headers', function($headers){ $headers['X-straightvisions'] = 'Website enhanced by straightvisions.com'; return $headers; });
 			add_action('wp_footer', function(){ echo "\n\n".'<!-- Website enhanced by straightvisions.com -->'."\n\n"; }, 999999);
 			add_filter('rocket_buffer', function($buffer){ return $buffer."\n\n".'<!-- Website enhanced by straightvisions.com -->'."\n\n"; }, 999999);
-			define('WP_ROCKET_WHITE_LABEL_FOOTPRINT', true);
 		}
 	}
 }

@@ -73,7 +73,7 @@
 			}
 			return $output;
 		}
-		private function delete_attachment($attachment_id){
+		private function delete_attachment(int $attachment_id){
 			wp_delete_attachment( $attachment_id, true );
 		}
 		private function reformat_file_data(array $data): array{
@@ -90,16 +90,28 @@
 		}
 		private function delete_group_files(array $input): array{
 			$data = $_POST[$this->get_parent()->get_parent()->get_prefix( $this->get_parent()->get_parent()->get_ID() )];
-			foreach($data as $group => $fields){
-				//var_dump($data);
-				foreach($fields as $name => $value){
-					if(is_array($value) && isset($value['delete']) && $value['delete'] == 1){
-						$this->delete_attachment($input[$group][$name]['file']);
-						unset($input[$group][$name]);
+			if(is_array($data)) {
+				foreach ($data as $group => $fields) {
+					$group = sanitize_key($group);
+
+					if(is_array($fields)) {
+						foreach ($fields as $name => $value) {
+							$name = sanitize_key($name);
+
+							if (is_array($value) && isset($value['delete']) && intval($value['delete']) === 1) {
+								if(
+									isset($input[$group][$name]['file']) &&
+									intval($input[$group][$name]['file']) &&
+									strlen(get_attached_file($input[$group][$name]['file'])) > 0
+								) {
+									$this->delete_attachment(intval($input[$group][$name]['file']));
+									unset($input[$group][$name]);
+								}
+							}
+						}
 					}
 				}
 			}
-			//die('end');
 			return $input;
 		}
 		private function field_single($input){
@@ -109,22 +121,24 @@
 				delete_option($this->get_parent()->get_prefix($this->get_parent()->get_ID()));
 			}elseif(intval($_FILES[$this->get_parent()->get_prefix($this->get_parent()->get_ID())]['size']['file']) > 0 ) {
 				// single setting field
-				$data = array(
-					'name'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['name']['file'],
-					'file'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['type']['file'],
-					'tmp_name'		=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['tmp_name']['file'],
-					'error'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['error']['file'],
-					'size'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['size']['file'],
-					'type'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['type']['file']
-				);
-				
-				if($data['name'] != '' &&
-					$data['type'] != '' &&
-					$data['tmp_name'] != '' &&
-					file_exists($data['tmp_name'])) {
+
+				if($_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['name']['file'] != '' &&
+					$_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['type']['file'] != '' &&
+					$_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['tmp_name']['file'] != '' &&
+					file_exists($_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['tmp_name']['file'])) {
+
 					$input = $this->handle_file_upload(
-						wp_handle_upload( $data, array( 'test_form' => false ) )
+						wp_handle_upload(array(
+								'name'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['name']['file'],
+								'file'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['type']['file'],
+								'tmp_name'		=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['tmp_name']['file'],
+								'error'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['error']['file'],
+								'size'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['size']['file'],
+								'type'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['type']['file']
+							)
+							, array( 'test_form' => false ) )
 					);
+
 					return $input;
 				}
 			}
@@ -164,10 +178,7 @@
 				// delete files if requested
 				$input						= $this->delete_group_files($input);
 			}
-			
-			//var_dump($input);
-			//die('end');
-			
+
 			return $input ? $input : $this->get_data();
 		}
 		private function is_single_field(){
@@ -181,7 +192,6 @@
 		}
 		public function field_callback($input){
 			if(isset($_POST['option_page'])) {
-				//var_dump($_POST);
 				//@todo This method get's triggered twice, that's why a second upload is attempted
 				if ( isset( static::$updated[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ] ) ) {
 					return $input;

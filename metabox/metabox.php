@@ -15,14 +15,6 @@
 		public function __construct(){
 		
 		}
-		/**
-		 * @desc			Load's requested libraries dynamicly
-		 * @param	string	$name library-name
-		 * @return			class object of the requested library
-		 * @author			Matthias Bathke
-		 * @since			1.0
-		 * @ignore
-		 */
 		public function __get(string $name){
 			if(file_exists($this->get_path_core('settings/modules/'.$name.'.php'))){ // look for class file in modules directory
 				require_once($this->get_path_core('settings/modules/'.$name.'.php'));
@@ -101,7 +93,7 @@
 			foreach($this->get_parent()->s as $setting){
 				$field_id											= $setting->get_prefix($setting->get_ID());
 				// Get the posted data and sanitize it for use as an HTML class.
-				$new_meta_value										= (isset($_POST[$field_id]) ? $_POST[$field_id] : '');
+				$new_meta_value										= (isset($_POST[$field_id]) ? sanitize_meta($field_id, $_POST[$field_id], 'post') : '');
 				
 				// Get the meta value of the custom field key.
 				$meta_value											= get_post_meta($post_id, $field_id, true);
