@@ -82,29 +82,51 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				$this->ajax_fragmented_requests->set_parent( $this );
 				$this->ajax_fragmented_requests->init();
 				
+				add_action('plugins_loaded', function(){ $this->get_root()->set_is_expert_mode($this->get_setting()
+					 ->set_ID('sv_expert_mode')
+					 ->set_title( __('Expert Mode', 'sv_core'))
+					 ->set_is_no_prefix()
+					 ->load_type('checkbox')
+					 ->run_type()
+                     ->set_data(intval(get_user_meta(get_current_user_id(), 'sv_core_expert_mode', true)))
+                     ->get_data()
+                );});
+				
+				add_action( 'wp_ajax_sv_core_expert_mode', array($this, 'ajax_expert_mode'));
+				
 				add_filter( 'plugin_action_links_' . plugin_basename( $path ) . '/' . plugin_basename( $path ) . '.php', array( $this, 'plugin_action_links' ), 10, 5 );
 				add_action( 'shutdown', array( $this, 'update_routine' ) );
 			}
-
-			require_once( 'scripts/scripts.php' );
-
-			static::$scripts = new scripts;
-			static::$scripts->set_root( $this->get_root() );
-			static::$scripts->set_parent( $this );
-			static::$scripts->init();
-
-			static::$scripts->create($this)
-							->set_ID('admin')
-							->set_path($this->get_url_core('assets/admin.js'))
-							->set_is_backend()
-							->set_is_enqueued()
-							->set_type('js')
-							->set_deps(array('jquery'))
-							->set_is_required();
 			
             if( file_exists( $path . 'lib/modules/modules.php' ) ) {
                 $this->modules->init();
             }
+            
+			require_once( 'scripts/scripts.php' );
+			
+			static::$scripts = new scripts;
+			static::$scripts->set_root( $this->get_root() );
+			static::$scripts->set_parent( $this );
+			static::$scripts->init();
+			
+			if ( !static::$initialized ) {
+				add_action( 'init', function () {
+					static::$scripts->create( $this )
+									->set_ID( 'sv_core_admin' )
+									->set_path( $this->get_url_core( 'assets/admin.js' ) )
+									->set_is_backend()
+									->set_is_enqueued()
+									->set_is_no_prefix()
+									->set_type( 'js' )
+									->set_deps( array( 'jquery' ) )
+									->set_is_required()
+									->set_localized( array(
+										'ajaxurl'           => admin_url( 'admin-ajax.php' ),
+										'nonce_expert_mode' => \wp_create_nonce( 'sv_expert_mode' ),
+                                        'settings_saved'    => __('Setting saved', 'sv_core')
+									) );
+				} );
+			}
 			
 			static::$initialized = true;
             
@@ -112,6 +134,34 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				
 			return true;
 		}
+		
+		public function ajax_expert_mode(){
+			if(empty($_POST) || !isset($_POST)) {
+				$this->ajaxStatus('error', __('Nothing to update.', 'sv_core'));
+			} else {
+				if ( wp_verify_nonce( $_POST['nonce'], 'sv_expert_mode' ) !== false ) {
+					if(get_current_user_id()) {
+						update_user_meta(get_current_user_id(), 'sv_core_expert_mode', intval($_POST['state']));
+						$this->ajaxStatus('success', __('Setting saved', 'sv_core'));
+					} else {
+						$this->ajaxStatus('error', __('You are unauthorized to perform this action.', 'sv_core'));
+					}
+				} else {
+					$this->ajaxStatus( 'error', __('Nonce check cannot fail.', 'sv_core') );
+				}
+			}
+        }
+        public function ajaxStatus($status, $message, $data = NULL) {
+            $response = array (
+                'status'        => $status,
+                'message'       => $message,
+                'data'          => $data
+            );
+            
+            $output = json_encode($response);
+            
+            exit($output);
+        }
 		public function credits() {
 			add_filter('wp_headers', function($headers){ $headers['X-straightvisions'] = 'Website enhanced by straightvisions.com'; return $headers; });
 			add_action('wp_footer', function(){ echo "\n\n".'<!-- Website enhanced by straightvisions.com -->'."\n\n"; }, 999999);

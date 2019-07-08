@@ -20,6 +20,24 @@
 			<?php _e('Our themes and plugins share a core which provides commonly used features. The core is included and shared within each plugin or theme, so make sure if you update one product, to update all others too.', 'sv_core'); ?>
 			</p>
 		</div>
+		<div class="col-50">
+			<h3 class="divider"><?php _e('Primary Instance', 'sv_core'); ?></h3>
+			<a href="/wp-admin/<?php echo ($this->is_theme_instance() ? 'themes' : 'admin'); ?>.php?page=<?php echo $this->get_name() ?>"><?php echo $this->get_section_title(); ?></a>
+		</div>
+
+		<div class="col-50">
+			<form id="<?php echo 'sv_core_expert_mode'; ?>" method="POST">
+				<?php
+					echo $this->get_setting()
+						->set_ID('sv_expert_mode')
+						->set_title( __('Expert Mode', 'sv_core'))
+						->set_is_no_prefix()
+                        ->load_type('checkbox')
+                        ->run_type()->set_data(get_user_meta(get_current_user_id(), 'sv_core_expert_mode', true))
+                        ->form();
+				?>
+			</form>
+		</div>
 		<div>
 			<h3 class="divider"><?php _e('Instances', 'sv_core'); ?></h3>
 			<ul class="instance_list">

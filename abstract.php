@@ -2,7 +2,7 @@
 namespace sv_core;
 
 abstract class sv_abstract {
-	const version_core					= 4005;
+	const version_core					= 4006;
 
 	protected $name						= false;
 	protected $module_name				= false;
@@ -32,6 +32,7 @@ abstract class sv_abstract {
 	protected $section_privacy			= false;
 	protected $section_type				= '';
 	protected $scripts_queue			= array();
+	protected static $expert_mode         = false;
 
 	/**
 	 * @desc			initialize plugin
@@ -89,6 +90,12 @@ abstract class sv_abstract {
 	}
 	public function wordpress_version_notice(){
 		// extend in childs when needed.
+	}
+	public function set_is_expert_mode(bool $yes = true){
+		static::$expert_mode = $yes;
+	}
+	public function get_is_expert_mode(): bool{
+		return static::$expert_mode;
 	}
 	public function set_parent( $parent ) {
 		$this->parent = $parent;

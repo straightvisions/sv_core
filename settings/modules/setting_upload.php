@@ -126,23 +126,24 @@
 					$_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['type']['file'] != '' &&
 					$_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['tmp_name']['file'] != '' &&
 					file_exists($_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['tmp_name']['file'])) {
-
-					$input = $this->handle_file_upload(
-						wp_handle_upload(array(
-								'name'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['name']['file'],
-								'file'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['type']['file'],
-								'tmp_name'		=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['tmp_name']['file'],
-								'error'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['error']['file'],
-								'size'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['size']['file'],
-								'type'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['type']['file']
-							)
-							, array( 'test_form' => false ) )
-					);
-
+						$input = $this->handle_file_upload(
+							wp_handle_upload(
+								$this->unfiltered_files_resorted(), array( 'test_form' => false ) )
+						);
 					return $input;
 				}
 			}
 			return $input ? $input : $this->get_data();
+		}
+		private function &unfiltered_files_resorted(): array{
+			return array(
+				'name'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['name']['file'],
+				'file'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['type']['file'],
+				'tmp_name'		=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['tmp_name']['file'],
+				'error'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['error']['file'],
+				'size'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['size']['file'],
+				'type'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['type']['file']
+			);
 		}
 		private function field_group($input){
 			if ( ! empty( $this->get_parent()->get_data() ) ) {

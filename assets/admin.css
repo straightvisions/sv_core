@@ -1413,3 +1413,6 @@ div.log_filter div.wrapper label input {
 	opacity: 1;
 	bottom: 20px;
 }
+.col-100{
+	width:100%;
+}

@@ -5,6 +5,7 @@ namespace sv_core;
 class settings extends sv_abstract{
 	// properties
 	private $parent								= false;
+	private $no_prefix							= false;
 	private $ID									= false;
 	private $section							= false;
 	private $section_group						= '';
@@ -79,6 +80,14 @@ class settings extends sv_abstract{
 	}
 	public function get_ID(): string{
 		return $this->ID;
+	}
+	public function set_is_no_prefix(bool $no = true): settings{
+		$this->no_prefix								= $no;
+		
+		return $this;
+	}
+	public function get_is_no_prefix(): bool{
+		return $this->no_prefix;
 	}
 	public function set_section(string $section): settings{
 		$this->section							= $section;
@@ -396,7 +405,7 @@ class settings extends sv_abstract{
 		return $input;
 	}
 	protected function get_field_id(): string{
-		return $this->get_parent()->get_prefix($this->get_parent()->get_ID());
+		return $this->get_parent()->get_is_no_prefix() ? $this->get_parent()->get_ID() : $this->get_parent()->get_prefix($this->get_parent()->get_ID());
 	}
 	public function widget(string $value, $object): string{
 		return $this->html(

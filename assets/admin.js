@@ -138,7 +138,7 @@ function save_settings() {
 	for ( const [ id, form ] of Object.entries( forms ) ) {
 		jQuery( form ).ajaxSubmit({
 			success: function () {
-				show_notice( 'Settings Saved!', 'success' );
+				show_notice( sv_core_admin.settings_saved, 'success' );
 			},
 		});
 	}
@@ -181,4 +181,21 @@ jQuery( '.sv_dashboard_content textarea' ).on( 'change', function() {
 	if ( current !== prev ) {
 		update_option( jQuery( this ).parents( 'form' ) );
 	}
+});
+
+jQuery('#sv_core_expert_mode .sv_setting_checkbox input').on('change', function(){
+	jQuery.post( sv_core_admin.ajaxurl, {
+			action : 'sv_core_expert_mode',
+			nonce : sv_core_admin.nonce_expert_mode,
+			state : jQuery(this).val()
+		},
+		function(response) {
+			response = JSON.parse(response);
+
+			if(response.status === 'success') {
+				show_notice( response.message, 'success' );
+			} else {
+				show_notice( response.message, 'error' );
+			}
+	});
 });
