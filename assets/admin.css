@@ -810,6 +810,7 @@ div.sv_setting_checkbox input:checked + label i{
 }
 
 /* Input - Buttons */
+.sv_dashboard_button,
 input[type="submit"]#submit,
 .sv_setting button,
 .sv_setting .button,
@@ -828,8 +829,10 @@ input[type="submit"]#submit,
 	justify-content: center;
 	padding: 10px 15px;
 	line-height: 1;
+	cursor: pointer;
 }
 
+.sv_dashboard_button:hover,
 input[type="submit"]#submit:hover,
 .sv_setting button:hover,
 .sv_setting .button:hover,
