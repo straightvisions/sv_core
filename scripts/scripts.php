@@ -58,7 +58,9 @@ class scripts extends sv_abstract {
 
 	public function load_settings() {
 		if(count($this->get_scripts()) > 0) {
-			$this->get_root()->add_section( $this );
+			if($this->get_is_expert_mode()) {
+				$this->get_root()->add_section( $this );
+			}
 			
 			$this->s[ 'disable_all_css' ] = $this->get_parent()::$settings->create( $this )
 																		   ->set_ID( 'disable_all_css' )
@@ -280,12 +282,12 @@ class scripts extends sv_abstract {
 	public function get_is_required(): bool {
 		return $this->is_required;
 	}
-	public function set_no_prefix( bool $no_prefix = true ): scripts {
+	public function set_is_no_prefix( bool $no_prefix = true ): scripts {
 		$this->no_prefix						= $no_prefix;
 
 		return $this;
 	}
-	public function get_no_prefix(): bool {
+	public function get_is_no_prefix(): bool {
 		return $this->no_prefix;
 	}
 
@@ -299,14 +301,18 @@ class scripts extends sv_abstract {
 	}
 
 	public function get_handle(): string {
-		if ( $this->get_no_prefix() ) {
+		if ( $this->get_is_no_prefix() ) {
 			return $this->get_ID();
 		} else {
 			return $this->get_prefix( $this->get_ID() );
 		}
 	}
 	public function get_UID(): string {
-		return $this->get_type().'_'.$this->get_prefix( $this->get_ID() );
+		if ( $this->get_is_no_prefix() ) {
+			return $this->get_ID();
+		} else {
+			return $this->get_type() . '_' . $this->get_prefix( $this->get_ID() );
+		}
 	}
 
 	public function set_ID( string $ID ): scripts {

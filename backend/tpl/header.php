@@ -12,19 +12,19 @@
 		</div>
 		<div id="sv_admin_menu_body">
 			<div data-target="#section_about" class="sv_admin_menu_item section_about active">
-				<h4>About</h4>
-				<span>General info & description</span>
+				<h4><?php _e('About', 'sv_core'); ?></h4>
+				<span><?php _e('General info & description', 'sv_core'); ?></span>
 			</div>
-            <?php if(defined('WP_DEBUG') && WP_DEBUG === true) { ?>
+            <?php if($this->get_is_expert_mode() && defined('WP_DEBUG') && WP_DEBUG === true) { ?>
 			<div data-target="#section_core_docs" class="sv_admin_menu_item section_core_docs">
-				<h4>Core Docs</h4>
-				<span>Instance Core Methods</span>
+				<h4><?php _e('Core Docs', 'sv_core'); ?></h4>
+				<span><?php _e('Instance Core Methods', 'sv_core'); ?></span>
 			</div>
 			<?php } ?>
-			<?php $this->load_section_menu(); ?>
+			<?php if(isset($_GET['page']) && $_GET['page'] !== 'straightvisions') { $this->load_section_menu(); } ?>
 			<div data-target="#section_legal" class="sv_admin_menu_item section_legal">
-				<h4>Legal Information</h4>
-				<span>Copyright & Usage</span>
+				<h4><?php _e('Legal Information', 'sv_core'); ?></h4>
+				<span><?php _e('Copyright & Usage', 'sv_core'); ?></span>
 			</div>
 		</div>
 	</div>
