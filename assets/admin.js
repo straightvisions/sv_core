@@ -126,8 +126,14 @@ var forms			= {};
 var timeout_handle	= setTimeout( save_settings , timeout );
 
 function update_option( form ) {
-	if ( jQuery( form ).find( 'input[type="file"]' ).length < 1 ) {
+	if ( ! jQuery( form ).find( 'input[type="file"]' ).length > 0
+		&& (
+			jQuery( form ).data( 'ajax' ) === undefined
+			|| jQuery( form ).data( 'ajax' ) === '1'
+		)
+	) {
 		forms[ form.attr('id') ] = form;
+		console.log(f)
 
 		window.clearTimeout( timeout_handle );
 		timeout_handle = setTimeout( save_settings, timeout );
@@ -155,21 +161,25 @@ jQuery('.sv_dashboard_content form').submit( function ( e ) {
 });
 */
 
-jQuery( '.sv_dashboard_content input[type="checkbox"]' ).on( 'click', function() {
+jQuery( '.sv_dashboard_content input[type="checkbox"], .sv_dashboard_content input[type="radio"]' ).on( 'click', function() {
 	update_option( jQuery( this ).parents( 'form' ) );
 });
 
 jQuery( '.sv_dashboard_content input, .sv_dashboard_content select' ).on( 'focusin', function() {
-	jQuery( this ).data( 'val', jQuery( this ).val() );
+	if ( ! jQuery( this ).is( 'input[type="radio"]' ) ) {
+		jQuery( this ).data( 'val', jQuery( this ).val() );
+	}
 });
 
 
 jQuery( '.sv_dashboard_content input, .sv_dashboard_content select' ).on( 'change', function() {
-	var prev 	= jQuery( this ).data( 'val' );
-	var current = jQuery( this ).val();
+	if ( ! jQuery( this ).is( 'input[type="radio"]' ) ) {
+		var prev 	= jQuery( this ).data( 'val' );
+		var current = jQuery( this ).val();
 
-	if ( current !== prev ) {
-		update_option( jQuery( this ).parents( 'form' ) );
+		if ( current !== prev ) {
+			update_option( jQuery( this ).parents( 'form' ) );
+		}
 	}
 });
 
