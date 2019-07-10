@@ -707,6 +707,15 @@ div.sv_setting_checkbox{
     border-radius: 30px;
 	display: flex;
 }
+
+div.sv_setting_checkbox.sv_disabled {
+	opacity: .5;
+}
+
+div.sv_setting_checkbox.sv_disabled label {
+	cursor: default;
+}
+
 div.sv_setting_checkbox input[type="radio"]{
     background-color:transparent;
     border:0;
@@ -718,6 +727,7 @@ div.sv_setting_checkbox input[type="radio"]{
 	width: 1px;
 	overflow: hidden;
 }
+
 div.sv_setting_checkbox label {
 	opacity:0.3;
 	color: rgba(0, 0, 0, 0.6);
@@ -730,12 +740,14 @@ div.sv_setting_checkbox label {
 	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
 	transition: all 0.1s ease-in-out;
 }
+
 div.sv_setting_checkbox label:first-of-type {
 	border-radius:5px 0 0 5px;
 }
 div.sv_setting_checkbox label:last-of-type {
 	border-radius:0 5px 5px 0;
 }
+
 div.sv_setting_checkbox input.sv_input_off:checked + label{
 	background-color: #AA6600;
 	box-shadow: none;

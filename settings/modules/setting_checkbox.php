@@ -18,6 +18,10 @@
 			return $this->$format($value,$object);
 		}
 		public function html($ID, $title, $description, $name, $value, $required, $disabled){
+			$classes = 'sv_setting_checkbox';
+			
+			$classes .= $disabled ? ' sv_disabled' : '';
+			
 			return '
 			<h4>' . $title . '</h4>
 			<div class="description">' . $description . '</div>
@@ -32,7 +36,7 @@
 				' . $required . '
 				' . $disabled . '
 				/>-->
-			<div class="sv_setting_checkbox">
+			<div class="' . $classes . '">
 				<input
 				data-sv_type="sv_form_field"
 				class="sv_input sv_input_off"
