@@ -264,6 +264,8 @@ abstract class sv_abstract {
 	
 	public function set_name(string $name) {
 		$this->name		= $name;
+		
+		return $this;
 	}
 	public function get_name() {
 		if ( $this->name ) { // if name is set, use it
