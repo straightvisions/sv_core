@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SV Core\n"
-"POT-Creation-Date: 2019-06-26 15:38+0200\n"
-"PO-Revision-Date: 2019-06-26 15:39+0200\n"
+"POT-Creation-Date: 2019-07-10 13:26+0200\n"
+"PO-Revision-Date: 2019-07-10 13:26+0200\n"
 "Last-Translator: \n"
 "Language-Team: straightvisions GmbH\n"
 "Language: de_DE\n"
@@ -12,51 +12,230 @@ msgstr ""
 "X-Generator: Poedit 2.2.1\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: abstract.php:125 abstract.php:141 abstract.php:157
+#: abstract.php:129 abstract.php:145 abstract.php:161
 msgid "not defined"
 msgstr "nicht definiert"
 
-#: abstract.php:417
+#: abstract.php:437
 msgid "No Title defined."
 msgstr "Kein Titel definiert."
 
-#: abstract.php:427
+#: abstract.php:447
 msgid "No description defined."
 msgstr "Keine Beschreibung definiert."
 
-#: abstract.php:436
+#: abstract.php:456
 msgid "No privacy statement defined."
 msgstr "Keine Datenschutzerklärung definiert."
 
-#: abstract.php:498
+#: abstract.php:500
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: core.php:122 core.php:123
-msgid "straightvisions"
-msgstr "straightvisions"
+#: ajax_fragmented_requests/backend/tpl/form.php:3
+msgid "Start"
+msgstr "Start"
 
-#: info/backend/tpl/about.php:31
+#: ajax_fragmented_requests/backend/tpl/form.php:4
+msgid "Processing"
+msgstr "In Bearbeitung"
+
+#: ajax_fragmented_requests/backend/tpl/form.php:5
+msgid "Finished"
+msgstr "Beendet"
+
+#: ajax_fragmented_requests/backend/tpl/form.php:8
+msgid "Continue Import from Cycle"
+msgstr "Import fortsetzen von Zyklus"
+
+#: backend/tpl/about.php:5 backend/tpl/header.php:15
+msgid "About"
+msgstr "Info"
+
+#: backend/tpl/about.php:10
+msgid "Info"
+msgstr "Info"
+
+#: backend/tpl/about.php:12 info/backend/tpl/about.php:12
+msgid "Name:"
+msgstr "Name:"
+
+#: backend/tpl/about.php:13
+msgid "Version:"
+msgstr "Version:"
+
+#: backend/tpl/about.php:17 info/backend/tpl/about.php:18
+msgid "Description"
+msgstr "Beschreibung"
+
+#: backend/tpl/core_docs.php:10
+msgid ""
+"This cheat sheet lists core methods you may want to use when developing own "
+"modules."
+msgstr ""
+"Dieses Cheatsheet listet die wichtigsten Methoden auf, die Sie bei der "
+"Entwicklung eigener Module verwenden möchten."
+
+#: backend/tpl/core_docs.php:12
+msgid "get current url"
+msgstr "Aktuelle URL"
+
+#: backend/tpl/core_docs.php:13
+msgid "URL to current location"
+msgstr "URL zum aktuellen Standort"
+
+#: backend/tpl/core_docs.php:19
+msgid "Name of current instance:"
+msgstr "Name der aktuellen Instanz:"
+
+#: backend/tpl/core_docs.php:22
+msgid "Full hierarchy name:"
+msgstr "Voller Hierarchienname:"
+
+#: backend/tpl/core_docs.php:28
+msgid "Shortname (without namespace) of current hierarchy class"
+msgstr "Kurzname (ohne Namensraum) der aktuellen Hierarchieklasse"
+
+#: backend/tpl/core_docs.php:34
+msgid "Prefix by get_name:"
+msgstr "Präfix via get_name:"
+
+#: backend/tpl/core_docs.php:40
+msgid "Prefix by get_name, but root class replaced with sv_common:"
+msgstr "Präfix via get_name, aber root-Klasse durch sv_common ersetzt:"
+
+#: backend/tpl/core_docs.php:46
+msgid "Absolute path to instance:"
+msgstr "Absoluter Pfad zur Instanz:"
+
+#: backend/tpl/core_docs.php:52
+msgid "Absolute url to instance:"
+msgstr "Absolute URL zur Instanz:"
+
+#: backend/tpl/core_docs.php:58
+msgid "Absolute path to core:"
+msgstr "Absoluter Pfad zur Core:"
+
+#: backend/tpl/core_docs.php:64
+msgid "Absolute url to core:"
+msgstr "Absolute URL zur Core:"
+
+#: backend/tpl/core_docs.php:69
+msgid "Enqueue Admin Styles"
+msgstr "Enqueue Admin Styles"
+
+#: backend/tpl/core_docs.php:70
+msgid "Enqueue SV style for admin menu pages:"
+msgstr "Enqueue SV-Style für Admin-Menüseiten:"
+
+#: backend/tpl/header.php:16
+msgid "General info & description"
+msgstr "Allgemeine Infos & Beschreibung"
+
+#: backend/tpl/header.php:20
+msgid "Core Docs"
+msgstr "Core Dokus"
+
+#: backend/tpl/header.php:21
+msgid "Instance Core Methods"
+msgstr "Core Methoden der Instanz"
+
+#: backend/tpl/header.php:26 backend/tpl/legal.php:5
+msgid "Legal Information"
+msgstr "Rechtliche Informationen"
+
+#: backend/tpl/header.php:27
+msgid "Copyright & Usage"
+msgstr "Copyright & Nutzung"
+
+#: backend/tpl/legal.php:9
+msgid "General Information"
+msgstr "Allgemeine Informationen"
+
+#: backend/tpl/legal.php:11
+msgid "Project Website:"
+msgstr "Projekt-Website:"
+
+#: backend/tpl/legal.php:11
+msgid "straightvisions GmbH"
+msgstr "straightvisions GmbH"
+
+#: backend/tpl/legal.php:13
+msgid "License: GPL3 or later"
+msgstr "Lizenz: GPL3 oder höher"
+
+#: backend/tpl/legal.php:25
+msgid "Privacy Statement"
+msgstr "Datenschutzerklärung"
+
+#: core.php:87 info/backend/tpl/about.php:33
+msgid "Expert Mode"
+msgstr "Experten-Modus"
+
+#: core.php:126 core.php:145
+msgid "Setting saved"
+msgstr "Einstellung gespeichert"
+
+#: core.php:140
+msgid "Nothing to update."
+msgstr "Nichts zu aktualisieren."
+
+#: core.php:147
+msgid "You are unauthorized to perform this action."
+msgstr "Sie sind nicht berechtigt, diese Aktion durchzuführen."
+
+#: core.php:150
+msgid "Nonce check cannot fail."
+msgstr "Nonce-Prüfung kann nicht fehlschlagen."
+
+#: info/backend/tpl/about.php:13
+msgid "Active Core Version:"
+msgstr "Aktive Kernversion:"
+
+#: info/backend/tpl/about.php:14
+msgid "Active Core Path:"
+msgstr "Aktiver Kernpfad:"
+
+#: info/backend/tpl/about.php:20
+msgid ""
+"Our themes and plugins share a core which provides commonly used features. "
+"The core is included and shared within each plugin or theme, so make sure if "
+"you update one product, to update all others too."
+msgstr ""
+"Unsere Themen und Plugins teilen einen Kern, der die gängigen Funktionen "
+"bietet. Der Kern ist in jedem Plugin oder Theme enthalten und geteilt. "
+"Stelle möglichst sicher, dass wenn du ein Produkt aktualisierst, alle "
+"anderen auch auf dem aktuellen Stand sind."
+
+#: info/backend/tpl/about.php:24
+msgid "Primary Instance"
+msgstr "Primäre Instanz"
+
+#: info/backend/tpl/about.php:42
+msgid "Instances"
+msgstr "Instanzen"
+
+#: info/backend/tpl/about.php:49
 msgid "This plugin version is outdated, please update this plugin!"
 msgstr ""
 "Diese Pluginversion ist nicht mehr aktuell, bitte aktualisiere das Plugin!"
 
-#: info/backend/tpl/about.php:37
+#: info/backend/tpl/about.php:55
 msgid "Theme"
 msgstr "Theme"
 
-#: info/backend/tpl/about.php:37
+#: info/backend/tpl/about.php:55
 msgid "Plugin"
 msgstr "Plugin"
 
-#: info/backend/tpl/about.php:41
+#: info/backend/tpl/about.php:59
 msgid "Active"
 msgstr "Aktiv"
 
-#: info/backend/tpl/about.php:41 scripts/scripts.php:89 scripts/scripts.php:99
+#: info/backend/tpl/about.php:59 scripts/scripts.php:91 scripts/scripts.php:101
 msgid "Disabled"
 msgstr "Deaktiviert"
 
@@ -64,11 +243,11 @@ msgstr "Deaktiviert"
 msgid "Override Scripts Loading."
 msgstr "Überschreib das Ladeverhalten von Scripts."
 
-#: scripts/scripts.php:65
+#: scripts/scripts.php:67
 msgid "Disable all CSS per Default"
 msgstr "Deaktiviere standardmäßig das Laden von CSS"
 
-#: scripts/scripts.php:66
+#: scripts/scripts.php:68
 msgid ""
 "CSS enqueued will be disabled by default - you may override this later down "
 "below."
@@ -76,11 +255,11 @@ msgstr ""
 "CSS wird standardmäßig deaktiviert - du kannst das weiter unten jeweils "
 "überschreiben."
 
-#: scripts/scripts.php:71
+#: scripts/scripts.php:73
 msgid "Disable all JS per Default"
 msgstr "Deaktiviere standardmäßig das Laden von JS"
 
-#: scripts/scripts.php:72
+#: scripts/scripts.php:74
 msgid ""
 "JS enqueued will be disabled by default - you may override this later down "
 "below."
@@ -88,15 +267,15 @@ msgstr ""
 "JS wird standardmäßig deaktiviert - du kannst das weiter unten jeweils "
 "überschreiben."
 
-#: scripts/scripts.php:91 scripts/scripts.php:97
+#: scripts/scripts.php:93 scripts/scripts.php:99
 msgid "Inline"
 msgstr "Eingebettet"
 
-#: scripts/scripts.php:91 scripts/scripts.php:98
+#: scripts/scripts.php:93 scripts/scripts.php:100
 msgid "Attached"
 msgstr "Angehängt"
 
-#: scripts/scripts.php:96
+#: scripts/scripts.php:98
 msgid "Default"
 msgstr "Standard"
 
@@ -120,7 +299,7 @@ msgstr "Keine Seite ausgewählt"
 msgid "Delete File"
 msgstr "Datei löschen"
 
-#: settings/settings.php:219
+#: settings/settings.php:228
 msgid "You need at least "
 msgstr "Du brauchst mindestens "
 
@@ -153,6 +332,3 @@ msgstr "Du brauchst mindestens "
 
 #~ msgid "Success"
 #~ msgstr "Erfolg"
-
-#~ msgid "Info"
-#~ msgstr "Info"

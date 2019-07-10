@@ -2,7 +2,7 @@
 namespace sv_core;
 
 abstract class sv_abstract {
-	const version_core					= 4006;
+	const version_core					= 4007;
 
 	protected $name						= false;
 	protected $module_name				= false;
@@ -264,6 +264,8 @@ abstract class sv_abstract {
 	
 	public function set_name(string $name) {
 		$this->name		= $name;
+		
+		return $this;
 	}
 	public function get_name() {
 		if ( $this->name ) { // if name is set, use it

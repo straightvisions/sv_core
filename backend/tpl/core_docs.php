@@ -7,7 +7,7 @@
 	</div>
 	<div class="section_content">
 		<h3 class="divider">Description</h3>
-		<p>A detailed documentation of all helpful core methods and the returned values, that are used in all our products.</p>
+		<p><?php _e('This cheat sheet lists core methods you may want to use when developing own modules.', 'sv_core'); ?></p>
 		<div class="col-50">
 			<h3 class="divider"><?php _e('get current url', 'sv_core'); ?></h3>
 			<p><?php _e('URL to current location', 'sv_core'); ?></p>
