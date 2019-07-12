@@ -133,7 +133,6 @@ function update_option( form ) {
 		)
 	) {
 		forms[ form.attr('id') ] = form;
-		console.log(f)
 
 		window.clearTimeout( timeout_handle );
 		timeout_handle = setTimeout( save_settings, timeout );
