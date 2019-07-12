@@ -149,11 +149,21 @@ class scripts extends sv_abstract {
 		}
 	}
 	public function gutenberg_scripts(){
+		wp_register_style('sv_core_gutenberg_inline_style', $this->get_url_core('backend/css/gutenberg_style.css'));
+		
 		foreach ( $this->get_scripts() as $script ) {
 			if ( $script->get_is_gutenberg() ) {
 				$this->add_script( $script );
 			}
 		}
+		
+		wp_enqueue_style('sv_core_gutenberg_inline_style');
+		
+		ob_start();
+		$html = ob_get_contents();
+		ob_end_clean();
+		$html = preg_replace("/<link rel='st".""."ylesheet' id='sv_core_gutenberg_inline_style-css'(.*)\/>/", '', $html);
+		echo $html;
 	}
 	public function register_scripts(){
 		foreach ( $this->get_scripts() as $script ) {
@@ -211,11 +221,10 @@ class scripts extends sv_abstract {
 			if ($this->check_for_enqueue($script)) {
 				// set as loaded
 				$script->set_is_loaded();
-
+				
 				// CSS or JS
 				switch ($script->get_type()) {
 					case 'css':
-
 						// check if inline per settings (higher prio) or per parameter (lower prio)
 						if (
 							(
@@ -225,13 +234,19 @@ class scripts extends sv_abstract {
 									&& $script->get_inline()
 								)
 							)
-							&& ! $script->get_is_gutenberg()
 							&& ! $script->get_is_backend()
 						) {
-							ob_start();
-							include_once($script->get_path());
-							$css		= ob_get_clean();
-							wp_add_inline_style('sv_core_init_style', $css);
+							if ( $script->get_is_gutenberg() ) {
+								ob_start();
+								include_once( $script->get_path() );
+								$css		= ob_get_clean();
+								wp_add_inline_style( 'sv_core_gutenberg_inline_style', $css );
+							} else {
+								ob_start();
+								include_once($script->get_path());
+								$css		= ob_get_clean();
+								wp_add_inline_style( 'sv_core_init_style', $css );
+							}
 						} else {
 							wp_enqueue_style(
 								$script->get_handle(),                          // script handle
