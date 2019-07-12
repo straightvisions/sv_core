@@ -149,7 +149,7 @@ class scripts extends sv_abstract {
 		}
 	}
 	public function gutenberg_scripts(){
-		wp_register_style('sv_core_gutenberg_inline_style', $this->get_url_core('backend/css/gutenberg_style.css'));
+		wp_register_style('sv_core_gutenberg_style', $this->get_url_core('backend/css/gutenberg_style.css'));
 		
 		foreach ( $this->get_scripts() as $script ) {
 			if ( $script->get_is_gutenberg() ) {
@@ -157,12 +157,12 @@ class scripts extends sv_abstract {
 			}
 		}
 		
-		wp_enqueue_style('sv_core_gutenberg_inline_style');
+		wp_enqueue_style('sv_core_gutenberg_style');
 		
 		ob_start();
 		$html = ob_get_contents();
 		ob_end_clean();
-		$html = preg_replace("/<link rel='st".""."ylesheet' id='sv_core_gutenberg_inline_style-css'(.*)\/>/", '', $html);
+		$html = preg_replace("/<link rel='st".""."ylesheet' id='sv_core_gutenberg_style-css'(.*)\/>/", '', $html);
 		echo $html;
 	}
 	public function register_scripts(){
@@ -240,7 +240,7 @@ class scripts extends sv_abstract {
 								ob_start();
 								include_once( $script->get_path() );
 								$css		= ob_get_clean();
-								wp_add_inline_style( 'sv_core_gutenberg_inline_style', $css );
+								wp_add_inline_style( 'sv_core_gutenberg_style', $css );
 							} else {
 								ob_start();
 								include_once($script->get_path());
