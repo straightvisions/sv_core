@@ -9,9 +9,17 @@ jQuery( 'body' ).on( 'click','.sv_setting_group_add_new_button', function() {
 	var index		= parent.find( '.sv_setting_group' ).length;
 
 	form_clone.find('.data_sv_type_sv_form_field, [data-sv_type="sv_form_field"]').each(function(e) {
-		jQuery(this).attr('name', jQuery(this).attr('id').replace("sv_form_field_index", index ));
-		jQuery(this).attr('id', jQuery(this).attr('name'));
-		jQuery(this).closest('label').attr('for', jQuery(this).attr('name'));
+		let id = jQuery(this).attr('id').replace("sv_form_field_index", index );
+		let name = jQuery(this).parents('.sv_setting_group_input').data('sv_input_name').replace("sv_form_field_index", index );
+
+		if ( jQuery( this ).is( 'input[type="file"]' ) ) {
+			name += '[file]';
+		}
+
+		jQuery( this ).attr( 'name', name );
+		jQuery( this ).attr( 'id', id );
+		jQuery( this ).closest( 'label' ).attr( 'for', id );
+		jQuery( this ).next( 'label' ).attr( 'for', id );
 	});
 
 	form_clone.find( '.sv_setting_group_header h4' ).append(  parent.find( '.sv_setting_group_header' ).length );

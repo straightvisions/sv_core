@@ -79,7 +79,7 @@
 
 				foreach($this->get_children() as $child) {
 					$fields[]			= '<div class="'.$this->get_prefix($this->get_type()).'_item">';
-					$fields[]			= '<div class="sv_'.$this->get_module_name().'_input">'.$child->run_type()->html(
+					$fields[]			= '<div class="sv_'.$this->get_module_name().'_input" data-sv_input_name="'.$child->get_field_id().'[sv_form_field_index]['.$child->get_ID().']'.'">'.$child->run_type()->html(
 							($setting_id !== false ? $child->get_field_id().'['.$i.']['.$child->get_ID().']' : $child->get_field_id().'[sv_form_field_index]['.$child->get_ID().']'),
 							$child->get_title(),
 							$child->get_description(),
