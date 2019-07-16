@@ -319,13 +319,15 @@
 				}
 				
 				if(!isset($this->s[$setting]) === 0){
-					return static::$settings->create( $this ); // return empty setting if not exist
+					$this->s[$setting] = static::$settings->create( $this );
+					return $this->s[$setting]; // return empty setting if not exist
 				}
 				
 				return $this->s[$setting];
 			}
 			
-			return static::$settings->create( $this ); // return empty setting if not exist
+			$this->s[$setting] = static::$settings->create( $this );
+			return $this->s[$setting]; // return empty setting if not exist
 		}
 		public function get_script(string $script = ''): scripts {
 			if(strlen($script) > 0 && isset($this->scripts_queue[$script])){
@@ -334,13 +336,14 @@
 				}
 				
 				if(!isset($this->scripts_queue[$script]) === 0){
-					return static::$scripts->create( $this ); // return empty setting if not exist
+					$this->scripts_queue[$script]		= static::$scripts->create( $this )->set_ID($script);
+					return $this->scripts_queue[$script]; // return empty setting if not exist
 				}
 				
 				return $this->scripts_queue[$script];
 			}
-			
-			return static::$scripts->create( $this ); // return empty setting if not exist
+			$this->scripts_queue[$script]		= static::$scripts->create( $this )->set_ID($script);
+			return $this->scripts_queue[$script]; // return empty setting if not exist
 		}
 		
 		public function set_path(string $path) {
