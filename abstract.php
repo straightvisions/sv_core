@@ -319,14 +319,14 @@
 				}
 				
 				if(!isset($this->s[$setting]) === 0){
-					$this->s[$setting] = static::$settings->create( $this );
+					$this->s[$setting] = static::$settings->create( $this )->set_ID($setting);
 					return $this->s[$setting]; // return empty setting if not exist
 				}
 				
 				return $this->s[$setting];
 			}
 			
-			$this->s[$setting] = static::$settings->create( $this );
+			$this->s[$setting] = static::$settings->create( $this )->set_ID($setting);
 			return $this->s[$setting]; // return empty setting if not exist
 		}
 		public function get_script(string $script = ''): scripts {
