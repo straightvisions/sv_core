@@ -98,16 +98,16 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				add_action( 'shutdown', array( $this, 'update_routine' ) );
 			}
 			
-            if( file_exists( $path . 'lib/modules/modules.php' ) ) {
-                $this->modules->init();
-            }
-            
 			require_once( 'scripts/scripts.php' );
 			
 			static::$scripts = new scripts;
 			static::$scripts->set_root( $this->get_root() );
 			static::$scripts->set_parent( $this );
 			static::$scripts->init();
+			
+            if( file_exists( $path . 'lib/modules/modules.php' ) ) {
+                $this->modules->init();
+            }
 			
 			if ( !static::$initialized ) {
 				add_action( 'init', function () {
