@@ -128,7 +128,7 @@
 					file_exists($_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['tmp_name']['file'])) {
 						$input = $this->handle_file_upload(
 							wp_handle_upload(
-								$this->unfiltered_files_resorted(), array( 'test_form' => false ) )
+								@$this->unfiltered_files_resorted(), array( 'test_form' => false ) )
 						);
 					return $input;
 				}
