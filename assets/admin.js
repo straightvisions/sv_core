@@ -208,3 +208,17 @@ jQuery('#sv_core_expert_mode .sv_setting_checkbox input').on('change', function(
 			}
 	});
 });
+
+jQuery(document).ready(function(){
+	jQuery('.sv_setting_subpage').each(function( i ) {
+		jQuery( this ).parent().children('.sv_setting_subpages_nav').append( '<li data-id="'+(i+1)+'">'+jQuery( this ).children('h2').text()+'</li>' );
+	});
+	jQuery('.sv_setting_subpages_nav li:first-child').addClass('active');
+	jQuery('body').on('click', '.sv_setting_subpages_nav > *', function(){
+		jQuery( this ).parent().children('*').removeClass('active');
+		jQuery( this ).addClass('active');
+		jQuery( this ).parent().parent().children('.sv_setting_subpage').hide();
+		jQuery( this ).parent().parent().children('.sv_setting_subpage:nth-of-type('+jQuery(this).data('id')+')').fadeIn();
+		console.log(jQuery(this).data('id'));
+	});
+});

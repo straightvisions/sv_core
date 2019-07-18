@@ -1431,3 +1431,34 @@ div.log_filter div.wrapper label input {
 .col-100{
 	width:100%;
 }
+
+/* Subpages */
+.sv_setting_subpage:not(:first-of-type){
+	display:none;
+}
+.sv_setting_subpages_nav{
+	display:flex;
+	justify-content: space-evenly;
+	border-bottom: 1px solid rgba( 50, 50, 48, .2 );
+	border-top: 1px solid rgba( 50, 50, 48, .2 );
+	margin:0;
+	padding:0;
+}
+.sv_setting_subpages_nav > *{
+	transition:all 0.5s;
+	display:block;
+	cursor:pointer;
+	margin:0;
+	padding:10px 0 10px 0;
+	font-weight:bold;
+	background-color: rgba( 50, 50, 48, .05 );
+	width: 100%;
+	text-align: center;
+	text-transform:uppercase;
+}
+.sv_setting_subpages_nav > *:hover{
+	background-color:#FFF;
+}
+.sv_setting_subpages_nav > .active{
+	background-color:#FFF;
+}
