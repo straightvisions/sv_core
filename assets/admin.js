@@ -222,3 +222,81 @@ jQuery(document).ready(function(){
 		console.log(jQuery(this).data('id'));
 	});
 });
+
+/* ===== Ajax Check ===== */
+jQuery( 'button[data-sv_admin_ajax], input[data-sv_admin_ajax]' ).on( 'click', function() {
+	let ajax = jQuery( this ).data( 'sv_admin_ajax' );
+	let is_modal = jQuery( this ).data( 'sv_admin_modal' ) ? true : false;
+
+	if ( ! is_modal ) {
+		sv_admin_ajax_call( ajax );
+	}
+} );
+
+function sv_admin_ajax_call( data, modal = false ) {
+	if ( modal ) {
+		jQuery( '.sv_admin_modal' ).removeClass( 'show' );
+	}
+
+	jQuery.post( ajaxurl, data[0], function( response ) {
+		let data = JSON.parse( response );
+
+		if ( data.notice ) {
+			show_notice( data.msg, data.type )
+		} else {
+			console.log(response);
+		}
+	} );
+}
+
+/* ===== Modals ===== */
+function show_modal( title, desc, type, args ) {
+	let el		= jQuery( '.sv_admin_modal' );
+	let content = get_modal_content( type, args );
+
+	if ( content ) {
+		el.find( '.sv_admin_modal_title' ).html( title );
+		el.find( '.sv_admin_modal_description' ).html( desc );
+		el.find( '.sv_admin_modal_content' ).html( content );
+
+		el.addClass( 'show' );
+	}
+}
+
+function get_modal_content( type, args ) {
+	let content = '';
+	let ajax_call = args.ajax
+		? "onclick='sv_admin_ajax_call( " + JSON.stringify( args.ajax ) + ", true )'"
+		: '';
+	let form_call = args.form
+		? 'onclick=jQuery("form#' + args.form + '").submit()'
+		: '';
+	switch ( type ) {
+		case 'confirm':
+			content = '<button class="button" ' + ajax_call + ' ' + form_call + '>Proceed</button>';
+			break;
+		default:
+			return false;
+	}
+
+	return content;
+}
+
+jQuery( 'button[data-sv_admin_modal], input[data-sv_admin_modal]' ).on( 'click', function() {
+	let title 	= jQuery( this ).data( 'sv_admin_modal' )[0].title;
+	let desc 	= jQuery( this ).data( 'sv_admin_modal' )[0].desc;
+	let type	= jQuery( this ).data( 'sv_admin_modal' )[0].type;
+	let args	= jQuery( this ).data( 'sv_admin_modal' )[0].args
+		? jQuery( this ).data( 'sv_admin_modal' )[0].args : {};
+	let ajax	= jQuery( this ).data( 'sv_admin_ajax' );
+
+	if ( ajax !== 'undefined' ) {
+		args.ajax = ajax;
+	}
+
+	show_modal( title, desc, type, args );
+} );
+
+jQuery( '.sv_admin_modal .sv_admin_modal_close, .sv_admin_modal .sv_admin_modal_cancel, .sv_admin_modal .sv_admin_modal_submit' ).on( 'click', function() {
+	jQuery( this ).parents( '.sv_admin_modal' ).removeClass( 'show' );
+} );
