@@ -2,7 +2,7 @@
 	namespace sv_core;
 	
 	abstract class sv_abstract {
-		const version_core					= 4012;
+		const version_core					= 4013;
 		
 		protected $name						= false;
 		protected $module_name				= false;
@@ -234,6 +234,9 @@
 		
 		public static function get_instances(): array {
 			return self::$instances;
+		}
+		public static function get_instance(string $name): array {
+			return self::$instances[$name];
 		}
 		
 		public static function get_instances_active(): array {
