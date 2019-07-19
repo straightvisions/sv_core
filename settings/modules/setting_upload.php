@@ -128,15 +128,18 @@
 					file_exists($_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['tmp_name']['file'])) {
 						$input = $this->handle_file_upload(
 							wp_handle_upload(
-								@$this->unfiltered_files_resorted(), array( 'test_form' => false ) )
+								$this->unfiltered_files_resorted(), array( 'test_form' => false ) )
 						);
 					return $input;
 				}
 			}
 			return $input ? $input : $this->get_data();
 		}
+		/*
+		 * IMPORTANT: This method just resorts the FILES-Upload array to allow handling and sanitation through wp_handle_upload. Do not work with return values of this method without proper sanitation.
+		 */
 		private function &unfiltered_files_resorted(): array{
-			return array(
+			$unfiltered_FILES = array(
 				'name'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['name']['file'],
 				'file'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['type']['file'],
 				'tmp_name'		=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['tmp_name']['file'],
@@ -144,6 +147,8 @@
 				'size'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['size']['file'],
 				'type'			=> $_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['type']['file']
 			);
+
+			return $unfiltered_FILES;
 		}
 		private function field_group($input){
 			if ( ! empty( $this->get_parent()->get_data() ) ) {
