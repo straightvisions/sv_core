@@ -1488,19 +1488,33 @@ div.log_filter div.wrapper label input {
 
 .sv_dashboard_content .sv_admin_modal {
 	display: flex;
+	left: 20px;
+	right: 20px;
 	flex-direction: column;
 	position: fixed;
-	margin-left: 20px;
 	top: calc( 111px + 32px);
 	background-color: rgb( 30, 31, 34 );
 	color: rgb( 238, 238, 238 );
 	padding: 20px;
 	transition: all 0.5s ease-in-out 0s;
 	min-width: 200px;
-	max-width: 100%;
 	z-index: 0;
 	opacity: 0;
+	max-width: 400px;
 	visibility: hidden;
+}
+
+@media ( min-width: 783px ) {
+	.sv_dashboard_content .sv_admin_modal {
+		left: inherit;
+		right: inherit;
+	}
+}
+
+@media ( min-width: 1200px ) {
+	.sv_dashboard_content .sv_admin_modal {
+		margin-left: 20px;
+	}
 }
 
 .sv_dashboard_content .sv_admin_modal .sv_admin_modal_header {

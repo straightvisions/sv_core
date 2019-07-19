@@ -7,7 +7,7 @@
 			<p class="sv_admin_modal_description"></p>
 			<div class="sv_admin_modal_body">
 				<div class="sv_admin_modal_content"></div>
-				<button class="sv_admin_modal_cancel button"><?php _e( 'Cancel', 'sv100' ); ?></button>
+				<button class="sv_admin_modal_cancel sv_dashboard_button"><?php _e( 'Cancel', 'sv100' ); ?></button>
 			</div>
 		</div>
 	</div> <!-- END sv_dashboard_content -->
