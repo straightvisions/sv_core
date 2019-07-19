@@ -219,7 +219,6 @@ jQuery(document).ready(function(){
 		jQuery( this ).addClass('active');
 		jQuery( this ).parent().parent().children('.sv_setting_subpage').hide();
 		jQuery( this ).parent().parent().children('.sv_setting_subpage:nth-of-type('+jQuery(this).data('id')+')').fadeIn();
-		console.log(jQuery(this).data('id'));
 	});
 });
 
@@ -234,6 +233,8 @@ jQuery( 'button[data-sv_admin_ajax], input[data-sv_admin_ajax]' ).on( 'click', f
 } );
 
 function sv_admin_ajax_call( data, modal = false ) {
+	if ( data[0].nonce === 'undefined' ) return false;
+
 	if ( modal ) {
 		jQuery( '.sv_admin_modal' ).removeClass( 'show' );
 	}
@@ -244,7 +245,7 @@ function sv_admin_ajax_call( data, modal = false ) {
 		if ( data.notice ) {
 			show_notice( data.msg, data.type )
 		} else {
-			console.log(response);
+			console.log( response );
 		}
 	} );
 }
@@ -271,6 +272,7 @@ function get_modal_content( type, args ) {
 	let form_call = args.form
 		? 'onclick=jQuery("form#' + args.form + '").submit()'
 		: '';
+
 	switch ( type ) {
 		case 'confirm':
 			content = '<button class="button" ' + ajax_call + ' ' + form_call + '>Proceed</button>';
@@ -286,8 +288,7 @@ jQuery( 'button[data-sv_admin_modal], input[data-sv_admin_modal]' ).on( 'click',
 	let title 	= jQuery( this ).data( 'sv_admin_modal' )[0].title;
 	let desc 	= jQuery( this ).data( 'sv_admin_modal' )[0].desc;
 	let type	= jQuery( this ).data( 'sv_admin_modal' )[0].type;
-	let args	= jQuery( this ).data( 'sv_admin_modal' )[0].args
-		? jQuery( this ).data( 'sv_admin_modal' )[0].args : {};
+	let args	= jQuery( this ).data( 'sv_admin_modal' )[0].args ? jQuery( this ).data( 'sv_admin_modal' )[0].args : {};
 	let ajax	= jQuery( this ).data( 'sv_admin_ajax' );
 
 	if ( ajax !== 'undefined' ) {
