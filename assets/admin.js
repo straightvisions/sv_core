@@ -277,7 +277,7 @@ function get_modal_content( type, args ) {
 
 	switch ( type ) {
 		case 'confirm':
-			content = '<button class="button" ' + ajax_call + ' ' + form_call + '>Proceed</button>';
+			content = '<button class="sv_dashboard_button" ' + ajax_call + ' ' + form_call + '>Proceed</button>';
 			break;
 		default:
 			return false;
