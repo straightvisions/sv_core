@@ -1441,11 +1441,19 @@ div.log_filter div.wrapper label input {
 .sv_setting_subpages_nav{
 	display:flex;
 	justify-content: space-evenly;
-	border-bottom: 1px solid rgba( 50, 50, 48, .2 );
+	flex-direction: column;
 	border-top: 1px solid rgba( 50, 50, 48, .2 );
 	margin:0;
 	padding:0;
 }
+
+@media (min-width: 850px) {
+	.sv_setting_subpages_nav{
+		flex-direction: row;
+		border-bottom: 1px solid rgba( 50, 50, 48, .2 );
+	}
+}
+
 .sv_setting_subpages_nav > *{
 	transition:all 0.5s;
 	display:block;
@@ -1454,10 +1462,18 @@ div.log_filter div.wrapper label input {
 	padding:10px 0 10px 0;
 	font-weight:bold;
 	background-color: rgba( 50, 50, 48, .05 );
+	border-bottom: 1px solid rgba( 50, 50, 48, .2 );
 	width: 100%;
 	text-align: center;
 	text-transform:uppercase;
 }
+
+@media (min-width: 850px) {
+	.sv_setting_subpages_nav > *{
+		border-bottom: 0;
+	}
+}
+
 .sv_setting_subpages_nav > *:hover{
 	background-color:#FFF;
 }
