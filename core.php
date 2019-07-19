@@ -45,11 +45,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
 				require_once( 'freemius/start.php' );
 
-				static::$settings = new settings;
-				static::$settings->set_root( $this->get_root() );
-				static::$settings->set_parent( $this );
-
-
 				require_once( 'settings/settings.php' );
 
 				static::$settings = new settings;
