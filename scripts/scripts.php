@@ -36,7 +36,7 @@ class scripts extends sv_abstract {
 
 	public function init(){
 		// Section Info
-		$this->set_section_title( 'Scripts' );
+		$this->set_section_title( __('Scripts', 'sv_core') );
 		$this->set_section_desc( __( 'Override Scripts Loading.', 'sv_core' ) );
 		$this->set_section_type( 'settings' );
 

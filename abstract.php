@@ -72,6 +72,8 @@
 				$this->$name    = new $class_name();
 				$this->$name->set_root( $this->get_root() );
 				$this->$name->set_parent( $this );
+				$this->$name->set_path( $this->get_root()->get_path( 'lib/modules/'.$name . '/' ) );
+				$this->$name->set_url( $this->get_root()->get_url( 'lib/modules/'.$name . '/' ) );
 				
 				return $this->$name;
 			}
