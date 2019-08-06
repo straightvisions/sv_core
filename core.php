@@ -8,7 +8,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 	class core extends sv_abstract {
 		public static $notices				= false;
 		public static $settings				= false;
-		public static $curl	    			= false;
 		public static $remote_get	    	= false;
 		public static $widgets				= false;
 		public static $info					= false;
@@ -51,12 +50,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				static::$settings = new settings;
 				static::$settings->set_root( $this->get_root() );
 				static::$settings->set_parent( $this );
-				
-				require_once( 'curl/curl.php' );
-
-				static::$curl = new curl;
-				static::$curl->set_root( $this->get_root() );
-				static::$curl->set_parent( $this );
 				
 				require_once( 'remote_get/remote_get.php' );
 				

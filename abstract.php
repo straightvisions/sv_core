@@ -2,7 +2,7 @@
 	namespace sv_core;
 	
 	abstract class sv_abstract {
-		const version_core					= 4014;
+		const version_core					= 4015;
 		
 		protected $name						= false;
 		protected $module_name				= false;
@@ -19,7 +19,6 @@
 		protected $loaded			        = array();
 		protected static $path_core			= false;
 		protected static $url_core			= false;
-		protected $curl_handler             = false;
 		protected $sections					= array();
 		protected $section_types			= array(
 			'settings'						=> 'Configuration &amp; Settings',
