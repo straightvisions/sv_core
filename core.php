@@ -9,6 +9,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 		public static $notices				= false;
 		public static $settings				= false;
 		public static $curl	    			= false;
+		public static $remote_get	    	= false;
 		public static $widgets				= false;
 		public static $info					= false;
 		public static $metabox				= false;
@@ -56,6 +57,12 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				static::$curl = new curl;
 				static::$curl->set_root( $this->get_root() );
 				static::$curl->set_parent( $this );
+				
+				require_once( 'remote_get/remote_get.php' );
+				
+				static::$remote_get = new remote_get();
+				static::$remote_get->set_root( $this->get_root() );
+				static::$remote_get->set_parent( $this );
 				
 				require_once( 'widgets/widgets.php' );
 

@@ -14,6 +14,9 @@
 
 		}
 		public static function create( $parent ){
+			// @todo Remove deprecated info on feature removal.
+			error_log( 'SV Core Info: sv_core\curl is depreacted, please use sv_core/remote_get instead.' );
+			
 			$new						= new static();
 
 			$new->prefix				= $parent->get_prefix() . '_';
