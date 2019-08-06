@@ -15,13 +15,13 @@
 			return $new;
 		}
 		
-		public function set_url( string $url ): remote_get {
+		public function set_request_url( string $url ): remote_get {
 			$this->url = $url;
 			
 			return $this;
 		}
 		
-		public function get_url(): string {
+		public function get_request_url(): string {
 			return $this->url;
 		}
 		
@@ -36,7 +36,7 @@
 		}
 		
 		public function get_response(): array {
-			return wp_remote_get( $this->get_url(), $this->get_args() );
+			return wp_remote_get( $this->get_request_url(), $this->get_args() );
 		}
 		
 		public function get_response_body(): string {
