@@ -236,7 +236,7 @@
 		public static function get_instances(): array {
 			return self::$instances;
 		}
-		public static function get_instance(string $name): array {
+		public static function get_instance(string $name) {
 			return self::$instances[$name];
 		}
 		
