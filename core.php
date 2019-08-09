@@ -104,6 +104,8 @@ if ( !class_exists( '\sv_core\core' ) ) {
 			static::$scripts->set_root( $this->get_root() );
 			static::$scripts->set_parent( $this );
 			static::$scripts->init();
+
+			$this->init_subcore();
 			
 			if( file_exists( $path . 'lib/modules/modules.php' ) ) {
 				$this->modules->init();
@@ -129,8 +131,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 			}
 			
 			static::$initialized = true;
-            
-            $this->init_subcore();
 				
 			return true;
 		}
