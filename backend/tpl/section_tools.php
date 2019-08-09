@@ -6,7 +6,10 @@
 		</div>
 	</div>
 	<div class="section_content">
-		<?php require_once($section['object']->get_section_template_path()); ?>
+		<?php
+		$module = $section['object'];
+		require_once($section['object']->get_section_template_path());
+		?>
 	</div>
 </section>
 <?php }
