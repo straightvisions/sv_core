@@ -43,8 +43,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				self::$path_core			= trailingslashit( dirname( __FILE__ ) );
 				self::$url_core				= trailingslashit( get_site_url() ) . str_replace( ABSPATH,'', self::$path_core );
 
-				require_once( 'freemius/start.php' );
-
 				require_once( 'settings/settings.php' );
 
 				static::$settings = new settings;
