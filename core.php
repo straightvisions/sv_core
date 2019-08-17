@@ -265,7 +265,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
             add_action( 'init', function () {
                 static::$scripts->create( $this )
                     ->set_ID( 'sv_core_admin' )
-                    ->set_path( $this->get_url_core( 'assets/admin.js' ) )
+                    ->set_path( $this->get_url_core( '../assets/admin.js' ) )
                     ->set_is_backend()
                     ->set_is_enqueued()
                     ->set_is_no_prefix()

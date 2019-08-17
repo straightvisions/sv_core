@@ -2,7 +2,7 @@
 	namespace sv_core;
 	
 	abstract class sv_abstract {
-		const version_core					= 4016;
+		const version_core					= 4017;
 		
 		protected $name						= false;
 		protected $module_name				= false;
@@ -400,9 +400,9 @@
 		
 		public function acp_style( $hook = false ) {
 			if ( !$hook || $hook == 'sv-100_page_' . $this->get_module_name() ) {
-				wp_enqueue_style($this->get_prefix(), $this->get_url_core('assets/admin.css'));
+				wp_enqueue_style($this->get_prefix(), $this->get_url_core('../assets/admin.css'));
 				ob_start();
-				include_once($this->get_path_core('assets/admin_inline.css'));
+				include_once($this->get_path_core('../assets/admin_inline.css'));
 				$css = ob_get_clean();
 				wp_add_inline_style($this->get_prefix(), $css);
 			}
