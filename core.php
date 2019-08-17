@@ -16,7 +16,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 		public $ajax_fragmented_requests	= false;
 		public static $initialized			= false;
 
-		private $name                       = 'unknown';
+		protected $name                       = 'unknown';
 		
 		public function setup_core( $path, $name ): bool{
 		    $output = false;
