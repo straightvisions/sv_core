@@ -16,14 +16,10 @@ if ( !class_exists( '\sv_core\core' ) ) {
 		public $ajax_fragmented_requests	= false;
 		public static $initialized			= false;
 
-		protected $name                       = 'unknown';
-		
 		public function setup_core( $path, $name ): bool{
 		    $output = false;
 
 			if( $this->core_validation() === true ){
-
-			    $this->name                           = $name;
 				parent::$instances_active[ $name ]    = $this;
 
                 // these modules are available in all instances and should be initialized once only.
@@ -52,19 +48,19 @@ if ( !class_exists( '\sv_core\core' ) ) {
                     // run setup filters
                     $this->setup_wp_filters($path);
 
-                    // run setup scripts
-                    $this->setup_scripts();
-
-                    // run setup modules
-                    $this->setup_modules($path);
-
                     // run setup credits
                     $this->setup_credits();
-
-                    // initialize sub core
-                    $this->init_subcore();
-
                 }
+
+
+				// run setup scripts
+				$this->setup_scripts();
+
+				// initialize sub core
+				$this->init_subcore();
+
+				// run setup modules
+				$this->setup_modules($path);
 
                 static::$initialized = true;
                 $output              = true;
