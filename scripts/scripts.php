@@ -135,7 +135,7 @@ class scripts extends sv_abstract {
 		add_action('wp_print_footer_scripts', function(){
 			$html = ob_get_contents();
 			ob_end_clean();
-			$html = preg_replace("/<link rel='st".""."ylesheet' id='sv_core_init_style-css'(.*)\/>/", '', $html);
+			$html = preg_replace("/<link(.*)sv_core_init_style-css(.*)\/>/", '', $html);
 			echo $html;
 		});
 	}
@@ -158,12 +158,6 @@ class scripts extends sv_abstract {
 		}
 		
 		wp_enqueue_style('sv_core_gutenberg_style');
-		
-		ob_start();
-		$html = ob_get_contents();
-		ob_end_clean();
-		$html = preg_replace("/<link rel='st".""."ylesheet' id='sv_core_gutenberg_style-css'(.*)\/>/", '', $html);
-		echo $html;
 	}
 	public function register_scripts(){
 		foreach ( $this->get_scripts() as $script ) {
