@@ -52,7 +52,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
                     $this->setup_credits();
                 }
 
-
 				// run setup scripts
 				$this->setup_scripts();
 
@@ -284,7 +283,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
         }
 
         private function setup_scripts(){
-
             require_once( 'scripts/scripts.php' );
 
             static::$scripts = new scripts;
@@ -295,7 +293,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
         }
 
         private function setup_modules(string $path){
-
             if( file_exists( $path . 'lib/modules/modules.php' ) ) {
                 $this->modules->init();
             }
