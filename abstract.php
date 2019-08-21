@@ -31,7 +31,7 @@
 		protected $section_privacy			= false;
 		protected $section_type				= '';
 		protected $scripts_queue			= array();
-		protected static $expert_mode         = false;
+		protected static $expert_mode       = false;
 		
 		/**
 		 * @desc			initialize plugin
@@ -39,7 +39,7 @@
 		 * @since			1.0
 		 * @ignore
 		 */
-		public function load_translation(){
+		public function load_translation() {
 			$locale = apply_filters( 'plugin_locale', determine_locale(), 'sv_core' );
 			load_textdomain( 'sv_core', dirname( __FILE__ ) . '/languages/sv_core-'.$locale.'.mo' );
 		}
@@ -79,25 +79,34 @@
 			
 			throw new \Exception( 'Class ' . $name . ' could not be loaded (tried to load class-file ' . $this->get_path() . 'lib/modules/'.$name . '.php)' );
 		}
-		public function wordpress_version_check($min_version = '5.0.0'){
+
+		public function wordpress_version_check(string $min_version = '5.0.0'){
+            $wp_version = '1.0.0'; // declare default even it's re-declared by an included file
 			// Get unmodified $wp_version.
 			include ABSPATH . WPINC . '/version.php';
 			// Strip '-src' from the version string. Messes up version_compare().
-			$version = str_replace( '-src', '', $wp_version );
-			if ( version_compare( $version, $min_version, '<' ) ) {
+            $wp_version = str_replace( '-src', '', $wp_version );
+			if ( version_compare( $wp_version, $min_version, '<' ) ) {
 				add_action( 'admin_notices', array($this, 'wordpress_version_notice') );
-				return;
 			}
 		}
+
+		/*
+		 * @todo include a return in the parent function when the child function should have a return
+		 */
 		public function wordpress_version_notice(){
-			// extend in childs when needed.
+			// extend in children when needed.
+
 		}
+
 		public function set_is_expert_mode(bool $yes = true){
 			static::$expert_mode = $yes;
 		}
-		public function get_is_expert_mode(): bool{
+
+		public function get_is_expert_mode(): bool {
 			return static::$expert_mode;
 		}
+
 		public function set_parent( $parent ) {
 			$this->parent = $parent;
 		}
@@ -114,142 +123,168 @@
 			$this->root = $root;
 		}
 		
-		public function get_previous_version(): int {
+		public function get_previous_version(): int{
 			return intval( get_option( $this->get_prefix( 'version') ) );
 		}
 		
-		public function get_version( bool $formatted = false ) {
+		public function get_version( bool $formatted = false ): string{
+		    $output = '0';
+
 			if ( defined( get_called_class() . '::version' ) ) {
-				if ( $formatted ) {
-					return number_format( get_called_class()::version, 0, ',', '.' );
+				if ( $formatted === true ) {
+                    $output =  number_format( get_called_class()::version, 0, ',', '.' );
 				} else {
-					return get_called_class()::version;
+                    $output =  get_called_class()::version;
 				}
 			} else {
 				if ( $formatted ) {
-					return __( 'not defined', 'sv_core' );
-				} else {
-					return 0;
+					$output = __( 'not defined', 'sv_core' );
 				}
 			}
+
+			return $output;
 		}
 		
-		public function get_version_core_match( $formatted = false ) {
+		public function get_version_core_match( bool $formatted = false ): string {
+            $output = '0';
+
 			if ( defined( get_called_class() . '::version_core_match' ) ) {
-				if ( $formatted ) {
-					return number_format( get_called_class()::version_core_match, 0, ',', '.' );
+				if ( $formatted === true ) {
+                    $output = number_format( get_called_class()::version_core_match, 0, ',', '.' );
 				} else {
-					return get_called_class()::version_core_match;
+                    $output = get_called_class()::version_core_match;
 				}
 			} else {
 				if ( $formatted ) {
-					return __( 'not defined', 'sv_core' );
-				} else {
-					return 0;
+                    $output = __( 'not defined', 'sv_core' );
 				}
 			}
+
+            return $output;
 		}
 		
-		public function get_version_core( $formatted = false ) {
+		public function get_version_core( bool $formatted = false ): string {
+		    $output = '0';
+
 			if ( defined( get_called_class() . '::version_core' ) ) {
-				if ( $formatted ) {
-					return number_format( get_called_class()::version_core, 0, ',', '.' );
+				if ( $formatted === true) {
+                    $output = number_format( get_called_class()::version_core, 0, ',', '.' );
 				} else {
-					return get_called_class()::version_core;
+                    $output = get_called_class()::version_core;
 				}
 			} else {
 				if ( $formatted ) {
-					return __( 'not defined', 'sv_core' );
-				} else {
-					return 0;
+                    $output = __( 'not defined', 'sv_core' );
 				}
 			}
+
+			return $output;
 		}
 		
-		public function find_parent( $class_name, $qualified = false ) {
+		public function find_parent( $class_name, bool $qualified = false ){
+		    /*
+		     * @todo shouldn't we return an empty object or better NULL as default here?
+		     * same for find_parent_by_name or other object returning functions
+		     * a change to null or empty object could be a breaking change
+		     */
+		    $output = false;
+
 			if ( $this->get_parent() != $this->get_root() ) {
-				if ( !$qualified ) {
+				if ( $qualified === false ) {
 					if ( $this->get_parent()->get_module_name() == $class_name ) {
-						return $this->get_parent();
+                        $output = $this->get_parent();
 					} else {
-						return $this->get_parent()->find_parent( $class_name, $qualified );
+                        $output = $this->get_parent()->find_parent( $class_name, $qualified );
 					}
 				} else {
 					if ( get_class( $this->get_parent() ) == $class_name ) {
-						return $this->get_parent();
+                        $output = $this->get_parent();
 					} else {
-						return $this->get_parent()->find_parent( $class_name, $qualified );
+                        $output = $this->get_parent()->find_parent( $class_name, $qualified );
 					}
 				}
 			}
 			
-			return false;
+			return $output;
 		}
 		
-		public function find_parent_by_name( $name ) {
+		public function find_parent_by_name( string $name ) {
+		    $output = false;
+
 			if ( $this->get_parent() != $this->get_root() ) {
 				if ( $this->get_parent()->get_name() == $name ) {
-					return $this->get_parent();
+					$output = $this->get_parent();
 				} else {
-					return $this->get_parent()->find_parent_by_name( $name );
+                    $output = $this->get_parent()->find_parent_by_name( $name );
 				}
 			}
 			
-			return false;
+			return $output;
 		}
 		
-		public function is_theme_instance(){
+		public function is_theme_instance(): bool{
 			return get_class( $this->get_root() ) == 'sv100\init' ? true : false;
 		}
-		protected function setup( $name, $file ) {
+
+		protected function setup( string $name, $file ): bool {
+		    $output = false;
 			// make sure to init only once
 			//$namespace = strstr(get_class($this->get_root()), '\\', true);
 			//if(isset($this->get_instances()[$namespace])){
-			if(isset($this->get_instances()[$name])){
-				return;
-			}
-			
-			$this->name								= $name;
-			
-			if($this->is_theme_instance()) {
-				$this->path							= trailingslashit( get_template_directory() );
-				$this->url							= trailingslashit( get_template_directory_uri() );
-			} else {
-				$this->path							= plugin_dir_path( $file );
-				$this->url							= trailingslashit( plugins_url( '', $this->get_path() . $this->get_name() ) );
-				$this->plugins_loaded();
-			}
-			
-			global $wpdb;
-			self::$wpdb								= $wpdb;
-			
-			$state                                  = true;
-			if(!isset(self::$instances[ $name ])){
-				$state                              = $this->setup_core( $this->path, $name );
-			}
-			
-			self::$instances[ $name ]				= $this;
-			
-			return $state;
+			if( isset($this->get_instances()[$name]) === false) {
+                global $wpdb;
+
+                self::$wpdb     = $wpdb;
+                $this->name     = $name;
+
+                if ( $this->is_theme_instance() === true ) {
+                    $this->path = trailingslashit(get_template_directory());
+                    $this->url  = trailingslashit(get_template_directory_uri());
+                } else {
+                    $this->path = plugin_dir_path($file);
+                    $this->url  = trailingslashit(plugins_url('', $this->get_path() . $this->get_name()));
+                    $this->plugins_loaded();
+                }
+
+                if (isset(self::$instances[$name]) === false) {
+                    $output = $this->setup_core($this->path, $name);
+                }else{
+                    $output = true;
+                }
+
+                self::$instances[$name] = $this;
+            }
+
+            return $output;
 		}
 		
 		public static function get_instances(): array {
 			return self::$instances;
 		}
+
 		public static function get_instance(string $name) {
-			return self::$instances[$name];
+		    $output = false;
+
+		    if( isset(self::$instances[$name]) === true ){
+		        $output = self::$instances[$name];
+            }
+
+			return $output;
 		}
 		
 		public static function get_instances_active(): array {
 			return self::$instances_active;
 		}
 		
-		public static function is_instance_active( string $name ): bool {
+		public static function is_instance_active( string $name ): bool{
 			return isset( self::$instances_active[ $name ] );
 		}
-		
+
+		/*
+		 * @todo function name is not explicit
+		 */
 		public function plugins_loaded() {
-			if(!$this->is_theme_instance()) {
+			if( $this->is_theme_instance() === false ) {
 				load_plugin_textdomain( $this->get_root()->get_prefix(), false, basename( $this->get_path() ) . '/languages' );
 			}
 		}
@@ -271,21 +306,24 @@
 			
 			return $this;
 		}
-		public function get_name() {
+
+		public function get_name(): string {
+		    $output = 'sv';
+
 			if ( $this->name ) { // if name is set, use it
-				return $this->name;
+				$output = $this->name;
 			} else if ( $this != $this->get_parent() ) { // if there's a parent, go a step higher
-				return $this->get_parent()->get_name() . '_' . $this->get_module_name();
-			} else { // nothing set? use fallback-name
-				return 'sv';
+				$output =  $this->get_parent()->get_name() . '_' . $this->get_module_name();
 			}
+
+			return $output;
 		}
 		
 		public function get_module_name() {
 			return ( new \ReflectionClass( get_called_class() ) )->getShortName();
 		}
 		
-		public function get_prefix( $append = '' ) {
+		public function get_prefix( string $append = '' ) {
 			if( strlen( $append ) > 0 ) {
 				$append = '_' . $append;
 			}
@@ -300,12 +338,14 @@
 			return str_replace('_', '-', $this->get_name() . $append);
 		}
 		
-		public function get_relative_prefix( $append = '' ) {
+		public function get_relative_prefix( string $append = '' ): string {
 			if( strlen( $append ) > 0 ) {
 				$append = '_' . $append;
 			}
+
+			$prefix = str_replace( $this->get_root()->get_name(), 'sv_common', $this->get_name() );
 			
-			return str_replace( $this->get_root()->get_name(), 'sv_common', $this->get_name() ) . $append;
+			return  $prefix . $append;
 		}
 		
 		public function get_settings(): array {
@@ -317,22 +357,18 @@
 		}
 		
 		public function get_setting(string $setting = ''): settings {
-			if(strlen($setting) > 0 && isset($this->s[$setting])){
-				if(!isset($this->s[$setting]) === 0){
-					$this->load_settings();
-				}
-				
-				if(!isset($this->s[$setting]) === 0){
-					$this->s[$setting] = static::$settings->create( $this )->set_ID($setting);
-					return $this->s[$setting]; // return empty setting if not exist
-				}
-				
-				return $this->s[$setting];
+			if( strlen($setting) === 0 || isset($this->s[$setting]) === false ){
+                // create empty setting if not set
+                $this->s[$setting] = static::$settings->create( $this )->set_ID($setting);
 			}
-			
-			$this->s[$setting] = static::$settings->create( $this )->set_ID($setting);
-			return $this->s[$setting]; // return empty setting if not exist
+
+			return $this->s[$setting];
 		}
+
+		/*
+		 * @todo ref rest of file
+		 */
+
 		public function get_script(string $script = ''): scripts {
 			if(strlen($script) > 0 && isset($this->scripts_queue[$script])){
 				if(!isset($this->scripts_queue[$script]) === 0){
@@ -353,6 +389,7 @@
 		public function set_path(string $path) {
 			$this->path	= $path;
 		}
+
 		public function get_path( $suffix = ''): string {
 			if ( $this->path ) { // if path is set, use it
 				$path	= $this->path;
@@ -370,6 +407,7 @@
 		public function set_url(string $url) {
 			$this->url	= $url;
 		}
+
 		public function get_url( $suffix = ''): string {
 			if ( $this->url ) { // if url is set, use it
 				$url	= $this->url;
@@ -381,12 +419,15 @@
 			
 			return $this->url . $suffix;
 		}
+
 		public function get_path_core($suffix = ''): string{
 			return self::$path_core.$suffix;
 		}
+
 		public function get_url_core($suffix = ''): string{
 			return self::$url_core.$suffix;
 		}
+
 		public function get_current_url() {
 			return ( isset( $_SERVER[ 'HTTPS' ] ) ? 'https' : 'http' ) . '://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
 		}
@@ -394,6 +435,7 @@
 		public function get_current_path() {
 			return $_SERVER[ 'REQUEST_URI' ];
 		}
+
 		public function is_valid_url(string $url): bool{
 			return filter_var($url, FILTER_VALIDATE_URL);
 		}
@@ -424,6 +466,7 @@
 		public function get_sections(): array {
 			return $this->sections;
 		}
+
 		public function get_sections_sorted_by_title(): array {
 			$sections = array();
 			
@@ -447,6 +490,7 @@
 			
 			return $this;
 		}
+
 		public function has_section_template_path(): bool{
 			return (strlen($this->get_section_template_path()) > 0 && file_exists($this->get_section_template_path())) ? true : false;
 		}
@@ -470,6 +514,7 @@
 		public function get_section_desc(): string {
 			return $this->section_desc ? $this->section_desc : __( 'No description defined.', 'sv_core' );
 		}
+
 		public function set_section_privacy( string $section_privacy ) {
 			$this->section_privacy = $section_privacy;
 			
@@ -489,6 +534,7 @@
 		public function get_section_type(): string {
 			return $this->section_type;
 		}
+
 		public function load_page( string $custom_about_path = '' ) {
 			$this->get_root()->acp_style();
 			
