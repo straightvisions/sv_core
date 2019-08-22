@@ -77,7 +77,11 @@
 				return $this->$name;
 			}
 			
-			throw new \Exception( 'Class ' . $name . ' could not be loaded (tried to load class-file ' . $this->get_path() . 'lib/modules/'.$name . '.php)' );
+			throw new \Exception( 'Class '
+                . $name
+                . ' could not be loaded (tried to load class-file '
+                . $this->get_path()
+                . 'lib/modules/'.$name . '.php)' );
 		}
 
 		public function wordpress_version_check(string $min_version = '5.0.0'){
@@ -365,41 +369,29 @@
 			return $this->s[$setting];
 		}
 
-		/*
-		 * @todo ref rest of file
-		 */
-
 		public function get_script(string $script = ''): scripts {
-			if(strlen($script) > 0 && isset($this->scripts_queue[$script])){
-				if(!isset($this->scripts_queue[$script]) === 0){
-					$this->load_settings();
-				}
-				
-				if(!isset($this->scripts_queue[$script]) === 0){
-					$this->scripts_queue[$script]		= static::$scripts->create( $this )->set_ID($script);
-					return $this->scripts_queue[$script]; // return empty setting if not exist
-				}
-				
-				return $this->scripts_queue[$script];
-			}
-			$this->scripts_queue[$script]		= static::$scripts->create( $this )->set_ID($script);
-			return $this->scripts_queue[$script]; // return empty setting if not exist
+            if( strlen($script) === 0 || isset($this->scripts_queue[$script]) === false ){
+                // create empty setting if not set
+                $this->scripts_queue[$script] = static::$scripts->create( $this )->set_ID($script);
+            }
+
+            return $this->scripts_queue[$script];
 		}
 		
 		public function set_path(string $path) {
 			$this->path	= $path;
 		}
 
-		public function get_path( $suffix = ''): string {
-			if ( $this->path ) { // if path is set, use it
+		public function get_path( string $suffix = ''): string {
+			if ( $this->path ) {
 				$path	= $this->path;
 			} else if ( $this != $this->get_parent() ) { // if there's a parent, go a step higher
 				$path	= $this->get_parent()->get_path();
-			} else { // nothing set? use fallback-path
+			} else { // fallback
 				$path	= trailingslashit( dirname( __FILE__ ) );
 			}
 			
-			$this->path	= $path;
+			$this->set_path($path); // why?
 			
 			return $path . $suffix;
 		}
@@ -409,38 +401,50 @@
 		}
 
 		public function get_url( $suffix = ''): string {
+		    $url = '';
 			if ( $this->url ) { // if url is set, use it
 				$url	= $this->url;
 			} else if ( $this != $this->get_parent() ) { // if there's a parent, go a step higher
 				$url	= $this->get_parent()->get_url();
 			}
 			
-			$this->url  = $url;
+			$this->set_url($url);
 			
 			return $this->url . $suffix;
 		}
 
-		public function get_path_core($suffix = ''): string{
-			return self::$path_core.$suffix;
+		public function get_path_core(string $suffix = ''): string{
+			return self::$path_core . $suffix;
 		}
 
-		public function get_url_core($suffix = ''): string{
-			return self::$url_core.$suffix;
+		public function get_url_core(string $suffix = ''): string{
+			return self::$url_core . $suffix;
 		}
 
-		public function get_current_url() {
-			return ( isset( $_SERVER[ 'HTTPS' ] ) ? 'https' : 'http' ) . '://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
+		public function get_current_url(): string {
+            $protocol = 'http';
+
+            // check if set and not 'off' for support ISAPI under IIS
+            if( isset($_SERVER['HTTPS']) === true && $_SERVER['HTTPS'] !== 'off' ){
+                $protocol = 'https';
+            }
+
+			return $protocol . '://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
 		}
 		
-		public function get_current_path() {
+		public function get_current_path(): string {
 			return $_SERVER[ 'REQUEST_URI' ];
 		}
 
 		public function is_valid_url(string $url): bool{
-			return filter_var($url, FILTER_VALIDATE_URL);
+		    $output = true;
+		    if( filter_var($url, FILTER_VALIDATE_URL) === false ){
+		        $output = false;
+            }
+			return $output;
 		}
 		
-		public function acp_style( $hook = false ) {
+		public function acp_style( bool $hook = false ) {
 			if ( !$hook || $hook == 'sv-100_page_' . $this->get_module_name() ) {
 				wp_enqueue_style($this->get_prefix(), $this->get_url_core('../assets/admin.css'));
 				ob_start();
@@ -451,16 +455,20 @@
 		}
 		
 		public function add_section( $object ) {
-			if ( is_object( $object ) && !empty( $object->get_section_type() ) ) { // @todo: remove this line once sv_bb_dashboard is upgraded
+		    $output = null;
+            // @todo: remove the following line once sv_bb_dashboard is upgraded
+			if ( is_object( $object ) && !empty( $object->get_section_type() ) ) {
 				$this->sections[ $object->get_prefix() ] = array(
 					'object'	=> $object,
 					'type'		=> $this->section_types[ $object->get_section_type() ],
 				);
 				
-				return $object;
+				$output = $object;
 			} else {
-				return $this; // @todo Notification forS SV Notices that the section_type is missing.
+				$output = $this; // @todo Notification forS SV Notices that the section_type is missing.
 			}
+
+			return $output;
 		}
 		
 		public function get_sections(): array {
@@ -470,7 +478,7 @@
 		public function get_sections_sorted_by_title(): array {
 			$sections = array();
 			
-			if ( ! empty( $this->sections ) ) {
+			if ( empty( $this->sections ) === false ) {
 				foreach($this->sections as $section){
 					$sections[$section['object']->get_section_title()] = $section;
 				}
@@ -492,7 +500,13 @@
 		}
 
 		public function has_section_template_path(): bool{
-			return (strlen($this->get_section_template_path()) > 0 && file_exists($this->get_section_template_path())) ? true : false;
+		    $output = false;
+
+		    if( strlen($this->get_section_template_path()) > 0 && file_exists($this->get_section_template_path()) ){
+		        $output = true;
+		    }
+
+			return $output;
 		}
 		
 		public function set_section_title( string $title ) {
@@ -536,10 +550,17 @@
 		}
 
 		public function load_page( string $custom_about_path = '' ) {
+            $path = $this->get_path_core( 'backend/tpl/about.php' );
+
 			$this->get_root()->acp_style();
 			
 			require_once( $this->get_path_core( 'backend/tpl/header.php' ) );
-			require_once( strlen( $custom_about_path ) > 0 ? $custom_about_path : $this->get_path_core( 'backend/tpl/about.php' ) );
+
+            if( strlen( $custom_about_path ) > 0 ){
+                $path = $custom_about_path;
+            }
+            
+            require_once( $this->get_path_core( $path ) );
 			
 			if(defined('WP_DEBUG') && WP_DEBUG === true) {
 				require_once( $this->get_path_core( 'backend/tpl/core_docs.php' ) );
@@ -554,20 +575,30 @@
 		public function load_section_menu() {
 			foreach ( $this->get_sections_sorted_by_title() as $section ) {
 				$section_name = $section['object']->get_prefix();
-				echo '<div data-target="#section_' . $section_name . '" class="sv_admin_menu_item section_' . $section[ 'object' ]->get_section_type() . '"><h4>' .  $section[ 'object' ]->get_section_title() . '</h4><span>' . $section[ 'object' ]->get_section_desc() . '</span></div>';
+				echo '<div data-target="#section_'
+                    . $section_name
+                    . '" class="sv_admin_menu_item section_'
+                    . $section[ 'object' ]->get_section_type()
+                    . '"><h4>'
+                    .  $section[ 'object' ]->get_section_title()
+                    . '</h4><span>' . $section[ 'object' ]->get_section_desc()
+                    . '</span></div>';
 			}
 		}
 		
 		public function load_section_html() {
 			foreach( $this->get_sections_sorted_by_title() as $section ) {
-				$section_name = $section['object']->get_prefix();
-				require( $this->get_path_core( 'backend/tpl/section_' . $section[ 'object' ]->get_section_type() . '.php' ) );
+				$section_name = $section['object']->get_prefix(); // var will be used in included file
+				$path = $this->get_path_core( 'backend/tpl/section_' . $section[ 'object' ]->get_section_type() . '.php' );
+				require( $path );
 			}
 		}
 		
-		public function plugin_action_links( $actions ) {
+		public function plugin_action_links( array $actions ): array {
 			$links						= array(
-				'settings'				=> '<a href="admin.php?page=' . $this->get_root()->get_prefix() . '">'.__('Settings', 'sv_core').'</a>',
+				'settings'				=> '<a href="admin.php?page=' . $this->get_root()->get_prefix() . '">'
+                                            .__('Settings', 'sv_core')
+                                            .'</a>',
 				'straightvisions'		=> '<a href="https://straightvisions.com" target="_blank">straightvisions GmbH</a>',
 			);
 			
