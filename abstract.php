@@ -560,7 +560,7 @@
                 $path = $custom_about_path;
             }
             
-            require_once( $this->get_path_core( $path ) );
+            require_once( $path );
 			
 			if(defined('WP_DEBUG') && WP_DEBUG === true) {
 				require_once( $this->get_path_core( 'backend/tpl/core_docs.php' ) );
