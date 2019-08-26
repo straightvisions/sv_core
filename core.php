@@ -98,9 +98,9 @@ if ( !class_exists( '\sv_core\core' ) ) {
             add_action('admin_init', function(){
                 ?>
                 <div class="update-nag">
-                    <?php echo 'You need to update to run ' . $this->name; ?> <br/>
-                    <?php echo 'SV Core was loaded from <em>' . $this->get_path_core() . '</em>  with version:'; ?>
-                    <strong><?php echo $this->get_version_core(); ?></strong>, but software requires version
+                    <?php _e( 'You need to update to run ' . $this->name, 'sv_core' ); ?> <br/>
+                    <?php _e( 'SV Core was loaded from <em>' . $this->get_path_core() . '</em>  with version:', 'sv_core' ); ?>
+                    <strong><?php echo $this->get_version_core(); ?></strong>, <?php _e( 'but software requires version', 'sv_core' ) ?>
                     <strong><?php echo $this->get_root()->get_version_core_match(); ?></strong>
                 </div>
                 <?php
@@ -154,14 +154,14 @@ if ( !class_exists( '\sv_core\core' ) ) {
 		private function setup_credits() {
 			add_filter('wp_headers', function($headers){
 
-			    $headers['X-straightvisions'] = 'Website enhanced by straightvisions.com';
+			    $headers['X-straightvisions'] = __( 'Website enhanced by straightvisions.com', 'sv_core' );
 			    return $headers;
 
 			});
 
 			add_action('wp_footer', function(){
 
-			    echo "\n\n".'<!-- Website enhanced by straightvisions.com -->'."\n\n";
+			    echo "\n\n".'<!--' . __( 'Website enhanced by straightvisions.com', 'sv_core' ). '-->'."\n\n";
 
 			    },
                 999999
@@ -169,7 +169,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
 			add_filter('rocket_buffer', function($buffer){
 
-			    return $buffer."\n\n".'<!-- Website enhanced by straightvisions.com -->'."\n\n";
+			    return $buffer."\n\n".'<!--' . __( 'Website enhanced by straightvisions.com', 'sv_core' ). '-->'."\n\n";
 
 			    },
                 999999
@@ -237,7 +237,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
         private function setup_wp_actions(){
 		    // setup action for expert mode
             add_action('plugins_loaded', function(){
-
+				//@todo Add description to describe what the expert mode does
                 $this->get_root()->set_is_expert_mode(
                         $this->get_setting()
                             ->set_ID('sv_expert_mode')

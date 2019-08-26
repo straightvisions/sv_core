@@ -14,7 +14,7 @@ class settings extends sv_abstract{
 	private $type								= false;
 	private $title								= '';
 	private $description						= '';
-	private $options							= array('No Options defined!');
+	private $options							= array();
 	private $placeholder						= '';
 	private $maxlength						    = false;
 	private $minlength						    = false;
@@ -206,6 +206,10 @@ class settings extends sv_abstract{
 		return $this;
 	}
 	public function get_options(): array{
+		if ( count( $this->options ) < 1 ) {
+			$this->options = array( __( 'No Options defined!', 'sv_core' ) );
+		}
+		
 		return $this->options;
 	}
 	public function set_placeholder(string $placeholder){
@@ -225,7 +229,7 @@ class settings extends sv_abstract{
 		return $this->maxlength;
 	}
 	public function set_minlength( int $minlength ) {
-		$this->minlength						= 'pattern=".{' . $minlength .',}" title="' . __( "You need at least ", 'sv_core' ) . $minlength . ' characters."'; //@todo Add translation for this message
+		$this->minlength						= 'pattern=".{' . $minlength .',}" title="' . __( 'You need at least', 'sv_core' ) . ' ' . $minlength . ' ' . __( 'characters.', 'sv_core' ) .  '"';
 
 		return $this;
 	}

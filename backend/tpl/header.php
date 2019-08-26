@@ -15,12 +15,6 @@
 				<h4><?php _e('About', 'sv_core'); ?></h4>
 				<span><?php _e('General info & description', 'sv_core'); ?></span>
 			</div>
-            <?php if($this->get_is_expert_mode() && defined('WP_DEBUG') && WP_DEBUG === true) { ?>
-			<div data-target="#section_core_docs" class="sv_admin_menu_item section_core_docs">
-				<h4><?php _e('Core Docs', 'sv_core'); ?></h4>
-				<span><?php _e('Instance Core Methods', 'sv_core'); ?></span>
-			</div>
-			<?php } ?>
 			<?php if(isset($_GET['page']) && $_GET['page'] !== 'straightvisions') { $this->load_section_menu(); } ?>
 			<div data-target="#section_legal" class="sv_admin_menu_item section_legal">
 				<h4><?php _e('Legal Information', 'sv_core'); ?></h4>
