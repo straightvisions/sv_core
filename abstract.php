@@ -20,11 +20,7 @@
 		protected static $path_core			= false;
 		protected static $url_core			= false;
 		protected $sections					= array();
-		protected $section_types			= array(
-			'settings'						=> 'Configuration &amp; Settings',
-			'tools'							=> 'Helpful tools &amp; helper',
-			'docs'							=> 'Complete Documentation'
-		);
+		protected $section_types			= array();
 		protected $section_template_path	= '';
 		protected $section_title			= false;
 		protected $section_desc				= false;
@@ -77,9 +73,9 @@
 				return $this->$name;
 			}
 			
-			throw new \Exception( 'Class '
+			throw new \Exception( __( 'Class', 'sv_core' ) . ' '
                 . $name
-                . ' could not be loaded (tried to load class-file '
+                . ' ' . __( 'could not be loaded (tried to load class-file', 'sv_core' ) . ' '
                 . $this->get_path()
                 . 'lib/modules/'.$name . '.php)' );
 		}
@@ -236,6 +232,8 @@
 			//$namespace = strstr(get_class($this->get_root()), '\\', true);
 			//if(isset($this->get_instances()[$namespace])){
 			if( isset($this->get_instances()[$name]) === false) {
+				$this->set_section_types();
+				
                 global $wpdb;
 
                 self::$wpdb     = $wpdb;
@@ -260,6 +258,15 @@
             }
 
             return $output;
+		}
+		
+		protected function set_section_types(): sv_abstract {
+			$this->section_types = array(
+				'settings'	=> __( 'Configuration &amp; Settings', 'sv_core' ),
+				'tools'		=> __( 'Helpful tools &amp; helper', 'sv_core' )
+			);
+			
+			return $this;
 		}
 		
 		public static function get_instances(): array {
@@ -561,10 +568,6 @@
             }
             
             require_once( $path );
-			
-			if(defined('WP_DEBUG') && WP_DEBUG === true) {
-				require_once( $this->get_path_core( 'backend/tpl/core_docs.php' ) );
-			}
 			
 			$this->load_section_html();
 			
