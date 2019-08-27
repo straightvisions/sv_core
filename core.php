@@ -99,7 +99,9 @@ if ( !class_exists( '\sv_core\core' ) ) {
                 ?>
                 <div class="update-nag">
                     <?php _e( 'You need to update to run ' . $this->name, 'sv_core' ); ?> <br/>
-                    <?php _e( 'SV Core was loaded from <em>' . $this->get_path_core() . '</em>  with version:', 'sv_core' ); ?>
+                    <?php _e( 'SV Core was loaded by', 'sv_core' ); ?>
+					<em>' . $this->get_path_core() . '</em>
+					<?php _e( 'with version:', 'sv_core' ); ?>
                     <strong><?php echo $this->get_version_core(); ?></strong>, <?php _e( 'but software requires version', 'sv_core' ) ?>
                     <strong><?php echo $this->get_root()->get_version_core_match(); ?></strong>
                 </div>
