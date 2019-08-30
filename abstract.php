@@ -248,7 +248,7 @@
                     $this->plugins_loaded();
                 }
 
-                if (isset(self::$instances[$name]) === false) {
+                if (!isset(self::$instances[$name])) {
                     $output = $this->setup_core($this->path, $name);
                 }else{
                     $output = true;

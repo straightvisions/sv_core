@@ -5,3 +5,9 @@
 .sv_ajax_fragmented_requests_start .finished{
 	display:none;
 }
+.sv_ajax_fragmented_requests_log{
+	max-height:200px;
+	overflow:auto;
+	border-bottom:1px solid #000;
+	padding:10px;
+}
