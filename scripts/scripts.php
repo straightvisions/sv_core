@@ -405,10 +405,10 @@ class scripts extends sv_abstract {
 		
 		return $this;
 	}
-	public function get_path($suffix = ''): string {
+	public function get_path(string $suffix = ''): string {
 		return $this->script_path;
 	}
-	public function get_url($suffix = ''): string {
+	public function get_url(string $suffix = ''): string {
 		return $this->script_url;
 	}
 	public function is_external(): bool{

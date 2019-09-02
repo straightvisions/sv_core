@@ -407,7 +407,7 @@
 			$this->url	= $url;
 		}
 
-		public function get_url( $suffix = ''): string {
+		public function get_url( string $suffix = ''): string {
 		    $url = '';
 			if ( $this->url ) { // if url is set, use it
 				$url	= $this->url;
