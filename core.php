@@ -90,7 +90,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
         }
 
-        private function set_core_update_warning(string $name){
+        private function set_core_update_warning(){
             /*
             * @todo remove html from php class - use included tpl file instead
             */
