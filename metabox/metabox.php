@@ -99,9 +99,9 @@
 				$meta_value											= get_post_meta($post_id, $field_id, true);
 				
 				// If a new meta value was added and there was no previous value, add it.
-				if($new_meta_value && '' == $meta_value){
+				if($new_meta_value !== false && '' == $meta_value){
 					add_post_meta($post_id, $field_id, $new_meta_value, true);
-				}elseif($new_meta_value && $new_meta_value != $meta_value){
+				}elseif($new_meta_value !== false && $new_meta_value != $meta_value){
 					// If the new meta value does not match the old value, update it.
 					update_post_meta($post_id, $field_id, $new_meta_value);
 				}elseif('' == $new_meta_value && $meta_value){
