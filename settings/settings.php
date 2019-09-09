@@ -298,10 +298,10 @@ class settings extends sv_abstract{
 	}
 
 	public function get_data(){
-		if($this->data){
+		if($this->data !== false && $this->data !== ''){
 			return $this->data;
 		}else {
-			return (get_option($this->get_field_id()) !== false) ? get_option($this->get_field_id()) : $this->get_default_value();
+			return (get_option($this->get_field_id()) !== false && get_option($this->get_field_id()) !== '') ? get_option($this->get_field_id()) : $this->get_default_value();
 		}
 	}
 	// set data value from external source
