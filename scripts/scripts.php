@@ -232,12 +232,12 @@ class scripts extends sv_abstract {
 						) {
 							if ( $script->get_is_gutenberg() ) {
 								ob_start();
-								include_once( $script->get_path() );
+								require_once( $script->get_path() );
 								$css		= ob_get_clean();
 								wp_add_inline_style( 'sv_core_gutenberg_style', $css );
 							} else {
 								ob_start();
-								include_once($script->get_path());
+								require_once($script->get_path());
 								$css		= ob_get_clean();
 								wp_add_inline_style( 'sv_core_init_style', $css );
 							}

@@ -109,6 +109,8 @@
 
 		public function set_parent( $parent ) {
 			$this->parent = $parent;
+
+			return $this;
 		}
 		
 		public function get_parent() {
@@ -121,6 +123,8 @@
 		
 		public function set_root( $root ) {
 			$this->root = $root;
+
+			return $this;
 		}
 		
 		public function get_previous_version(): int{
@@ -387,6 +391,8 @@
 		
 		public function set_path(string $path) {
 			$this->path	= $path;
+
+			return $this;
 		}
 
 		public function get_path( string $suffix = ''): string {
@@ -405,6 +411,8 @@
 		
 		public function set_url(string $url) {
 			$this->url	= $url;
+
+			return $this;
 		}
 
 		public function get_url( string $suffix = ''): string {
@@ -455,7 +463,7 @@
 			if ( !$hook || $hook == 'sv-100_page_' . $this->get_module_name() ) {
 				wp_enqueue_style($this->get_prefix(), $this->get_url_core('../assets/admin.css'));
 				ob_start();
-				include_once($this->get_path_core('../assets/admin_inline.css'));
+				require_once($this->get_path_core('../assets/admin_inline.css'));
 				$css = ob_get_clean();
 				wp_add_inline_style($this->get_prefix(), $css);
 			}
