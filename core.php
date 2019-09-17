@@ -178,8 +178,8 @@ if ( !class_exists( '\sv_core\core' ) ) {
             );
 
 		}
-
-		private function setup_settings(){
+		
+		protected function setup_settings(){
             require_once( 'settings/settings.php' );
 
             static::$settings = new settings;
@@ -188,16 +188,16 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
         }
 
-        private function setup_remote_get(){
+        protected function setup_remote_get(){
             require_once( 'remote_get/remote_get.php' );
 
-            static::$remote_get = new remote_get();
+            static::$remote_get = new remote_get;
             static::$remote_get->set_root( $this->get_root() );
             static::$remote_get->set_parent( $this );
 
         }
-
-        private function setup_widgets(){
+		
+		protected function setup_widgets(){
             require_once( 'widgets/widgets.php' );
 
             static::$widgets = new widgets;
@@ -205,8 +205,8 @@ if ( !class_exists( '\sv_core\core' ) ) {
             static::$widgets->set_parent( $this );
 
         }
-
-        private function setup_info(){
+		
+		protected function setup_info(){
             require_once( 'info/info.php' );
 
             static::$info = new info;
@@ -215,8 +215,8 @@ if ( !class_exists( '\sv_core\core' ) ) {
             static::$info->init();
 
         }
-
-        private function setup_metabox(){
+		
+		protected function setup_metabox(){
             require_once( 'metabox/metabox.php' );
 
             static::$metabox = new metabox;
@@ -225,8 +225,8 @@ if ( !class_exists( '\sv_core\core' ) ) {
             static::$metabox->init();
 
         }
-
-        private function setup_ajax_fragmented_requests(){
+		
+		protected function setup_ajax_fragmented_requests(){
             require_once( 'ajax_fragmented_requests/ajax_fragmented_requests.php' );
 
             $this->ajax_fragmented_requests = new ajax_fragmented_requests;
@@ -235,8 +235,8 @@ if ( !class_exists( '\sv_core\core' ) ) {
             $this->ajax_fragmented_requests->init();
 
         }
-
-        private function setup_wp_actions(){
+		
+		protected function setup_wp_actions(){
 		    // setup action for expert mode
             add_action('plugins_loaded', function(){
 				//@todo Add description to describe what the expert mode does
@@ -277,14 +277,12 @@ if ( !class_exists( '\sv_core\core' ) ) {
             } );
 
         }
-
-        private function setup_wp_filters(string $path){
-
+		
+		protected function setup_wp_filters(string $path){
             add_filter( 'plugin_action_links_' . plugin_basename( $path ) . '/' . plugin_basename( $path ) . '.php', array( $this, 'plugin_action_links' ), 10, 5 );
-
         }
-
-        private function setup_scripts(){
+		
+		protected function setup_scripts(){
             require_once( 'scripts/scripts.php' );
 
             static::$scripts = new scripts;
@@ -293,8 +291,8 @@ if ( !class_exists( '\sv_core\core' ) ) {
             static::$scripts->init();
 
         }
-
-        private function setup_modules(string $path){
+		
+		protected function setup_modules(string $path){
             if( file_exists( $path . 'lib/modules/modules.php' ) ) {
                 $this->modules->init();
             }
