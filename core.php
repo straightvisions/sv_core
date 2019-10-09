@@ -98,7 +98,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
             add_action('admin_init', function(){
                 ?>
                 <div class="update-nag">
-                    <?php _e( 'You need to update to run ' . $this->name, 'sv_core' ); ?> <br/>
+                    <?php _e( 'You need to update to run ', 'sv_core' ) . $this->name; ?> <br/>
                     <?php _e( 'SV Core was loaded by', 'sv_core' ); ?>
 					<em>' . $this->get_path_core() . '</em>
 					<?php _e( 'with version:', 'sv_core' ); ?>
