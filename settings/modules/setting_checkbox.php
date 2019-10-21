@@ -18,25 +18,32 @@
 			return $this->$format($value,$object);
 		}
 		public function html($ID, $title, $description, $name, $value, $required, $disabled){
-			$classes = 'sv_setting_checkbox';
-			
-			$classes .= $disabled ? ' sv_disabled' : '';
-			
-			return '
+			$output = '
 			<h4>' . $title . '</h4>
 			<div class="description">' . $description . '</div>
-							<!--<input
-				data-sv_type="sv_form_field"
-				class="sv_input"
-				id="' . $ID . '_on"
-				name="' . $name . '"
-				type="checkbox"
-				value="1"
-				' . (($value == '1') ? ' checked="checked"' : '') . '
-				' . $required . '
-				' . $disabled . '
-				/>-->
-			<div class="' . $classes . '">
+';
+			
+			if($this->get_parent()->has_options()) {
+				foreach ( $this->get_parent()->get_options() as $o_value => $o_name ) {
+					
+					$new_ID = $new_name = $name.'['.$o_value.']';
+					
+					$output .= $this->field($new_ID, $new_name, $value[$o_value], $required, $disabled, $o_name);
+				}
+			}else{
+				$output .= $this->field($ID, $name, $value, $required, $disabled);
+			}
+			
+			return $output;
+		}
+		public function field($ID, $name, $value, $required, $disabled, $title=''){
+			$classes = 'sv_setting_checkbox'.($disabled ? ' sv_disabled' : '');
+			
+			if(strlen($title) > 0){
+				$title = '<div class="sv_setting_checkbox_title">'.$title.'</div>';
+			}
+			
+			return 	'<div class="' . $classes . '">
 				<input
 				data-sv_type="sv_form_field"
 				class="sv_input sv_input_off"
@@ -61,7 +68,8 @@
 				' . $disabled . '
 				/>
 				<label for="' . $ID . '_on" class="button"><i class="fa fa-check"></i></label>
+				'.$title.'
 			</div>
-			';
+			  ';
 		}
 	}

@@ -206,11 +206,18 @@ class settings extends sv_abstract{
 		return $this;
 	}
 	public function get_options(): array{
-		if ( count( $this->options ) < 1 ) {
+		if ( count( $this->options ) === 0 ) {
 			$this->options = array( __( 'No Options defined!', 'sv_core' ) );
 		}
 		
 		return $this->options;
+	}
+	public function has_options(): bool{
+		if ( count( $this->options ) === 0 ) {
+			return false;
+		}else{
+			return true;
+		}
 	}
 	public function set_placeholder(string $placeholder){
 		$this->placeholder						= $placeholder;
