@@ -86,15 +86,24 @@ function renderColorPicker( element, color ) {
     }
 }
 
-// Edits the color picker wie jQuery
-function editColorPicker() {
-    const alphaIputs = jQuery( '.components-color-picker .components-base-control__field input[type="number"]' );
-    
+// Sets the alpha input fiel attribute "step" from 0.05 to 0.01, for more accurate alpha channel values
+function checkAlphaInput() {
+    const alphaIputs = jQuery( '.components-color-picker.is-alpha-enabled .components-base-control__field input[type="number"]' );
+
     alphaIputs.map( e => {
         if ( jQuery(alphaIputs[ e ]).attr( 'step' ) ) {
             jQuery(alphaIputs[ e ]).attr( 'step', 0.01 )
         }
     });
+}
+
+// Edits the color picker wie jQuery
+function editColorPicker() {
+    // Adds type="button" to the saturation button, to prevent form submitting on click
+    const saturationButton = jQuery( 'button.components-color-picker__saturation-pointer' );
+    saturationButton.attr( 'type', 'button' );
+
+    checkAlphaInput();
 }
 
 // Loops through the registered color settings and replaces them with the GB color picker
@@ -105,5 +114,10 @@ function loadColorPicker() {
 
     editColorPicker();
 }
+
+// Checks if alpha input is changing
+jQuery( document ).on( 'change', '.components-color-picker.is-alpha-enabled .components-base-control__field input[type="number"]', () => {
+    checkAlphaInput();
+} );
 
 loadColorPicker();
