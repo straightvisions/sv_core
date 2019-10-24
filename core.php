@@ -259,23 +259,36 @@ if ( !class_exists( '\sv_core\core' ) ) {
             add_action( 'shutdown', array( $this, 'update_routine' ) );
 
             // setup init action
-            add_action( 'init', function () {
-                static::$scripts->create( $this )
-                    ->set_ID( 'sv_core_admin' )
-                    ->set_path( $this->get_url_core( '../assets/admin.js' ) )
-                    ->set_is_backend()
-                    ->set_is_enqueued()
-                    ->set_is_no_prefix()
-                    ->set_type( 'js' )
-                    ->set_deps( array( 'jquery' ) )
-                    ->set_is_required()
-                    ->set_localized( array(
-                        'ajaxurl'           => admin_url( 'admin-ajax.php' ),
-                        'nonce_expert_mode' => \wp_create_nonce( 'sv_expert_mode' ),
-                        'settings_saved'    => __('Setting saved', 'sv_core')
-                    ) );
-            } );
+            add_action( 'init', array( $this, 'load_core_scripts' ) );
 
+        }
+
+        // Loads all required core scripts
+        public function load_core_scripts() {
+            $this->get_root()->get_script( 'sv_core_admin' )
+                ->set_path( $this->get_url_core( '../assets/admin.js' ) )
+                ->set_is_backend()
+                ->set_is_enqueued()
+                ->set_is_no_prefix()
+                ->set_type( 'js' )
+                ->set_deps( array( 'jquery' ) )
+                ->set_is_required()
+                ->set_localized( array(
+                    'ajaxurl'           => admin_url( 'admin-ajax.php' ),
+                    'nonce_expert_mode' => \wp_create_nonce( 'sv_expert_mode' ),
+                    'settings_saved'    => __('Setting saved', 'sv_core')
+                ) );
+
+            $this->get_root()->get_script( 'sv_core_color_picker' )
+                ->set_is_no_prefix()
+                ->set_path( $this->get_url_core( 'settings/js/sv_color_picker.js' ) )
+                ->set_type( 'js' )
+                ->set_deps( array( 'jquery', 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ) )
+                ->set_is_backend()
+                ->set_is_enqueued();
+            
+            // Creates an action when all required core scripts are loaded
+            do_action( 'sv_core_module_scripts_loaded' );
         }
 		
 		protected function setup_wp_filters(string $path){
@@ -289,7 +302,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
             static::$scripts->set_root( $this->get_root() );
             static::$scripts->set_parent( $this );
             static::$scripts->init();
-
         }
 		
 		protected function setup_modules(string $path){

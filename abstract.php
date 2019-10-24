@@ -461,7 +461,7 @@
 		
 		public function acp_style( bool $hook = false ) {
 			if ( !$hook || $hook == 'sv-100_page_' . $this->get_module_name() ) {
-				wp_enqueue_style($this->get_prefix(), $this->get_url_core('../assets/admin.css'));
+				wp_enqueue_style($this->get_prefix(), $this->get_url_core('../assets/admin.css'), array( 'wp-editor' ));
 				ob_start();
 				require_once($this->get_path_core('../assets/admin_inline.css'));
 				$css = ob_get_clean();

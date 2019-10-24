@@ -370,6 +370,16 @@ class settings extends sv_abstract{
 		echo '<div class="sv_section_description">'.$this->get_section_description().'</div>';
 	}
 
+	// Helper Methods
+	// Converts a rgba value to a hex value
+	// Needed for old browser color picker
+	public function rgb_to_hex( $rgb ) {
+		$rgb = explode( ',', $rgb, 4 );
+		$hex = sprintf( '#%02x%02x%02x', $rgb[0], $rgb[1], $rgb[2] );
+
+		return $hex;
+	}
+
 	/* methods for inheritance */
 	public function default(bool $title = false): string{
 		if($this->get_parent()->get_callback()){
@@ -415,7 +425,7 @@ class settings extends sv_abstract{
 	public function field_callback($input){
 		return $input;
 	}
-	protected function get_field_id(): string{
+	public function get_field_id(): string{
 		return $this->get_parent()->get_is_no_prefix() ? $this->get_parent()->get_ID() : $this->get_parent()->get_prefix($this->get_parent()->get_ID());
 	}
 	public function widget(string $value, $object): string{
