@@ -28,6 +28,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
                     self::$path_core			= trailingslashit( dirname( __FILE__ ) );
                     self::$url_core				= trailingslashit( get_site_url() )
                                                 . str_replace( ABSPATH,'', self::$path_core );
+	                parent::$active_core        = $this;
 
                     // run setup functions
                     $this->setup_settings();
@@ -286,7 +287,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
                 ->set_deps( array( 'jquery', 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ) )
                 ->set_is_backend()
                 ->set_is_enqueued();
-            
+
             // Creates an action when all required core scripts are loaded
             do_action( 'sv_core_module_scripts_loaded' );
         }

@@ -24,9 +24,9 @@
 				: false;
 
 			add_action( 'sv_core_module_scripts_loaded', function() {
-				$this->get_root()->get_script('sv_core_color_picker')
+				$this->get_active_core()->get_script('sv_core_color_picker')
 					->set_localized(array_merge(
-							$this->get_root()->get_script('sv_core_color_picker')->get_localized(),
+							$this->get_active_core()->get_script('sv_core_color_picker')->get_localized(),
 							array(
 								'color_palette'         => $this->color_palette,
 								$this->get_field_id()   => $this->get_data(),

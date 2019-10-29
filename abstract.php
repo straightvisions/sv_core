@@ -2,7 +2,7 @@
 	namespace sv_core;
 	
 	abstract class sv_abstract {
-		const version_core					= 4018;
+		const version_core					= 4019;
 		
 		protected $name						= false;
 		protected $module_name				= false;
@@ -17,6 +17,7 @@
 		private static $instances			= array();
 		protected static $instances_active	= array();
 		protected $loaded			        = array();
+		protected static $active_core       = false;
 		protected static $path_core			= false;
 		protected static $url_core			= false;
 		protected $sections					= array();
@@ -125,6 +126,11 @@
 			$this->root = $root;
 
 			return $this;
+		}
+
+		// Returns the current core object, that is in use
+		public function get_active_core() {
+			return $this::$active_core;
 		}
 		
 		public function get_previous_version(): int{
