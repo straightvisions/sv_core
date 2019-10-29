@@ -37,7 +37,7 @@
 		}
 
 		public function html( $ID, $title, $description, $name, $value ) {
-			if ( substr( $value, 0, 1) !== '#' ) {
+			if ( $value && substr( $value, 0, 1) !== '#' ) {
 				$value = $this->rgb_to_hex( $value );
 			}
 
