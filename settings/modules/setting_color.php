@@ -24,16 +24,45 @@
 				: false;
 
 			add_action( 'sv_core_module_scripts_loaded', function() {
-				$this->get_active_core()->get_script('sv_core_color_picker')
-					->set_localized(array_merge(
-							$this->get_active_core()->get_script('sv_core_color_picker')->get_localized(),
-							array(
-								'color_palette'         => $this->color_palette,
-								$this->get_field_id()   => $this->get_data(),
-							)
-						)
-					);
+				// This setting is a child of a setting group
+				if (
+					method_exists( $this->get_parent()->get_parent(), 'get_type' )
+					&& $this->get_parent()->get_parent()->get_type() === 'setting_group'
+					&& is_array( $this->get_parent()->get_data() )
+				) {
+					foreach ( $this->get_parent()->get_data() as $key => $setting ) {
+						foreach ( $this->get_parent()->get_parent()->run_type()->get_children() as $child ) {
+							if ( $child->get_type() === 'setting_color' ) {
+								$ID     = $child->get_field_id() . '[' . $key . '][' . $child->get_ID() . ']';
+								$data   = get_option( $child->get_field_id() )[ $key ][ $child->get_ID() ]
+									? get_option( $child->get_field_id() )[ $key ][ $child->get_ID() ]
+									: '';
+
+								$this->localize_script( $ID, $data );
+							}
+						}
+					}
+				}
+
+				// Normal setting
+				else {
+					$this->localize_script( $this->get_field_id(), $this->get_data() );
+				}
 			});
+		}
+
+		protected function localize_script( $ID, $data ) {
+			$this->get_active_core()
+				->get_script('sv_core_color_picker')
+				->set_localized(
+					array_merge(
+						$this->get_active_core()->get_script('sv_core_color_picker')->get_localized(),
+						array(
+							'color_palette' => $this->color_palette,
+							$ID             => $data,
+						)
+					)
+				);
 		}
 
 		public function html( $ID, $title, $description, $name, $value ) {
