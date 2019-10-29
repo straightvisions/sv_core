@@ -3,6 +3,7 @@
 
 	class setting_color extends settings {
 		private $parent				        = false;
+		private $color_palette              = false;
 
 		/**
 		 * @desc			initialize
@@ -13,15 +14,25 @@
 		public function __construct( $parent = false ) {
 			$this->parent			= $parent;
 
+			add_action( 'after_setup_theme', array( $this, 'load_color_picker' ) );
+		}
+
+		public function load_color_picker() {
+			$this->color_palette =
+				get_theme_support( 'editor-color-palette' )
+				? get_theme_support( 'editor-color-palette' )[0]
+				: false;
+
 			add_action( 'sv_core_module_scripts_loaded', function() {
-				$this->get_root()->get_script( 'sv_core_color_picker' )
-					->set_localized( array_merge( 
-						$this->get_root()->get_script( 'sv_core_color_picker' )->get_localized(),
-						array(
-							$this->get_field_id() => $this->get_data()
+				$this->get_root()->get_script('sv_core_color_picker')
+					->set_localized(array_merge(
+							$this->get_root()->get_script('sv_core_color_picker')->get_localized(),
+							array(
+								'color_palette'         => $this->color_palette,
+								$this->get_field_id()   => $this->get_data(),
+							)
 						)
-					)
-				);
+					);
 			});
 		}
 
