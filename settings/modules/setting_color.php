@@ -28,20 +28,21 @@
 				if (
 					method_exists( $this->get_parent()->get_parent(), 'get_type' )
 					&& $this->get_parent()->get_parent()->get_type() === 'setting_group'
-					&& is_array( $this->get_parent()->get_data() )
 				) {
 					$ID = $this->get_parent()->get_field_id() . '[sv_form_field_index][' . $this->get_parent()->get_ID() . ']';
 					$this->localize_script( $ID, '0,0,0,1' );
-
-					foreach ( $this->get_parent()->get_data() as $key => $setting ) {
-						foreach ( $this->get_parent()->get_parent()->run_type()->get_children() as $child ) {
-							if ( $child->get_type() === 'setting_color' ) {
-								$ID     = $child->get_field_id() . '[' . $key . '][' . $child->get_ID() . ']';
-								$data   = get_option( $child->get_field_id() )[ $key ][ $child->get_ID() ]
-									? get_option( $child->get_field_id() )[ $key ][ $child->get_ID() ]
-									: '';
-
-								$this->localize_script( $ID, $data );
+					
+					if ( $this->get_parent()->get_data() && is_array( $this->get_parent()->get_data() ) ) {
+						foreach ( $this->get_parent()->get_data() as $key => $setting ) {
+							foreach ( $this->get_parent()->get_parent()->run_type()->get_children() as $child ) {
+								if ( $child->get_type() === 'setting_color' ) {
+									$ID     = $child->get_field_id() . '[' . $key . '][' . $child->get_ID() . ']';
+									$data   = get_option( $child->get_field_id() )[ $key ][ $child->get_ID() ]
+										? get_option( $child->get_field_id() )[ $key ][ $child->get_ID() ]
+										: '';
+									
+									$this->localize_script( $ID, $data );
+								}
 							}
 						}
 					}
