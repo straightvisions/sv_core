@@ -371,13 +371,43 @@ class settings extends sv_abstract{
 	}
 
 	// Helper Methods
-	// Converts a rgba value to a hex value
-	// Needed for old browser color picker
-	public function rgb_to_hex( $rgb ) {
-		$rgb = explode( ',', $rgb, 4 );
-		$hex = sprintf( '#%02x%02x%02x', $rgb[0], $rgb[1], $rgb[2] );
-
-		return $hex;
+	
+	// Returns a value in the rgb format, with alpha value
+	// Example Output: 255,0,255,1
+	function get_rgb( $val ) {
+		// Value is a hex color
+		if ( preg_match( '/#([a-f0-9]{3}){1,2}\b/i', $val ) && hexdec( $val ) ) {
+			list( $r, $g, $b ) = sscanf( $val, "#%02x%02x%02x" );
+			
+			return $r . ',' . $g . ',' . $b . ',1';
+		}
+		
+		// Value is a rgb color
+		elseif ( preg_match( '/(\d{1,3}),(\d{1,3}),(\d{1,3})/ix', str_replace( ' ', '', $val ) ) ) {
+			return str_replace( ' ', '', $val );
+		}
+		
+		// Couldn't detect format
+		return $val;
+	}
+	
+	// Returns a value in the hex format
+	// Example Output: #ff00ff
+	function get_hex( $val ) {
+		// Value is a hex color
+		if ( preg_match( '/#([a-f0-9]{3}){1,2}\b/i', $val ) && hexdec( $val ) ) {
+			return $val;
+		}
+		
+		// Value is a rgb color
+		elseif ( preg_match( '/(\d{1,3}),(\d{1,3}),(\d{1,3})/ix', str_replace( ' ', '', $val ) ) ) {
+			$rgb = explode( ',', str_replace( ' ', '', $val ) );
+			
+			return sprintf( "#%02x%02x%02x", $rgb[0], $rgb[1], $rgb[2] );
+		}
+		
+		// Couldn't detect format
+		return $val;
 	}
 
 	/* methods for inheritance */

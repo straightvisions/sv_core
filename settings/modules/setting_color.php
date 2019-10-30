@@ -70,11 +70,7 @@
 		}
 
 		public function html( $ID, $title, $description, $name, $value ) {
-			if ( $value && substr( $value, 0, 1) !== '#' ) {
-				$value = $this->rgb_to_hex( $value );
-			}
-
-			$value = ! empty( $value ) ? 'value="' . esc_attr( $value ) . '"' : '';
+			$value = ! empty( $value ) ? 'value="' . esc_attr( $this->get_hex( $value ) ) . '"' : '';
 
 			return '
 				<h4>' . $title . '</h4>
