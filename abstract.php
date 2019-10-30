@@ -129,7 +129,7 @@
 		}
 
 		// Returns the current core object, that is in use
-		public function get_active_core() {
+		public function get_active_core(): core {
 			return $this::$active_core;
 		}
 		
