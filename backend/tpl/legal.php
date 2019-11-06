@@ -1,4 +1,4 @@
-<?php if( current_user_can( 'activate_plugins' ) ) { ?>
+<?php if( current_user_can( 'edit_posts' ) ) { ?>
 	<section id="section_legal" class="sv_admin_section">
 		<div class="section_head section_legal">
 			<div class="textbox">

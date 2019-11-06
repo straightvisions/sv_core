@@ -1,4 +1,4 @@
-<?php if( current_user_can( 'activate_plugins' ) ) { ?>
+<?php if( current_user_can( 'edit_posts' ) ) { ?>
 <div class="sv_wrapper">
 	<div class="sv_admin_menu">
 		<div class="sv_admin_menu_head">
