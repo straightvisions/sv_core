@@ -446,7 +446,7 @@ abstract class sv_abstract {
 				'straightvisions',		// parent slug
 				$instance->get_section_title(),		// page title
 				$instance->get_section_title(),	    // menu title
-				'manage_options',		    // capability
+				'edit_posts',		    // capability
 				$instance->get_prefix(),		    // menu slug
 				function() use( $instance ) {       // callable function
 					$instance->load_page();

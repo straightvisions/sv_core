@@ -49,7 +49,7 @@ class info extends sv_abstract{
 			'straightvisions',				// parent slug
 			'Info',							// page title
 			'Info',							// menu title
-			'manage_options',			    // capability
+			'edit_posts',			    // capability
 			'straightvisions',				// menu slug
 			function() {                    // callable function
 				$this->load_page( $this->get_path_core( 'info/backend/tpl/about.php' ) );

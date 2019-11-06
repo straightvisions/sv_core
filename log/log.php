@@ -77,7 +77,7 @@ class log extends sv_abstract {
 				'straightvisions',                        // parent slug
 				'Log',                                    // page title
 				'Log',                                    // menu title
-				'manage_options',                        // capability
+				'edit_posts',                        // capability
 				'log',                                    // menu slug
 				function () {                            // callable function
 					$this->load_page( $this->get_path_core( 'log/backend/tpl/about.php' ) );

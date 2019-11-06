@@ -93,7 +93,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				$this->ajax_fragmented_requests->set_root( $this->get_root() );
 				$this->ajax_fragmented_requests->set_parent( $this );
 				$this->ajax_fragmented_requests->init();
-				
+
 				add_action( 'admin_menu', array( $this, 'menu' ), 1 );
 				add_action( 'admin_menu', array( $this , 'build_sections' ), 100 );
 
@@ -134,7 +134,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 			add_menu_page(
 				__( 'straightvisions', $this->get_root()->get_prefix() ),
 				__( 'straightvisions', $this->get_root()->get_prefix() ),
-				'manage_options',
+				'edit_posts',
 				'straightvisions',
 				'',
 				$this->get_url_core( 'assets/logo_icon.png' ),
