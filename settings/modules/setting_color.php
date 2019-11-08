@@ -14,45 +14,69 @@
 		public function __construct( $parent = false ) {
 			$this->parent			= $parent;
 
-			add_action( 'after_setup_theme', array( $this, 'load_color_picker' ) );
+			add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
 		}
 
-		public function load_color_picker() {
-			$this->color_palette =
-				get_theme_support( 'editor-color-palette' )
-				? get_theme_support( 'editor-color-palette' )[0]
-				: false;
+		// Returns the color pallete
+		protected function get_color_palette() {
+			return $this->color_palette;
+		}
 
-			add_action( 'sv_core_module_scripts_loaded', function() {
-				// This setting is a child of a setting group
-				if (
-					method_exists( $this->get_parent()->get_parent(), 'get_type' )
-					&& $this->get_parent()->get_parent()->get_type() === 'setting_group'
-				) {
-					$ID = $this->get_parent()->get_field_id() . '[sv_form_field_index][' . $this->get_parent()->get_ID() . ']';
-					$this->localize_script( $ID, '0,0,0,1' );
-					
-					if ( $this->get_parent()->get_data() && is_array( $this->get_parent()->get_data() ) ) {
-						foreach ( $this->get_parent()->get_data() as $key => $setting ) {
-							foreach ( $this->get_parent()->get_parent()->run_type()->get_children() as $child ) {
-								if ( $child->get_type() === 'setting_color' ) {
-									$ID     = $child->get_field_id() . '[' . $key . '][' . $child->get_ID() . ']';
-									$data   = get_option( $child->get_field_id() )[ $key ][ $child->get_ID() ]
-										? get_option( $child->get_field_id() )[ $key ][ $child->get_ID() ]
-										: '';
-									
-									$this->localize_script( $ID, $data );
-								}
-							}
+		// Sets the color palette, if available
+		protected function set_color_palette() {
+			if ( get_theme_support( 'editor-color-palette' ) ) {
+				$this->color_palette = get_theme_support( 'editor-color-palette' )[0];
+			}
+
+			return $this;
+		}
+
+		// Runs through a settings groups entries, checks if they have
+		// a color input inside and replaces them with the react-color picker
+		protected function load_child_setting_color_picker() {
+			// Checks if the setting group got entries
+			if ( $this->get_parent()->get_data() && is_array( $this->get_parent()->get_data() ) ) {
+
+				// Loops through the entries
+				foreach ( $this->get_parent()->get_data() as $key => $setting ) {
+
+					// Loops through settings of the entry
+					foreach ( $this->get_parent()->get_parent()->run_type()->get_children() as $child ) {
+
+						// Checks if the setting is a color setting
+						if ( $child->get_type() === 'setting_color' ) {
+							$ID     = $child->get_field_id() . '[' . $key . '][' . $child->get_ID() . ']';
+							$data   = get_option( $child->get_field_id() )[ $key ][ $child->get_ID() ]
+								? get_option( $child->get_field_id() )[ $key ][ $child->get_ID() ]
+								: '';
+
+							$this->localize_script( $ID, $data );
 						}
 					}
 				}
+			}
+		}
 
-				// Normal setting
-				else {
-					$this->localize_script( $this->get_field_id(), $this->get_data() );
-				}
-			});
+		// Replaces the default color input, with the react-color picker
+		public function load_color_picker() {
+			// This setting is a child of a setting group
+			if (
+				method_exists( $this->get_parent()->get_parent(), 'get_type' )
+				&& $this->get_parent()->get_parent()->get_type() === 'setting_group'
+			) {
+				$this->load_child_setting_color_picker();
+			}
+
+			// Normal setting
+			else {
+				$this->localize_script( $this->get_field_id(), $this->get_data() );
+			}
+		}
+
+		public function after_setup_theme() {
+			$this->set_color_palette();
+
+			add_action( 'sv_core_module_scripts_loaded', array( $this, 'load_color_picker' ) );
 		}
 
 		protected function localize_script( $ID, $data ) {
@@ -62,7 +86,7 @@
 					array_merge(
 						$this->get_active_core()->get_script('sv_core_color_picker')->get_localized(),
 						array(
-							'color_palette' => $this->color_palette,
+							'color_palette' => $this->get_color_palette(),
 							$ID             => $data,
 						)
 					)
