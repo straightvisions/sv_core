@@ -394,6 +394,9 @@
 
             return $this->scripts_queue[$script];
 		}
+		public function get_scripts(): array {
+			return $this->scripts_queue;
+		}
 		
 		public function set_path(string $path) {
 			$this->path	= $path;

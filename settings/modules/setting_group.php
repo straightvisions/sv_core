@@ -91,7 +91,7 @@
 								get_option($child->get_field_id())[$setting_id][$child->get_ID()]
 								)
 						? get_option($child->get_field_id())[$setting_id][$child->get_ID()]
-						: ''),
+						: $child->run_type()->get_data()),
 							$child->get_required(),
 							$child->get_disabled(),
 							$child->get_placeholder(),
