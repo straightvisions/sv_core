@@ -50,8 +50,8 @@
 		 */
 		public function __get( string $name ) {
 			// look for class file in modules directory
-			if ( file_exists($this->get_root()->get_path( 'lib/modules/'.$name . '.php' )) ) {
-				require_once( $this->get_root()->get_path( 'lib/modules/'.$name . '.php' ) );
+			if ( file_exists($this->get_path( 'lib/modules/'.$name . '.php' )) ) {
+				require_once( $this->get_path( 'lib/modules/'.$name . '.php' ) );
 				
 				$class_name	    = $this->get_root()->get_name() . '\\' . $name;
 				$this->$name    = new $class_name();
