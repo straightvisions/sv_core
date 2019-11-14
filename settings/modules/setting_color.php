@@ -98,7 +98,6 @@
 
 			return '
 				<h4>' . $title . '</h4>
-				<div class="description">' . $description . '</div>
 				<label for="' . $ID . '" class="sv_input_label_color">
 					<input
 					data-sv_type="sv_form_field"
@@ -108,6 +107,7 @@
 					type="color"
 					' . $value . '
 					/>
-				</label>';
+				</label>
+				<div class="description">' . $description . '</div>';
 		}
 	}
