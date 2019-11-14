@@ -19,9 +19,7 @@
 		}
 		public function html($ID, $title, $description, $name, $value, $required, $disabled){
 			$output = '
-			<h4>' . $title . '</h4>
-			<div class="description">' . $description . '</div>
-';
+			<h4>' . $title . '</h4>';
 			
 			if($this->get_parent()->has_options()) {
 				foreach ( $this->get_parent()->get_options() as $o_value => $o_name ) {
@@ -33,7 +31,9 @@
 			}else{
 				$output .= $this->field($ID, $name, $value, $required, $disabled);
 			}
-			
+
+			$output .= '<div class="description">' . $description . '</div>';
+
 			return $output;
 		}
 		public function field($ID, $name, $value, $required, $disabled, $title=''){

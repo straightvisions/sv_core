@@ -39,7 +39,6 @@
 			}
 			
 			$output .= '
-			<div class="description">' . $description . '</div>
 			<label for="' . $ID . '">
 				<input
 					data-sv_type="sv_form_field"
@@ -52,7 +51,7 @@
 				' . $disabled . '
 				/>
 			</label>
-			';
+			<div class="description">' . $description . '</div>';
 			
 			if( is_string( $value ) && ! empty( $value ) ) {
 				$output .= '

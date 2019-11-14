@@ -30,7 +30,6 @@
 			
 			return '
 				<h4>' . $title . '</h4>
-				<div class="description">' . $description . '</div>
 				<label for="' . $ID . '">
 					<textarea style="height:200px;"
 					data-sv_type="sv_form_field"
@@ -39,6 +38,7 @@
 					name="' . $name . '"
 					' . $required . '
 					' . $disabled . '">' . esc_textarea($value) . '</textarea>
-				</label>';
+				</label>
+				<div class="description">' . $description . '</div>';
 		}
 	}

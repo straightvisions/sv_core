@@ -20,7 +20,7 @@ class setting_radio extends settings{
 	}
 
 	public function html( string $ID, string $title, string $description, string $name, $value, string $required, string $disabled, $placeholder, $maxlength, $minlength, $max, $min, $radio_style ) {
-		$output = '<h4>' . $title . '</h4><div class="description">' . $description . '</div>';
+		$output = '<h4>' . $title . '</h4>';
 
 		$output .= ( $radio_style == 'switch'
 			? '<div class="sv_radio_switch_wrapper"><label for="' . $ID . '"><div class="switch_field">'
@@ -44,6 +44,8 @@ class setting_radio extends settings{
 		}
 
 		$output .= ( $radio_style == 'switch' ? '</div></label></div>' : '' );
+
+		$output .= '<div class="description">' . $description . '</div>';
 
 		return $output;
 	}
