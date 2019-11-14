@@ -18,7 +18,6 @@ class setting_select extends settings{
 	public function html( string $ID, string $title, string $description, string $name, $value, string $required, string $disabled, $placeholder ) {
 		$output = '
 			<h4>' . $title . '</h4>
-			<div class="description">' . $description . '</div>
 			<label for="' . $ID . '">
 				<select
 					data-sv_type="sv_form_field"
@@ -36,7 +35,8 @@ class setting_select extends settings{
 
 		$output .= '
 				</select>
-			</label>';
+			</label>
+			<div class="description">' . $description . '</div>';
 
 		return $output;
 	}

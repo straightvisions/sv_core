@@ -16,7 +16,6 @@
 		}
 		public function html($ID, $title, $description, $name, $value){
 			$output = '<h4>' . $title . '</h4>
-						<div class="description">' . $description . '</div>
 						<label for="' . $ID . '">';
 
 			$args		= array(
@@ -29,7 +28,8 @@
 			);
 			$output	.= wp_dropdown_pages($args);
 
-			$output .= '</label>';
+			$output .= '</label>
+			<div class="description">' . $description . '</div>';
 			
 			return $output;
 		}
