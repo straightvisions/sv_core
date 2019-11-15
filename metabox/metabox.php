@@ -68,7 +68,7 @@
 				static::$scripts_loaded		= true;
 			}
 			wp_nonce_field($this->get_prefix(), $this->get_prefix('nonce'));
-			
+
 			foreach($this->get_parent()->s as $setting){
 				$meta_field					= $setting->get_prefix($setting->get_ID());
 				$setting->run_type()->set_data(get_post_meta($post->ID, $meta_field, true));

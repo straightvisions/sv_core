@@ -56,6 +56,11 @@
 			}
 		}
 
+		// Replaces the default color input, with the react-color picker in metaboxes
+		public function load_metabox_color_picker() {
+			$this->localize_script( $this->get_field_id(), $this->get_data() );
+		}
+
 		// Replaces the default color input, with the react-color picker
 		public function load_color_picker() {
 			// This setting is a child of a setting group
@@ -68,6 +73,8 @@
 
 			// Normal setting
 			else {
+				//var_dump($this->get_field_id());
+
 				$this->localize_script( $this->get_field_id(), $this->get_data() );
 			}
 		}
@@ -93,6 +100,10 @@
 		}
 
 		public function html( $ID, $title, $description, $name, $value ) {
+			if ( get_current_screen()->parent_base === 'edit' ) {
+				$this->load_metabox_color_picker();	
+			}
+
 			$value = ! empty( $value ) ? 'value="' . esc_attr( $this->get_hex( $value ) ) . '"' : '';
 
 			return '
