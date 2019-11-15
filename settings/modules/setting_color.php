@@ -16,7 +16,6 @@
 
 			add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
 		}
-
 		// Returns the color pallete
 		protected function get_color_palette() {
 			return $this->color_palette;

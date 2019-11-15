@@ -74,12 +74,12 @@ class settings extends sv_abstract{
 		return $new;
 	}
 	public function set_ID(string $ID): settings{
-		$this->ID								= $ID;
+		$this->ID								= sanitize_key($ID);
 
 		return $this;
 	}
 	public function get_ID(): string{
-		return $this->ID;
+		return sanitize_key($this->ID);
 	}
 	public function set_is_no_prefix(bool $no = true): settings{
 		$this->no_prefix								= $no;
@@ -503,5 +503,8 @@ class settings extends sv_abstract{
 		delete_option( $this->run_type()->get_field_id() );
 
 		return $this;
+	}
+	public function sanitize($meta_value, $meta_key, $object_type){
+		return sanitize_text_field($meta_value);
 	}
 }

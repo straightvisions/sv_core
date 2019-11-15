@@ -14,6 +14,9 @@
 		public function __construct($parent=false){
 			$this->parent			= $parent;
 		}
+		public function sanitize($meta_value, $meta_key, $object_type){
+			return sanitize_email($meta_value);
+		}
 		public function html($ID, $title, $description, $name, $value, $required, $disabled, $placeholder, $maxlength, $minlength){
 			return '
 				<h4>' . $title . '</h4>

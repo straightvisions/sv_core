@@ -91,9 +91,12 @@
 			}
 			
 			foreach($this->get_parent()->s as $setting){
-				$field_id											= sanitize_key($setting->get_prefix($setting->get_ID()));
-				// Get the posted data and sanitize it for use as an HTML class.
-				$new_meta_value										= (isset($_POST[$field_id]) ? sanitize_meta($field_id, $_POST[$field_id], 'post') : '');
+				$field_id											= $setting->get_prefix($setting->get_ID());
+				
+				add_filter('sanitize_sv_core_'.$setting->get_type().'_meta_'.$setting->run_type()->get_field_id(), array($setting,'sanitize'), 10, 3);
+				
+				// Get the posted data and sanitize it for use.
+				$new_meta_value										= (isset($_POST[$field_id]) ? sanitize_meta($field_id, $_POST[$field_id], 'sv_core_'.$setting->get_type()) : '');
 				
 				// Get the meta value of the custom field key.
 				$meta_value											= get_post_meta($post_id, $field_id, true);

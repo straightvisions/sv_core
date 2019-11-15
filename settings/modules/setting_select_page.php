@@ -14,6 +14,9 @@
 		public function __construct($parent=false){
 			$this->parent			= $parent;
 		}
+		public function sanitize($meta_value, $meta_key, $object_type){
+			return intval($meta_value);
+		}
 		public function html($ID, $title, $description, $name, $value){
 			$output = '<h4>' . $title . '</h4>
 						<label for="' . $ID . '">';
