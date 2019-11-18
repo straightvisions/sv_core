@@ -261,7 +261,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
             // setup init action
             add_action( 'init', array( $this, 'load_core_scripts' ) );
-
         }
 
         // Loads all required core scripts
@@ -286,6 +285,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
                 ->set_type( 'js' )
                 ->set_deps( array( 'jquery', 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ) )
                 ->set_is_backend()
+                ->set_is_gutenberg()
                 ->set_is_enqueued();
 
             // Creates an action when all required core scripts are loaded

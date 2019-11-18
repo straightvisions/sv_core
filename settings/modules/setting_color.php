@@ -56,11 +56,6 @@
 			}
 		}
 
-		// Replaces the default color input, with the react-color picker in metaboxes
-		public function load_metabox_color_picker() {
-			$this->localize_script( $this->get_field_id(), $this->get_data() );
-		}
-
 		// Replaces the default color input, with the react-color picker
 		public function load_color_picker() {
 			// This setting is a child of a setting group
@@ -73,19 +68,17 @@
 
 			// Normal setting
 			else {
-				//var_dump($this->get_field_id());
-
 				$this->localize_script( $this->get_field_id(), $this->get_data() );
 			}
 		}
 
 		public function after_setup_theme() {
 			$this->set_color_palette();
-
+		
 			add_action( 'sv_core_module_scripts_loaded', array( $this, 'load_color_picker' ) );
 		}
 
-		protected function localize_script( $ID, $data ) {
+		public function localize_script( $ID, $data ) {
 			$this->get_active_core()
 				->get_script('sv_core_color_picker')
 				->set_localized(
@@ -100,10 +93,8 @@
 		}
 
 		public function html( $ID, $title, $description, $name, $value ) {
-			if ( get_current_screen()->parent_base === 'edit' ) {
-				$this->load_metabox_color_picker();	
-			}
-
+			$this->localize_script( $this->get_field_id(), $this->get_data() );
+			
 			$value = ! empty( $value ) ? 'value="' . esc_attr( $this->get_hex( $value ) ) . '"' : '';
 
 			return '
