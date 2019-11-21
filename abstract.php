@@ -13,6 +13,7 @@
 		private $parent						= false;
 		private $root						= false;
 		protected $s						= array(); // settings object array
+		protected $m						= array(); // metabox object array
 		protected static $wpdb				= false;
 		private static $instances			= array();
 		protected static $instances_active	= array();
@@ -384,6 +385,14 @@
 			}
 
 			return $this->s[$setting];
+		}
+		public function get_metabox(): metabox {
+			if( isset($this->m[$this->get_prefix()]) === false ){
+				// create empty setting if not set
+				$this->m[$this->get_prefix()] = static::$metabox->create( $this );
+			}
+
+			return $this->m[$this->get_prefix()];
 		}
 
 		public function get_script(string $script = ''): scripts {
