@@ -477,7 +477,7 @@ class settings extends sv_abstract{
 			);
 	}
 	public function form(bool $title=false): string{
-		return '<div class="sv_setting">'.$this->html(
+		return '<div class="sv_setting" data-sv_prefix="'.$this->get_parent()->get_parent()->get_prefix().'" data-sv_field_id="'.$this->get_field_id().'">'.$this->html(
 				$this->get_field_id(),
 				$this->get_parent()->get_title(),
 				$this->get_parent()->get_description(),

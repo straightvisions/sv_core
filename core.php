@@ -51,6 +51,11 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
                     // run setup credits
                     $this->setup_credits();
+	
+					add_action( 'wp_ajax_sv_core_gutenberg_save_post_update_metaboxes' , function(){
+                            echo json_encode(apply_filters('sv_core_gutenberg_save_post_update_metaboxes', array()));
+                            die();
+                    }, 100 );
                 }
 
 				// run setup scripts
@@ -74,7 +79,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 			return $output;
 
 		}
-
 		private function core_validation(){
 		    $output = false;
 
