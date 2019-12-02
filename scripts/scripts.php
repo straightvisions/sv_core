@@ -155,6 +155,14 @@ class scripts extends sv_abstract {
 					),
 					'type="text/plain"'.$script->get_custom_attributes().' src=\''.$script->get_url(),
 					$input);
+			}else{
+				$input = str_replace(
+					array(
+						"type='text/javascript' src='".$script->get_url(),
+						'type="text/javascript" src=\''.$script->get_url()
+					),
+					'type="text/javascript"'.$script->get_custom_attributes().' src=\''.$script->get_url(),
+					$input);
 			}
 		}
 
