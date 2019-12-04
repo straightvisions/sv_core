@@ -12,14 +12,31 @@
 			</ul>
 			<h3 class="divider"><?php _e('License: GPL3 or later', 'sv_core'); ?></h3>
 			<p>
-				This program is free software:<br>
-				You can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.<br><br>
-
-				This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.<br>
-				See the GNU General Public License for more details.<br><br>
-
-				You should have received a copy of the GNU General Public License along with this program.<br>
-				If not, See <a href="http://www.gnu.org/licenses/" target="_blank">http://www.gnu.org/licenses/</a>.
+				<?php
+				echo __( 'This program is free software:', 'sv_core' )
+				. '<br>'
+				. __(
+					'You can redistribute it and/or modify it under the terms of the GNU General Public License as
+					published by the Free Software Foundation, either version 3 of the License, or (at your option)
+					any later version.'
+					, 'sv_core'
+				 )
+				. '<br><br>'
+				. __(
+					'This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+					without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.'
+					, 'sv_core'
+				)
+				. '<br>'
+				. __( 'See the GNU General Public License for more details.', 'sv_core' )
+				. '<br><br>'
+				. __( 'You should have received a copy of the GNU General Public License along with this program.', 'sv_core' )
+				. '<br>'
+				. __( 'If not, See', 'sv_core' ) . ' '
+				. '<a href="http://www.gnu.org/licenses/" target="_blank">'
+				. __( 'http://www.gnu.org/licenses/', 'sv_core' )
+				. '</a>.';
+				?>
 			</p>
 
 			<h3 class="divider"><?php _e('Privacy Statement', 'sv_core'); ?></h3>

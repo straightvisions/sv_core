@@ -17,7 +17,6 @@
 		public function html($ID, $title, $description, $name, $value, $required, $disabled, $placeholder, $maxlength, $minlength, $max, $min){
 			return '
 				<h4>' . $title . '</h4>
-				<div class="description">' . $description . '</div>
 				<label for="' . $ID . '">
 					<input
 					data-sv_type="sv_form_field"
@@ -28,6 +27,7 @@
 					value="' . esc_attr($value) . '"
 					' . $required . '
 					' . $disabled . '/>
-				</label>';
+				</label>
+				<div class="description">' . $description . '</div>';
 		}
 	}

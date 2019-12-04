@@ -10,10 +10,10 @@ class info extends sv_abstract{
 	 * @ignore
 	 */
 	public function __construct($ID=false){
-		$this->set_section_title('SV Core');
-		$this->set_section_desc('Our core framework is included in all recent plugins and themes by straightvisions.');
+		$this->set_section_title(__( 'SV Core', 'sv_core' ) );
+		$this->set_section_desc(__( 'Our core framework is included in all recent plugins and themes by straightvisions.', 'sv_core' ) );
 		$this->set_section_privacy('<p>
-				'.$this->get_section_title().' does not collect or share any data from clients or visitors.<br />
+				'.$this->get_section_title().' ' . __( 'does not collect or share any data from clients or visitors.', 'sv_core' ) . '<br />
 			</p>');
 	}
 	/**

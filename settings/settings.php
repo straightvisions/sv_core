@@ -14,7 +14,7 @@ class settings extends sv_abstract{
 	private $type								= false;
 	private $title								= '';
 	private $description						= '';
-	private $options							= array('No Options defined!');
+	private $options							= array();
 	private $placeholder						= '';
 	private $maxlength						    = false;
 	private $minlength						    = false;
@@ -74,12 +74,12 @@ class settings extends sv_abstract{
 		return $new;
 	}
 	public function set_ID(string $ID): settings{
-		$this->ID								= $ID;
+		$this->ID								= sanitize_key($ID);
 
 		return $this;
 	}
 	public function get_ID(): string{
-		return $this->ID;
+		return sanitize_key($this->ID);
 	}
 	public function set_is_no_prefix(bool $no = true): settings{
 		$this->no_prefix								= $no;
@@ -206,7 +206,18 @@ class settings extends sv_abstract{
 		return $this;
 	}
 	public function get_options(): array{
+		if ( count( $this->options ) === 0 ) {
+			$this->options = array( __( 'No Options defined!', 'sv_core' ) );
+		}
+		
 		return $this->options;
+	}
+	public function has_options(): bool{
+		if ( count( $this->options ) === 0 ) {
+			return false;
+		}else{
+			return true;
+		}
 	}
 	public function set_placeholder(string $placeholder){
 		$this->placeholder						= $placeholder;
@@ -225,7 +236,7 @@ class settings extends sv_abstract{
 		return $this->maxlength;
 	}
 	public function set_minlength( int $minlength ) {
-		$this->minlength						= 'pattern=".{' . $minlength .',}" title="' . __( "You need at least ", 'sv_core' ) . $minlength . ' characters."'; //@todo Add translation for this message
+		$this->minlength						= 'pattern=".{' . $minlength .',}" title="' . __( 'You need at least', 'sv_core' ) . ' ' . $minlength . ' ' . __( 'characters.', 'sv_core' ) .  '"';
 
 		return $this;
 	}
@@ -294,10 +305,10 @@ class settings extends sv_abstract{
 	}
 
 	public function get_data(){
-		if($this->data){
+		if($this->data !== false && $this->data !== ''){
 			return $this->data;
 		}else {
-			return (get_option($this->get_field_id()) !== false) ? get_option($this->get_field_id()) : $this->get_default_value();
+			return (get_option($this->get_field_id()) !== false && get_option($this->get_field_id()) !== '') ? get_option($this->get_field_id()) : $this->get_default_value();
 		}
 	}
 	// set data value from external source
@@ -359,6 +370,46 @@ class settings extends sv_abstract{
 		echo '<div class="sv_section_description">'.$this->get_section_description().'</div>';
 	}
 
+	// Helper Methods
+	
+	// Returns a value in the rgb format, with alpha value
+	// Example Output: 255,0,255,1
+	function get_rgb( string $val ): string {
+		// Value is a hex color
+		if ( preg_match( '/#([a-f0-9]{3}){1,2}\b/i', $val ) && hexdec( $val ) ) {
+			list( $r, $g, $b ) = sscanf( $val, "#%02x%02x%02x" );
+			
+			return $r . ',' . $g . ',' . $b . ',1';
+		}
+		
+		// Value is a rgb color
+		elseif ( preg_match( '/(\d{1,3}),(\d{1,3}),(\d{1,3})/ix', str_replace( ' ', '', $val ) ) ) {
+			return str_replace( ' ', '', $val );
+		}
+		
+		// Couldn't detect format
+		return $val;
+	}
+	
+	// Returns a value in the hex format
+	// Example Output: #ff00ff
+	function get_hex( string $val ): string {
+		// Value is a hex color
+		if ( preg_match( '/#([a-f0-9]{3}){1,2}\b/i', $val ) && hexdec( $val ) ) {
+			return $val;
+		}
+		
+		// Value is a rgb color
+		elseif ( preg_match( '/(\d{1,3}),(\d{1,3}),(\d{1,3})/ix', str_replace( ' ', '', $val ) ) ) {
+			$rgb = explode( ',', str_replace( ' ', '', $val ) );
+			
+			return sprintf( "#%02x%02x%02x", $rgb[0], $rgb[1], $rgb[2] );
+		}
+		
+		// Couldn't detect format
+		return $val;
+	}
+
 	/* methods for inheritance */
 	public function default(bool $title = false): string{
 		if($this->get_parent()->get_callback()){
@@ -404,7 +455,7 @@ class settings extends sv_abstract{
 	public function field_callback($input){
 		return $input;
 	}
-	protected function get_field_id(): string{
+	public function get_field_id(): string{
 		return $this->get_parent()->get_is_no_prefix() ? $this->get_parent()->get_ID() : $this->get_parent()->get_prefix($this->get_parent()->get_ID());
 	}
 	public function widget(string $value, $object): string{
@@ -426,7 +477,7 @@ class settings extends sv_abstract{
 			);
 	}
 	public function form(bool $title=false): string{
-		return '<div class="sv_setting">'.$this->html(
+		return '<div class="sv_setting" data-sv_prefix="'.$this->get_parent()->get_parent()->get_prefix().'" data-sv_field_id="'.$this->get_field_id().'">'.$this->html(
 				$this->get_field_id(),
 				$this->get_parent()->get_title(),
 				$this->get_parent()->get_description(),
@@ -452,5 +503,8 @@ class settings extends sv_abstract{
 		delete_option( $this->run_type()->get_field_id() );
 
 		return $this;
+	}
+	public function sanitize($meta_value, $meta_key, $object_type){
+		return sanitize_text_field($meta_value);
 	}
 }

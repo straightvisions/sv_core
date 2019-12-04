@@ -68,7 +68,7 @@
 				static::$scripts_loaded		= true;
 			}
 			wp_nonce_field($this->get_prefix(), $this->get_prefix('nonce'));
-			
+
 			foreach($this->get_parent()->s as $setting){
 				$meta_field					= $setting->get_prefix($setting->get_ID());
 				$setting->run_type()->set_data(get_post_meta($post->ID, $meta_field, true));
@@ -92,19 +92,22 @@
 			
 			foreach($this->get_parent()->s as $setting){
 				$field_id											= $setting->get_prefix($setting->get_ID());
-				// Get the posted data and sanitize it for use as an HTML class.
-				$new_meta_value										= (isset($_POST[$field_id]) ? sanitize_meta($field_id, $_POST[$field_id], 'post') : '');
+				
+				add_filter('sanitize_sv_core_'.$setting->get_type().'_meta_'.$setting->run_type()->get_field_id(), array($setting,'sanitize'), 10, 3);
+				
+				// Get the posted data and sanitize it for use.
+				$new_meta_value										= (isset($_POST[$field_id]) ? sanitize_meta($field_id, $_POST[$field_id], 'sv_core_'.$setting->get_type()) : '');
 				
 				// Get the meta value of the custom field key.
 				$meta_value											= get_post_meta($post_id, $field_id, true);
 				
 				// If a new meta value was added and there was no previous value, add it.
-				if($new_meta_value && '' == $meta_value){
+				if($new_meta_value !== false && $meta_value === false){
 					add_post_meta($post_id, $field_id, $new_meta_value, true);
-				}elseif($new_meta_value && $new_meta_value != $meta_value){
+				}elseif($new_meta_value !== false && $new_meta_value !== $meta_value){
 					// If the new meta value does not match the old value, update it.
 					update_post_meta($post_id, $field_id, $new_meta_value);
-				}elseif('' == $new_meta_value && $meta_value){
+				}elseif('' === $new_meta_value && $meta_value !== false){
 					// If there is no new meta value but an old value exists, delete it.
 					delete_post_meta($post_id, $field_id, $meta_value);
 				}

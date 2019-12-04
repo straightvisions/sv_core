@@ -22,6 +22,8 @@ class scripts extends sv_abstract {
 	private $is_gutenberg						= false;
 	private $is_external						= false;
 	private $is_required						= false;
+	private $is_consent_required				= false;
+	private $custom_attributes					= '';
 
 	// CSS specific
 	private $media								= 'all';
@@ -135,9 +137,36 @@ class scripts extends sv_abstract {
 		add_action('wp_print_footer_scripts', function(){
 			$html = ob_get_contents();
 			ob_end_clean();
-			$html = preg_replace("/<link rel='st".""."ylesheet' id='sv_core_init_style-css'(.*)\/>/", '', $html);
+			$html = preg_replace("/<link(.*)sv_core_init_style-css(.*)\/>/", '', $html);
+
+			$html = $this->replace_type_attr($html);
+
+
 			echo $html;
 		});
+	}
+	public function replace_type_attr($input){
+		foreach ( $this->get_scripts() as $script ) {
+			if($script->get_consent_required()) {
+				$input = str_replace(
+					array(
+						"type='text/javascript' src='".$script->get_url(),
+						'type="text/javascript" src=\''.$script->get_url()
+					),
+					'type="text/plain"'.$script->get_custom_attributes().' src=\''.$script->get_url(),
+					$input);
+			}else{
+				$input = str_replace(
+					array(
+						"type='text/javascript' src='".$script->get_url(),
+						'type="text/javascript" src=\''.$script->get_url()
+					),
+					'type="text/javascript"'.$script->get_custom_attributes().' src=\''.$script->get_url(),
+					$input);
+			}
+		}
+
+		return $input;
 	}
 	public function admin_scripts($hook){
 		if ( is_admin() && ( strpos( $hook,'straightvisions' ) !== false || strpos( $hook,'appearance_page_sv100' ) !== false ) ) {
@@ -149,7 +178,8 @@ class scripts extends sv_abstract {
 		}
 	}
 	public function gutenberg_scripts(){
-		wp_register_style('sv_core_gutenberg_style', $this->get_url_core('backend/css/gutenberg_style.css'));
+		wp_register_style('sv_core_gutenberg_style', $this->get_url_core('backend/css/gutenberg.css'));
+		wp_register_script('sv_core_gutenberg_script', $this->get_url_core('backend/js/gutenberg.js'));
 		
 		foreach ( $this->get_scripts() as $script ) {
 			if ( $script->get_is_gutenberg() ) {
@@ -158,12 +188,6 @@ class scripts extends sv_abstract {
 		}
 		
 		wp_enqueue_style('sv_core_gutenberg_style');
-		
-		ob_start();
-		$html = ob_get_contents();
-		ob_end_clean();
-		$html = preg_replace("/<link rel='st".""."ylesheet' id='sv_core_gutenberg_style-css'(.*)\/>/", '', $html);
-		echo $html;
 	}
 	public function register_scripts(){
 		foreach ( $this->get_scripts() as $script ) {
@@ -238,12 +262,12 @@ class scripts extends sv_abstract {
 						) {
 							if ( $script->get_is_gutenberg() ) {
 								ob_start();
-								include_once( $script->get_path() );
+								require_once( $script->get_path() );
 								$css		= ob_get_clean();
 								wp_add_inline_style( 'sv_core_gutenberg_style', $css );
 							} else {
 								ob_start();
-								include_once($script->get_path());
+								require_once($script->get_path());
 								$css		= ob_get_clean();
 								wp_add_inline_style( 'sv_core_init_style', $css );
 							}
@@ -288,7 +312,22 @@ class scripts extends sv_abstract {
 
 		return $new;
 	}
+	public function set_consent_required( bool $is_consent_required = true ): scripts {
+		$this->is_consent_required						= $is_consent_required;
 
+		return $this;
+	}
+	public function get_consent_required(): bool {
+		return $this->is_consent_required;
+	}
+	public function set_custom_attributes( string $string = '' ): scripts {
+		$this->custom_attributes						= $string;
+
+		return $this;
+	}
+	public function get_custom_attributes(): string {
+		return $this->custom_attributes;
+	}
 	public function set_is_required( bool $is_required = true ): scripts {
 		$this->is_required						= $is_required;
 		
@@ -411,10 +450,10 @@ class scripts extends sv_abstract {
 		
 		return $this;
 	}
-	public function get_path($suffix = ''): string {
+	public function get_path(string $suffix = ''): string {
 		return $this->script_path;
 	}
-	public function get_url($suffix = ''): string {
+	public function get_url(string $suffix = ''): string {
 		return $this->script_url;
 	}
 	public function is_external(): bool{

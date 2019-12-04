@@ -30,7 +30,7 @@
 		}
 		public function admin_enqueue_scripts($hook){
 			if ( !static::$initialized && ( strpos( $hook,'straightvisions' ) !== false || strpos( $hook,'appearance_page_sv100' ) !== false ) ) {
-				wp_enqueue_script($this->get_prefix(), $this->get_url_core('assets/admin_setting_group.js'), array('jquery'), filemtime($this->get_path_core('assets/admin_setting_group.js')), true);
+				wp_enqueue_script($this->get_prefix(), $this->get_url_core('../assets/admin_setting_group.js'), array('jquery'), filemtime($this->get_path_core('../assets/admin_setting_group.js')), true);
 			}
 			static::$initialized = true;
 		}
@@ -80,10 +80,10 @@
 				foreach($this->get_children() as $child) {
 					$fields[]			= '<div class="'.$this->get_prefix($this->get_type()).'_item">';
 					$fields[]			= '<div class="sv_'.$this->get_module_name().'_input" data-sv_input_name="'.$child->get_field_id().'[sv_form_field_index]['.$child->get_ID().']'.'">'.$child->run_type()->html(
-							($setting_id !== false ? $child->get_field_id().'['.$i.']['.$child->get_ID().']' : $child->get_field_id().'[sv_form_field_index]['.$child->get_ID().']'),
+							($setting_id !== false ? $child->get_field_id().'['.$setting_id.']['.$child->get_ID().']' : $child->get_field_id().'[sv_form_field_index]['.$child->get_ID().']'),
 							$child->get_title(),
 							$child->get_description(),
-							($setting_id !== false ? $child->get_field_id().'['.$i.']['.$child->get_ID().']' : ''),
+							($setting_id !== false ? $child->get_field_id().'['.$setting_id.']['.$child->get_ID().']' : ''),
 							(
 								(
 								$setting_id !== false &&
@@ -91,7 +91,7 @@
 								get_option($child->get_field_id())[$setting_id][$child->get_ID()]
 								)
 						? get_option($child->get_field_id())[$setting_id][$child->get_ID()]
-						: ''),
+						: $child->run_type()->get_data()),
 							$child->get_required(),
 							$child->get_disabled(),
 							$child->get_placeholder(),
@@ -126,7 +126,7 @@
 
 				}
 
-				$header[]				= ($setting_id !== false ? '<div class="sv_'.$this->get_module_name().'">' : '');
+				$header[]				= ($setting_id !== false ? '<div class="sv_'.$this->get_module_name().'" sv_'.$this->get_module_name().'_entry_id="'.$setting_id.'">' : '');
 				$header[]				= '
 					<div class="sv_'.$this->get_module_name().'_header">
 						<h4 class="sv_' .$this->get_module_name() .'_title"><i class="fas fa-angle-right"></i> '.$label.'</h4> 
