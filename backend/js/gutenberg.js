@@ -60,5 +60,4 @@ wp.data.subscribe(function () {
 	}
 
 	window.DAIM.currentPostLastRevisionId = wp.data.select('core/editor').getCurrentPostLastRevisionId();
-
 });

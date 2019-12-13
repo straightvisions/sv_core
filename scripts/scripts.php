@@ -178,8 +178,8 @@ class scripts extends sv_abstract {
 		}
 	}
 	public function gutenberg_scripts(){
-		wp_register_style('sv_core_gutenberg_style', $this->get_url_core('backend/css/gutenberg.css'));
-		wp_register_script('sv_core_gutenberg_script', $this->get_url_core('backend/js/gutenberg.js'));
+		wp_register_style('sv_core_gutenberg_style', $this->get_url_core('backend/css/gutenberg.css'), false, filemtime($this->get_path_core('backend/css/gutenberg.css')));
+		wp_register_script('sv_core_gutenberg_script', $this->get_url_core('backend/js/gutenberg.js'), false, filemtime($this->get_path_core('backend/js/gutenberg.js')));
 		
 		foreach ( $this->get_scripts() as $script ) {
 			if ( $script->get_is_gutenberg() ) {
