@@ -479,11 +479,13 @@
 		
 		public function acp_style( bool $hook = false ) {
 			if ( !$hook || $hook == 'sv-100_page_' . $this->get_module_name() ) {
-				wp_enqueue_style($this->get_prefix(), $this->get_url_core('../assets/admin.css'), array( 'wp-editor' ));
-				ob_start();
-				require_once($this->get_path_core('../assets/admin_inline.css'));
-				$css = ob_get_clean();
-				wp_add_inline_style($this->get_prefix(), $css);
+				if(file_exists($this->get_path_core('../assets/admin_inline.css'))) { // file exists only when core_plugin is loaded, so if only theme is loaded, don't load this asset
+					wp_enqueue_style($this->get_prefix(), $this->get_url_core('../assets/admin.css'), array('wp-editor'));
+					ob_start();
+					require_once($this->get_path_core('../assets/admin_inline.css'));
+					$css = ob_get_clean();
+					wp_add_inline_style($this->get_prefix(), $css);
+				}
 			}
 		}
 		
