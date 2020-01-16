@@ -25,9 +25,9 @@ if ( !class_exists( '\sv_core\core' ) ) {
                 // these modules are available in all instances and should be initialized once only.
                 if ( static::$initialized === false ) {
 
-                    self::$path_core			= trailingslashit( dirname( __FILE__ ) );
-                    self::$url_core				= trailingslashit( get_site_url() )
-                                                . str_replace( ABSPATH,'', self::$path_core );
+                    self::$path_core			= trailingslashit( str_replace('\\','/', dirname( __FILE__ )) );
+                    self::$url_core				= trailingslashit( str_replace('\\','/',get_site_url()) )
+                                                . str_replace( str_replace('\\','/',ABSPATH),'', str_replace('\\','/', self::$path_core) );
 	                parent::$active_core        = $this;
 
                     // run setup functions
