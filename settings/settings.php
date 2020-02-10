@@ -374,12 +374,12 @@ class settings extends sv_abstract{
 	
 	// Returns a value in the rgb format, with alpha value
 	// Example Output: 255,0,255,1
-	function get_rgb( string $val ): string {
+	function get_rgb( string $val, string $opacity = '1' ): string {
 		// Value is a hex color
 		if ( preg_match( '/#([a-f0-9]{3}){1,2}\b/i', $val ) && hexdec( $val ) ) {
 			list( $r, $g, $b ) = sscanf( $val, "#%02x%02x%02x" );
 			
-			return $r . ',' . $g . ',' . $b . ',1';
+			return $r . ',' . $g . ',' . $b . ','.$opacity;
 		}
 		
 		// Value is a rgb color
