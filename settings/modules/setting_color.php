@@ -86,7 +86,7 @@
 						$this->get_active_core()->get_script('sv_core_color_picker')->get_localized(),
 						array(
 							'color_palette' => $this->get_color_palette(),
-							$ID             => $data,
+							$ID => $data,
 						)
 					)
 				);
@@ -95,11 +95,23 @@
 		public function html( $ID, $title, $description, $name, $value ) {
 			$this->localize_script( $this->get_field_id(), $this->get_data() );
 			
-			$value = ! empty( $value ) ? 'value="' . esc_attr( $this->get_hex( $value ) ) . '"' : '';
+			$color_value = esc_attr( $this->get_rgb( $value ) );
+			$value = ! empty( $value ) ? 'value="' . esc_attr( $this->get_hex( $value ) ). '"' : '';
 
 			return '
-				<h4>' . $title . '</h4>
-				<label for="' . $ID . '" class="sv_input_label_color">
+				<div class="sv_setting_header">
+					<h4 title="' . __( 'Toggle Color Picker', 'sv_core' ) . '">' . $title . '</h4>
+					<div
+						class="sv_setting_color_display"
+						title="' . __( 'Toggle Color Picker', 'sv_core' ) . '"
+					>
+						<div
+							class="sv_setting_color_value"
+							style="background-color:rgba(' . $color_value . ')"></div>
+						
+					</div>
+				</div>
+				<label for="' . $ID . '" class="sv_input_label_color sv_hidden">
 					<input
 					data-sv_type="sv_form_field"
 					class="sv_input"
