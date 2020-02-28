@@ -24,54 +24,6 @@
 		public function get_allowed_filetypes(): array{
 			return $this->allowed_filetypes;
 		}
-		public function html($ID, $title, $description, $name, $value, $required, $disabled, $placeholder){
-			$output = '<h4>'. $title . '</h4>';
-			
-			if ( is_string( $value ) && ! empty( $value ) ) {
-				$attachment = wp_get_attachment_link( $value, 'full', false, true )
-					? wp_get_attachment_link( $value, 'full', false, true ) : false;
-				
-				if ( $attachment ) {
-					$output .= '<div>' . $attachment . '</div>';
-					$output .= '<div><a href="/wp-admin/post.php?post=' . $value . '&action=edit" target="_blank">';
-					$output .= get_the_title( $value ) . '</a></div>';
-				}
-			}
-			
-			$output .= '
-			<label for="' . $ID . '">
-				<input
-					data-sv_type="sv_form_field"
-					class="sv_file"
-				id="' . $ID . '[file]"
-				name="' . ($name ? $name.'[file]' : '') . '"
-				type="file"
-				'.((count($this->get_allowed_filetypes()) > 0) ? 'accept="'.implode(',',$this->get_allowed_filetypes()).'"' : '').'
-				placeholder="'.$placeholder.'"
-				' . $disabled . '
-				/>
-			</label>
-			<div class="description">' . $description . '</div>';
-			
-			if( is_string( $value ) && ! empty( $value ) ) {
-				$output .= '
-			<label for="' . $ID . '[delete]" style="justify-content: flex-end;">
-			<input
-					data-sv_type="sv_form_field"
-				id="' . $ID . '[delete]"
-				name="' . ($name ? $name.'[delete]' : '') . '"
-				value="1"
-				type="checkbox"
-				' . $disabled . '
-				style="margin-right:16px;"
-				/>
-				
-				'.__('Delete File', 'sv_core').'
-				</label>
-			';
-			}
-			return $output;
-		}
 		private function delete_attachment(int $attachment_id){
 			wp_delete_attachment( $attachment_id, true );
 		}

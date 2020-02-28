@@ -160,10 +160,14 @@ class settings extends sv_abstract{
 	public function run_type(){
 		$type				= $this->get_type();
 
-		return $this->$type;
+		if(isset($this->$type)){
+			return $this->$type;
+		}else{
+			return $this;
+		}
 	}
 	public function get_form_field(): string{
-		return $this->run_type()->default();
+		return $this->default();
 	}
 	public function print_form_field(){
 		echo $this->get_form_field();
@@ -190,7 +194,7 @@ class settings extends sv_abstract{
 		return $this;
 	}
 	public function get_default_value(){
-		return $this->get_parent()->default_value;
+		return $this->default_value;
 	}
 	public function set_description(string $description){
 		$this->description						= $description;
@@ -305,8 +309,10 @@ class settings extends sv_abstract{
 	}
 
 	public function get_data(){
-		if($this->data !== false && $this->data !== ''){
-			return $this->data;
+		$data = $this->data;
+
+		if($data !== false && $data !== ''){
+			return $data;
 		}else {
 			return (get_option($this->get_field_id()) !== false && get_option($this->get_field_id()) !== '') ? get_option($this->get_field_id()) : $this->get_default_value();
 		}
@@ -319,8 +325,6 @@ class settings extends sv_abstract{
 	}
 	public function save_option(): bool{
 		return update_option($this->get_field_id(), $this->get_data());
-
-		return $this;
 	}
 	public function set_callback(array $callback): settings{
 		$this->callback							= $callback;
@@ -412,8 +416,8 @@ class settings extends sv_abstract{
 
 	/* methods for inheritance */
 	public function default(bool $title = false): string{
-		if($this->get_parent()->get_callback()){
-			return $this->get_parent()->run_callback($this);
+		if($this->get_callback()){
+			return $this->run_callback($this);
 		}else{
 			return $this->form($title);
 		}
@@ -434,20 +438,20 @@ class settings extends sv_abstract{
 			);
 
 			\add_settings_field(
-				$setting->get_field_id(),                                            // $id, Slug-name to identify the field. Used in the 'id' attribute of tags.
+				$setting->get_parent()->get_field_id(),                                            // $id, Slug-name to identify the field. Used in the 'id' attribute of tags.
 				$setting->get_parent()->get_title(),                                // $title, Formatted title of the field. Shown as the label for the field during output.
 				array($setting->get_parent(), 'print_form_field'),                    // $callback, Function that fills the field with the desired form inputs. The function should echo its output.
 				$section,                                            // $page, The slug-name of the settings page on which to show the section (general, reading, writing, ...).
 				$section_group,                                            // $section, The slug-name of the section of the settings page in which to show the box.
 				array(                                                        // $args, Extra arguments used when outputting the field.
 					'description' => $setting->get_parent()->get_description(),
-					'setting_id' => $setting->get_field_id()
+					'setting_id' => $setting->get_parent()->get_field_id()
 				)
 			);
 
 			\register_setting(
 				$section,                                            // $option_group, A settings group name.
-				$setting->get_field_id(),            // $option_name, The name of an option to sanitize and save.
+				$setting->get_parent()->get_field_id(),            // $option_name, The name of an option to sanitize and save.
 				array('sanitize_callback'	=> array($setting,'field_callback'))
 			);
 		}
@@ -456,43 +460,51 @@ class settings extends sv_abstract{
 		return $input;
 	}
 	public function get_field_id(): string{
-		return $this->get_parent()->get_is_no_prefix() ? $this->get_parent()->get_ID() : $this->get_parent()->get_prefix($this->get_parent()->get_ID());
+		return $this->get_is_no_prefix() ? $this->get_ID() : $this->get_prefix($this->get_ID());
 	}
 	public function widget(string $value, $object): string{
-		return $this->html(
-				$object->get_field_id($this->get_parent()->get_ID()),
-				$this->get_parent()->get_title(),
-				$this->get_parent()->get_description(),
-				$object->get_field_name($this->get_parent()->get_ID()),
-				$value,
-				$this->get_parent()->get_required(),
-				$this->get_parent()->get_disabled(),
-				$this->get_parent()->get_placeholder(),
-				$this->get_parent()->get_maxlength(),
-				$this->get_parent()->get_minlength(),
-				$this->get_parent()->get_max(),
-				$this->get_parent()->get_min(),
-				$this->get_parent()->get_radio_style(),
-				$this->get_parent()->get_code_editor()
-			);
+		$ID					= $object->get_field_id($this->get_parent()->get_ID());
+		$title				= $this->get_parent()->get_title();
+		$description		= $this->get_parent()->get_description();
+		$name				= $object->get_field_name($this->get_parent()->get_ID());
+
+		$required			= $this->get_parent()->get_required();
+		$disabled			= $this->get_parent()->get_disabled();
+		$placeholder		= $this->get_parent()->get_placeholder();
+		$maxlength			= $this->get_parent()->get_maxlength();
+		$minlength			= $this->get_parent()->get_minlength();
+		$max				= $this->get_parent()->get_max();
+		$min				= $this->get_parent()->get_min();
+		$radio_style		= $this->get_parent()->get_radio_style();
+		$code_editor		= $this->get_parent()->get_code_editor();
+
+		return $this->form($ID,$title,$description,$name,$value,$required,$disabled,$placeholder,$maxlength,$minlength,$max,$min,$radio_style,$code_editor);
 	}
-	public function form(bool $title=false): string{
-		return '<div class="sv_setting" data-sv_prefix="'.$this->get_parent()->get_parent()->get_prefix().'" data-sv_field_id="'.$this->get_field_id().'">'.$this->html(
-				$this->get_field_id(),
-				$this->get_parent()->get_title(),
-				$this->get_parent()->get_description(),
-				$this->get_field_id(),
-				$this->get_data(),
-				$this->get_parent()->get_required(),
-				$this->get_parent()->get_disabled(),
-				$this->get_parent()->get_placeholder(),
-				$this->get_parent()->get_maxlength(),
-				$this->get_parent()->get_minlength(),
-				$this->get_parent()->get_max(),
-				$this->get_parent()->get_min(),
-				$this->get_parent()->get_radio_style(),
-				$this->get_parent()->get_code_editor()
-			).'</div>';
+	public function form($ID = false, $title = false, $description = false, $name = false, $value = false, $required = false, $disabled = false, $placeholder = false, $maxlength = false, $minlength = false, $max = false, $min = false, $radio_style = false, $code_editor = false): string{
+		$ID					= $ID ? $ID : $this->get_field_id();
+		$title				= $title ? $title : $this->get_title();
+		$description		= $description ? $description : $this->get_description();
+		$name				= $name ? $name : $this->get_field_id();
+		$value				= $value ? $value : $this->get_data();
+		$required			= $required ? $required : $this->get_required();
+		$disabled			= $disabled ? $disabled : $this->get_disabled();
+		$placeholder		= $placeholder ? $placeholder : $this->get_placeholder();
+		$maxlength			= $maxlength ? $maxlength : $this->get_maxlength();
+		$minlength			= $minlength ? $minlength : $this->get_minlength();
+		$max				= $max ? $max : $this->get_max();
+		$min				= $min ? $min : $this->get_min();
+		$radio_style		= $radio_style ? $radio_style : $this->get_radio_style();
+		$code_editor		= $code_editor ? $code_editor : $this->get_code_editor();
+
+		ob_start();
+		if(file_exists($this->get_path_core('settings/tpl/'.$this->run_type()->get_module_name().'.php'))) {
+			require($this->get_path_core('settings/tpl/' . $this->run_type()->get_module_name() . '.php'));
+		}else{
+			echo __('Settings Template not found: ', 'sv_core').$this->get_path_core('settings/tpl/'.$this->run_type()->get_module_name().'.php');
+		}
+		$setting = ob_get_contents();
+		ob_end_clean();
+		return '<div class="sv_setting" data-sv_prefix="'.$this->get_parent()->get_parent()->get_prefix().'" data-sv_field_id="'.$this->get_field_id().'">'.$setting.'</div>';
 	}
 
 	public function delete() :settings {
@@ -506,5 +518,12 @@ class settings extends sv_abstract{
 	}
 	public function sanitize($meta_value, $meta_key, $object_type){
 		return sanitize_text_field($meta_value);
+	}
+	protected function print_sub_field($ID, $title, $description, $name, $value, $required, $disabled, $placeholder, $maxlength, $minlength, string $sub){
+		if(file_exists($this->get_path_core('settings/tpl/'.$this->run_type()->get_module_name().'_field.php'))) {
+			require($this->get_path_core('settings/tpl/' . $this->run_type()->get_module_name() . '_field.php'));
+		}else{
+			echo __('Settings Template not found: ', 'sv_core').$this->get_path_core('settings/tpl/'.$this->run_type()->get_module_name().'_field.php');
+		}
 	}
 }

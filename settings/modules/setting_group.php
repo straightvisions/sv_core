@@ -35,42 +35,24 @@
 			static::$initialized = true;
 		}
 		public function add_child(){
-			$child					= static::create($this->get_parent());
+			$child					= static::create($this);
 			$this->children[]		= $child;
 			return $child;
 		}
 		public function get_children(){
 			return $this->children;
 		}
-		private function add_group_html( $title, $description ){
+		protected function add_group_html( $title, $description, string $field_id = '' ){
 			$output					= array();
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_add_new">';
 			$output[]               = '<h4>' . $title . '</h4><div class="description">' . $description . '</div>';
 			$output[]				= '<div class="sv_'.$this->get_module_name().'_add_new_button button">'.__('Add', 'sv_core').'</div>';
-			$output[]				= '<div class="sv_'.$this->get_module_name().'_new_draft" style="display:none;">'.$this->html_field().'</div>';
-			$output[]				= '</div>';
-			
-			return implode('',$output);
-		}
-		protected function html($ID,$title,$description,$name,$value){
-			$i						= 0;
-			$output					= array();
-			
-			$output[]				= $this->add_group_html( $title, $description );
-			$output[]				= '<div class="sv_'.$this->get_module_name().'_wrapper">';
-			$output[]				= '<input type="hidden" name="'.$this->get_field_id().'" value="" />';
-			
-			if($this->get_children() && get_option($this->get_field_id())) {
-				foreach (get_option($this->get_field_id()) as $setting_id => $setting) {
-					$output[]		= $this->html_field($i,intval($setting_id));
-					$i++;
-				}
-			}
+			$output[]				= '<div class="sv_'.$this->get_module_name().'_new_draft" style="display:none;">'.$this->html_field(false,false,$field_id).'</div>';
 			$output[]				= '</div>';
 
 			return implode('',$output);
 		}
-		private function html_field($i=0, $setting_id = false){
+		protected function html_field($i=0, $setting_id = false, string $field_id = ''){
 			$fields					= array();
 
 			if($this->get_children()){
@@ -79,18 +61,17 @@
 
 				foreach($this->get_children() as $child) {
 					$fields[]			= '<div class="'.$this->get_prefix($this->get_type()).'_item">';
-					$fields[]			= '<div class="sv_'.$this->get_module_name().'_input" data-sv_input_name="'.$child->get_field_id().'[sv_form_field_index]['.$child->get_ID().']'.'">'.$child->run_type()->html(
-							($setting_id !== false ? $child->get_field_id().'['.$setting_id.']['.$child->get_ID().']' : $child->get_field_id().'[sv_form_field_index]['.$child->get_ID().']'),
+					$fields[]			= '<div class="sv_'.$this->get_module_name().'_input" data-sv_input_name="'.$field_id.'[sv_form_field_index]['.$child->get_ID().']'.'">'.$child->run_type()->form(
+							($setting_id !== false ? $field_id.'['.$setting_id.']['.$child->get_ID().']' : $field_id.'[sv_form_field_index]['.$child->get_ID().']'),
 							$child->get_title(),
 							$child->get_description(),
-							($setting_id !== false ? $child->get_field_id().'['.$setting_id.']['.$child->get_ID().']' : ''),
+							($setting_id !== false ? $field_id.'['.$setting_id.']['.$child->get_ID().']' : ''),
 							(
 								(
 								$setting_id !== false &&
-								isset(get_option($child->get_field_id())[$setting_id][$child->get_ID()]) &&
-								get_option($child->get_field_id())[$setting_id][$child->get_ID()]
+								get_option($field_id)[$setting_id][$child->get_ID()]
 								)
-						? get_option($child->get_field_id())[$setting_id][$child->get_ID()]
+						? get_option($field_id)[$setting_id][$child->get_ID()]
 						: $child->run_type()->get_data()),
 							$child->get_required(),
 							$child->get_disabled(),
@@ -108,17 +89,17 @@
 					// take label from custom field
                     if( $child->get_is_label() ){
 
-                        if ( $setting_id !== false && isset( get_option( $child->get_field_id() )[ $setting_id ][ $child->get_ID() ] )
-                            && ! empty( get_option($child->get_field_id())[$setting_id][ $child->get_ID() ] ) ) {
-                            $label = get_option($child->get_field_id())[$setting_id][ $child->get_ID() ];
+                        if ( $setting_id !== false && isset( get_option( $field_id )[ $setting_id ][ $child->get_ID() ] )
+                            && ! empty( get_option($field_id)[$setting_id][ $child->get_ID() ] ) ) {
+                            $label = get_option($field_id)[$setting_id][ $child->get_ID() ];
                         }
 
                     }else{
 
                         // take label from entry label field
-                        if ( $setting_id !== false && isset( get_option( $child->get_field_id() )[ $setting_id ]['entry_label'] )
-                            && ! empty( get_option($child->get_field_id())[$setting_id]['entry_label'] ) ) {
-                            $label = get_option($child->get_field_id())[$setting_id]['entry_label'];
+                        if ( $setting_id !== false && isset( get_option( $field_id )[ $setting_id ]['entry_label'] )
+                            && ! empty( get_option($field_id)[$setting_id]['entry_label'] ) ) {
+                            $label = get_option($field_id)[$setting_id]['entry_label'];
                         }
 
                     }

@@ -91,36 +91,4 @@
 					)
 				);
 		}
-
-		public function html( $ID, $title, $description, $name, $value ) {
-			$this->localize_script( $this->get_field_id(), $this->get_data() );
-			
-			$color_value = esc_attr( $this->get_rgb( $value ) );
-			$value = ! empty( $value ) ? 'value="' . esc_attr( $this->get_hex( $value ) ). '"' : '';
-
-			return '
-				<div class="sv_setting_header">
-					<h4 title="' . __( 'Toggle Color Picker', 'sv_core' ) . '">' . $title . '</h4>
-					<div
-						class="sv_setting_color_display"
-						title="' . __( 'Toggle Color Picker', 'sv_core' ) . '"
-					>
-						<div
-							class="sv_setting_color_value"
-							style="background-color:rgba(' . $color_value . ')"></div>
-						
-					</div>
-				</div>
-				<label for="' . $ID . '" class="sv_input_label_color sv_hidden">
-					<input
-					data-sv_type="sv_form_field"
-					class="sv_input"
-					id="' . $ID . '"
-					name="' . $name . '"
-					type="color"
-					' . $value . '
-					/>
-				</label>
-				<div class="description">' . $description . '</div>';
-		}
 	}
