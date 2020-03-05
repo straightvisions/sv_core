@@ -21,7 +21,7 @@ if ( is_string( $value ) && ! empty( $value ) ) {
 		id="<?php echo $ID; ?>[file]"
 		name="<?php echo ($name ? $name.'[file]' : ''); ?>"
 		type="file"
-		<?php echo ((count($this->get_allowed_filetypes()) > 0) ? 'accept="'.implode(',',$this->get_allowed_filetypes()).'"' : ''); ?>
+		<?php echo ((count($this->setting_upload->get_allowed_filetypes()) > 0) ? 'accept="'.implode(',',$this->setting_upload->get_allowed_filetypes()).'"' : ''); ?>
 		placeholder="<?php echo $placeholder; ?>"
 		<?php echo $disabled; ?>
 	/>
