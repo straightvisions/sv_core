@@ -2,7 +2,7 @@
 	namespace sv_core;
 	
 	abstract class sv_abstract {
-		const version_core					= 4024;
+		const version_core					= 4025;
 		
 		protected $name						= false;
 		protected $module_name				= false;
@@ -386,6 +386,7 @@
 
 			return $this->s[$setting];
 		}
+
 		public function get_metabox(): metabox {
 			if( isset($this->m[$this->get_prefix()]) === false ){
 				// create empty setting if not set

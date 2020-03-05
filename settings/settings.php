@@ -27,6 +27,7 @@ class settings extends sv_abstract{
 	private $prefix								= 'sv_';
 	private $data								= false;
 	private $default_value						= false;
+	private $responsive                         = false;
 	private $radio_style                        = 'radio';
 	private $code_editor						= '';
 	private $is_label						    = false;
@@ -137,6 +138,49 @@ class settings extends sv_abstract{
 			return $this->section_description;
 		}
 	}
+
+	// Creates duplicates of the setting for every responsive breakpoint
+	public function create_responsive_settings() {
+		$breakpoints        = array( 'mobile', 'mobile_landscape', 'tablet', 'tablet_landscape', 'desktop' );
+		$ID					= $this->get_ID();
+		$title				= $this->get_title();
+		$description		= $this->get_description();
+		$required			= $this->get_required();
+		$disabled			= $this->get_disabled();
+		$placeholder		= $this->get_placeholder();
+		$maxlength			= intval( $this->get_maxlength() );
+		$minlength			= intval( $this->get_minlength() );
+		$max				= intval( $this->get_max() );
+		$min				= intval( $this->get_min() );
+		$radio_style		= $this->get_radio_style();
+		$code_editor		= $this->get_code_editor();
+		$default_value      = $this->get_default_value();
+		$type               = str_replace( 'setting_', '', $this->get_type() );
+		$data               = array();
+
+		foreach ( $breakpoints as $breakpoint ) {
+			$new_setting = $this->get_parent()
+				->get_setting( $ID . '_' . $breakpoint )
+				->set_title( $title )
+				->set_description( $description )
+				->set_required( $required )
+				->set_disabled( $disabled )
+				->set_placeholder( $placeholder )
+				->set_maxlength( $maxlength )
+				->set_minlength( $minlength )
+				->set_max( $max )
+				->set_min( $min )
+				->set_radio_style( $radio_style )
+				->set_code_editor( $code_editor )
+				->set_default_value( $default_value )
+				->load_type( $type );
+
+			// Pushes the new responsive setting in the data array of the original (parent) setting
+			$data[ $breakpoint ] = $new_setting;
+		}
+
+		$this->set_data( $data );
+	}
 	/*
 	 * 	@param: $source		set a type for form field
 	 */
@@ -195,6 +239,14 @@ class settings extends sv_abstract{
 	}
 	public function get_default_value(){
 		return $this->default_value;
+	}
+	public function set_responsive(bool $check): settings{
+		$this->responsive = $check;
+
+		return $this;
+	}
+	public function get_responsive(): bool {
+		return $this->responsive;
 	}
 	public function set_description(string $description){
 		$this->description						= $description;
