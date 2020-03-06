@@ -158,9 +158,9 @@ class settings extends sv_abstract{
 		$type               = str_replace( 'setting_', '', $this->get_type() );
 		$data               = array();
 
-		foreach ( $breakpoints as $breakpoint ) {
+		foreach ( $this->get_breakpoints() as $suffix ) {
 			$new_setting = $this->get_parent()
-				->get_setting( $ID . '_' . $breakpoint )
+				->get_setting( $ID . '_' . $suffix )
 				->set_title( $title )
 				->set_description( $description )
 				->set_required( $required )
@@ -176,11 +176,12 @@ class settings extends sv_abstract{
 				->load_type( $type );
 
 			// Pushes the new responsive setting in the data array of the original (parent) setting
-			$data[ $breakpoint ] = $new_setting;
+			$data[ $suffix ] = $new_setting;
 		}
 
 		$this->set_data( $data );
 	}
+
 	/*
 	 * 	@param: $source		set a type for form field
 	 */

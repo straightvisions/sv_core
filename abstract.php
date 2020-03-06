@@ -30,6 +30,7 @@
 		protected $section_type				= '';
 		protected $scripts_queue			= array();
 		protected static $expert_mode       = false;
+		protected $breakpoints              = array( 'mobile', 'mobile_landscape', 'tablet', 'tablet_landscape', 'desktop' );
 		
 		/**
 		 * @desc			initialize plugin
@@ -387,6 +388,10 @@
 			return $this->s[$setting];
 		}
 
+		public function get_breakpoints(): array {
+			return $this->breakpoints;
+		}
+
 		public function get_metabox(): metabox {
 			if( isset($this->m[$this->get_prefix()]) === false ){
 				// create empty setting if not set
@@ -637,5 +642,29 @@
 			$actions			        = array_merge( $links, $actions );
 			
 			return $actions;
+		}
+
+		// Returns a subpage with breakpoint pages
+		public function get_responsive_subpage( string $title, string $template_path ): string {
+			if ( ! file_exists( $template_path ) ) return '';
+
+			$output = '<div class="sv_setting_subpage"><h2>' . $title . '</h2>';
+
+			foreach ( $this->get_breakpoints() as $suffix ) {
+				$suffix = '_' . $suffix;
+
+				$output .= '<div class="sv_setting_subpage' . $suffix . '">';
+
+				ob_start();
+				require( $template_path );
+				$output .= ob_get_contents();
+				ob_end_clean();
+
+				$output .= '</div>';
+			}
+
+			$output .= '</div>';
+
+			return $output;
 		}
 	}
