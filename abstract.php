@@ -30,7 +30,7 @@
 		protected $section_type				= '';
 		protected $scripts_queue			= array();
 		protected static $expert_mode       = false;
-		protected $breakpoints              = array( 'mobile', 'mobile_landscape', 'tablet', 'tablet_landscape', 'desktop' );
+		protected $breakpoints              = array( 'desktop', 'tablet_landscape', 'tablet', 'mobile_landscape', 'mobile' );
 		
 		/**
 		 * @desc			initialize plugin
@@ -645,12 +645,13 @@
 		}
 
 		// Returns a subpage with breakpoint pages
-		public function get_responsive_subpage( string $title, string $template_path ): string {
+		public function get_responsive_subpage( string $title, string $template_path, $breakpoints = array() ): string {
 			if ( ! file_exists( $template_path ) ) return '';
+			$breakpoints = empty( $breakpoints ) ? $this->get_breakpoints() : $breakpoints;
 
 			$output = '<div class="sv_setting_subpage"><h2>' . $title . '</h2>';
 
-			foreach ( $this->get_breakpoints() as $suffix ) {
+			foreach ( $breakpoints as $suffix ) {
 				$suffix = '_' . $suffix;
 
 				$output .= '<div class="sv_setting_subpage' . $suffix . '">';
