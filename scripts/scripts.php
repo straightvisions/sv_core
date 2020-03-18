@@ -86,8 +86,8 @@
 																				   ->set_disabled( $script->get_is_required() ? true : false );
 					
 					if(
-						($this->s[ 'disable_all_css' ]->run_type()->get_data() == 1 && $script->get_type() == 'css') ||
-						($this->s[ 'disable_all_js' ]->run_type()->get_data() == 1 && $script->get_type() == 'js')
+						($this->s[ 'disable_all_css' ]->get_data() == 1 && $script->get_type() == 'css') ||
+						($this->s[ 'disable_all_js' ]->get_data() == 1 && $script->get_type() == 'js')
 					){
 						
 						$default_label											=  __( 'Disabled', 'sv_core' );
@@ -236,17 +236,17 @@
 				return true;
 			}
 			
-			if($this->s[$script->get_UID()]->run_type()->get_data() == 'disable'){ // don't load disabled scripts
+			if($this->s[$script->get_UID()]->get_data() == 'disable'){ // don't load disabled scripts
 				return false;
 			}
 			
 			if( // if script has no user load settings
-				$this->s[$script->get_UID()]->run_type()->get_data() == '' ||
-				$this->s[$script->get_UID()]->run_type()->get_data() == 'default'
+				$this->s[$script->get_UID()]->get_data() == '' ||
+				$this->s[$script->get_UID()]->get_data() == 'default'
 			){
 				if( // make sure they are not globally disabled
-					($this->s[ 'disable_all_css' ]->run_type()->get_data() == 1 && $script->get_type() == 'css') ||
-					($this->s[ 'disable_all_js' ]->run_type()->get_data() == 1 && $script->get_type() == 'js')
+					($this->s[ 'disable_all_css' ]->get_data() == 1 && $script->get_type() == 'css') ||
+					($this->s[ 'disable_all_js' ]->get_data() == 1 && $script->get_type() == 'js')
 				){
 					return false;
 				}
@@ -270,9 +270,9 @@
 							// check if inline per settings (higher prio) or per parameter (lower prio)
 							if (
 								(
-									$this->s[$script->get_UID()]->run_type()->get_data() === 'inline'
+									$this->s[$script->get_UID()]->get_data() === 'inline'
 									|| (
-										$this->s[$script->get_UID()]->run_type()->get_data() === 'default'
+										$this->s[$script->get_UID()]->get_data() === 'default'
 										&& $script->get_inline()
 									)
 								)
