@@ -21,7 +21,7 @@ class settings extends sv_abstract{
 	private $max	    			= false;
 	private $min    				= false;
 	private $is_units 				= false;
-	private $units					= array( 'px', 'em', 'rem', '%', 'vh', 'vw' );
+	private $units					= array( 'px', 'em', 'rem', '%' );
 	private $required  				= false;
 	private $disabled  				= false;
 	private $callback				= array();
