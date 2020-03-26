@@ -33,13 +33,13 @@
 		// Runs through a settings groups entries, checks if they have
 		// a color input inside and replaces them with the react-color picker
 		protected function load_child_setting_color_picker() {
-			$data = $this->get_parent()->get_parent()->get_parent()->get_data();
+			$data = $this->get_parent()->get_parent()->get_data();
 
 			// Checks if the setting group got entries
 			if ( $data && is_array( $data ) ) {
 				// Loops through the entries
 				foreach ( $data as $key => $setting ) {
-					$children = $this->get_parent()->get_parent()->get_children();
+					$children = $this->get_parent()->get_children();
 
 					// Loops through settings of the entry
 					foreach ( $children as $child ) {
