@@ -4,34 +4,36 @@ namespace sv_core;
 
 class settings extends sv_abstract{
 	// properties
-	private $parent								= false;
-	private $no_prefix							= false;
-	private $ID									= false;
-	private $section							= false;
-	private $section_group						= '';
-	private $section_name						= '';
-	private $section_description				= '';
-	private $type								= false;
-	private $title								= '';
-	private $description						= '';
-	private $options							= array();
-	private $placeholder						= '';
-	private $maxlength						    = false;
-	private $minlength						    = false;
-	private $max	    					    = false;
-	private $min    						    = false;
-	private $required  						    = false;
-	private $disabled  						    = false;
-	private $callback							= array();
-	private $filter								= array();
-	private $prefix								= 'sv_';
-	private $data								= false;
-	private $default_value						= false;
-	private $responsive                         = false;
-	private $radio_style                        = 'radio';
-	private $code_editor						= '';
-	private $is_label						    = false;
-	protected static $new						= array();
+	private $parent					= false;
+	private $no_prefix				= false;
+	private $ID						= false;
+	private $section				= false;
+	private $section_group			= '';
+	private $section_name			= '';
+	private $section_description	= '';
+	private $type					= false;
+	private $title					= '';
+	private $description			= '';
+	private $options				= array();
+	private $placeholder			= '';
+	private $maxlength				= false;
+	private $minlength				= false;
+	private $max	    			= false;
+	private $min    				= false;
+	private $is_units 				= false;
+	private $units					= array( 'px', 'em', 'rem', '%', 'vh', 'vw' );
+	private $required  				= false;
+	private $disabled  				= false;
+	private $callback				= array();
+	private $filter					= array();
+	private $prefix					= 'sv_';
+	private $data					= false;
+	private $default_value			= false;
+	private $responsive             = false;
+	private $radio_style            = 'radio';
+	private $code_editor			= '';
+	private $is_label				= false;
+	protected static $new			= array();
 
 	/**
 	 * @desc			initialize
@@ -315,6 +317,22 @@ class settings extends sv_abstract{
 	}
 	public function get_min(): string {
 		return $this->min;
+	}
+	public function set_is_units() {
+		$this->is_units = true;
+
+		return $this;
+	}
+	public function get_is_units(): bool {
+		return $this->is_units;
+	}
+	public function set_units( array $units ) {
+		$this->units = $units;
+
+		return $this;
+	}
+	public function get_units(): array {
+		return $this->units;
 	}
 	public function set_required( bool $required ) {
 		if( $required == true ) {
