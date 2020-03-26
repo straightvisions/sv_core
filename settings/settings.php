@@ -143,7 +143,6 @@ class settings extends sv_abstract{
 
 	// Creates duplicates of the setting for every responsive breakpoint
 	public function create_responsive_settings() {
-		$breakpoints        = array( 'mobile', 'mobile_landscape', 'tablet', 'tablet_landscape', 'desktop' );
 		$ID					= $this->get_ID();
 		$title				= $this->get_title();
 		$description		= $this->get_description();
@@ -158,7 +157,8 @@ class settings extends sv_abstract{
 		$code_editor		= $this->get_code_editor();
 		$default_value      = $this->get_default_value();
 		$type               = str_replace( 'setting_', '', $this->get_type() );
-		$data               = array();
+		$data				= $this->get_data();
+		$new_data           = array();
 
 		foreach ( $this->get_breakpoints() as $suffix ) {
 			$new_setting = $this->get_parent()
@@ -178,10 +178,76 @@ class settings extends sv_abstract{
 				->load_type( $type );
 
 			// Pushes the new responsive setting in the data array of the original (parent) setting
-			$data[ $suffix ] = $new_setting;
+			$new_data[ $suffix ] = $new_setting;
+
+			// This setting exists with hover 
+			if ( ! empty( $data ) && is_array( $data ) && isset( $data['hover'] ) ) {
+				$new_setting = $this->get_parent()
+					->get_setting( $ID . '_' . $suffix . '_hover' )
+					->set_title( $title )
+					->set_description( $description )
+					->set_required( $required )
+					->set_disabled( $disabled )
+					->set_placeholder( $placeholder )
+					->set_maxlength( $maxlength )
+					->set_minlength( $minlength )
+					->set_max( $max )
+					->set_min( $min )
+					->set_radio_style( $radio_style )
+					->set_code_editor( $code_editor )
+					->set_default_value( $default_value )
+					->load_type( $type );
+
+				// Pushes the new responsive setting in the data array of the original (parent) setting
+				$new_data[ $suffix . '_hover' ] = $new_setting;
+			}
+
 		}
 
+		$this->set_data( $new_data );
+
+		return $this;
+	}
+
+	public function create_hover_setting() {
+		$ID					= $this->get_ID();
+		$title				= $this->get_title();
+		$description		= $this->get_description();
+		$required			= $this->get_required();
+		$disabled			= $this->get_disabled();
+		$placeholder		= $this->get_placeholder();
+		$maxlength			= intval( $this->get_maxlength() );
+		$minlength			= intval( $this->get_minlength() );
+		$max				= intval( $this->get_max() );
+		$min				= intval( $this->get_min() );
+		$radio_style		= $this->get_radio_style();
+		$code_editor		= $this->get_code_editor();
+		$default_value      = $this->get_default_value();
+		$type               = str_replace( 'setting_', '', $this->get_type() );
+		$data               = array();
+
+		$new_setting = $this->get_parent()
+			->get_setting( $ID . '_hover' )
+			->set_title( $title )
+			->set_description( $description )
+			->set_required( $required )
+			->set_disabled( $disabled )
+			->set_placeholder( $placeholder )
+			->set_maxlength( $maxlength )
+			->set_minlength( $minlength )
+			->set_max( $max )
+			->set_min( $min )
+			->set_radio_style( $radio_style )
+			->set_code_editor( $code_editor )
+			->set_default_value( $default_value )
+			->load_type( $type );
+
+		// Pushes the new hover setting in the data array of the original (parent) setting
+		$data[ 'hover' ] = $new_setting;
+
 		$this->set_data( $data );
+
+		return $this;
 	}
 
 	/*

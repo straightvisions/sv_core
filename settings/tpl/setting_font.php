@@ -5,17 +5,17 @@
 
 <div class="sv_setting_flex">
 	<?php 
-		require_once( $tpl_path . 'font_family.php' ); 
-		require_once( $tpl_path . 'font_size.php' ); 
-		require_once( $tpl_path . 'font_weight.php' ); 
-		require_once( $tpl_path . 'line_height.php' ); 
+		require( $tpl_path . 'font_family.php' ); 
+		require( $tpl_path . 'font_size.php' ); 
+		require( $tpl_path . 'font_weight.php' ); 
+		require( $tpl_path . 'line_height.php' ); 
 	?>
 </div>
 <div class="sv_setting_flex">
 	<?php 
-		require_once( $tpl_path . 'color.php' ); 
-		require_once( $tpl_path . 'text_decoration.php' ); 
-		require_once( $tpl_path . 'text_transform.php' );
-		require_once( $tpl_path . 'letter_spacing.php' );
+		require( $tpl_path . 'color.php' ); 
+		require( $tpl_path . 'text_decoration.php' ); 
+		require( $tpl_path . 'text_transform.php' );
+		require( $tpl_path . 'letter_spacing.php' );
 	?>
 </div>
