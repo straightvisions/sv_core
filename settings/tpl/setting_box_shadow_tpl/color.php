@@ -17,6 +17,7 @@
 		<input
 			class="sv_input"
 			type="color"
+			id="<?php echo $ID . '_color'; ?>"
 			value="<?php echo $color_value; ?>"
 		/>
 	</label>
