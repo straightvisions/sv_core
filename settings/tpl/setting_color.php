@@ -1,6 +1,4 @@
 <?php
-$this->setting_color->localize_script( $this->get_field_id(), $this->get_data() );
-
 $color_value = esc_attr( $this->get_rgb( $value ) );
 $value = ! empty( $value ) ? 'value="' . esc_attr( $this->get_hex( $value ) ). '"' : '';
 ?>

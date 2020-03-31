@@ -285,7 +285,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
             $this->get_root()->get_script( 'sv_core_color_picker' )
                 ->set_is_no_prefix()
-                ->set_path( $this->get_path_core( 'settings/js/sv_color_picker/sv_color_picker_min/sv_color_picker.min.js' ), true, $this->get_url_core( 'settings/js/sv_color_picker/sv_color_picker_min/sv_color_picker.min.js' ) )
+                ->set_path( $this->get_path_core( 'settings/js/sv_color_picker_min/sv_color_picker.min.js' ), true, $this->get_url_core( 'settings/js/sv_color_picker_min/sv_color_picker.min.js' ) )
                 ->set_type( 'js' )
                 ->set_deps( array( 'jquery', 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ) )
                 ->set_is_backend()

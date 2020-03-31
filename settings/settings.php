@@ -632,7 +632,7 @@ class settings extends sv_abstract{
 		$min				= $min ? $min : $this->get_min();
 		$radio_style		= $radio_style ? $radio_style : $this->get_radio_style();
 		$code_editor		= $code_editor ? $code_editor : $this->get_code_editor();
-
+		
 		ob_start();
 		if(file_exists($this->get_path_core('settings/tpl/'.$this->run_type()->get_module_name().'.php'))) {
 			require($this->get_path_core('settings/tpl/' . $this->run_type()->get_module_name() . '.php'));
@@ -641,6 +641,7 @@ class settings extends sv_abstract{
 		}
 		$setting = ob_get_contents();
 		ob_end_clean();
+
 		return '<div class="sv_setting" data-sv_prefix="'.$this->get_parent()->get_parent()->get_prefix().'" data-sv_field_id="'.$this->get_field_id().'">'.$setting.'</div>';
 	}
 
