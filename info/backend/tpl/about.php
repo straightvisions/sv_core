@@ -51,7 +51,7 @@
 						->set_title( __('Expert Mode', 'sv_core'))
 						->set_is_no_prefix()
                         ->load_type('checkbox')
-                        ->run_type()->set_data(get_user_meta(get_current_user_id(), 'sv_core_expert_mode', true))
+                        ->set_data(get_user_meta(get_current_user_id(), 'sv_core_expert_mode', true))
                         ->form();
 				?>
 			</form>

@@ -61,7 +61,7 @@
 
 				foreach($this->get_children() as $child) {
 					$fields[]			= '<div class="'.$this->get_prefix($this->get_type()).'_item">';
-					$fields[]			= '<div class="sv_'.$this->get_module_name().'_input" data-sv_input_name="'.$field_id.'[sv_form_field_index]['.$child->get_ID().']'.'">'.$child->run_type()->form(
+					$fields[]			= '<div class="sv_'.$this->get_module_name().'_input" data-sv_input_name="'.$field_id.'[sv_form_field_index]['.$child->get_ID().']'.'">'.$child->form(
 							($setting_id !== false ? $field_id.'['.$setting_id.']['.$child->get_ID().']' : $field_id.'[sv_form_field_index]['.$child->get_ID().']'),
 							$child->get_title(),
 							$child->get_description(),

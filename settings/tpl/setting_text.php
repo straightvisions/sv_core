@@ -8,7 +8,7 @@
 		type="text"
 		placeholder="<?php echo $placeholder; ?>"
 		value="<?php echo esc_attr($value); ?>"
-<?php echo ($maxlength ? 'maxlength="'.$maxlength.'"' :  ''). '"
+<?php echo ($maxlength ? 'maxlength="'.$maxlength.'"' :  ''). '
 	' . $minlength . '
 	' . $required . '
 	' . $disabled; ?>/>
