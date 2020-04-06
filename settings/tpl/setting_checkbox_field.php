@@ -12,7 +12,7 @@
 	<input
 		data-sv_type="sv_form_field"
 		class="sv_input sv_input_off"
-		id="<?php echo $ID; ?>_off"
+		id="<?php echo $name; ?>_off"
 		name="<?php echo $name; ?>"
 		type="radio"
 		value="0"
@@ -25,7 +25,7 @@
 	<input
 		data-sv_type="sv_form_field"
 		class="button sv_input sv_input_on"
-		id="<?php echo $ID; ?>_on"
+		id="<?php echo $name; ?>_on"
 		name="<?php echo $name; ?>"
 		type="radio"
 		value="1"
@@ -33,6 +33,6 @@
 	' . $required . '
 	' . $disabled; ?>
 	/>
-	<label for="<?php echo $ID; ?>_on" class="button"><i class="fa fa-check"></i></label>
+	<label for="<?php echo $name; ?>_on" class="button"><i class="fa fa-check"></i></label>
 	<?php echo $title; ?>
 </div>

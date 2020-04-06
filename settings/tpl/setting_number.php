@@ -10,8 +10,8 @@
 			type="number"
 			placeholder="<?php echo $placeholder; ?>"
 			value="<?php echo $val_number; ?>"
-			max="<?php echo $max; ?>"
-			min="<?php echo $min; ?>"
+			<?php echo $max ? 'max="'.$max.'"' : ''; ?>
+            <?php echo $min ? 'min="'.$min.'"' : ''; ?>
 			<?php 
 				echo ( $maxlength ? 'maxlength="'.$maxlength.'"' :  '' ). '"
 				' . $minlength . '

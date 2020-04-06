@@ -1,10 +1,5 @@
 <h4><?php echo $title; ?></h4>
 <div class="description"><?php echo $description; ?></div>
-
-<style>
-
-</style>
-
 <?php
 
 if($this->has_options()) {
