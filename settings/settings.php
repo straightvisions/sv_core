@@ -29,8 +29,8 @@ class settings extends sv_abstract{
 	private $prefix					= 'sv_';
 	private $data					= false;
 	private $default_value			= false;
-	private $responsive             = false;
-	private $radio_style            = 'radio';
+	private $responsive            = false;
+	private $radio_style           = 'radio';
 	private $code_editor			= '';
 	private $is_label				= false;
 	protected static $new			= array();
@@ -141,115 +141,6 @@ class settings extends sv_abstract{
 		}
 	}
 
-	// Creates duplicates of the setting for every responsive breakpoint
-	public function create_responsive_settings() {
-		$ID					= $this->get_ID();
-		$title				= $this->get_title();
-		$description		= $this->get_description();
-		$required			= $this->get_required();
-		$disabled			= $this->get_disabled();
-		$placeholder		= $this->get_placeholder();
-		$maxlength			= intval( $this->get_maxlength() );
-		$minlength			= intval( $this->get_minlength() );
-		$max				= intval( $this->get_max() );
-		$min				= intval( $this->get_min() );
-		$radio_style		= $this->get_radio_style();
-		$code_editor		= $this->get_code_editor();
-		$default_value      = $this->get_default_value();
-		$type               = str_replace( 'setting_', '', $this->get_type() );
-		$data				= $this->get_data();
-		$new_data           = array();
-
-		foreach ( $this->get_breakpoints() as $suffix ) {
-			$new_setting = $this->get_parent()
-				->get_setting( $ID . '_' . $suffix )
-				->set_title( $title )
-				->set_description( $description )
-				->set_required( $required )
-				->set_disabled( $disabled )
-				->set_placeholder( $placeholder )
-				->set_maxlength( $maxlength )
-				->set_minlength( $minlength )
-				->set_max( $max )
-				->set_min( $min )
-				->set_radio_style( $radio_style )
-				->set_code_editor( $code_editor )
-				->set_default_value( $default_value )
-				->load_type( $type );
-
-			// Pushes the new responsive setting in the data array of the original (parent) setting
-			$new_data[ $suffix ] = $new_setting;
-
-			// This setting exists with hover 
-			if ( ! empty( $data ) && is_array( $data ) && isset( $data['hover'] ) ) {
-				$new_setting = $this->get_parent()
-					->get_setting( $ID . '_' . $suffix . '_hover' )
-					->set_title( $title )
-					->set_description( $description )
-					->set_required( $required )
-					->set_disabled( $disabled )
-					->set_placeholder( $placeholder )
-					->set_maxlength( $maxlength )
-					->set_minlength( $minlength )
-					->set_max( $max )
-					->set_min( $min )
-					->set_radio_style( $radio_style )
-					->set_code_editor( $code_editor )
-					->set_default_value( $default_value )
-					->load_type( $type );
-
-				// Pushes the new responsive setting in the data array of the original (parent) setting
-				$new_data[ $suffix . '_hover' ] = $new_setting;
-			}
-
-		}
-
-		$this->set_data( $new_data );
-
-		return $this;
-	}
-
-	public function create_hover_setting() {
-		$ID					= $this->get_ID();
-		$title				= $this->get_title();
-		$description		= $this->get_description();
-		$required			= $this->get_required();
-		$disabled			= $this->get_disabled();
-		$placeholder		= $this->get_placeholder();
-		$maxlength			= intval( $this->get_maxlength() );
-		$minlength			= intval( $this->get_minlength() );
-		$max				= intval( $this->get_max() );
-		$min				= intval( $this->get_min() );
-		$radio_style		= $this->get_radio_style();
-		$code_editor		= $this->get_code_editor();
-		$default_value      = $this->get_default_value();
-		$type               = str_replace( 'setting_', '', $this->get_type() );
-		$data               = array();
-
-		$new_setting = $this->get_parent()
-			->get_setting( $ID . '_hover' )
-			->set_title( $title )
-			->set_description( $description )
-			->set_required( $required )
-			->set_disabled( $disabled )
-			->set_placeholder( $placeholder )
-			->set_maxlength( $maxlength )
-			->set_minlength( $minlength )
-			->set_max( $max )
-			->set_min( $min )
-			->set_radio_style( $radio_style )
-			->set_code_editor( $code_editor )
-			->set_default_value( $default_value )
-			->load_type( $type );
-
-		// Pushes the new hover setting in the data array of the original (parent) setting
-		$data[ 'hover' ] = $new_setting;
-
-		$this->set_data( $data );
-
-		return $this;
-	}
-
 	/*
 	 * 	@param: $source		set a type for form field
 	 */
@@ -309,12 +200,12 @@ class settings extends sv_abstract{
 	public function get_default_value(){
 		return $this->default_value;
 	}
-	public function set_responsive(bool $check): settings{
+	public function set_is_responsive(bool $check): settings{
 		$this->responsive = $check;
 
 		return $this;
 	}
-	public function get_responsive(): bool {
+	public function get_is_responsive(): bool {
 		return $this->responsive;
 	}
 	public function set_description(string $description){
@@ -460,6 +351,73 @@ class settings extends sv_abstract{
 
 		return $this;
 	}
+	public function prepare_css_property(string $val, string $prefix = '', string $suffix = ''): string{
+		return $prefix.$val.$suffix;
+	}
+	public function prepare_css_property_responsive(array $val, string $prefix = '', string $suffix = ''): array{
+		return array_map(function ($val) use($prefix, $suffix) {
+			return $prefix.$val.$suffix;
+		}, $val);
+	}
+	public function build_css(string $selector, array $vars): string{
+		$output				= array();
+		$merged_css			= array();
+		$responsive_css		= array();
+
+		foreach($this->get_breakpoints() as $breakpoint => $min_width){
+			foreach($vars as $property => $value) {
+				// non responsive setting
+				if(!is_array($value) && strlen($value) > 0){
+					$merged_css[$selector][$property]						= $property . ':' . $value . ';'. "\n";
+				}
+				elseif(strlen($value[$breakpoint]) > 0) {
+					// all values are equal, so no media query necessary
+					if (
+						count(array_unique($value)) === 1 || // all the same
+						(
+							// all empty but mobile
+							count(array_unique($value)) === 2 && // only two different values
+							strlen(array_unique($value)['mobile']) > 0 && // mobile is set
+							strlen(end(array_unique($value))) === 0 // other element is empty
+						)
+					) {
+						$merged_css[$selector][$property] = $property . ':' . $value[$breakpoint] . ';'. "\n";
+					} else {
+						// there are different values for specific media queries
+						$responsive_css[$breakpoint][$selector][$property] = $property . ':' . $value[$breakpoint] . ';' . "\n";
+					}
+				}
+			}
+		}
+
+		// css without need for media queries
+		if(count($merged_css) > 0) {
+			foreach ($merged_css as $s) {
+				$output[] = $selector . '{ '. "\n";
+				foreach ($s as $css) {
+					$output[] = $css;
+				}
+				$output[] = '}' . "\n";
+			}
+		}
+
+		// css with media queries required
+		if(count($responsive_css) > 0) {
+			foreach($responsive_css as $breakpoint => $s) {
+				$output[] = '@media ( min-width: ' . $this->get_breakpoints()[$breakpoint] . 'px ) {'."\n";
+
+				foreach($s as $selector => $properties){
+					$output[] = $selector . '{'. "\n";
+					$output[] = implode('', $properties);
+					$output[] = "}\n";
+				}
+
+				$output[] = "}\n\n";
+			}
+		}
+
+		return implode('', $output);
+	}
 	public function save_option(): bool{
 		return update_option($this->get_field_id(), $this->get_data());
 	}
@@ -556,7 +514,7 @@ class settings extends sv_abstract{
 		if($this->get_callback()){
 			return $this->run_callback($this);
 		}else{
-			return $this->form($title);
+			return $this->form(array('title' => $title));
 		}
 	}
 	private function init_wp_setting($setting){
@@ -600,49 +558,80 @@ class settings extends sv_abstract{
 		return $this->get_is_no_prefix() ? $this->get_ID() : $this->get_prefix($this->get_ID());
 	}
 	public function widget(string $value, $object): string{
-		$ID					= $object->get_field_id($this->get_parent()->get_ID());
-		$title				= $this->get_parent()->get_title();
-		$description		= $this->get_parent()->get_description();
-		$name				= $object->get_field_name($this->get_parent()->get_ID());
+		$props['ID']				= $object->get_field_id($this->get_parent()->get_ID());
+		$props['title']				= $this->get_parent()->get_title();
+		$props['description']		= $this->get_parent()->get_description();
+		$props['name']				= $object->get_field_name($this->get_parent()->get_ID());
+		$props['required']			= $this->get_parent()->get_required();
+		$props['disabled']			= $this->get_parent()->get_disabled();
+		$props['placeholder']		= $this->get_parent()->get_placeholder();
+		$props['maxlength']			= $this->get_parent()->get_maxlength();
+		$props['minlength']			= $this->get_parent()->get_minlength();
+		$props['max']				= $this->get_parent()->get_max();
+		$props['min']				= $this->get_parent()->get_min();
+		$props['radio_style']		= $this->get_parent()->get_radio_style();
+		$props['code_editor']		= $this->get_parent()->get_code_editor();
 
-		$required			= $this->get_parent()->get_required();
-		$disabled			= $this->get_parent()->get_disabled();
-		$placeholder		= $this->get_parent()->get_placeholder();
-		$maxlength			= $this->get_parent()->get_maxlength();
-		$minlength			= $this->get_parent()->get_minlength();
-		$max				= $this->get_parent()->get_max();
-		$min				= $this->get_parent()->get_min();
-		$radio_style		= $this->get_parent()->get_radio_style();
-		$code_editor		= $this->get_parent()->get_code_editor();
-
-		return $this->form($ID,$title,$description,$name,$value,$required,$disabled,$placeholder,$maxlength,$minlength,$max,$min,$radio_style,$code_editor);
+		return $this->form($props);
 	}
-	public function form($ID = false, $title = false, $description = false, $name = false, $value = false, $required = false, $disabled = false, $placeholder = false, $maxlength = false, $minlength = false, $max = false, $min = false, $radio_style = false, $code_editor = false): string{
-		$ID					= $ID ? $ID : $this->get_field_id();
-		$title				= $title ? $title : $this->get_title();
-		$description		= $description ? $description : $this->get_description();
-		$name				= $name ? $name : $this->get_field_id();
-		$value				= $value ? $value : $this->get_data();
-		$required			= $required ? $required : $this->get_required();
-		$disabled			= $disabled ? $disabled : $this->get_disabled();
-		$placeholder		= $placeholder ? $placeholder : $this->get_placeholder();
-		$maxlength			= $maxlength ? $maxlength : $this->get_maxlength();
-		$minlength			= $minlength ? $minlength : $this->get_minlength();
-		$max				= $max ? $max : $this->get_max();
-		$min				= $min ? $min : $this->get_min();
-		$radio_style		= $radio_style ? $radio_style : $this->get_radio_style();
-		$code_editor		= $code_editor ? $code_editor : $this->get_code_editor();
-		
+	public function form(array $props = array()): string{
+		$props		= $this->map_props($props);
+
+		// non responsive setting
+		if(!$this->get_is_responsive()) {
+			return $this->load_form_field_html_wrapper($this->load_form_field_html($props), $props);
+		}
+
+		// responsive setting
+		$output		= '';
+		foreach($this->get_breakpoints() as $breakpoint => $min_width){
+			$props_child				= $props;
+			$props_child['name']		= $props['name'].'['.$breakpoint.']';
+			$props_child['value']		= isset($props['value'][$breakpoint]) ? $props['value'][$breakpoint] : $props['value'];
+
+			$output .= '<div class="sv_setting_responsive sv_setting_responsive_'.$breakpoint.'">'.$this->load_form_field_html($this->map_props($props_child)).'</div>';
+		}
+
+		return $this->load_form_field_html_wrapper($output, $props);
+	}
+	private function load_form_field_html_wrapper(string $settings_html, array $props): string{
+		ob_start();
+
+		require($this->get_path_core('settings/tpl/_wrapper.php'));
+		$output = ob_get_contents();
+		ob_end_clean();
+
+		return $output;
+	}
+	private function load_form_field_html(array $props): string{
 		ob_start();
 		if(file_exists($this->get_path_core('settings/tpl/'.$this->run_type()->get_module_name().'.php'))) {
 			require($this->get_path_core('settings/tpl/' . $this->run_type()->get_module_name() . '.php'));
 		}else{
 			echo __('Settings Template not found: ', 'sv_core').$this->get_path_core('settings/tpl/'.$this->run_type()->get_module_name().'.php');
 		}
-		$setting = ob_get_contents();
+		$output = ob_get_contents();
 		ob_end_clean();
 
-		return '<div class="sv_setting" data-sv_prefix="'.$this->get_parent()->get_parent()->get_prefix().'" data-sv_field_id="'.$this->get_field_id().'">'.$setting.'</div>';
+		return $output;
+	}
+	private function map_props(array $props): array{
+		$props['ID']				= isset($props['ID']) ? $props['ID'] : $this->get_field_id();
+		$props['title']				= isset($props['title']) ? $props['title'] : $this->get_title();
+		$props['description']		= isset($props['description']) ?  $props['description'] : $this->get_description();
+		$props['name']				= isset($props['name']) ? $props['name'] : $this->get_field_id();
+		$props['value']				= isset($props['value']) ? $props['value'] : $this->get_data();
+		$props['required']			= isset($props['required']) ? $props['required'] : $this->get_required();
+		$props['disabled']			= isset($props['disabled']) ? $props['disabled'] : $this->get_disabled();
+		$props['placeholder']		= isset($props['placeholder']) ? $props['placeholder'] : $this->get_placeholder();
+		$props['maxlength']			= isset($props['maxlength']) ? $props['maxlength'] : $this->get_maxlength();
+		$props['minlength']			= isset($props['minlength']) ? $props['minlength'] : $this->get_minlength();
+		$props['max']				= isset($props['max']) ? $props['max'] : $this->get_max();
+		$props['min']				= isset($props['min']) ? $props['min'] : $this->get_min();
+		$props['radio_style']		= isset($props['radio_style']) ? $props['radio_style'] : $this->get_radio_style();
+		$props['code_editor']		= isset($props['code_editor']) ? $props['code_editor'] : $this->get_code_editor();
+
+		return $props;
 	}
 
 	public function delete() :settings {
@@ -657,7 +646,7 @@ class settings extends sv_abstract{
 	public function sanitize($meta_value, $meta_key, $object_type){
 		return sanitize_text_field($meta_value);
 	}
-	protected function print_sub_field($ID, $title, $description, $name, $value, $required, $disabled, $placeholder, $maxlength, $minlength, string $sub){
+	protected function print_sub_field(array $props, string $sub){
 		if(file_exists($this->get_path_core('settings/tpl/'.$this->run_type()->get_module_name().'_field.php'))) {
 			require($this->get_path_core('settings/tpl/' . $this->run_type()->get_module_name() . '_field.php'));
 		}else{

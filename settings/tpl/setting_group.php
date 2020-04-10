@@ -1,4 +1,4 @@
-<?php echo $this->run_type()->add_group_html( $title, $description, $this->get_field_id() ); ?>
+<?php echo $this->run_type()->add_group_html( $props['title'], $props['description'], $this->get_field_id() ); ?>
 <div class="sv_<?php echo $this->run_type()->get_module_name(); ?>_wrapper">
 	<input type="hidden" name="<?php echo $this->get_field_id(); ?>" value="" />
 	<?php

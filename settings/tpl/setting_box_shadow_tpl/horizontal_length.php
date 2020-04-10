@@ -1,8 +1,8 @@
-<div id="<?php echo $ID . '_horizontal_length'; ?>" class="sv_setting">
+<div id="<?php echo $props['ID'] . '_horizontal_length'; ?>" class="sv_setting">
     <h4><?php _e( 'Horizontal Length', 'sv100' ); ?></h4>
-	<label for="<?php echo $ID . '_horiztontal_length'; ?>" class="sv_setting_range sv_setting_box_shadow_horizontal">
+	<label for="<?php echo $props['ID'] . '_horiztontal_length'; ?>" class="sv_setting_range sv_setting_box_shadow_horizontal">
     <?php 
-        $horizontal_length_value    = esc_attr( $values[0] === 'inset' ? $values[1] : $values[0] );
+        $horizontal_length_value    = esc_attr( $props['value']s[0] === 'inset' ? $props['value']s[1] : $props['value']s[0] );
         $horizontal_length_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $horizontal_length_value ) ) );
         $horizontal_length_unit 	= esc_attr( preg_replace('/[0-9]+/', '', $horizontal_length_value ) );
     ?>

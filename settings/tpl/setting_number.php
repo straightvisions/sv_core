@@ -1,22 +1,21 @@
-<h4><?php echo $title; ?></h4>
-<label for="<?php echo $ID; ?>">
+<label for="<?php echo $props['ID']; ?>">
 	<?php 
 		if ( $this->get_is_units() ) { 
-			$val_number = intval( esc_attr( preg_replace('/[^0-9]/', '', $value ) ) );
-			$val_unit = esc_attr( preg_replace('/[0-9]+/', '', $value ) );
+			$val_number = intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value'] ) ) );
+			$val_unit = esc_attr( preg_replace('/[0-9]+/', '', $props['value'] ) );
 	?>
 		<input
 			class="sv_input"
 			type="number"
-			placeholder="<?php echo $placeholder; ?>"
+			placeholder="<?php echo $props['placeholder']; ?>"
 			value="<?php echo $val_number; ?>"
-			<?php echo $max ? 'max="'.$max.'"' : ''; ?>
-            <?php echo $min ? 'min="'.$min.'"' : ''; ?>
+			<?php echo $props['max'] ? 'max="'.$props['max'].'"' : ''; ?>
+            <?php echo $props['min'] ? 'min="'.$props['min'].'"' : ''; ?>
 			<?php 
-				echo ( $maxlength ? 'maxlength="'.$maxlength.'"' :  '' ). '"
-				' . $minlength . '
-				' . $required . '
-				' . $disabled; 
+				echo ( $props['maxlength'] ? 'maxlength="'.$props['maxlength'].'"' :  '' ). '"
+				' . $props['minlength'] . '
+				' . $props['required'] . '
+				' . $props['disabled'];
 			?> 
 		/>
 	<select class="sv_input_units">
@@ -31,29 +30,28 @@
 	<input
 		data-sv_type="sv_form_field"
 		class="sv_input"
-		id="<?php echo $ID; ?>"
-		name="<?php echo $name; ?>"
+		id="<?php echo $props['ID']; ?>"
+		name="<?php echo $props['name']; ?>"
 		type="hidden"
-		value="<?php echo esc_attr( $value ); ?>"
+		value="<?php echo esc_attr( $props['value'] ); ?>"
 	/>
 	<?php } else { ?>
 		<input
 			data-sv_type="sv_form_field"
 			class="sv_input"
-			id="<?php echo $ID; ?>"
-			name="<?php echo $name; ?>"
+			id="<?php echo $props['ID']; ?>"
+			name="<?php echo $props['name']; ?>"
 			type="number"
-			placeholder="<?php echo $placeholder; ?>"
-			value="<?php echo esc_attr($value); ?>"
-			max="<?php echo $max; ?>"
-			min="<?php echo $min; ?>"
+			placeholder="<?php echo $props['placeholder']; ?>"
+			value="<?php echo esc_attr($props['value']); ?>"
+			max="<?php echo $props['max']; ?>"
+			min="<?php echo $props['min']; ?>"
 			<?php 
-				echo ($maxlength ? 'maxlength="'.$maxlength.'"' :  ''). '"
-				' . $minlength . '
-				' . $required . '
-				' . $disabled; 
+				echo ($props['maxlength'] ? 'maxlength="'.$props['maxlength'].'"' :  ''). '"
+				' . $props['minlength'] . '
+				' . $props['required'] . '
+				' . $props['disabled'];
 			?> 
 		/>
 	<?php } ?>
 </label>
-<div class="description"><?php echo $description; ?></div>

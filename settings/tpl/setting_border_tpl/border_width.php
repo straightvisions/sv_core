@@ -1,12 +1,12 @@
 <?php 
-	$border_left_width_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $value['left_width'] ) ) );
-    $border_left_width_unit     = esc_attr( preg_replace('/[0-9]+/', '', $value['left_width'] ) );
-    $border_top_width_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $value['right_width'] ) ) );
-    $border_top_width_unit      = esc_attr( preg_replace('/[0-9]+/', '', $value['right_width'] ) );
-    $border_right_width_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $value['top_width'] ) ) );
-    $border_right_width_unit    = esc_attr( preg_replace('/[0-9]+/', '', $value['top_width'] ) );
-    $border_bottom_width_number = intval( esc_attr( preg_replace('/[^0-9]/', '', $value['bottom_width'] ) ) );
-	$border_bottom_width_unit   = esc_attr( preg_replace('/[0-9]+/', '', $value['bottom_width'] ) );
+	$border_left_width_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['left_width'] ) ) );
+    $border_left_width_unit     = esc_attr( preg_replace('/[0-9]+/', '', $props['value']['left_width'] ) );
+    $border_top_width_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['right_width'] ) ) );
+    $border_top_width_unit      = esc_attr( preg_replace('/[0-9]+/', '', $props['value']['right_width'] ) );
+    $border_right_width_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['top_width'] ) ) );
+    $border_right_width_unit    = esc_attr( preg_replace('/[0-9]+/', '', $props['value']['top_width'] ) );
+    $border_bottom_width_number = intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['bottom_width'] ) ) );
+	$border_bottom_width_unit   = esc_attr( preg_replace('/[0-9]+/', '', $props['value']['bottom_width'] ) );
 ?>
 
 <style>
@@ -26,12 +26,12 @@
 		text-align:center;
 	}
 </style>
-<div id="<?php echo $ID . '_width'; ?>" class="sv_setting">
+<div id="<?php echo $props['ID'] . '_width'; ?>" class="sv_setting">
     <h4><?php _e( 'Border Width', 'sv100' ); ?></h4>
     <table class="sv_setting_border">
         <tr>
             <td colspan="3">
-                <label for="<?php echo $ID . '_left_width'; ?>">
+                <label for="<?php echo $props['ID'] . '_left_width'; ?>">
                     <input
                         class="sv_input"
                         type="number"
@@ -52,17 +52,17 @@
                     <input
                         data-sv_type="sv_form_field"
                         class="sv_input"
-                        id="<?php echo $ID . '_left_width'; ?>"
-                        name="<?php echo $name . '[left_width]'; ?>"
+                        id="<?php echo $props['ID'] . '_left_width'; ?>"
+                        name="<?php echo $props['name'] . '[left_width]'; ?>"
                         type="hidden"
-                        value="<?php echo esc_attr( $value['left_width'] ); ?>"
+                        value="<?php echo esc_attr( $props['value']['left_width'] ); ?>"
                     />
                 </label>
             </td>
         </tr>
         <tr>
             <td>
-                <label for="<?php echo $ID . '_top_width'; ?>">
+                <label for="<?php echo $props['ID'] . '_top_width'; ?>">
                     <input
                         class="sv_input"
                         type="number"
@@ -83,16 +83,16 @@
                     <input
                         data-sv_type="sv_form_field"
                         class="sv_input"
-                        id="<?php echo $ID . '_top_width'; ?>"
-                        name="<?php echo $name . '[top_width]'; ?>"
+                        id="<?php echo $props['ID'] . '_top_width'; ?>"
+                        name="<?php echo $props['name'] . '[top_width]'; ?>"
                         type="hidden"
-                        value="<?php echo esc_attr( $value['top_width'] ); ?>"
+                        value="<?php echo esc_attr( $props['value']['top_width'] ); ?>"
                     />
                 </label>
             </td>
             <td style="width:100px;height:100px;">Content</td>
             <td>
-                <label for="<?php echo $ID . '_bottom_width'; ?>">
+                <label for="<?php echo $props['ID'] . '_bottom_width'; ?>">
                     <input
                         class="sv_input"
                         type="number"
@@ -113,17 +113,17 @@
                     <input
                         data-sv_type="sv_form_field"
                         class="sv_input"
-                        id="<?php echo $ID . '_bottom_width'; ?>"
-                        name="<?php echo $name . '[bottom_width]'; ?>"
+                        id="<?php echo $props['ID'] . '_bottom_width'; ?>"
+                        name="<?php echo $props['name'] . '[bottom_width]'; ?>"
                         type="hidden"
-                        value="<?php echo esc_attr( $value['bottom_width'] ); ?>"
+                        value="<?php echo esc_attr( $props['value']['bottom_width'] ); ?>"
                     />
                 </label>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <label for="<?php echo $ID . '_right_width'; ?>">
+                <label for="<?php echo $props['ID'] . '_right_width'; ?>">
                     <input
                         class="sv_input"
                         type="number"
@@ -144,10 +144,10 @@
                     <input
                         data-sv_type="sv_form_field"
                         class="sv_input"
-                        id="<?php echo $ID . '_right_width'; ?>"
-                        name="<?php echo $name . '[right_width]'; ?>"
+                        id="<?php echo $props['ID'] . '_right_width'; ?>"
+                        name="<?php echo $props['name'] . '[right_width]'; ?>"
                         type="hidden"
-                        value="<?php echo esc_attr( $value['right_width'] ); ?>"
+                        value="<?php echo esc_attr( $props['value']['right_width'] ); ?>"
                     />
                 </label>
             </td>

@@ -1,8 +1,5 @@
 <?php $tpl_path = $this->get_path_core( 'settings/tpl/' . $this->run_type()->get_module_name() . '_tpl/' ); ?>
 
-<h4><?php echo $title; ?></h4>
-<div class="description"><?php echo $description; ?></div>
-
 <div class="sv_setting_flex">
 	<?php 
 		require( $tpl_path . 'font_family.php' ); 

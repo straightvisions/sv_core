@@ -1,9 +1,7 @@
 <?php
-$color_value = esc_attr( $this->get_rgb( $value ) );
-$value = ! empty( $value ) ? 'value="' . esc_attr( $this->get_hex( $value ) ). '"' : '';
+$color_value = esc_attr( $this->get_rgb( $props['value'] ) );
+$props['value'] = ! empty( $props['value'] ) ? 'value="' . esc_attr( $this->get_hex( $props['value'] ) ). '"' : '';
 ?>
-<div class="sv_setting_header">
-	<h4 title="<?php echo __( 'Toggle Color Picker', 'sv_core' ); ?>"><?php echo $title; ?></h4>
 	<div
 		class="sv_setting_color_display"
 		title="<?php echo __( 'Toggle Color Picker', 'sv_core' ); ?>"
@@ -12,15 +10,13 @@ $value = ! empty( $value ) ? 'value="' . esc_attr( $this->get_hex( $value ) ). '
 			class="sv_setting_color_value"
 			style="background-color:rgba(<?php echo $color_value; ?>)"></div>
 	</div>
-</div>
-<label for="<?php echo $ID; ?>" class="sv_input_label_color sv_hidden">
+<label for="<?php echo $props['ID']; ?>" class="sv_input_label_color sv_hidden">
 	<input
 		data-sv_type="sv_form_field"
 		class="sv_input"
-		id="<?php echo $ID; ?>"
-		name="<?php echo $name; ?>"
+		id="<?php echo $props['ID']; ?>"
+		name="<?php echo $props['name']; ?>"
 		type="color"
-<?php echo $value; ?>
+<?php echo $props['value']; ?>
 	/>
 </label>
-<div class="description"><?php echo $description; ?></div>

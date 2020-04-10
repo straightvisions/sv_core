@@ -1,11 +1,9 @@
 <?php 
 $tpl_path	= $this->get_path_core( 'settings/tpl/' . $this->run_type()->get_module_name() . '_tpl/' ); 
-$value 		= $value ? $value : '0px 0px 0px 0px #000000';
-$values		= explode( ' ', $value );
+$props['value'] 		= $props['value'] ? $props['value'] : '0px 0px 0px 0px #000000';
+$props['value']s		= explode( ' ', $props['value'] );
 ?>
 
-<h4><?php echo $title; ?></h4>
-<div class="description"><?php echo $description; ?></div>
 <div class="sv_setting_box_shadow">
 	<div class="sv_setting_flex">
 	<?php 
@@ -31,10 +29,10 @@ $values		= explode( ' ', $value );
 	<input
 		data-sv_type="sv_form_field"
 		class="sv_input"
-		id="<?php echo $ID; ?>"
-		name="<?php echo $name; ?>"
+		id="<?php echo $props['ID']; ?>"
+		name="<?php echo $props['name']; ?>"
 		type="hidden"
-		value="<?php echo esc_attr( $value ); ?>"
+		value="<?php echo esc_attr( $props['value'] ); ?>"
 	/>
 </div>
 
@@ -52,7 +50,7 @@ $values		= explode( ' ', $value );
 	width: 50%;
     margin: 20px auto;
 	text-align: center;
-	box-shadow: <?php echo esc_attr( $value ); ?>;
+	box-shadow: <?php echo esc_attr( $props['value'] ); ?>;
 }
 
 .sv_setting_box_shadow .sv_setting_preview > * {

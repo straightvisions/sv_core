@@ -1,8 +1,8 @@
-<div id="<?php echo $ID . '_vertical_length'; ?>" class="sv_setting">
+<div id="<?php echo $props['ID'] . '_vertical_length'; ?>" class="sv_setting">
     <h4><?php _e( 'Vertical Length', 'sv100' ); ?></h4>
-	<label for="<?php echo $ID . '_vertical_length'; ?>" class="sv_setting_range sv_setting_box_shadow_vertical">
+	<label for="<?php echo $props['ID'] . '_vertical_length'; ?>" class="sv_setting_range sv_setting_box_shadow_vertical">
         <?php 
-            $vertical_length_value  = esc_attr( $values[0] === 'inset' ? $values[2] : $values[1] );
+            $vertical_length_value  = esc_attr( $props['value']s[0] === 'inset' ? $props['value']s[2] : $props['value']s[1] );
             $vertical_length_number = intval( esc_attr( preg_replace('/[^0-9]/', '', $vertical_length_value ) ) );
             $vertical_length_unit 	= esc_attr( preg_replace('/[0-9]+/', '', $vertical_length_value ) );
         ?>

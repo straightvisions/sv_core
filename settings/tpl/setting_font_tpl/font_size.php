@@ -1,11 +1,11 @@
 <?php 
-	$font_size_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $value['size'] ) ) );
-	$font_size_unit 	= esc_attr( preg_replace('/[0-9]+/', '', $value['size'] ) );
+	$font_size_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['size'] ) ) );
+	$font_size_unit 	= esc_attr( preg_replace('/[0-9]+/', '', $props['value']['size'] ) );
 ?>
 
-<div id="<?php echo $ID . '_size'; ?>" class="sv_setting">
+<div id="<?php echo $props['ID'] . '_size'; ?>" class="sv_setting">
     <h4><?php _e( 'Font Size', 'sv100' ); ?></h4>
-	<label for="<?php echo $ID . '_size'; ?>">
+	<label for="<?php echo $props['ID'] . '_size'; ?>">
 		<input
 			class="sv_input"
 			type="number"
@@ -24,10 +24,10 @@
 		<input
 			data-sv_type="sv_form_field"
 			class="sv_input"
-			id="<?php echo $ID . '_size'; ?>"
-			name="<?php echo $name . '[size]'; ?>"
+			id="<?php echo $props['ID'] . '_size'; ?>"
+			name="<?php echo $props['name'] . '[size]'; ?>"
 			type="hidden"
-			value="<?php echo esc_attr( $value['size'] ); ?>"
+			value="<?php echo esc_attr( $props['value']['size'] ); ?>"
 		/>
 	</label>
 </div>

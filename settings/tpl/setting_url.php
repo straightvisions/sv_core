@@ -1,16 +1,14 @@
-<h4><?php echo $title; ?></h4>
-<label for="<?php echo $ID; ?>">
+<label for="<?php echo $props['ID']; ?>">
 	<input
 		data-sv_type="sv_form_field"
 		class="sv_input"
-		id="<?php echo $ID; ?>"
-		name="<?php echo $name; ?>"
+		id="<?php echo $props['ID']; ?>"
+		name="<?php echo $props['name']; ?>"
 		type="url"
-		placeholder="<?php echo $placeholder; ?>"
-		value="<?php echo esc_attr($value); ?>"
-		<?php echo ($maxlength ? 'maxlength="'.$maxlength.'"' :  ''); ?>
-		<?php echo $minlength; ?>
-		<?php echo $required; ?>
-		<?php echo $disabled; ?> />
+		placeholder="<?php echo $props['placeholder']; ?>"
+		value="<?php echo esc_attr($props['value']); ?>"
+		<?php echo ($props['maxlength'] ? 'maxlength="'.$props['maxlength'].'"' :  ''); ?>
+		<?php echo $props['minlength']; ?>
+		<?php echo $props['required']; ?>
+		<?php echo $props['disabled']; ?> />
 </label>
-<div class="description"><?php echo $description; ?></div>

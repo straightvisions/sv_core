@@ -1,6 +1,3 @@
-<h4><?php echo $title; ?></h4>
-<div class="description"><?php echo $description; ?></div>
-
 <style>
 	.sv_setting_margin{
 		width:100%;
@@ -22,21 +19,21 @@
 <table class="sv_setting_margin">
 	<tr>
 		<td colspan="3">
-			<?php $this->print_sub_field($ID, $title, $description, $name, $value, $required, $disabled, $placeholder, $maxlength, $minlength, 'top'); ?>
+			<?php $this->print_sub_field($props, 'top'); ?>
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<?php $this->print_sub_field($ID, $title, $description, $name, $value, $required, $disabled, $placeholder, $maxlength, $minlength, 'left'); ?>
+			<?php $this->print_sub_field($props, 'left'); ?>
 		</td>
 		<td style="width:40%;height:100px;">Content</td>
 		<td>
-			<?php $this->print_sub_field($ID, $title, $description, $name, $value, $required, $disabled, $placeholder, $maxlength, $minlength, 'right'); ?>
+			<?php $this->print_sub_field($props, 'right'); ?>
 		</td>
 	</tr>
 	<tr>
 		<td colspan="3">
-			<?php $this->print_sub_field($ID, $title, $description, $name, $value, $required, $disabled, $placeholder, $maxlength, $minlength, 'bottom'); ?>
+			<?php $this->print_sub_field($props, 'bottom'); ?>
 		</td>
 	</tr>
 </table>

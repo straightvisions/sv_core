@@ -30,7 +30,13 @@
 		protected $section_type				= '';
 		protected $scripts_queue			= array();
 		protected static $expert_mode       = false;
-		protected $breakpoints              = array( 'desktop', 'tablet_landscape', 'tablet', 'mobile_landscape', 'mobile' );
+		protected $breakpoints              = array( // number = min width
+			'mobile'						=> 0,		// mobile first!
+			'mobile_landscape'				=> 576,
+			'tablet'						=> 768,
+			'tablet_landscape'				=> 992,
+			'desktop'						=> 1200,
+		);
 		
 		/**
 		 * @desc			initialize plugin
@@ -389,7 +395,7 @@
 		}
 
 		public function get_breakpoints(): array {
-			return $this->breakpoints;
+			return apply_filters($this->get_root()->get_prefix('breakpoints'), $this->breakpoints);
 		}
 
 		public function get_metabox(): metabox {
@@ -642,30 +648,5 @@
 			$actions			        = array_merge( $links, $actions );
 			
 			return $actions;
-		}
-
-		// Returns a subpage with breakpoint pages
-		public function get_responsive_subpage( string $title, string $template_path, $breakpoints = array() ): string {
-			if ( ! file_exists( $template_path ) ) return '';
-			$breakpoints = empty( $breakpoints ) ? $this->get_breakpoints() : $breakpoints;
-
-			$output = '<div class="sv_setting_subpage"><h2>' . $title . '</h2>';
-
-			foreach ( $breakpoints as $suffix ) {
-				$suffix = '_' . $suffix;
-
-				$output .= '<div class="sv_setting_subpage' . $suffix . '">';
-
-				ob_start();
-				require( $template_path );
-				$output .= ob_get_contents();
-				ob_end_clean();
-
-				$output .= '</div>';
-			}
-
-			$output .= '</div>';
-
-			return $output;
 		}
 	}

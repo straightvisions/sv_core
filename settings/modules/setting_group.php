@@ -54,35 +54,38 @@
 		}
 		protected function html_field($i=0, $setting_id = false, string $field_id = ''){
 			$fields					= array();
+			$output					= array();
 
 			if($this->get_children()){
 				// allow custom labels for groups.
                 $label = ($setting_id !== false ? __('Entry', 'sv_core') . ' #' . ($i + 1) : __('Group #', 'sv_core'));
 
 				foreach($this->get_children() as $child) {
+					$probs				= array(
+						'ID'			=> ($setting_id !== false ? $field_id.'['.$setting_id.']['.$child->get_ID().']' : $field_id.'[sv_form_field_index]['.$child->get_ID().']'),
+						'title'			=> $child->get_title(),
+						'description'	=> $child->get_description(),
+						'name'			=> ($setting_id !== false ? $field_id.'['.$setting_id.']['.$child->get_ID().']' : ''),
+						'value'			=> (
+						(
+							$setting_id !== false &&
+							get_option($field_id)[$setting_id][$child->get_ID()]
+						)
+							? get_option($field_id)[$setting_id][$child->get_ID()]
+							: $child->run_type()->get_data()),
+						'required'		=> $child->get_required(),
+						'disabled'		=> $child->get_disabled(),
+						'placeholder'	=> $child->get_placeholder(),
+						'maxlength'		=> $child->get_maxlength(),
+						'minlength'		=> $child->get_minlength(),
+						'max'			=> $child->get_max(),
+						'min'			=> $child->get_min(),
+						'radio_style'	=> $child->get_radio_style(),
+						'code_editor'	=> $this->get_code_editor()
+					);
+
 					$fields[]			= '<div class="'.$this->get_prefix($this->get_type()).'_item">';
-					$fields[]			= '<div class="sv_'.$this->get_module_name().'_input" data-sv_input_name="'.$field_id.'[sv_form_field_index]['.$child->get_ID().']'.'">'.$child->form(
-							($setting_id !== false ? $field_id.'['.$setting_id.']['.$child->get_ID().']' : $field_id.'[sv_form_field_index]['.$child->get_ID().']'),
-							$child->get_title(),
-							$child->get_description(),
-							($setting_id !== false ? $field_id.'['.$setting_id.']['.$child->get_ID().']' : ''),
-							(
-								(
-								$setting_id !== false &&
-								get_option($field_id)[$setting_id][$child->get_ID()]
-								)
-						? get_option($field_id)[$setting_id][$child->get_ID()]
-						: $child->run_type()->get_data()),
-							$child->get_required(),
-							$child->get_disabled(),
-							$child->get_placeholder(),
-							$child->get_maxlength(),
-							$child->get_minlength(),
-							$child->get_max(),
-							$child->get_min(),
-							$child->get_radio_style(),
-							$this->get_code_editor()
-						);
+					$fields[]			= '<div class="sv_'.$this->get_module_name().'_input" data-sv_input_name="'.$field_id.'[sv_form_field_index]['.$child->get_ID().']'.'">'.$child->form($probs);
 					$fields[]			= '</div></div>';
 
 					// overwrite child group label
@@ -121,7 +124,6 @@
 
 				$output					= array_merge($header, $fields, $footer);
 			}
-
 
 			return implode('',$output);
 		}

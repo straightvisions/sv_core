@@ -1,25 +1,23 @@
 <?php
-if ( $code_editor ) {
-	if ( empty( $code_editor ) ) {
-		$code_editor = 'css';
+if ( $props['code_editor'] ) {
+	if ( empty( $props['code_editor'] ) ) {
+		$props['code_editor'] = 'css';
 	}
 
-	wp_enqueue_code_editor( array( 'type' => 'text/' . $code_editor ) );
+	wp_enqueue_code_editor( array( 'type' => 'text/' . $props['code_editor'] ) );
 
 	echo '<script>jQuery( document ).ready( function() {
-			wp.codeEditor.initialize( jQuery( "#' . $ID . '" ), { mode: "' . $code_editor . '" } );
+			wp.codeEditor.initialize( jQuery( "#' . $props['ID'] . '" ), { mode: "' . $props['code_editor'] . '" } );
 		});
 </script>';
 }
 ?>
-<h4><?php echo $title; ?></h4>
-<label for="<?php echo $ID; ?>">
+<label for="<?php echo $props['ID']; ?>">
 	<textarea style="height:200px;"
 		data-sv_type="sv_form_field"
 		class="sv_input"
-		id="<?php echo $ID; ?>"
-		name="<?php echo $name; ?>"
-		<?php echo $required; ?>
-		<?php echo $disabled; ?>><?php echo esc_textarea($value); ?></textarea>
+		id="<?php echo $props['ID']; ?>"
+		name="<?php echo $props['name']; ?>"
+		<?php echo $props['required']; ?>
+		<?php echo $props['disabled']; ?>><?php echo esc_textarea($props['value']); ?></textarea>
 </label>
-<div class="description"><?php echo $description; ?></div>

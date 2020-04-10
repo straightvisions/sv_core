@@ -1,12 +1,12 @@
 <?php 
-	$border_top_left_radius_number 	    = intval( esc_attr( preg_replace('/[^0-9]/', '', $value['top_left_radius'] ) ) );
-    $border_top_left_radius_unit        = esc_attr( preg_replace('/[0-9]+/', '', $value['top_left_radius'] ) );
-    $border_top_right_radius_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $value['top_right_radius'] ) ) );
-    $border_top_right_radius_unit       = esc_attr( preg_replace('/[0-9]+/', '', $value['top_right_radius'] ) );
-    $border_bottom_left_radius_number   = intval( esc_attr( preg_replace('/[^0-9]/', '', $value['bottom_left_radius'] ) ) );
-	$border_bottom_left_radius_unit     = esc_attr( preg_replace('/[0-9]+/', '', $value['bottom_left_radius'] ) );
-    $border_bottom_right_radius_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $value['bottom_right_radius'] ) ) );
-    $border_bottom_right_radius_unit    = esc_attr( preg_replace('/[0-9]+/', '', $value['bottom_right_radius'] ) );
+	$border_top_left_radius_number 	    = intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['top_left_radius'] ) ) );
+    $border_top_left_radius_unit        = esc_attr( preg_replace('/[0-9]+/', '', $props['value']['top_left_radius'] ) );
+    $border_top_right_radius_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['top_right_radius'] ) ) );
+    $border_top_right_radius_unit       = esc_attr( preg_replace('/[0-9]+/', '', $props['value']['top_right_radius'] ) );
+    $border_bottom_left_radius_number   = intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['bottom_left_radius'] ) ) );
+	$border_bottom_left_radius_unit     = esc_attr( preg_replace('/[0-9]+/', '', $props['value']['bottom_left_radius'] ) );
+    $border_bottom_right_radius_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['bottom_right_radius'] ) ) );
+    $border_bottom_right_radius_unit    = esc_attr( preg_replace('/[0-9]+/', '', $props['value']['bottom_right_radius'] ) );
 ?>
 
 <style>
@@ -26,12 +26,12 @@
 		text-align: center;
 	}
 </style>
-<div id="<?php echo $ID . '_radius'; ?>" class="sv_setting">
+<div id="<?php echo $props['ID'] . '_radius'; ?>" class="sv_setting">
     <h4><?php _e( 'Border Radius', 'sv100' ); ?></h4>
     <table class="sv_setting_border">
         <tr>
             <td>
-                <label for="<?php echo $ID . '_top_left_radius'; ?>">
+                <label for="<?php echo $props['ID'] . '_top_left_radius'; ?>">
                     <input
                         class="sv_input"
                         type="number"
@@ -50,16 +50,16 @@
                     <input
                         data-sv_type="sv_form_field"
                         class="sv_input"
-                        id="<?php echo $ID . '_top_left_radius'; ?>"
-                        name="<?php echo $name . '[top_left_radius]'; ?>"
+                        id="<?php echo $props['ID'] . '_top_left_radius'; ?>"
+                        name="<?php echo $props['name'] . '[top_left_radius]'; ?>"
                         type="hidden"
-                        value="<?php echo esc_attr( $value['top_left_radius'] ); ?>"
+                        value="<?php echo esc_attr( $props['value']['top_left_radius'] ); ?>"
                     />
                 </label>
             </td>
             <td style="border:none"></td>
             <td>
-                <label for="<?php echo $ID . '_top_right_radius'; ?>">
+                <label for="<?php echo $props['ID'] . '_top_right_radius'; ?>">
                     <input
                         class="sv_input"
                         type="number"
@@ -78,10 +78,10 @@
                     <input
                         data-sv_type="sv_form_field"
                         class="sv_input"
-                        id="<?php echo $ID . '_top_right_radius'; ?>"
-                        name="<?php echo $name . '[top_right_radius]'; ?>"
+                        id="<?php echo $props['ID'] . '_top_right_radius'; ?>"
+                        name="<?php echo $props['name'] . '[top_right_radius]'; ?>"
                         type="hidden"
-                        value="<?php echo esc_attr( $value['top_right_radius'] ); ?>"
+                        value="<?php echo esc_attr( $props['value']['top_right_radius'] ); ?>"
                     />
                 </label>
             </td>
@@ -93,7 +93,7 @@
         </tr>
         <tr>
             <td>
-                <label for="<?php echo $ID . '_bottom_left_radius'; ?>">
+                <label for="<?php echo $props['ID'] . '_bottom_left_radius'; ?>">
                     <input
                         class="sv_input"
                         type="number"
@@ -112,16 +112,16 @@
                     <input
                         data-sv_type="sv_form_field"
                         class="sv_input"
-                        id="<?php echo $ID . '_bottom_left_radius'; ?>"
-                        name="<?php echo $name . '[bottom_left_radius]'; ?>"
+                        id="<?php echo $props['ID'] . '_bottom_left_radius'; ?>"
+                        name="<?php echo $props['name'] . '[bottom_left_radius]'; ?>"
                         type="hidden"
-                        value="<?php echo esc_attr( $value['bottom_left_radius'] ); ?>"
+                        value="<?php echo esc_attr( $props['value']['bottom_left_radius'] ); ?>"
                     />
                 </label>
             </td>
             <td style="border:none"></td>
             <td>
-                <label for="<?php echo $ID . '_bottom_right_radius'; ?>">
+                <label for="<?php echo $props['ID'] . '_bottom_right_radius'; ?>">
                     <input
                         class="sv_input"
                         type="number"
@@ -140,10 +140,10 @@
                     <input
                         data-sv_type="sv_form_field"
                         class="sv_input"
-                        id="<?php echo $ID . '_bottom_right_radius'; ?>"
-                        name="<?php echo $name . '[bottom_right_radius]'; ?>"
+                        id="<?php echo $props['ID'] . '_bottom_right_radius'; ?>"
+                        name="<?php echo $props['name'] . '[bottom_right_radius]'; ?>"
                         type="hidden"
-                        value="<?php echo esc_attr( $value['bottom_right_radius'] ); ?>"
+                        value="<?php echo esc_attr( $props['value']['bottom_right_radius'] ); ?>"
                     />
                 </label>
             </td>

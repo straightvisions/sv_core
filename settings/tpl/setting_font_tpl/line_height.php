@@ -1,11 +1,11 @@
 <?php 
-	$line_height_number = intval( esc_attr( preg_replace('/[^0-9]/', '', $value['height'] ) ) );
-	$line_height_unit 	= esc_attr( preg_replace('/[0-9]+/', '', $value['height'] ) );
+	$line_height_number = intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['height'] ) ) );
+	$line_height_unit 	= esc_attr( preg_replace('/[0-9]+/', '', $props['value']['height'] ) );
 ?>
 
-<div id="<?php echo $ID . '_height'; ?>" class="sv_setting">
+<div id="<?php echo $props['ID'] . '_height'; ?>" class="sv_setting">
     <h4><?php _e( 'Line Height', 'sv100' ); ?></h4>
-	<label for="<?php echo $ID . '_height'; ?>">
+	<label for="<?php echo $props['ID'] . '_height'; ?>">
 		<input
 			class="sv_input"
 			type="number"
@@ -24,10 +24,10 @@
 		<input
 			data-sv_type="sv_form_field"
 			class="sv_input"
-			id="<?php echo $ID . '_height'; ?>"
-			name="<?php echo $name . '[height]'; ?>"
+			id="<?php echo $props['ID'] . '_height'; ?>"
+			name="<?php echo $props['name'] . '[height]'; ?>"
 			type="hidden"
-			value="<?php echo esc_attr( $value['height'] ); ?>"
+			value="<?php echo esc_attr( $props['value']['height'] ); ?>"
 		/>
 	</label>
 </div>

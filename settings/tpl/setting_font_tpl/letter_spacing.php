@@ -1,11 +1,11 @@
 <?php 
-	$letter_spacing_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $value['spacing'] ) ) );
-	$letter_spacing_unit 	= esc_attr( preg_replace('/[0-9]+/', '', $value['spacing'] ) );
+	$letter_spacing_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['spacing'] ) ) );
+	$letter_spacing_unit 	= esc_attr( preg_replace('/[0-9]+/', '', $props['value']['spacing'] ) );
 ?>
 
-<div id="<?php echo $ID . '_spacing'; ?>" class="sv_setting">
+<div id="<?php echo $props['ID'] . '_spacing'; ?>" class="sv_setting">
     <h4><?php _e( 'Letter Spacing', 'sv100' ); ?></h4>
-	<label for="<?php echo $ID . '_spacing'; ?>">
+	<label for="<?php echo $props['ID'] . '_spacing'; ?>">
 		<input
 			class="sv_input"
 			type="number"
@@ -26,10 +26,10 @@
 		<input
 			data-sv_type="sv_form_field"
 			class="sv_input"
-			id="<?php echo $ID . '_spacing'; ?>"
-			name="<?php echo $name . '[spacing]'; ?>"
+			id="<?php echo $props['ID'] . '_spacing'; ?>"
+			name="<?php echo $props['name'] . '[spacing]'; ?>"
 			type="hidden"
-			value="<?php echo esc_attr( $value['spacing'] ); ?>"
+			value="<?php echo esc_attr( $props['value']['spacing'] ); ?>"
 		/>
 	</label>
 </div>
