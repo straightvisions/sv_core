@@ -1,8 +1,8 @@
 <?php
 	$classes = 'sv_setting_checkbox'.($props['disabled'] ? ' sv_disabled' : '');
-	if(strlen($props['title']) > 0){
+	/*if(strlen($props['title']) > 0){
 		$props['title'] = '<div class="sv_setting_checkbox_title">'.$props['title'].'</div>';
-	}
+	}*/
 
 	if($sub && isset($props['value'][$sub])){
 		$props['value'] = $props['value'][$sub];
@@ -34,5 +34,5 @@
 	' . $props['disabled']; ?>
 	/>
 	<label for="<?php echo $props['name']; ?>_on" class="button"><i class="fa fa-check"></i></label>
-	<?php echo $props['title']; ?>
+	<?php //echo $props['title']; ?>
 </div>
