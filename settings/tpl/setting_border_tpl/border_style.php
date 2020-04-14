@@ -1,23 +1,5 @@
 <?php $border_style_options = array( 'none', 'solid', 'dotted', 'dashed', 'double', 'groove', 'ridge', 'inset', 'outset' ); ?>
 
-<style>
-	.sv_setting_border {
-		width:100%;
-	}
-	.sv_setting_border td {
-		border: 1px solid #000;
-		min-width: 50px;
-		height: 20px;
-		text-align: center;
-	}
-	.sv_setting_border td label {
-		margin: 10px !important;
-	}
-	.sv_setting_border td select {
-		margin: 0 auto;
-	}
-</style>
-
 <div id="<?php echo $props['ID'] . '_style'; ?>" class="sv_setting">
     <h4><?php _e( 'Border Style', 'sv100' ); ?></h4>
     <table class="sv_setting_border">

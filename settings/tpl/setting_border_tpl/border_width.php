@@ -9,23 +9,6 @@
 	$border_bottom_width_unit   = esc_attr( preg_replace('/[0-9]+/', '', $props['value']['bottom_width'] ) );
 ?>
 
-<style>
-	.sv_setting_border {
-		width:100%;
-	}
-	.sv_setting_border td {
-		border: 1px solid #000;
-		min-width: 50px;
-		height: 20px;
-		text-align: center;
-	}
-	.sv_setting_border td label {
-		margin: 10px !important;
-	}
-	.sv_setting_border td input {
-		text-align:center;
-	}
-</style>
 <div id="<?php echo $props['ID'] . '_width'; ?>" class="sv_setting">
     <h4><?php _e( 'Border Width', 'sv100' ); ?></h4>
     <table class="sv_setting_border">

@@ -370,15 +370,17 @@ class settings extends sv_abstract{
 				if(!is_array($value) && strlen($value) > 0){
 					$merged_css[$selector][$property]						= $property . ':' . $value . ';'. "\n";
 				}
-				elseif(strlen($value[$breakpoint]) > 0) {
+				elseif(is_array($value) && strlen($value[$breakpoint]) > 0) {
 					// all values are equal, so no media query necessary
+					$value_unique = array_unique($value);
+
 					if (
-						count(array_unique($value)) === 1 || // all the same
+						count($value_unique) === 1 || // all the same
 						(
 							// all empty but mobile
-							count(array_unique($value)) === 2 && // only two different values
-							strlen(array_unique($value)['mobile']) > 0 && // mobile is set
-							strlen(end(array_unique($value))) === 0 // other element is empty
+							count($value_unique) === 2 && // only two different values
+							strlen($value_unique['mobile']) > 0 && // mobile is set
+							strlen(end($value_unique)) === 0 // other element is empty
 						)
 					) {
 						$merged_css[$selector][$property] = $property . ':' . $value[$breakpoint] . ';'. "\n";
@@ -571,6 +573,7 @@ class settings extends sv_abstract{
 		$props['min']				= $this->get_parent()->get_min();
 		$props['radio_style']		= $this->get_parent()->get_radio_style();
 		$props['code_editor']		= $this->get_parent()->get_code_editor();
+		$props['default_value']		= $this->get_parent()->get_default_value();
 
 		return $this->form($props);
 	}
@@ -587,6 +590,7 @@ class settings extends sv_abstract{
 		foreach($this->get_breakpoints() as $breakpoint => $min_width){
 			$props_child				= $props;
 			$props_child['name']		= $props['name'].'['.$breakpoint.']';
+			$props_child['ID']			= $props['ID'].'['.$breakpoint.']';
 			$props_child['value']		= isset($props['value'][$breakpoint]) ? $props['value'][$breakpoint] : $props['value'];
 
 			$output .= '<div class="sv_setting_responsive sv_setting_responsive_'.$breakpoint.'">'.$this->load_form_field_html($this->map_props($props_child)).'</div>';
@@ -630,6 +634,7 @@ class settings extends sv_abstract{
 		$props['min']				= isset($props['min']) ? $props['min'] : $this->get_min();
 		$props['radio_style']		= isset($props['radio_style']) ? $props['radio_style'] : $this->get_radio_style();
 		$props['code_editor']		= isset($props['code_editor']) ? $props['code_editor'] : $this->get_code_editor();
+		$props['default_value']		= isset($props['default_value']) ? $props['default_value'] : $this->get_default_value();
 
 		return $props;
 	}

@@ -618,7 +618,7 @@
 		public function load_section_menu() {
 			foreach ( $this->get_sections_sorted_by_title() as $section ) {
 				$section_name = $section['object']->get_prefix();
-				echo '<div data-target="#section_'
+				echo '<div data-sv_admin_menu_target="#section_'
                     . $section_name
                     . '" class="sv_admin_menu_item section_'
                     . $section[ 'object' ]->get_section_type()
