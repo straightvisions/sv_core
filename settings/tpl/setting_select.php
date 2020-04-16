@@ -21,7 +21,7 @@
 		<?php
 			foreach( $this->get_options() as $o_value => $o_name ) {
 				echo '<option
-				' . ( ( $selected == $o_name)  ? ' selected="selected"' : '' ) . '
+				' . ( ( $selected == $o_value)  ? ' selected="selected"' : '' ) . '
 				value="' . $o_value . '">' . $o_name . '</option>';
 			}
 		?>

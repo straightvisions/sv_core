@@ -6,7 +6,7 @@
 		name="<?php echo $props['name']; ?>[<?php echo $sub; ?>]"
 		type="text"
 		placeholder="<?php echo __($sub, 'sv_core'); ?>"
-		value="<?php echo $props['value'][$sub]; ?>"
+		value="<?php echo ((strlen($props['value'][$sub]) > 0) ? $props['value'][$sub] : $props['default_value'][$sub]); ?>"
 		<?php echo  ($props['maxlength'] ? 'maxlength="'.$props['maxlength'].'"' :  ''); ?>
 		<?php echo $props['minlength']; ?>
 		<?php echo $props['required']; ?>

@@ -5,26 +5,6 @@
     <table class="sv_setting_border">
         <tr>
             <td colspan="3">
-                <label for="<?php echo $props['ID'] . '_left_style'; ?>">
-                    <select
-                        data-sv_type="sv_form_field"
-                        class="sv_input"
-                        id="<?php echo $props['ID'] . '_left_style'; ?>"
-                        name="<?php echo $props['name'] . '[left_style]'; ?>"
-                    >
-                    <?php  
-                        foreach( $border_style_options as $style ) {
-                            echo '<option value="' . $style . '"';
-                            echo $props['value']['left_style'] === $style ? ' selected' : '';
-                            echo '>' . $style . '</option>';
-                        }
-                    ?>
-                    </select>
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <td>
                 <label for="<?php echo $props['ID'] . '_top_style'; ?>">
                     <select
                         data-sv_type="sv_form_field"
@@ -42,28 +22,28 @@
                     </select>
                 </label>
             </td>
-            <td style="width:100px;height:100px;">Content</td>
+        </tr>
+        <tr>
             <td>
-                <label for="<?php echo $props['ID'] . '_bottom_style'; ?>">
+                <label for="<?php echo $props['ID'] . '_left_style'; ?>">
                     <select
                         data-sv_type="sv_form_field"
                         class="sv_input"
-                        id="<?php echo $props['ID'] . '_bottom_style'; ?>"
-                        name="<?php echo $props['name'] . '[bottom_style]'; ?>"
+                        id="<?php echo $props['ID'] . '_left_style'; ?>"
+                        name="<?php echo $props['name'] . '[left_style]'; ?>"
                     >
                     <?php  
                         foreach( $border_style_options as $style ) {
                             echo '<option value="' . $style . '"';
-                            echo $props['value']['bottom_style'] === $style ? ' selected' : '';
+                            echo $props['value']['left_style'] === $style ? ' selected' : '';
                             echo '>' . $style . '</option>';
                         }
                     ?>
                     </select>
                 </label>
             </td>
-        </tr>
-        <tr>
-            <td colspan="3">
+            <td style="width:100px;height:100px;">Content</td>
+            <td>
                 <label for="<?php echo $props['ID'] . '_right_style'; ?>">
                     <select
                         data-sv_type="sv_form_field"
@@ -75,6 +55,26 @@
                         foreach( $border_style_options as $style ) {
                             echo '<option value="' . $style . '"';
                             echo $props['value']['right_style'] === $style ? ' selected' : '';
+                            echo '>' . $style . '</option>';
+                        }
+                    ?>
+                    </select>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <label for="<?php echo $props['ID'] . '_bottom_style'; ?>">
+                    <select
+                        data-sv_type="sv_form_field"
+                        class="sv_input"
+                        id="<?php echo $props['ID'] . '_bottom_style'; ?>"
+                        name="<?php echo $props['name'] . '[bottom_style]'; ?>"
+                    >
+                    <?php  
+                        foreach( $border_style_options as $style ) {
+                            echo '<option value="' . $style . '"';
+                            echo $props['value']['bottom_style'] === $style ? ' selected' : '';
                             echo '>' . $style . '</option>';
                         }
                     ?>
