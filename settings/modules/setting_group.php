@@ -69,8 +69,9 @@
 						'value'			=> (
 						(
 							$setting_id !== false &&
-							isset(get_option($field_id)[$setting_id][$child->get_ID()]) &&
-							get_option($field_id)[$setting_id][$child->get_ID()]
+							get_option($field_id) !== false &&
+							isset(get_option($field_id)[$setting_id]) &&
+							isset(get_option($field_id)[$setting_id][$child->get_ID()])
 						)
 							? get_option($field_id)[$setting_id][$child->get_ID()]
 							: $child->run_type()->get_data()),
