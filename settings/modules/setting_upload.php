@@ -111,9 +111,10 @@
 			}
 			
 			// make sure it's a group field
-			if(method_exists($this->get_parent()->get_parent(), 'get_ID') && isset($_FILES[$this->get_parent()->get_parent()->get_prefix($this->get_parent()->get_parent()->get_ID())])) {
+			if(method_exists($this->get_parent()->get_parent()->get_parent(), 'get_ID') && isset($_FILES[$this->get_parent()->get_parent()->get_parent()->get_prefix($this->get_parent()->get_parent()->get_parent()->get_ID())])) {
 				// reformat data to convert group uploads to single uploads
-				$data_new					= $this->reformat_file_data($_FILES[ $this->get_parent()->get_parent()->get_prefix( $this->get_parent()->get_parent()->get_ID() ) ]);
+				$data_new					= $this->reformat_file_data($_FILES[ $this->get_parent()->get_parent()->get_parent()->get_prefix( $this->get_parent()->get_parent()->get_parent()->get_ID() ) ]);
+
 				// new uploads
 				foreach ( $data_new as $i => $data ) {
 					foreach ( $data as $name => $fields ) {
@@ -126,12 +127,12 @@
 								wp_handle_upload( $fields, array( 'test_form' => false ) )
 							);
 							// make sure existing uploads are carried
-						} elseif ( !isset($input[ $i ][ $name ]['file']) && isset( $this->get_parent()->get_data()[ $i ][ $name ] ) && intval( $this->get_parent()->get_data()[ $i ][ $name ] ) > 0 ) {
-							$input[ $i ][ $name ] = $this->get_parent()->get_data()[ $i ][ $name ];
+						} elseif ( !isset($input[ $i ][ $name ]['file']) && isset( $this->get_parent()->get_parent()->get_parent()->get_data()[ $i ][ $name ] ) && intval( $this->get_parent()->get_parent()->get_parent()->get_data()[ $i ][ $name ] ) > 0 ) {
+							$input[ $i ][ $name ] = $this->get_parent()->get_parent()->get_parent()->get_data()[ $i ][ $name ];
 						}
 					}
 				}
-				
+
 				// delete files if requested
 				$input						= $this->delete_group_files($input);
 			}
