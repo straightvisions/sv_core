@@ -25,6 +25,7 @@
 		protected $section_types			= array();
 		protected $section_template_path	= '';
 		protected $section_title			= false;
+		protected $section_order			= false;
 		protected $section_desc				= false;
 		protected $section_privacy			= false;
 		protected $section_type				= '';
@@ -535,6 +536,32 @@
 			
 			return $sections;
 		}
+
+		public function get_sections_sorted_by_order(): array {
+			$sections	= array();
+
+			if ( empty( $this->sections ) === false ) {
+				foreach($this->sections as $section){
+					$order_num = $section['object']->get_section_order();
+
+					if($order_num === 0){
+						$order_num = 777; // move them to the bottom
+					}
+
+					while( isset($sections[$order_num]) ){
+						$order_num++;
+					}
+
+					$section['object']->set_section_title($order_num);
+					$sections[$order_num] = $section;
+				}
+
+			}
+
+			ksort($sections);
+
+			return $sections;
+		}
 		
 		public function get_section_template_path(): string {
 			return $this->section_template_path;
@@ -564,6 +591,16 @@
 		
 		public function get_section_title(): string {
 			return $this->section_title ? $this->section_title : __( 'No Title defined.', 'sv_core' );
+		}
+
+		public function set_section_order( int $num ) {
+			$this->section_order = $num;
+
+			return $this;
+		}
+
+		public function get_section_order(): int {
+			return $this->section_order ? $this->section_order : 0;
 		}
 		
 		public function set_section_desc( string $desc ) {
@@ -616,7 +653,7 @@
 		}
 		
 		public function load_section_menu() {
-			foreach ( $this->get_sections_sorted_by_title() as $section ) {
+			foreach ( $this->get_sections_sorted_by_order() as $section ) {
 				$section_name = $section['object']->get_prefix();
 				echo '<div data-sv_admin_menu_target="#section_'
                     . $section_name
