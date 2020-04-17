@@ -552,7 +552,6 @@
 						$order_num++;
 					}
 
-					$section['object']->set_section_title($order_num);
 					$sections[$order_num] = $section;
 				}
 
