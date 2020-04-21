@@ -34,8 +34,8 @@
 			}
 			static::$initialized = true;
 		}
-		public function add_child(){
-			$child					= static::create($this);
+		public function add_child($setting = false){
+			$child					= $setting ? $setting : static::create($this);
 			$this->children[]		= $child;
 			return $child;
 		}
