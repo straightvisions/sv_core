@@ -198,7 +198,19 @@ class settings extends sv_abstract{
 		return $this;
 	}
 	public function get_default_value(){
-		return $this->default_value;
+		$value = $this->default_value;
+
+		if($this->get_is_responsive()){
+			$breakpoints = $this->get_breakpoints();
+
+			foreach($breakpoints as &$bp){
+				$bp = $this->default_value;
+			}
+
+			$value = $breakpoints;
+		}
+
+		return $value;
 	}
 	public function set_is_responsive(bool $check): settings{
 		$this->responsive = $check;
@@ -339,12 +351,24 @@ class settings extends sv_abstract{
 	public function get_data(){
 		$data = $this->data;
 
-		if($data !== false && $data !== ''){
-			return $data;
-		}else {
-			return (get_option($this->get_field_id()) !== false && get_option($this->get_field_id()) !== '') ? get_option($this->get_field_id()) : $this->get_default_value();
+		if($data === false || $data === ''){
+			$data = (get_option($this->get_field_id()) !== false && get_option($this->get_field_id()) !== '') ? get_option($this->get_field_id()) : $this->get_default_value();
+
+			if($this->get_is_responsive() && !is_array($data)){
+				$breakpoints = $this->get_breakpoints();
+
+				foreach($breakpoints as &$bp){
+					$bp = $data;
+				}
+
+				$data = $breakpoints;
+			}
+
 		}
+
+		return $data;
 	}
+
 	// set data value from external source
 	public function set_data($data){
 		$this->data		= $data;
