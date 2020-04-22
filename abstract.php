@@ -685,4 +685,71 @@
 			
 			return $actions;
 		}
+		public function has_block_frontend(string $block_name): bool{
+			if( ! is_admin() ) {
+				$post = get_post();
+
+				if ( !$this->has_block( $block_name, $post->ID )) {
+					return false;
+				}
+			}
+			return true;
+		}
+		public function has_block( string $block_name, int $id = 0 ): bool{
+			$id = (!$id) ? get_the_ID() : $id;
+
+			if(has_block($block_name, $id)){
+				return true;
+			}
+			if($this->has_reusable_block($block_name, $id)){
+				return true;
+			}
+			return false;
+		}
+		public function has_reusable_block( string $block_name, int $id = 0 ): bool{
+			$id = (!$id) ? get_the_ID() : $id;
+
+			if( $id ){
+				if ( has_block( 'block', $id ) ){
+					// Check reusable blocks
+					$content = get_post_field( 'post_content', $id );
+					$blocks = parse_blocks( $content );
+
+					if ( ! is_array( $blocks ) || empty( $blocks ) ) {
+						return false;
+					}
+
+					foreach ( $blocks as $block ) {
+						$block = $this->flatten_inner_blocks($block); // search for child blocks
+
+						if ( $block['blockName'] === 'core/block' && ! empty( $block['attrs']['ref'] ) ) {
+							if( has_block( $block_name, $block['attrs']['ref'] ) ){
+								return true;
+							}
+						}
+
+						if ( $block['blockName'] === 'core/block' && ! empty( $block['attrs']['ref'] ) ) {
+							if( has_block( $block_name, $block['attrs']['ref'] ) ){
+								return true;
+							}
+						}
+					}
+
+				}
+			}
+
+			return false;
+		}
+		protected function flatten_inner_blocks(array $block): array{
+			if(isset($block['innerBlocks'])){
+				$inner_blocks = $block['innerBlocks'];
+				unset($block['innerBlocks']);
+				foreach($inner_blocks as $inner_block) {
+					$block = array_merge($block, $this->flatten_inner_blocks($inner_block));
+				}
+
+			}
+
+			return $block;
+		}
 	}
