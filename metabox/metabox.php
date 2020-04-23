@@ -72,7 +72,7 @@
 			foreach($this->get_parent()->get_settings() as $setting){
 				$meta_field					= $setting->get_prefix($setting->get_ID());
 				$setting->set_data(get_post_meta($post->ID, $meta_field, true));
-				echo $setting->default(true);
+				echo $setting->form();
 			}
 		}
 		public function save_post($post_id, $post){
