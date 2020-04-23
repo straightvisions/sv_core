@@ -687,7 +687,11 @@
 		}
 		public function has_block_frontend(string $block_name): bool{
 			if( ! is_admin() ) {
-				$post = get_post();
+				$post = get_queried_object();
+
+				if(!$post){
+					return false;
+				}
 
 				if ( !$this->has_block( $block_name, $post->ID )) {
 					return false;
