@@ -430,7 +430,21 @@ class settings extends sv_abstract{
 		// css with media queries required
 		if(count($responsive_css) > 0) {
 			foreach($responsive_css as $breakpoint => $s) {
-				$output[] = '@media ( min-width: ' . $this->get_breakpoints()[$breakpoint] . 'px ) {'."\n";
+				// orientation support
+				if($breakpoint == 'mobile'){
+					$orientation		= ' and (orientation: portrait)';
+				}elseif($breakpoint == 'mobile_landscape'){
+					$orientation		= ' and (orientation: landscape)';
+				}elseif($breakpoint == 'tablet'){
+					$orientation		= ' and (orientation: portrait)';
+				}elseif($breakpoint == 'tablet_landscape'){
+					$orientation		= ' and (orientation: landscape)';
+				}else{
+					$orientation		= '';
+				}
+
+				// generate media query
+				$output[] = '@media ( min-width: ' . $this->get_breakpoints()[$breakpoint] . 'px )'.$orientation.' {'."\n";
 
 				foreach($s as $selector => $properties){
 					$output[] = $selector . '{'. "\n";
