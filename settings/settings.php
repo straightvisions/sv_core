@@ -394,7 +394,7 @@ class settings extends sv_abstract{
 				if(!is_array($value) && strlen($value) > 0){
 					$merged_css[$selector][$property]						= $property . ':' . $value . ';'. "\n";
 				}
-				elseif(is_array($value) && strlen($value[$breakpoint]) > 0) {
+				elseif(is_array($value) && isset($value[$breakpoint]) && strlen($value[$breakpoint]) > 0) {
 					// all values are equal, so no media query necessary
 					$value_unique = array_unique($value);
 
