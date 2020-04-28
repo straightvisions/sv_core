@@ -369,6 +369,19 @@ class settings extends sv_abstract{
 		return $data;
 	}
 
+	public function get_css_data(string $custom_property = '', string $prefix = '', string $suffix = ''): array{
+		if(strlen($suffix) > 0){
+			return $this->run_type()->get_css_data($custom_property, $prefix, $suffix);
+		}
+		if(strlen($prefix) > 0){
+			return $this->run_type()->get_css_data($custom_property, $prefix);
+		}
+		if(strlen($custom_property) > 0){
+			return $this->run_type()->get_css_data($custom_property);
+		}
+		return $this->run_type()->get_css_data();
+	}
+
 	// set data value from external source
 	public function set_data($data){
 		$this->data		= $data;

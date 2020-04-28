@@ -16,6 +16,16 @@
 
 			add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
 		}
+		public function get_css_data(string $custom_property = '', string $prefix = 'rgba(', string $suffix = ')'): array{
+			$property				= ((strlen($custom_property) > 0) ? $custom_property : 'color');
+			$properties				= array();
+
+			if($this->get_parent()->get_data()) {
+				$properties[$property]		= $this->prepare_css_property_responsive($this->get_parent()->get_data(),$prefix,$suffix);
+			}
+
+			return $properties;
+		}
 		// Returns the color pallete
 		protected function get_color_palette() {
 			return $this->color_palette;
