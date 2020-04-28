@@ -195,6 +195,11 @@
 				if ( $script->get_is_gutenberg() ) {
 					if($script->get_type() == 'css') {
 						ob_start();
+
+						// get settings object for build css later
+						$_s			= $script->get_parent()->get_settings();
+						$_s			= reset($_s);
+
 						require_once( $script->get_path() );
 						$css		= ob_get_clean();
 						
