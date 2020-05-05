@@ -523,6 +523,20 @@
 			return $this->sections;
 		}
 
+		public function get_section_single(string $section_title = '') {
+			$output  	= false; // should be null
+			$sections 	= $this->get_sections_sorted_by_title();
+
+			foreach($sections as $key => $section){
+				if($key == $section_title){
+					$output = $section;
+					break;
+				}
+			}
+
+			return $output;
+		}
+
 		public function get_sections_sorted_by_title(): array {
 			$sections = array();
 			
@@ -645,7 +659,7 @@
             
             require_once( $path );
 			
-			$this->load_section_html();
+			// $this->load_section_html();
 			
 			require_once( $this->get_path_core( 'backend/tpl/legal.php' ) );
 			require_once( $this->get_path_core( 'backend/tpl/footer.php' ) );

@@ -114,6 +114,16 @@ if ( !class_exists( '\sv_core\core' ) ) {
             });
 
         }
+
+        public function ajax_get_section(){
+
+			if( wp_verify_nonce( $_POST['nonce'], 'sv_admin_ajax' ) !== false && isset($_POST['section'])) {
+                $section = $this->get_section_single($_POST['section']);
+                var_dump($section);die;
+				$this->ajaxStatus('success', '', $section);
+			}
+			var_dump(wp_verify_nonce( $_POST['nonce'], 'sv_admin_ajax' ));die;
+        }
 		
 		public function ajax_expert_mode(){
 			if( empty($_POST) || isset($_POST) === false ){
@@ -260,6 +270,8 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
             add_action( 'wp_ajax_sv_core_expert_mode', array($this, 'ajax_expert_mode'));
 
+			add_action( 'wp_ajax_sv_ajax_get_section', array($this, 'ajax_get_section'));
+
             // setup update routine
             add_action( 'shutdown', array( $this, 'update_routine' ) );
 
@@ -281,8 +293,18 @@ if ( !class_exists( '\sv_core\core' ) ) {
                 ->set_localized( array(
                     'ajaxurl'           => admin_url( 'admin-ajax.php' ),
                     'nonce_expert_mode' => \wp_create_nonce( 'sv_expert_mode' ),
+                    'nonce_admin_ajax'  => \wp_create_nonce( 'sv_admin_ajax' ), // non critical nonce
                     'settings_saved'    => __('Setting saved', 'sv_core')
                 ) );
+
+			$this->get_root()->get_script( 'sv_core_admin_sections' )
+				->set_path( $this->get_path_core( '../assets/admin_sections.js' ), true, $this->get_url_core( '../assets/admin_sections.js' ) )
+				->set_is_backend()
+				->set_is_enqueued()
+				->set_is_no_prefix()
+				->set_type( 'js' )
+				->set_deps( array( 'sv_core_admin', 'jquery' ) )
+				->set_is_required();
 
             $this->get_root()->get_script( 'sv_core_color_picker' )
                 ->set_is_no_prefix()
