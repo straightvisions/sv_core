@@ -65,25 +65,24 @@
 				}
 				
 				$this->s[ 'disable_all_css' ] = $this->get_parent()::$settings->create( $this )
-																			  ->set_ID( 'disable_all_css' )
-																			  ->set_title( __('Disable all CSS per Default', 'sv_core') )
-																			  ->set_description( __('CSS enqueued will be disabled by default - you may override this later down below.', 'sv_core') )
-																			  ->load_type( 'checkbox' );
+					  ->set_ID( 'disable_all_css' )
+					  ->set_title( __('Disable all CSS per Default', 'sv_core') )
+					  ->set_description( __('CSS enqueued will be disabled by default - you may override this later down below.', 'sv_core') )
+					  ->load_type( 'checkbox' );
 				
 				$this->s[ 'disable_all_js' ] = $this->get_parent()::$settings->create( $this )
-																			 ->set_ID( 'disable_all_js' )
-																			 ->set_title( __('Disable all JS per Default', 'sv_core') )
-																			 ->set_description( __('JS enqueued will be disabled by default - you may override this later down below.', 'sv_core') )
-																			 ->load_type( 'checkbox' );
+					 ->set_ID( 'disable_all_js' )
+					 ->set_title( __('Disable all JS per Default', 'sv_core') )
+					 ->set_description( __('JS enqueued will be disabled by default - you may override this later down below.', 'sv_core') )
+					 ->load_type( 'checkbox' );
 				
 				foreach ( $this->get_scripts() as $script ) {
 					$this->s[ $script->get_UID() ] = $this->get_parent()::$settings->create( $this )
-																				   ->set_ID( $script->get_UID() )
-																				   ->set_default_value( 'default' )
-																				   ->set_title( '<div class="fab fa-' . ( $script->get_type() == 'css' ? 'css3' : 'js' ) . '" style="font-size:24px;margin-right:12px;"></div>' . $script->get_handle() )
-																				   ->set_description( $script->get_url() )
-																				   ->load_type( 'select' )
-																				   ->set_disabled( $script->get_is_required() ? true : false );
+					   ->set_ID( $script->get_UID() )
+					   ->set_default_value( 'default' )
+					   ->set_title( '<div class="fab fa-' . ( $script->get_type() == 'css' ? 'css3' : 'js' ) . '" style="font-size:24px;margin-right:12px;display:inline-block;"></div><div style="display:inline-block;"><a href="'.$script->get_url().'" target="_blank">' . $script->get_handle().'</a></div>' )
+					   ->load_type( 'select' )
+					   ->set_disabled( $script->get_is_required() ? true : false );
 					
 					if(
 						($this->s[ 'disable_all_css' ]->get_data() == 1 && $script->get_type() == 'css') ||
@@ -283,15 +282,21 @@
 								)
 								&& ! $script->get_is_backend()
 							) {
-								ob_start();
-
 								// get settings object for build css later
-								$_s			= $script->get_parent()->get_settings();
-								$_s			= reset($_s);
+								if($script->get_ID() == 'config') {
+									$_s = $script->get_parent()->get_settings();
+									$_s = reset($_s);
+								}
 
-								require_once($script->get_path());
-								$css		= ob_get_clean();
-								wp_add_inline_style( 'sv_core_init_style', $css );
+								if(file_exists($script->get_path())) {
+									ob_start();
+									require_once($script->get_path());
+									$css = ob_get_contents();
+									ob_end_clean();
+
+									wp_add_inline_style('sv_core_init_style', $css);
+
+								}
 							} else {
 								wp_enqueue_style(
 									$script->get_handle(),                          // script handle
