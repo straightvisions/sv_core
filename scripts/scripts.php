@@ -139,8 +139,7 @@
 				$html = preg_replace("/<link(.*)sv_core_init_style-css(.*)\/>/", '', $html);
 				
 				$html = $this->replace_type_attr($html);
-				
-				
+
 				echo $html;
 			});
 		}
@@ -283,7 +282,8 @@
 								&& ! $script->get_is_backend()
 							) {
 								// get settings object for build css later
-								if($script->get_ID() == 'config') {
+
+								if($script->get_ID() == ('config' || 'inline-config')) {
 									$_s = $script->get_parent()->get_settings();
 									$_s = reset($_s);
 								}
@@ -405,6 +405,11 @@
 		}
 		
 		public function set_localized(array $settings): scripts{
+
+			if( $this->is_localized() ){
+				$settings = array_merge($this->get_localized(), $settings);
+			}
+
 			$this->localized						= $settings;
 			
 			return $this;

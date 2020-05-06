@@ -16,6 +16,9 @@ if ( !class_exists( '\sv_core\core' ) ) {
 		public $ajax_fragmented_requests	= false;
 		public static $initialized			= false;
 
+		// beta
+		public static $scripts_localized_collection = array();
+
 		public function setup_core( $path, $name ): bool{
 		    $output = false;
 
@@ -67,6 +70,9 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				// run setup modules
 				$this->setup_modules($path);
 
+				// run setup localized per plugin
+				$this->setup_wp_plugin_localized();
+
                 static::$initialized = true;
                 $output              = true;
 
@@ -116,13 +122,36 @@ if ( !class_exists( '\sv_core\core' ) ) {
         }
 
         public function ajax_get_section(){
+            $output = null;
 
-			if( wp_verify_nonce( $_POST['nonce'], 'sv_admin_ajax' ) !== false && isset($_POST['section'])) {
-                $section = $this->get_section_single($_POST['section']);
-                var_dump($section);die;
-				$this->ajaxStatus('success', '', $section);
+			if( $_REQUEST['nonce'] &&
+				$_REQUEST['section'] &&
+				$_REQUEST['page'] &&
+                wp_verify_nonce( $_REQUEST['nonce'], 'sv_admin_ajax_'.$_REQUEST['page'] ) !== false
+                && $this->get_instances()[ $_REQUEST['page'] ]
+            ) {
+
+                $section = str_replace('#', '', $_REQUEST['section']);
+				$section = $this->get_instances()[ $_REQUEST['page'] ]->get_root()->get_section_single($section);
+
+                if( $section ){
+					$section_name = $section['object']->get_prefix(); // var will be used in included file
+					$path = $this->get_root()->get_path_core( 'backend/tpl/section_' . $section[ 'object' ]->get_section_type() . '.php' );
+					ob_start();
+					include( $path );
+					$output = ob_get_contents();
+					ob_end_clean();
+                }
+
 			}
-			var_dump(wp_verify_nonce( $_POST['nonce'], 'sv_admin_ajax' ));die;
+
+            if($output){
+				$this->send_response('success', '', base64_encode(utf8_decode($output))); // magic
+            }else{
+				$this->send_response('error', 'Section not found!');
+            }
+
+
         }
 		
 		public function ajax_expert_mode(){
@@ -161,11 +190,21 @@ if ( !class_exists( '\sv_core\core' ) ) {
                 'message'       => $message,
                 'data'          => $data
             );
-            
+
             $output = json_encode($response);
-            
+
             exit($output);
 
+        }
+
+        private function send_response(string $status, string $message, $data = null){
+			$response = array (
+				'status'        => $status,
+				'message'       => $message,
+				'data'          => $data
+			);
+
+			wp_send_json($response);
         }
 
 		private function setup_credits() {
@@ -281,6 +320,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
         // Loads all required core scripts
         public function load_core_scripts() {
+
             $this->get_root()->get_script( 'sv_core_admin' )
                 ->set_path( $this->get_path_core( '../assets/admin.js' ), true, $this->get_url_core( '../assets/admin.js' ) )
                 ->set_is_gutenberg()
@@ -293,9 +333,10 @@ if ( !class_exists( '\sv_core\core' ) ) {
                 ->set_localized( array(
                     'ajaxurl'           => admin_url( 'admin-ajax.php' ),
                     'nonce_expert_mode' => \wp_create_nonce( 'sv_expert_mode' ),
-                    'nonce_admin_ajax'  => \wp_create_nonce( 'sv_admin_ajax' ), // non critical nonce
                     'settings_saved'    => __('Setting saved', 'sv_core')
-                ) );
+                ) )
+                ->set_localized(static::$scripts_localized_collection['sv_core_admin'])
+                ;
 
 			$this->get_root()->get_script( 'sv_core_admin_sections' )
 				->set_path( $this->get_path_core( '../assets/admin_sections.js' ), true, $this->get_url_core( '../assets/admin_sections.js' ) )
@@ -317,6 +358,28 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
             // Creates an action when all required core scripts are loaded
             do_action( 'sv_core_module_scripts_loaded' );
+        }
+
+        public function setup_wp_plugin_localized(){
+
+		    if(static::$initialized === false){
+		        // wait for init
+				add_action( 'init', array( $this, 'setup_wp_plugin_localized' ) );
+            }else{
+
+		        // both are needed, don't know why
+                // plugins
+				$this->get_root()->get_script( 'sv_core_admin' )
+                    ->set_localized(array(
+						'nonce_sv_admin_ajax_'.$this->get_name() =>  \wp_create_nonce( 'sv_admin_ajax_'.$this->get_name() )
+					));
+				// theme
+				static::$scripts_localized_collection['sv_core_admin'] = array(
+				        'nonce_sv_admin_ajax_'.$this->get_name() =>  \wp_create_nonce( 'sv_admin_ajax_'.$this->get_name() )
+				        );
+
+            }
+
         }
 		
 		protected function setup_wp_filters(string $path){

@@ -525,7 +525,7 @@
 
 		public function get_section_single(string $section_title = '') {
 			$output  	= false; // should be null
-			$sections 	= $this->get_sections_sorted_by_title();
+			$sections 	= $this->get_sections_sorted_by_prefix();
 
 			foreach($sections as $key => $section){
 				if($key == $section_title){
@@ -535,6 +535,20 @@
 			}
 
 			return $output;
+		}
+
+		public function get_sections_sorted_by_prefix(): array {
+			$sections = array();
+
+			if ( empty( $this->sections ) === false ) {
+				foreach($this->sections as $section){
+					$sections[$section['object']->get_prefix()] = $section;
+				}
+
+				ksort($sections);
+			}
+
+			return $sections;
 		}
 
 		public function get_sections_sorted_by_title(): array {
@@ -547,7 +561,7 @@
 				
 				ksort($sections);
 			}
-			
+			die;
 			return $sections;
 		}
 
