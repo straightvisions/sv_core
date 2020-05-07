@@ -611,20 +611,20 @@ class settings extends sv_abstract{
 		return $this->get_is_no_prefix() ? $this->get_ID() : $this->get_prefix($this->get_ID());
 	}
 	public function widget(string $value, $object): string{
-		$props['ID']				= $object->get_field_id($this->get_parent()->get_ID());
-		$props['title']				= $this->get_parent()->get_title();
-		$props['description']		= $this->get_parent()->get_description();
-		$props['name']				= $object->get_field_name($this->get_parent()->get_ID());
-		$props['required']			= $this->get_parent()->get_required();
-		$props['disabled']			= $this->get_parent()->get_disabled();
-		$props['placeholder']		= $this->get_parent()->get_placeholder();
-		$props['maxlength']			= $this->get_parent()->get_maxlength();
-		$props['minlength']			= $this->get_parent()->get_minlength();
-		$props['max']				= $this->get_parent()->get_max();
-		$props['min']				= $this->get_parent()->get_min();
-		$props['radio_style']		= $this->get_parent()->get_radio_style();
-		$props['code_editor']		= $this->get_parent()->get_code_editor();
-		$props['default_value']		= $this->get_parent()->get_default_value();
+		$props['ID']				= $object->get_field_id($this->get_ID());
+		$props['title']				= $this->get_title();
+		$props['description']		= $this->get_description();
+		$props['name']				= $object->get_field_name($this->get_ID());
+		$props['required']			= $this->get_required();
+		$props['disabled']			= $this->get_disabled();
+		$props['placeholder']		= $this->get_placeholder();
+		$props['maxlength']			= $this->get_maxlength();
+		$props['minlength']			= $this->get_minlength();
+		$props['max']				= $this->get_max();
+		$props['min']				= $this->get_min();
+		$props['radio_style']		= $this->get_radio_style();
+		$props['code_editor']		= $this->get_code_editor();
+		$props['default_value']		= $this->get_default_value();
 
 		return $this->form($props);
 	}
