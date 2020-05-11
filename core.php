@@ -197,7 +197,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
         }
 
-        private function send_response(string $status, string $message, $data = null){
+        private function send_response(string $status, string $message, $data = ''){
 			$response = array (
 				'status'        => $status,
 				'message'       => $message,
