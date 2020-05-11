@@ -1,5 +1,5 @@
 <?php if( current_user_can( 'activate_plugins' ) ) { ?>
-	<section id="section_legal" class="sv_admin_section">
+	<section id="section_legal" class="sv_admin_section ajax_none">
 		<div class="section_head section_legal">
 			<div class="textbox">
 				<h1 class="section_title"><?php _e('Legal Information', 'sv_core'); ?></h1>

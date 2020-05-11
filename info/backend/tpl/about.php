@@ -1,6 +1,6 @@
 <?php if( current_user_can( 'activate_plugins' ) ) { ?>
-<section id="section_about" class="sv_admin_section">
-	<div class="section_head section_about">
+<section id="section_about" class="sv_admin_section ajax_none">
+	<div class="section_head section_about ajax_none">
 		<div class="textbox">
 			<h1 class="section_title"><?php _e( 'About', 'sv_core' ); ?></h1>
 		</div>
