@@ -315,7 +315,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
             add_action( 'shutdown', array( $this, 'update_routine' ) );
 
             // setup init action
-            add_action( 'init', array( $this, 'load_core_scripts' ) );
+            add_action( 'init', array( $this, 'load_core_scripts' ), 100 );
         }
 
         // Loads all required core scripts
@@ -361,12 +361,10 @@ if ( !class_exists( '\sv_core\core' ) ) {
         }
 
         public function setup_wp_plugin_localized(){
-
-		    if(static::$initialized === false){
+		    if(!did_action('init') || static::$initialized === false){
 		        // wait for init
-				add_action( 'init', array( $this, 'setup_wp_plugin_localized' ) );
+				add_action( 'init', array( $this, 'setup_wp_plugin_localized' ), 50 );
             }else{
-
 		        // both are needed, don't know why
                 // plugins
 				$this->get_root()->get_script( 'sv_core_admin' )
