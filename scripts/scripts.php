@@ -283,7 +283,7 @@
 								&& ! $script->get_is_backend()
 							) {
 								// get settings object for build css later
-								if($script->get_ID() == 'config') {
+								if($script->get_ID() == ('config' || 'inline_config')) {
 									$_s = $script->get_parent()->get_settings();
 									$_s = reset($_s);
 								}
