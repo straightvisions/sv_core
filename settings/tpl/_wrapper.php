@@ -1,4 +1,4 @@
-<div class="sv_setting" data-sv_prefix="<?php echo $this->get_parent()->get_parent()->get_prefix(); ?>" data-sv_field_id="<?php echo $this->get_field_id(); ?>">
+<div class="sv_setting sv_<?php echo $this->get_type();?>_parent" data-sv_prefix="<?php echo $this->get_parent()->get_parent()->get_prefix(); ?>" data-sv_field_id="<?php echo $this->get_field_id(); ?>">
 	<div class="sv_setting_header">
 		<h4>
 			<?php echo $props['title']; ?>
