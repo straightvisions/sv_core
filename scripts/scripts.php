@@ -239,13 +239,16 @@
 				return true;
 			}
 			
-			if($this->s[$script->get_UID()]->get_data() == 'disable'){ // don't load disabled scripts
+			if(isset($this->s[$script->get_UID()]) && $this->s[$script->get_UID()]->get_data() == 'disable'){ // don't load disabled scripts
 				return false;
 			}
 			
 			if( // if script has no user load settings
-				$this->s[$script->get_UID()]->get_data() == '' ||
-				$this->s[$script->get_UID()]->get_data() == 'default'
+				isset($this->s[$script->get_UID()]) &&
+				(
+					$this->s[$script->get_UID()]->get_data() == '' ||
+					$this->s[$script->get_UID()]->get_data() == 'default'
+				)
 			){
 				if( // make sure they are not globally disabled
 					($this->s[ 'disable_all_css' ]->get_data() == 1 && $script->get_type() == 'css') ||
