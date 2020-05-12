@@ -625,6 +625,7 @@ class settings extends sv_abstract{
 		$props['radio_style']		= $this->get_radio_style();
 		$props['code_editor']		= $this->get_code_editor();
 		$props['default_value']		= $this->get_default_value();
+		$props['value']				= $value;
 
 		return $this->form($props);
 	}
