@@ -717,7 +717,7 @@
 			if( ! is_admin() ) {
 				$post = get_queried_object();
 
-				if(!$post){
+				if(!$post || get_class($post) != 'WP_Post'){
 					return false;
 				}
 
