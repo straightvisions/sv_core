@@ -262,14 +262,14 @@
 		}
 		private function add_script( scripts $script ) {
 			// run all registered scripts
-			
+
 			// check if script is enqueued
 			if($script->get_is_enqueued()) {
 				// check is script isn't loaded already and not disabled
 				if ($this->check_for_enqueue($script)) {
 					// set as loaded
 					$script->set_is_loaded();
-					
+
 					// CSS or JS
 					switch ($script->get_type()) {
 						case 'css':
@@ -286,7 +286,7 @@
 							) {
 								// get settings object for build css later
 
-								if($script->get_ID() == ('config' || 'inline-config')) {
+								if($script->get_ID() == 'config') {
 									$_s = $script->get_parent()->get_settings();
 									$_s = reset($_s);
 								}
@@ -299,6 +299,8 @@
 
 									wp_add_inline_style('sv_core_init_style', $css);
 
+								}else{
+									error_log(__('Script '.$script->get_path().' not found.'));
 								}
 							} else {
 								wp_enqueue_style(
