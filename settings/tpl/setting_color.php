@@ -2,7 +2,7 @@
 <script>
 	jQuery( document ).ready( function() {
 		if ( SVColorPicker && typeof sv_core_color_picker !== 'undefined' ) {
-			SVColorPicker.renderColorPicker( '<?php echo $props['name']; ?>', '<?php echo $color; ?>');
+			SVColorPicker.renderColorPicker( '<?php echo $props['name']; ?>', '<?php echo $color; ?>', <?php echo json_encode( get_theme_support( 'editor-color-palette' )[0] ) ?> );
 		}
 	} );
 </script>
