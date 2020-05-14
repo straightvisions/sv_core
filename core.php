@@ -367,16 +367,15 @@ if ( !class_exists( '\sv_core\core' ) ) {
 		        // wait for init
 				add_action( 'init', array( $this, 'setup_wp_plugin_localized' ), 50 );
             }else{
-		        // both are needed, don't know why
-                // plugins
-				$this->get_root()->get_script( 'sv_core_admin' )
-                    ->set_localized(array(
-						'nonce_sv_admin_ajax_'.$this->get_name() =>  \wp_create_nonce( 'sv_admin_ajax_'.$this->get_name() )
-					));
-				// theme
-				static::$scripts_localized_collection['sv_core_admin'] = array(
+		        // merge locals
+                // if not set, set it
+                if(!isset(static::$scripts_localized_collection['sv_core_admin'])){
+					static::$scripts_localized_collection['sv_core_admin'] = array();
+                }
+
+				static::$scripts_localized_collection['sv_core_admin'] = array_merge(array(
 				        'nonce_sv_admin_ajax_'.$this->get_name() =>  \wp_create_nonce( 'sv_admin_ajax_'.$this->get_name() )
-				        );
+				        ), static::$scripts_localized_collection['sv_core_admin']);
 
             }
 
