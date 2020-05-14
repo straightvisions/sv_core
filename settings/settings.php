@@ -200,7 +200,7 @@ class settings extends sv_abstract{
 	public function get_default_value(){
 		$value = $this->default_value;
 
-		if($this->get_is_responsive()){
+		if($this->get_is_responsive() && !is_array($value)){
 			$breakpoints = $this->get_breakpoints();
 
 			foreach($breakpoints as &$bp){
