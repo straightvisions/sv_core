@@ -437,7 +437,7 @@
 			
 			$this->set_path($path); // why?
 			
-			return $path . $suffix;
+			return apply_filters('get_path', $path . $suffix, $path, $suffix, $this->get_prefix(), $this);
 		}
 		
 		public function set_url(string $url) {
@@ -455,8 +455,8 @@
 			}
 			
 			$this->set_url($url);
-			
-			return $this->url . $suffix;
+
+			return apply_filters('get_url', $this->url . $suffix, $this->url, $suffix, $this->get_prefix(), $this);
 		}
 
 		public function get_path_core(string $suffix = ''): string{
