@@ -639,14 +639,17 @@ class settings extends sv_abstract{
 
 		// responsive setting
 		$output		= '';
+		$i          = 0;
 		foreach($this->get_breakpoints() as $breakpoint => $min_width){
+			$i++;
+			$active                             = ($i === 1) ? 'active' : ''; // flag for responsive copy force script
 			$props_child						= $props;
 			$props_child['name']				= $props['name'].'['.$breakpoint.']';
 			$props_child['ID']					= $props['ID'].'['.$breakpoint.']';
 			$props_child['value']				= isset($props['value'][$breakpoint]) ? $props['value'][$breakpoint] : $props['value'];
 			$props_child['default_value']		= isset($props['default_value'][$breakpoint]) ? $props['default_value'][$breakpoint] : $props['default_value'];
 
-			$output .= '<div class="sv_setting_responsive sv_setting_responsive_'.$breakpoint.'">'.$this->load_form_field_html($this->map_props($props_child)).'</div>';
+			$output .= '<div class="sv_setting_responsive sv_setting_responsive_'.$breakpoint.' '.$active.'">'.$this->load_form_field_html($this->map_props($props_child)).'</div>';
 		}
 
 		return $this->load_form_field_html_wrapper($output, $props);
