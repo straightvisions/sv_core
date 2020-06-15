@@ -209,6 +209,20 @@ class settings extends sv_abstract{
 
 			$value = $breakpoints;
 		}
+		
+		// workaround for array defaults
+		if($this->get_is_responsive() && is_array($value)){
+	
+			if(array_key_first($value) != 'mobile'){
+				$breakpoints = $this->get_breakpoints();
+				
+				foreach($breakpoints as &$bp){
+					$bp = $this->default_value;
+				}
+				
+				$value = $breakpoints;
+			}
+		}
 
 		return $value;
 	}
@@ -362,6 +376,19 @@ class settings extends sv_abstract{
 				}
 
 				$data = $breakpoints;
+			}
+			
+			// workaround for array defaults
+			if($this->get_is_responsive() && is_array($data)){
+				if(array_key_first($data) != 'mobile'){
+					$breakpoints = $this->get_breakpoints();
+					
+					foreach($breakpoints as &$bp){
+						$bp = $data;
+					}
+					
+					$data = $breakpoints;
+				}
 			}
 
 		}
