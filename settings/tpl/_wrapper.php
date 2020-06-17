@@ -13,8 +13,8 @@
                     <i class="fas fa-coffee" title="Force setting for all media sizes."></i>
                 </div>
             <?php } ?>
-            <div class="sv_setting_responsive_select sv_setting_responsive_headline_button">
-                <i class="fas fa-mobile" data-sv_setting_responsive_select="mobile"></i>
+            <div class="sv_setting_responsive_select">
+                <i class="fas fa-mobile active" data-sv_setting_responsive_select="mobile"></i>
                 <i class="fas fa-mobile fa-rotate-90" data-sv_setting_responsive_select="mobile_landscape"></i>
                 <i class="fas fa-tablet" data-sv_setting_responsive_select="tablet"></i>
                 <i class="fas fa-tablet fa-rotate-90" data-sv_setting_responsive_select="tablet_landscape"></i>

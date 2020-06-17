@@ -561,7 +561,6 @@
 				
 				ksort($sections);
 			}
-			die;
 			return $sections;
 		}
 
@@ -596,7 +595,7 @@
 		
 		public function set_section_template_path( string $path ) {
 			$this->section_template_path = $path;
-			
+
 			return $this;
 		}
 

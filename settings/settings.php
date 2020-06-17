@@ -356,9 +356,13 @@ class settings extends sv_abstract{
 		return $this->code_editor;
 	}
 	
-	public function set_code_editor( string $code_editor ) {
+	public function set_code_editor( string $code_editor = 'css' ) {
 		$this->code_editor           = $code_editor;
-		
+
+		wp_enqueue_code_editor( array( 'type' => 'text/' . $code_editor ) );
+		wp_enqueue_script('wp-theme-plugin-editor');
+		wp_enqueue_style('wp-codemirror');
+
 		return $this;
 	}
 
@@ -468,8 +472,18 @@ class settings extends sv_abstract{
 		}
 
 		// css with media queries required
-		if(count($responsive_css) > 0) {
-			foreach($responsive_css as $breakpoint => $s) {
+		$output[]			= $this->wrap_media_queries($responsive_css);
+
+		return implode('', $output);
+	}
+	public function wrap_media_queries(array $css = array()): string{
+		if(count($css) == 0){
+			$css		= $this->get_data();
+		}
+		$output = array();
+
+		if(count($css) > 0) {
+			foreach($css as $breakpoint => $s) {
 				// orientation support
 				if($breakpoint == 'mobile'){
 					$orientation		= ' and (orientation: portrait)';
@@ -486,10 +500,14 @@ class settings extends sv_abstract{
 				// generate media query
 				$output[] = '@media ( min-width: ' . $this->get_breakpoints()[$breakpoint] . 'px )'.$orientation.' {'."\n";
 
-				foreach($s as $selector => $properties){
-					$output[] = $selector . '{'. "\n";
-					$output[] = implode('', $properties);
-					$output[] = "}\n";
+				if(is_array($s)) {
+					foreach ($s as $selector => $properties) {
+						$output[] = $selector . '{' . "\n";
+						$output[] = implode('', $properties);
+						$output[] = "}\n";
+					}
+				}else{
+					$output[]	 = $s;
 				}
 
 				$output[] = "}\n\n";
