@@ -49,7 +49,7 @@ class setting_select extends settings{
 		}
 
 		if($font_family && is_array($font_family) && (count(array_unique($font_family)) > 1 || array_unique($font_family)['mobile'] !== false)){
-			$properties['font-family']	= $this->prepare_css_property_responsive($font_family,'',', sans-serif;');
+			$properties['font-family']	= $this->prepare_css_property_responsive($font_family,'',', sans-serif');
 			$properties['font-weight']	= $this->prepare_css_property_responsive($font_weight,'','');
 		}
 
