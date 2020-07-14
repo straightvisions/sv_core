@@ -477,12 +477,12 @@ class settings extends sv_abstract{
 		return implode('', $output);
 	}
 	public function wrap_media_queries(array $css = array()): string{
-		if(count($css) == 0){
+		if(!is_array($css) && count($css) == 0){
 			$css		= $this->get_data();
 		}
 		$output = array();
 
-		if(count($css) > 0) {
+		if(is_array($css) && count($css) > 0) {
 			foreach($css as $breakpoint => $s) {
 				// orientation support
 				if($breakpoint == 'mobile'){
@@ -503,7 +503,9 @@ class settings extends sv_abstract{
 				if(is_array($s)) {
 					foreach ($s as $selector => $properties) {
 						$output[] = $selector . '{' . "\n";
-						$output[] = implode('', $properties);
+						if(is_array($properties)) {
+							$output[] = implode('', $properties);
+						}
 						$output[] = "}\n";
 					}
 				}else{
