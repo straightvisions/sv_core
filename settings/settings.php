@@ -477,7 +477,7 @@ class settings extends sv_abstract{
 		return implode('', $output);
 	}
 	public function wrap_media_queries(array $css = array()): string{
-		if(!is_array($css) && count($css) == 0){
+		if(!is_array($css) || count($css) == 0){
 			$css		= $this->get_data();
 		}
 		$output = array();
