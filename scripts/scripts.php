@@ -271,10 +271,11 @@
 					$script->set_is_loaded();
 
 					// CSS or JS
+					
 					switch ($script->get_type()) {
 						case 'css':
 							// check if inline per settings (higher prio) or per parameter (lower prio)
-							if (
+							if ( $this->s[$script->get_UID()] && // checks if null - Dennis
 								(
 									$this->s[$script->get_UID()]->get_data() === 'inline'
 									|| (
