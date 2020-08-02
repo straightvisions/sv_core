@@ -2,14 +2,15 @@
 
 namespace sv_core;
 
-class setting_margin extends settings{
+class setting_padding extends settings{
 	private $parent				= false;
 
 	public function __construct($parent=false){
 		$this->parent			= $parent;
 	}
 	public function get_css_data(string $custom_property = '', string $prefix = '', string $suffix = ''): array{
-		$property				= ((strlen($custom_property) > 0) ? $custom_property : 'margin');
+		// we don't support custom_property here
+		$property				= array();
 		$properties				= array();
 
 		if($this->get_parent()->get_data()) {
@@ -20,13 +21,27 @@ class setting_margin extends settings{
 				$bottom = (isset($val['bottom']) && strlen($val['bottom']) > 0) ? $val['bottom'] : false;
 				$left = (isset($val['left']) && strlen($val['left']) > 0) ? $val['left'] : false;
 
+				if($top !== false){
+					$property['padding-top'] = $top;
+				}
+
+				if($right !== false){
+					$property['padding-right'] = $right;
+				}
+
+				if($bottom !== false){
+					$property['padding-bottom'] = $bottom;
+				}
+
+				if($left !== false){
+					$property['padding-left'] = $left;
+				}
+
 				if($top !== false || $right !== false || $bottom !== false || $left !== false) {
-					$imploded[$breakpoint] = $top . ' ' . $right . ' ' . $bottom . ' ' . $left;
+					$properties[] =  $this->prepare_css_property_responsive($property, $prefix, $suffix);
 				}
 			}
-			if($imploded) {
-				$properties[$property] = $this->prepare_css_property_responsive($imploded, $prefix, $suffix); // unnecessary , returns the same as line 56?
-			}
+
 		}
 
 		return $properties;
