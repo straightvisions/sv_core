@@ -1,7 +1,7 @@
 <div id="<?php echo $props['ID'] . '_color'; ?>" class="sv_setting">
 	<div class="sv_setting_header">
 		<?php 
-			$color_value = esc_attr( $props['value']s[0] === 'inset' ? $props['value']s[5] : $props['value']s[4] );
+			$color_value = esc_attr( $props['value'][0] === 'inset' ? $props['value'][5] : $props['value'][4] );
         ?>
 		<h4 title="<?php _e( 'Toggle Color Picker', 'sv_core' ); ?>"><?php _e( 'Shadow Color', 'sv_core' ); ?></h4>
 		<div

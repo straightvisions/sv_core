@@ -4,7 +4,7 @@
 		<select class="sv_input">
 		<?php 
 			$shadow_style = array( 'outline', 'inset' );
-			$shadow_style_val = $props['value']s[0] === 'inset' ? 'inset' : 'outline';
+			$shadow_style_val = $props['value'][0] === 'inset' ? 'inset' : 'outline';
 			
 			foreach( $shadow_style as $style ) {
 				echo '<option value="' . $style . '"';

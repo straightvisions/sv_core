@@ -2,7 +2,7 @@
     <h4><?php _e( 'Spread Radius', 'sv100' ); ?></h4>
 	<label for="<?php echo $props['ID'] . '_spread_radius'; ?>" class="sv_setting_range sv_setting_box_shadow_spread">
         <?php 
-            $spread_radius_value    = esc_attr( $props['value']s[0] === 'inset' ? $props['value']s[3] : $props['value']s[2] );
+            $spread_radius_value    = esc_attr( $props['value'][0] === 'inset' ? $props['value'][3] : $props['value'][2] );
             $spread_radius_number   = intval( esc_attr( preg_replace('/[^0-9]/', '', $spread_radius_value ) ) );
             $spread_radius_unit     = esc_attr( preg_replace('/[0-9]+/', '', $spread_radius_value ) );
         ?>
