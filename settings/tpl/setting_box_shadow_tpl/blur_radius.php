@@ -2,7 +2,7 @@
     <h4><?php _e( 'Blur Radius', 'sv100' ); ?></h4>
 	<label for="<?php echo $props['ID'] . '_blur_radius'; ?>" class="sv_setting_range sv_setting_box_shadow_blur">
         <?php 
-            $blur_radius_value  = esc_attr( $props['value']s[0] === 'inset' ? $props['value']s[3] : $props['value']s[2] );
+            $blur_radius_value  = esc_attr( $props['value'][0] === 'inset' ? $props['value'][3] : $props['value'][2] );
             $blur_radius_number = intval( esc_attr( preg_replace('/[^0-9]/', '', $blur_radius_value ) ) );
             $blur_radius_unit 	= esc_attr( preg_replace('/[0-9]+/', '', $blur_radius_value ) );
         ?>
