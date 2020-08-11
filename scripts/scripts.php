@@ -167,7 +167,14 @@
 			return $input;
 		}
 		public function admin_scripts($hook){
-			if ( is_admin() && ( strpos( $hook,'straightvisions' ) !== false || strpos( $hook,'appearance_page_sv100' ) !== false ) ) {
+			if (
+				is_admin()
+				&& (
+					strpos( $hook,'straightvisions' ) !== false
+					|| strpos( $hook,'appearance_page_sv100' ) !== false
+					|| function_exists('get_current_screen') // if it's a content edit screen, load backend scripts
+				)
+			) {
 				foreach ( $this->get_scripts() as $script ) {
 					if ( $script->get_is_backend() ) {
 						if($script->get_type() == 'css') {

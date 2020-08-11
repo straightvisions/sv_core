@@ -320,7 +320,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
         // Loads all required core scripts
         public function load_core_scripts() {
-
 			if($this->is_theme_instance() === false){
 	            $this->get_root()->get_script( 'sv_core_admin' )
 	                ->set_path( $this->get_path_core( '../assets/admin.js' ), true, $this->get_url_core( '../assets/admin.js' ) )

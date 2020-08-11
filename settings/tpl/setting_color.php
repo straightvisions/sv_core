@@ -1,7 +1,7 @@
 <?php $color = esc_attr( $props['value'] ? $this->get_rgb( $props['value']) : '0,0,0,1' ); ?>
 <script>
 	jQuery( document ).ready( function() {
-		if ( SVColorPicker && typeof sv_core_color_picker !== 'undefined' ) {
+		if ( typeof SVColorPicker !== 'undefined' ) {
 			SVColorPicker.renderColorPicker( '<?php echo $props['name']; ?>', '<?php echo $color; ?>', <?php echo json_encode( get_theme_support( 'editor-color-palette' )[0] ) ?> );
 		}
 	} );
