@@ -714,7 +714,7 @@
 		}
 		public function has_block_frontend(string $block_name): bool{
 			if( ! is_admin() ) {
-				$post = get_queried_object();
+				$post = apply_filters('sv_core_has_block_frontend_queried_object', get_queried_object());
 
 				if(!$post || get_class($post) != 'WP_Post'){
 					return false;
