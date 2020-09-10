@@ -18,6 +18,8 @@
                 <i class="fas fa-mobile fa-rotate-90" data-sv_setting_responsive_select="mobile_landscape"></i>
                 <i class="fas fa-tablet" data-sv_setting_responsive_select="tablet"></i>
                 <i class="fas fa-tablet fa-rotate-90" data-sv_setting_responsive_select="tablet_landscape"></i>
+                <i class="fas fa-tablet" data-sv_setting_responsive_select="tablet_pro" style="color:#FF0000;"></i>
+                <i class="fas fa-tablet fa-rotate-90" data-sv_setting_responsive_select="tablet_pro_landscape" style="color:#FF0000;"></i>
                 <i class="fas fa-desktop" data-sv_setting_responsive_select="desktop"></i>
             </div>
 		<?php } ?>

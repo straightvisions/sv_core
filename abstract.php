@@ -31,12 +31,14 @@
 		protected $section_type				= '';
 		protected $scripts_queue			= array();
 		protected static $expert_mode       = false;
-		protected $breakpoints              = array( // number = min width
+		public $breakpoints              = array( // number = min width
 			'mobile'						=> 0,		// mobile first!
 			'mobile_landscape'				=> 576,
 			'tablet'						=> 768,
 			'tablet_landscape'				=> 992,
-			'desktop'						=> 1200,
+			'tablet_pro'					=> 1024, // portrait
+			'tablet_pro_landscape'			=> 1366,
+			'desktop'						=> 1200, // non-portrait
 		);
 		
 		/**
@@ -396,6 +398,7 @@
 		}
 
 		public function get_breakpoints(): array {
+
 			return apply_filters($this->get_root()->get_prefix('breakpoints'), $this->breakpoints);
 		}
 

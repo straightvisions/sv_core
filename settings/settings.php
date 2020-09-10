@@ -493,6 +493,10 @@ class settings extends sv_abstract{
 					$orientation		= ' and (orientation: portrait)';
 				}elseif($breakpoint == 'tablet_landscape'){
 					$orientation		= ' and (orientation: landscape)';
+				}elseif($breakpoint == 'tablet_pro'){
+					$orientation		= ' and (orientation: portrait)';
+				}elseif($breakpoint == 'tablet_pro_landscape'){
+					$orientation		= ' and (orientation: landscape)';
 				}else{
 					$orientation		= '';
 				}
@@ -687,6 +691,7 @@ class settings extends sv_abstract{
 		// responsive setting
 		$output		= '';
 		$i          = 0;
+
 		foreach($this->get_breakpoints() as $breakpoint => $min_width){
 			$i++;
 			$active                             = ($i === 1) ? 'active' : ''; // flag for responsive copy force script
