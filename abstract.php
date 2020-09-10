@@ -36,9 +36,9 @@
 			'mobile_landscape'				=> 576,
 			'tablet'						=> 768,
 			'tablet_landscape'				=> 992,
-			'tablet_pro'					=> 1024, // portrait
+			'tablet_pro'					=> 1024,
 			'tablet_pro_landscape'			=> 1366,
-			'desktop'						=> 1200, // non-portrait
+			'desktop'						=> 1600,
 		);
 		
 		/**
