@@ -33,7 +33,7 @@
 		protected static $expert_mode       = false;
 		public $breakpoints              = array( // number = min width
 			'mobile'						=> 0,		// mobile first!
-			'mobile_landscape'				=> 576,
+			'mobile_landscape'				=> 0,
 			'tablet'						=> 768,
 			'tablet_landscape'				=> 992,
 			'tablet_pro'					=> 1024,
