@@ -209,7 +209,7 @@ class settings extends sv_abstract{
 
 			$value = $breakpoints;
 		}
-		
+
 		// workaround for array defaults
 		if($this->get_is_responsive() && is_array($value)){
 	
@@ -381,7 +381,7 @@ class settings extends sv_abstract{
 
 				$data = $breakpoints;
 			}
-			
+
 			// workaround for array defaults
 			if($this->get_is_responsive() && is_array($data)){
 				if(array_key_first($data) != 'mobile'){
@@ -684,7 +684,7 @@ class settings extends sv_abstract{
 		$props		= $this->map_props($props);
 
 		// non responsive setting
-		if(!$this->get_is_responsive()) {
+		if($this->get_is_responsive() === false) {
 			return $this->load_form_field_html_wrapper($this->load_form_field_html($props), $props);
 		}
 
@@ -698,8 +698,8 @@ class settings extends sv_abstract{
 			$props_child						= $props;
 			$props_child['name']				= $props['name'].'['.$breakpoint.']';
 			$props_child['ID']					= $props['ID'].'['.$breakpoint.']';
-			$props_child['value']				= isset($props['value'][$breakpoint]) ? $props['value'][$breakpoint] : $props['value'];
-			$props_child['default_value']		= isset($props['default_value'][$breakpoint]) ? $props['default_value'][$breakpoint] : $props['default_value'];
+			$props_child['value']				= isset($props['value'][$breakpoint]) ? $props['value'][$breakpoint] : '';
+			$props_child['default_value']		= isset($props['default_value'][$breakpoint]) ? $props['default_value'][$breakpoint] : '';
 
 			$output .= '<div class="sv_setting_responsive sv_setting_responsive_'.$breakpoint.' '.$active.'">'.$this->load_form_field_html($this->map_props($props_child)).'</div>';
 		}
