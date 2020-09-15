@@ -359,9 +359,11 @@ class settings extends sv_abstract{
 	public function set_code_editor( string $code_editor = 'css' ) {
 		$this->code_editor           = $code_editor;
 
-		wp_enqueue_code_editor( array( 'type' => 'text/' . $code_editor ) );
-		wp_enqueue_script('wp-theme-plugin-editor');
-		wp_enqueue_style('wp-codemirror');
+		if(is_admin()) {
+			wp_enqueue_code_editor(array('type' => 'text/' . $code_editor));
+			wp_enqueue_script('wp-theme-plugin-editor');
+			wp_enqueue_style('wp-codemirror');
+		}
 
 		return $this;
 	}
