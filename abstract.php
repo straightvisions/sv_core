@@ -30,16 +30,8 @@
 		protected $section_privacy			= false;
 		protected $section_type				= '';
 		protected $scripts_queue			= array();
-		protected static $expert_mode       = false;
-		public $breakpoints              = array( // number = min width
-			'mobile'						=> 0,		// mobile first!
-			'mobile_landscape'				=> 0,
-			'tablet'						=> 768,
-			'tablet_landscape'				=> 992,
-			'tablet_pro'					=> 1024,
-			'tablet_pro_landscape'			=> 1366,
-			'desktop'						=> 1600,
-		);
+		protected static $expert_mode		= false;
+		public static $breakpoints			= false;
 		
 		/**
 		 * @desc			initialize plugin
@@ -398,8 +390,19 @@
 		}
 
 		public function get_breakpoints(): array {
+			if(!self::$breakpoints){
+				self::$breakpoints	= apply_filters($this->get_root()->get_prefix('breakpoints'), array( // number = min width
+					'mobile'						=> 0,		// mobile first!
+					'mobile_landscape'				=> 0,
+					'tablet'						=> 768,
+					'tablet_landscape'				=> 992,
+					'tablet_pro'					=> 1024,
+					'tablet_pro_landscape'			=> 1366,
+					'desktop'						=> 1600,
+				));
+			}
 
-			return apply_filters($this->get_root()->get_prefix('breakpoints'), $this->breakpoints);
+			return self::$breakpoints;
 		}
 
 		public function get_metabox(): metabox {
