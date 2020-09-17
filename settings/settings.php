@@ -53,18 +53,19 @@ class settings extends sv_abstract{
 	 * @ignore
 	 */
 	public function __get(string $name){
-		if(file_exists($this->get_path_core('settings/modules/'.$name.'.php'))){ // look for class file in modules directory
-			require_once($this->get_path_core('settings/modules/'.$name.'.php'));
-			$class_name							= __NAMESPACE__.'\\'.$name;
+		$class_name							= __NAMESPACE__.'\\'.$name;
 
-			$this->$name						= new $class_name($this);
+		if(!class_exists($class_name)) {
+			require_once($this->get_path_core('settings/modules/' . $name . '.php'));
+		}
+
+		if(!isset($this->$name)) {
+			$this->$name = new $class_name($this);
 			$this->$name->set_root($this->get_root());
 			$this->$name->set_parent($this);
-
-			return $this->$name;
-		}else{
-			throw new \Exception('Class '.$name.' could not be loaded (tried to load class-file '.$this->get_module_name().'/modules/'.$name.'.php'.')');
 		}
+
+		return $this->$name;
 	}
 	// OBJECT METHODS
 	public static function create($parent){
@@ -372,7 +373,8 @@ class settings extends sv_abstract{
 		$data = $this->data;
 
 		if($data === false || $data === ''){
-			$data = (get_option($this->get_field_id()) !== false && get_option($this->get_field_id()) !== '') ? get_option($this->get_field_id()) : $this->get_default_value();
+			$db_data	= get_option($this->get_field_id());
+			$data		= ($db_data !== false && $db_data !== '') ? $db_data : $this->get_default_value();
 
 			if($this->get_is_responsive() && !is_array($data)){
 				$breakpoints = $this->get_breakpoints();
@@ -395,6 +397,10 @@ class settings extends sv_abstract{
 					
 					$data = $breakpoints;
 				}
+			}
+
+			if($data !== false && $db_data !== $data){ // fill options not created yet in DB with default values to allow cached requests
+				update_option($this->get_field_id(),$data,'yes');
 			}
 
 		}
@@ -719,7 +725,7 @@ class settings extends sv_abstract{
 	}
 	private function load_form_field_html(array $props): string{
 		ob_start();
-		if(file_exists($this->get_path_core('settings/tpl/'.$this->run_type()->get_module_name().'.php'))) {
+		if(is_file($this->get_path_core('settings/tpl/'.$this->run_type()->get_module_name().'.php'))) {
 			require($this->get_path_core('settings/tpl/' . $this->run_type()->get_module_name() . '.php'));
 		}else{
 			echo __('Settings Template not found: ', 'sv_core').$this->get_path_core('settings/tpl/'.$this->run_type()->get_module_name().'.php');
@@ -762,7 +768,7 @@ class settings extends sv_abstract{
 		return sanitize_text_field($meta_value);
 	}
 	protected function print_sub_field(array $props, string $sub){
-		if(file_exists($this->get_path_core('settings/tpl/'.$this->run_type()->get_module_name().'_field.php'))) {
+		if(is_file($this->get_path_core('settings/tpl/'.$this->run_type()->get_module_name().'_field.php'))) {
 			require($this->get_path_core('settings/tpl/' . $this->run_type()->get_module_name() . '_field.php'));
 		}else{
 			echo __('Settings Template not found: ', 'sv_core').$this->get_path_core('settings/tpl/'.$this->run_type()->get_module_name().'_field.php');

@@ -76,7 +76,7 @@
 				if($_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['name']['file'] != '' &&
 					$_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['type']['file'] != '' &&
 					$_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['tmp_name']['file'] != '' &&
-					file_exists($_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['tmp_name']['file'])) {
+					is_file($_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['tmp_name']['file'])) {
 						$input = $this->handle_file_upload(
 							wp_handle_upload(
 								$this->unfiltered_files_resorted(), array( 'test_form' => false ) )
@@ -122,7 +122,7 @@
 						if ( $fields['name'] != '' &&
 							$fields['type'] != '' &&
 							$fields['tmp_name'] != '' &&
-							file_exists( $fields['tmp_name'] ) ) {
+							is_file( $fields['tmp_name'] ) ) {
 							$input[ $i ][ $name ]['file'] = $this->handle_file_upload(
 								wp_handle_upload( $fields, array( 'test_form' => false ) )
 							);

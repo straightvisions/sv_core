@@ -299,7 +299,7 @@
 									$_s = reset($_s);
 								}
 
-								if(file_exists($script->get_path())) {
+								if(is_file($script->get_path())) {
 									ob_start();
 									require_once($script->get_path());
 									$css = ob_get_contents();
@@ -482,9 +482,9 @@
 			
 			if(!$full){
 				$this->script_url					= $this->get_parent()->get_url($path);
-				if(file_exists($this->script_path = $this->get_parent()->get_parent()->get_path($path))){
+				if(is_file($this->get_parent()->get_parent()->get_path($path))){
 					$this->script_path				= $this->get_parent()->get_parent()->get_path($path);
-				}elseif(file_exists($this->get_parent()->get_path($path))){
+				}elseif(is_file($this->get_parent()->get_path($path))){
 					$this->script_path				= $this->get_parent()->get_path($path);
 				}
 			}else{

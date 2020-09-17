@@ -4,6 +4,7 @@
 	class setting_color extends settings {
 		private $parent				        = false;
 		private $color_palette              = false;
+		public static $initialized			= false;
 
 		/**
 		 * @desc			initialize
@@ -14,7 +15,10 @@
 		public function __construct( $parent = false ) {
 			$this->parent			= $parent;
 
-			add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
+			if ( static::$initialized === false ) {
+				static::$initialized = true;
+				add_action('after_setup_theme', array($this, 'after_setup_theme'));
+			}
 		}
 		public function get_css_data(string $custom_property = '', string $prefix = 'rgba(', string $suffix = ')'): array{
 			$property				= ((strlen($custom_property) > 0) ? $custom_property : 'color');
@@ -73,7 +77,6 @@
 			// This setting is a child of a setting group
 			if ( $this->get_parent()->get_module_name() === 'setting_group' ) {
 				$this->load_child_setting_color_picker();
-				//var_dump($this->get_parent()->get_name());
 			}
 
 			// Normal setting
@@ -84,8 +87,10 @@
 
 		public function after_setup_theme() {
 			$this->set_color_palette();
-		
-			add_action( 'sv_core_module_scripts_loaded', array( $this, 'load_color_picker' ) );
+
+			if(is_admin()) {
+				add_action('sv_core_module_scripts_loaded', array($this, 'load_color_picker'));
+			}
 		}
 
 		public function localize_script( $ID, $data ) {

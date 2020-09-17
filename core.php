@@ -394,7 +394,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
         }
 		
 		protected function setup_modules(string $path){
-            if( file_exists( $path . 'lib/modules/modules.php' ) ) {
+            if( is_file( $path . 'lib/modules/modules.php' ) ) {
                 $this->modules->init();
             }
 

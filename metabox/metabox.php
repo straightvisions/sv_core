@@ -16,7 +16,7 @@
 		
 		}
 		public function __get(string $name){
-			if(file_exists($this->get_path_core('settings/modules/'.$name.'.php'))){ // look for class file in modules directory
+			if(is_file($this->get_path_core('settings/modules/'.$name.'.php'))){ // look for class file in modules directory
 				require_once($this->get_path_core('settings/modules/'.$name.'.php'));
 				$class_name							= __NAMESPACE__.'\\'.$name;
 				

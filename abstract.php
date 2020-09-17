@@ -53,7 +53,7 @@
 		 */
 		public function __get( string $name ) {
 			// look for class file in modules directory
-			if ( file_exists($this->get_path( 'lib/modules/'.$name . '.php' )) ) {
+			if ( is_file($this->get_path( 'lib/modules/'.$name . '.php' )) ) {
 				require_once( $this->get_path( 'lib/modules/'.$name . '.php' ) );
 				
 				$class_name	    = $this->get_root()->get_name() . '\\' . $name;
@@ -64,7 +64,7 @@
 				return $this->$name;
 			}
 			
-			if ( file_exists($this->get_root()->get_path( 'lib/modules/'.$name . '/'.$name . '.php' )) ) {
+			if ( is_file($this->get_root()->get_path( 'lib/modules/'.$name . '/'.$name . '.php' )) ) {
 				require_once( $this->get_root()->get_path( 'lib/modules/'.$name . '/'.$name . '.php' ) );
 				
 				$class_name	    = $this->get_root()->get_name() . '\\' . $name;
@@ -344,7 +344,10 @@
 		}
 		
 		public function get_module_name() {
-			return ( new \ReflectionClass( get_called_class() ) )->getShortName();
+			if(!$this->module_name){
+				$this->module_name = ( new \ReflectionClass( get_called_class() ) )->getShortName();
+			}
+			return $this->module_name;
 		}
 		
 		public function get_prefix( string $append = '' ) {
@@ -498,7 +501,7 @@
 		
 		public function acp_style( bool $hook = false ) {
 			if ( !$hook || $hook == 'sv-100_page_' . $this->get_module_name() ) {
-				if(file_exists($this->get_path_core('../assets/admin_inline.css'))) { // file exists only when core_plugin is loaded, so if only theme is loaded, don't load this asset
+				if(is_file($this->get_path_core('../assets/admin_inline.css'))) { // file exists only when core_plugin is loaded, so if only theme is loaded, don't load this asset
 					wp_enqueue_style($this->get_prefix(), $this->get_url_core('../assets/admin.css'), array('wp-editor'), filemtime($this->get_path_core('../assets/admin.css')));
 					ob_start();
 					require_once($this->get_path_core('../assets/admin_inline.css'));
@@ -608,7 +611,7 @@
 		public function has_section_template_path(): bool{
 		    $output = false;
 
-		    if( strlen($this->get_section_template_path()) > 0 && file_exists($this->get_section_template_path()) ){
+		    if( strlen($this->get_section_template_path()) > 0 && is_file($this->get_section_template_path()) ){
 		        $output = true;
 		    }
 
