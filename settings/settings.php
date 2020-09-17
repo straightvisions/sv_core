@@ -403,9 +403,10 @@ class settings extends sv_abstract{
 				update_option($this->get_field_id(),$data,'yes');
 			}
 
+			$this->data = $data;
 		}
 
-		return $data;
+		return $this->data;
 	}
 
 	public function get_css_data(string $custom_property = '', string $prefix = '', string $suffix = ''): array{
