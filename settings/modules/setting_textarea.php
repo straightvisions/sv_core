@@ -14,34 +14,18 @@
 		public function __construct($parent=false){
 			$this->parent			= $parent;
 		}
+		public function get_css_data(string $custom_property = '', string $prefix = '', string $suffix = ''): array{
+			$property				= ((strlen($custom_property) > 0) ? $custom_property : false);
+			$properties				= array();
+
+			// this input field is generic, so custom property is required
+			if($property && $this->get_parent()->get_data()) {
+				$properties[$property]		= $this->prepare_css_property_responsive($this->get_parent()->get_data(),$prefix,$suffix);
+			}
+
+			return $properties;
+		}
 		public function sanitize($meta_value, $meta_key, $object_type){
 			return wp_filter_nohtml_kses($meta_value);
-		}
-		public function html(string $ID, string $title, string $description, string $name, $value, string $required, string $disabled, $placeholder, $maxlength, $minlength, $max, $mix, $radio_style, $code_editor ) {
-			if ( $code_editor ) {
-				if ( empty( $code_editor ) ) {
-					$code_editor = 'css';
-				}
-				
-				wp_enqueue_code_editor( array( 'type' => 'text/' . $code_editor ) );
-				
-				echo '<script>jQuery( document ).ready( function() {
-					wp.codeEditor.initialize( jQuery( "#' . $ID . '" ), { mode: "' . $code_editor . '" } );
-				});
-				</script>';
-			}
-			
-			return '
-				<h4>' . $title . '</h4>
-				<label for="' . $ID . '">
-					<textarea style="height:200px;"
-					data-sv_type="sv_form_field"
-					class="sv_input"
-					id="' . $ID . '"
-					name="' . $name . '"
-					' . $required . '
-					' . $disabled . '">' . esc_textarea($value) . '</textarea>
-				</label>
-				<div class="description">' . $description . '</div>';
 		}
 	}

@@ -17,23 +17,4 @@
 		public function sanitize($meta_value, $meta_key, $object_type){
 			return esc_url_raw($meta_value);
 		}
-		public function html($ID, $title, $description, $name, $value,  $required, $disabled, $placeholder, $maxlength, $minlength){
-			return '
-				<h4>' . $title . '</h4>
-				<label for="' . $ID . '">
-					<input
-					data-sv_type="sv_form_field"
-					class="sv_input"
-					id="' . $ID . '"
-					name="' . $name . '"
-					type="url"
-					placeholder="'.$placeholder.'"
-					value="' . esc_attr($value) . '"
-					' . ($maxlength ? 'maxlength="'.$maxlength.'"' :  ''). '"
-					' . $minlength . '
-					' . $required . '
-					' . $disabled . '/>
-				</label>
-				<div class="description">' . $description . '</div>';
-		}
 	}

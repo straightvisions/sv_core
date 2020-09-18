@@ -16,6 +16,9 @@ if ( !class_exists( '\sv_core\core' ) ) {
 		public $ajax_fragmented_requests	= false;
 		public static $initialized			= false;
 
+		// beta
+		public static $scripts_localized_collection = array();
+
 		public function setup_core( $path, $name ): bool{
 		    $output = false;
 
@@ -25,9 +28,9 @@ if ( !class_exists( '\sv_core\core' ) ) {
                 // these modules are available in all instances and should be initialized once only.
                 if ( static::$initialized === false ) {
 
-                    self::$path_core			= trailingslashit( dirname( __FILE__ ) );
-                    self::$url_core				= trailingslashit( get_site_url() )
-                                                . str_replace( ABSPATH,'', self::$path_core );
+                    self::$path_core			= trailingslashit( str_replace('\\','/', dirname( __FILE__ )) );
+                    self::$url_core				= trailingslashit( str_replace('\\','/',get_site_url()) )
+                                                . str_replace( str_replace('\\','/',ABSPATH),'', str_replace('\\','/', self::$path_core) );
 	                parent::$active_core        = $this;
 
                     // run setup functions
@@ -66,6 +69,9 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
 				// run setup modules
 				$this->setup_modules($path);
+
+				// run setup localized per plugin
+				$this->setup_wp_plugin_localized();
 
                 static::$initialized = true;
                 $output              = true;
@@ -114,6 +120,39 @@ if ( !class_exists( '\sv_core\core' ) ) {
             });
 
         }
+
+        public function ajax_get_section(){
+            $output = null;
+
+			if( $_REQUEST['nonce'] &&
+				$_REQUEST['section'] &&
+				$_REQUEST['page'] &&
+                wp_verify_nonce( $_REQUEST['nonce'], 'sv_admin_ajax_'.$_REQUEST['page'] ) !== false
+                && $this->get_instances()[ $_REQUEST['page'] ]
+            ) {
+
+                $section = str_replace('#', '', $_REQUEST['section']);
+				$section = $this->get_instances()[ $_REQUEST['page'] ]->get_root()->get_section_single($section);
+
+                if( $section ){
+					$section_name = $section['object']->get_prefix(); // var will be used in included file
+					$path = $this->get_root()->get_path_core( 'backend/tpl/section_' . $section[ 'object' ]->get_section_type() . '.php' );
+					ob_start();
+					include( $path );
+					$output = ob_get_contents();
+					ob_end_clean();
+                }
+
+			}
+
+            if($output){
+				$this->send_response('success', '', base64_encode(utf8_decode($output))); // magic
+            }else{
+				$this->send_response('error', 'Section not found!');
+            }
+
+
+        }
 		
 		public function ajax_expert_mode(){
 			if( empty($_POST) || isset($_POST) === false ){
@@ -151,11 +190,21 @@ if ( !class_exists( '\sv_core\core' ) ) {
                 'message'       => $message,
                 'data'          => $data
             );
-            
+
             $output = json_encode($response);
-            
+
             exit($output);
 
+        }
+
+        private function send_response(string $status, string $message, $data = ''){
+			$response = array (
+				'status'        => $status,
+				'message'       => $message,
+				'data'          => $data
+			);
+
+			wp_send_json($response);
         }
 
 		private function setup_credits() {
@@ -260,40 +309,75 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
             add_action( 'wp_ajax_sv_core_expert_mode', array($this, 'ajax_expert_mode'));
 
+			add_action( 'wp_ajax_sv_ajax_get_section', array($this, 'ajax_get_section'));
+
             // setup update routine
             add_action( 'shutdown', array( $this, 'update_routine' ) );
 
             // setup init action
-            add_action( 'init', array( $this, 'load_core_scripts' ) );
+            add_action( 'init', array( $this, 'load_core_scripts' ), 100 );
         }
 
         // Loads all required core scripts
         public function load_core_scripts() {
-            $this->get_root()->get_script( 'sv_core_admin' )
-                ->set_path( $this->get_url_core( '../assets/admin.js' ) )
-                ->set_is_backend()
-                ->set_is_enqueued()
-                ->set_is_no_prefix()
-                ->set_type( 'js' )
-                ->set_deps( array( 'jquery' ) )
-                ->set_is_required()
-                ->set_localized( array(
-                    'ajaxurl'           => admin_url( 'admin-ajax.php' ),
-                    'nonce_expert_mode' => \wp_create_nonce( 'sv_expert_mode' ),
-                    'settings_saved'    => __('Setting saved', 'sv_core')
-                ) );
+			if($this->is_theme_instance() === false){
+	            $this->get_root()->get_script( 'sv_core_admin' )
+	                ->set_path( $this->get_path_core( '../assets/admin.js' ), true, $this->get_url_core( '../assets/admin.js' ) )
+	                ->set_is_gutenberg()
+					->set_is_backend()
+	                ->set_is_enqueued()
+	                ->set_is_no_prefix()
+	                ->set_type( 'js' )
+	                ->set_deps( array( 'jquery' ) )
+	                ->set_is_required()
+	                ->set_localized( array(
+	                    'ajaxurl'           => admin_url( 'admin-ajax.php' ),
+	                    'nonce_expert_mode' => \wp_create_nonce( 'sv_expert_mode' ),
+	                    'settings_saved'    => __('Setting saved', 'sv_core')
+	                ) )
+	                ->set_localized(static::$scripts_localized_collection['sv_core_admin'])
+	                ;
 
-            $this->get_root()->get_script( 'sv_core_color_picker' )
-                ->set_is_no_prefix()
-                ->set_path( $this->get_url_core( 'settings/js/sv_color_picker_min/sv_color_picker.min.js' ) )
-                ->set_type( 'js' )
-                ->set_deps( array( 'jquery', 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ) )
-                ->set_is_backend()
-                ->set_is_gutenberg()
-                ->set_is_enqueued();
+				$this->get_root()->get_script( 'sv_core_admin_sections' )
+					->set_path( $this->get_path_core( '../assets/admin_sections.js' ), true, $this->get_url_core( '../assets/admin_sections.js' ) )
+					->set_is_backend()
+					->set_is_enqueued()
+					->set_is_no_prefix()
+					->set_type( 'js' )
+					->set_deps( array( 'sv_core_admin', 'jquery' ) )
+					->set_is_required();
+
+	            $this->get_root()->get_script( 'sv_core_color_picker' )
+	                ->set_is_no_prefix()
+	                ->set_path( $this->get_path_core( 'settings/js/sv_color_picker_min/sv_color_picker.min.js' ), true, $this->get_url_core( 'settings/js/sv_color_picker_min/sv_color_picker.min.js' ) )
+	                ->set_type( 'js' )
+	                ->set_deps( array( 'jquery', 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ) )
+	                ->set_is_backend()
+	                ->set_is_gutenberg()
+	                ->set_is_enqueued();
+			}
 
             // Creates an action when all required core scripts are loaded
             do_action( 'sv_core_module_scripts_loaded' );
+        }
+
+        public function setup_wp_plugin_localized(){
+		    if(!did_action('init') || static::$initialized === false){
+		        // wait for init
+				add_action( 'init', array( $this, 'setup_wp_plugin_localized' ), 50 );
+            }else{
+		        // merge locals
+                // if not set, set it
+                if(!isset(static::$scripts_localized_collection['sv_core_admin'])){
+					static::$scripts_localized_collection['sv_core_admin'] = array();
+                }
+
+				static::$scripts_localized_collection['sv_core_admin'] = array_merge(array(
+				        'nonce_sv_admin_ajax_'.$this->get_name() =>  \wp_create_nonce( 'sv_admin_ajax_'.$this->get_name() )
+				        ), static::$scripts_localized_collection['sv_core_admin']);
+
+            }
+
         }
 		
 		protected function setup_wp_filters(string $path){
@@ -310,7 +394,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
         }
 		
 		protected function setup_modules(string $path){
-            if( file_exists( $path . 'lib/modules/modules.php' ) ) {
+            if( is_file( $path . 'lib/modules/modules.php' ) ) {
                 $this->modules->init();
             }
 

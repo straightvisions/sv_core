@@ -2,7 +2,7 @@
 	namespace sv_core;
 	
 	abstract class sv_abstract {
-		const version_core					= 4020;
+		const version_core					= 5000;
 		
 		protected $name						= false;
 		protected $module_name				= false;
@@ -25,11 +25,13 @@
 		protected $section_types			= array();
 		protected $section_template_path	= '';
 		protected $section_title			= false;
+		protected $section_order			= false;
 		protected $section_desc				= false;
 		protected $section_privacy			= false;
 		protected $section_type				= '';
 		protected $scripts_queue			= array();
-		protected static $expert_mode       = false;
+		protected static $expert_mode		= false;
+		public static $breakpoints			= false;
 		
 		/**
 		 * @desc			initialize plugin
@@ -51,7 +53,7 @@
 		 */
 		public function __get( string $name ) {
 			// look for class file in modules directory
-			if ( file_exists($this->get_path( 'lib/modules/'.$name . '.php' )) ) {
+			if ( is_file($this->get_path( 'lib/modules/'.$name . '.php' )) ) {
 				require_once( $this->get_path( 'lib/modules/'.$name . '.php' ) );
 				
 				$class_name	    = $this->get_root()->get_name() . '\\' . $name;
@@ -62,7 +64,7 @@
 				return $this->$name;
 			}
 			
-			if ( file_exists($this->get_root()->get_path( 'lib/modules/'.$name . '/'.$name . '.php' )) ) {
+			if ( is_file($this->get_root()->get_path( 'lib/modules/'.$name . '/'.$name . '.php' )) ) {
 				require_once( $this->get_root()->get_path( 'lib/modules/'.$name . '/'.$name . '.php' ) );
 				
 				$class_name	    = $this->get_root()->get_name() . '\\' . $name;
@@ -342,7 +344,10 @@
 		}
 		
 		public function get_module_name() {
-			return ( new \ReflectionClass( get_called_class() ) )->getShortName();
+			if(!$this->module_name){
+				$this->module_name = ( new \ReflectionClass( get_called_class() ) )->getShortName();
+			}
+			return $this->module_name;
 		}
 		
 		public function get_prefix( string $append = '' ) {
@@ -386,6 +391,23 @@
 
 			return $this->s[$setting];
 		}
+
+		public function get_breakpoints(): array {
+			if(!self::$breakpoints){
+				self::$breakpoints	= apply_filters($this->get_root()->get_prefix('breakpoints'), array( // number = min width
+					'mobile'						=> 0,		// mobile first!
+					'mobile_landscape'				=> 0,
+					'tablet'						=> 768,
+					'tablet_landscape'				=> 992,
+					'tablet_pro'					=> 1024,
+					'tablet_pro_landscape'			=> 1366,
+					'desktop'						=> 1600,
+				));
+			}
+
+			return self::$breakpoints;
+		}
+
 		public function get_metabox(): metabox {
 			if( isset($this->m[$this->get_prefix()]) === false ){
 				// create empty setting if not set
@@ -422,9 +444,10 @@
 				$path	= trailingslashit( dirname( __FILE__ ) );
 			}
 			
-			$this->set_path($path); // why?
-			
-			return $path . $suffix;
+			$this->set_path($path);
+
+			return $this->path . $suffix;
+			//return apply_filters('get_path', $this->path . $suffix, $path, $suffix, $this->get_prefix(), $this);
 		}
 		
 		public function set_url(string $url) {
@@ -442,8 +465,9 @@
 			}
 			
 			$this->set_url($url);
-			
+
 			return $this->url . $suffix;
+			//return apply_filters('get_url', $this->url . $suffix, $this->url, $suffix, $this->get_prefix(), $this);
 		}
 
 		public function get_path_core(string $suffix = ''): string{
@@ -479,11 +503,13 @@
 		
 		public function acp_style( bool $hook = false ) {
 			if ( !$hook || $hook == 'sv-100_page_' . $this->get_module_name() ) {
-				wp_enqueue_style($this->get_prefix(), $this->get_url_core('../assets/admin.css'), array( 'wp-editor' ));
-				ob_start();
-				require_once($this->get_path_core('../assets/admin_inline.css'));
-				$css = ob_get_clean();
-				wp_add_inline_style($this->get_prefix(), $css);
+				if(is_file($this->get_path_core('../assets/admin_inline.css'))) { // file exists only when core_plugin is loaded, so if only theme is loaded, don't load this asset
+					wp_enqueue_style($this->get_prefix(), $this->get_url_core('../assets/admin.css'), array('wp-editor'), filemtime($this->get_path_core('../assets/admin.css')));
+					ob_start();
+					require_once($this->get_path_core('../assets/admin_inline.css'));
+					$css = ob_get_clean();
+					wp_add_inline_style($this->get_prefix(), $css);
+				}
 			}
 		}
 		
@@ -508,6 +534,34 @@
 			return $this->sections;
 		}
 
+		public function get_section_single(string $section_title = '') {
+			$output  	= false; // should be null
+			$sections 	= $this->get_sections_sorted_by_prefix();
+
+			foreach($sections as $key => $section){
+				if($key == $section_title){
+					$output = $section;
+					break;
+				}
+			}
+
+			return $output;
+		}
+
+		public function get_sections_sorted_by_prefix(): array {
+			$sections = array();
+
+			if ( empty( $this->sections ) === false ) {
+				foreach($this->sections as $section){
+					$sections[$section['object']->get_prefix()] = $section;
+				}
+
+				ksort($sections);
+			}
+
+			return $sections;
+		}
+
 		public function get_sections_sorted_by_title(): array {
 			$sections = array();
 			
@@ -518,7 +572,31 @@
 				
 				ksort($sections);
 			}
-			
+			return $sections;
+		}
+
+		public function get_sections_sorted_by_order(): array {
+			$sections	= array();
+
+			if ( empty( $this->sections ) === false ) {
+				foreach($this->sections as $section){
+					$order_num = $section['object']->get_section_order();
+
+					if($order_num === 0){
+						$order_num = 777; // move them to the bottom
+					}
+
+					while( isset($sections[$order_num]) ){
+						$order_num++;
+					}
+
+					$sections[$order_num] = $section;
+				}
+
+			}
+
+			ksort($sections);
+
 			return $sections;
 		}
 		
@@ -528,14 +606,14 @@
 		
 		public function set_section_template_path( string $path ) {
 			$this->section_template_path = $path;
-			
+
 			return $this;
 		}
 
 		public function has_section_template_path(): bool{
 		    $output = false;
 
-		    if( strlen($this->get_section_template_path()) > 0 && file_exists($this->get_section_template_path()) ){
+		    if( strlen($this->get_section_template_path()) > 0 && is_file($this->get_section_template_path()) ){
 		        $output = true;
 		    }
 
@@ -550,6 +628,16 @@
 		
 		public function get_section_title(): string {
 			return $this->section_title ? $this->section_title : __( 'No Title defined.', 'sv_core' );
+		}
+
+		public function set_section_order( int $num ) {
+			$this->section_order = $num;
+
+			return $this;
+		}
+
+		public function get_section_order(): int {
+			return $this->section_order ? $this->section_order : 0;
 		}
 		
 		public function set_section_desc( string $desc ) {
@@ -595,16 +683,16 @@
             
             require_once( $path );
 			
-			$this->load_section_html();
+			// $this->load_section_html();
 			
 			require_once( $this->get_path_core( 'backend/tpl/legal.php' ) );
 			require_once( $this->get_path_core( 'backend/tpl/footer.php' ) );
 		}
 		
 		public function load_section_menu() {
-			foreach ( $this->get_sections_sorted_by_title() as $section ) {
+			foreach ( $this->get_sections_sorted_by_order() as $section ) {
 				$section_name = $section['object']->get_prefix();
-				echo '<div data-target="#section_'
+				echo '<div data-sv_admin_menu_target="#section_'
                     . $section_name
                     . '" class="sv_admin_menu_item section_'
                     . $section[ 'object' ]->get_section_type()
@@ -634,5 +722,76 @@
 			$actions			        = array_merge( $links, $actions );
 			
 			return $actions;
+		}
+		public function has_block_frontend(string $block_name): bool{
+			if( ! is_admin() ) {
+				$post = apply_filters('sv_core_has_block_frontend_queried_object', get_queried_object());
+
+				if(!$post || get_class($post) != 'WP_Post'){
+					return false;
+				}
+
+				if ( !$this->has_block( $block_name, $post->ID )) {
+					return false;
+				}
+			}
+			return true;
+		}
+		public function has_block( string $block_name, int $id = 0 ): bool{
+			$id = (!$id) ? get_the_ID() : $id;
+
+			if(has_block($block_name, $id)){
+				return true;
+			}
+			if($this->has_reusable_block($block_name, $id)){
+				return true;
+			}
+			return false;
+		}
+		public function has_reusable_block( string $block_name, int $id = 0 ): bool{
+			$id = (!$id) ? get_the_ID() : $id;
+
+			if( $id ){
+				if ( has_block( 'block', $id ) ){
+					// Check reusable blocks
+					$content = get_post_field( 'post_content', $id );
+					$blocks = parse_blocks( $content );
+
+					if ( ! is_array( $blocks ) || empty( $blocks ) ) {
+						return false;
+					}
+
+					foreach ( $blocks as $block ) {
+						$block = $this->flatten_inner_blocks($block); // search for child blocks
+
+						if ( $block['blockName'] === 'core/block' && ! empty( $block['attrs']['ref'] ) ) {
+							if( has_block( $block_name, $block['attrs']['ref'] ) ){
+								return true;
+							}
+						}
+
+						if ( $block['blockName'] === 'core/block' && ! empty( $block['attrs']['ref'] ) ) {
+							if( has_block( $block_name, $block['attrs']['ref'] ) ){
+								return true;
+							}
+						}
+					}
+
+				}
+			}
+
+			return false;
+		}
+		protected function flatten_inner_blocks(array $block): array{
+			if(isset($block['innerBlocks'])){
+				$inner_blocks = $block['innerBlocks'];
+				unset($block['innerBlocks']);
+				foreach($inner_blocks as $inner_block) {
+					$block = array_merge($block, $this->flatten_inner_blocks($inner_block));
+				}
+
+			}
+
+			return $block;
 		}
 	}

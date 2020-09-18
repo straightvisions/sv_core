@@ -24,54 +24,6 @@
 		public function get_allowed_filetypes(): array{
 			return $this->allowed_filetypes;
 		}
-		public function html($ID, $title, $description, $name, $value, $required, $disabled, $placeholder){
-			$output = '<h4>'. $title . '</h4>';
-			
-			if ( is_string( $value ) && ! empty( $value ) ) {
-				$attachment = wp_get_attachment_link( $value, 'full', false, true )
-					? wp_get_attachment_link( $value, 'full', false, true ) : false;
-				
-				if ( $attachment ) {
-					$output .= '<div>' . $attachment . '</div>';
-					$output .= '<div><a href="/wp-admin/post.php?post=' . $value . '&action=edit" target="_blank">';
-					$output .= get_the_title( $value ) . '</a></div>';
-				}
-			}
-			
-			$output .= '
-			<label for="' . $ID . '">
-				<input
-					data-sv_type="sv_form_field"
-					class="sv_file"
-				id="' . $ID . '[file]"
-				name="' . ($name ? $name.'[file]' : '') . '"
-				type="file"
-				'.((count($this->get_allowed_filetypes()) > 0) ? 'accept="'.implode(',',$this->get_allowed_filetypes()).'"' : '').'
-				placeholder="'.$placeholder.'"
-				' . $disabled . '
-				/>
-			</label>
-			<div class="description">' . $description . '</div>';
-			
-			if( is_string( $value ) && ! empty( $value ) ) {
-				$output .= '
-			<label for="' . $ID . '[delete]" style="justify-content: flex-end;">
-			<input
-					data-sv_type="sv_form_field"
-				id="' . $ID . '[delete]"
-				name="' . ($name ? $name.'[delete]' : '') . '"
-				value="1"
-				type="checkbox"
-				' . $disabled . '
-				style="margin-right:16px;"
-				/>
-				
-				'.__('Delete File', 'sv_core').'
-				</label>
-			';
-			}
-			return $output;
-		}
 		private function delete_attachment(int $attachment_id){
 			wp_delete_attachment( $attachment_id, true );
 		}
@@ -124,7 +76,7 @@
 				if($_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['name']['file'] != '' &&
 					$_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['type']['file'] != '' &&
 					$_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['tmp_name']['file'] != '' &&
-					file_exists($_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['tmp_name']['file'])) {
+					is_file($_FILES[ $this->get_parent()->get_prefix( $this->get_parent()->get_ID() ) ]['tmp_name']['file'])) {
 						$input = $this->handle_file_upload(
 							wp_handle_upload(
 								$this->unfiltered_files_resorted(), array( 'test_form' => false ) )
@@ -159,9 +111,10 @@
 			}
 			
 			// make sure it's a group field
-			if(method_exists($this->get_parent()->get_parent(), 'get_ID') && isset($_FILES[$this->get_parent()->get_parent()->get_prefix($this->get_parent()->get_parent()->get_ID())])) {
+			if(method_exists($this->get_parent()->get_parent()->get_parent(), 'get_ID') && isset($_FILES[$this->get_parent()->get_parent()->get_parent()->get_prefix($this->get_parent()->get_parent()->get_parent()->get_ID())])) {
 				// reformat data to convert group uploads to single uploads
-				$data_new					= $this->reformat_file_data($_FILES[ $this->get_parent()->get_parent()->get_prefix( $this->get_parent()->get_parent()->get_ID() ) ]);
+				$data_new					= $this->reformat_file_data($_FILES[ $this->get_parent()->get_parent()->get_parent()->get_prefix( $this->get_parent()->get_parent()->get_parent()->get_ID() ) ]);
+
 				// new uploads
 				foreach ( $data_new as $i => $data ) {
 					foreach ( $data as $name => $fields ) {
@@ -169,17 +122,17 @@
 						if ( $fields['name'] != '' &&
 							$fields['type'] != '' &&
 							$fields['tmp_name'] != '' &&
-							file_exists( $fields['tmp_name'] ) ) {
+							is_file( $fields['tmp_name'] ) ) {
 							$input[ $i ][ $name ]['file'] = $this->handle_file_upload(
 								wp_handle_upload( $fields, array( 'test_form' => false ) )
 							);
 							// make sure existing uploads are carried
-						} elseif ( !isset($input[ $i ][ $name ]['file']) && isset( $this->get_parent()->get_data()[ $i ][ $name ] ) && intval( $this->get_parent()->get_data()[ $i ][ $name ] ) > 0 ) {
-							$input[ $i ][ $name ] = $this->get_parent()->get_data()[ $i ][ $name ];
+						} elseif ( !isset($input[ $i ][ $name ]['file']) && isset( $this->get_parent()->get_parent()->get_parent()->get_data()[ $i ][ $name ] ) && intval( $this->get_parent()->get_parent()->get_parent()->get_data()[ $i ][ $name ] ) > 0 ) {
+							$input[ $i ][ $name ] = $this->get_parent()->get_parent()->get_parent()->get_data()[ $i ][ $name ];
 						}
 					}
 				}
-				
+
 				// delete files if requested
 				$input						= $this->delete_group_files($input);
 			}

@@ -3,7 +3,7 @@
 	namespace sv_core;
 	
 	class setting_number extends settings{
-		private $parent				= false;
+		private $parent	= false;
 		
 		/**
 		 * @desc			initialize
@@ -12,30 +12,21 @@
 		 * @ignore
 		 */
 		public function __construct($parent=false){
-			$this->parent			= $parent;
+			$this->parent = $parent;
 		}
-		public function sanitize($meta_value, $meta_key, $object_type){
+
+		public function sanitize($meta_value, $meta_key, $object_type) {
 			return intval($meta_value);
 		}
-		public function html($ID, $title, $description, $name, $value, $required, $disabled, $placeholder, $maxlength, $minlength, $max, $min){
-			return '
-				<h4>' . $title . '</h4>
-				<label for="' . $ID . '">
-					<input
-					data-sv_type="sv_form_field"
-					class="sv_input"
-					id="' . $ID . '"
-					name="' . $name . '"
-					type="number"
-					placeholder="'.$placeholder.'"
-					value="' . esc_attr($value) . '"
-					max="' . $max . '"
-					min="' . $min . '"
-					' . ($maxlength ? 'maxlength="'.$maxlength.'"' :  ''). '"
-					' . $minlength . '
-					' . $required . '
-					' . $disabled . '/>
-				</label>
-				<div class="description">' . $description . '</div>';
+		public function get_css_data(string $custom_property = '', string $prefix = '', string $suffix = ''): array{
+			$property				= ((strlen($custom_property) > 0) ? $custom_property : false);
+			$properties				= array();
+
+			// this input field is generic, so custom property is required
+			if($property && $this->get_parent()->get_data()) {
+				$properties[$property]		= $this->prepare_css_property_responsive($this->get_parent()->get_data(),$prefix,$suffix);
+			}
+
+			return $properties;
 		}
 	}

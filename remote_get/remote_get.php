@@ -38,13 +38,13 @@
 		public function get_response(bool $post = false): array {
 			if($post){
 				$response = wp_safe_remote_post( $this->get_request_url(), $this->get_args() );
-				if( is_wp_error( $response ) ) {
-					return array('error' => $response->get_error_message());
-				}else{
-					return $response;
-				}
 			}else{
-				return wp_remote_get( $this->get_request_url(), $this->get_args() );
+				$response = wp_remote_get( $this->get_request_url(), $this->get_args() );
+			}
+			if( is_wp_error( $response ) ) {
+				return array('error' => $response->get_error_message());
+			}else{
+				return $response;
 			}
 		}
 		

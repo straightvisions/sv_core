@@ -4,6 +4,7 @@
 	class setting_color extends settings {
 		private $parent				        = false;
 		private $color_palette              = false;
+		public static $initialized			= false;
 
 		/**
 		 * @desc			initialize
@@ -14,7 +15,20 @@
 		public function __construct( $parent = false ) {
 			$this->parent			= $parent;
 
-			add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
+			if ( static::$initialized === false ) {
+				static::$initialized = true;
+				add_action('after_setup_theme', array($this, 'after_setup_theme'));
+			}
+		}
+		public function get_css_data(string $custom_property = '', string $prefix = 'rgba(', string $suffix = ')'): array{
+			$property				= ((strlen($custom_property) > 0) ? $custom_property : 'color');
+			$properties				= array();
+
+			if($this->get_parent()->get_data()) {
+				$properties[$property]		= $this->prepare_css_property_responsive($this->get_parent()->get_data(),$prefix,$suffix);
+			}
+
+			return $properties;
 		}
 		// Returns the color pallete
 		protected function get_color_palette() {
@@ -33,20 +47,22 @@
 		// Runs through a settings groups entries, checks if they have
 		// a color input inside and replaces them with the react-color picker
 		protected function load_child_setting_color_picker() {
-			// Checks if the setting group got entries
-			if ( $this->get_parent()->get_data() && is_array( $this->get_parent()->get_data() ) ) {
+			$data = $this->get_parent()->get_parent()->get_data();
 
+			// Checks if the setting group got entries
+			if ( $data && is_array( $data ) ) {
 				// Loops through the entries
-				foreach ( $this->get_parent()->get_data() as $key => $setting ) {
+				foreach ( $data as $key => $setting ) {
+					$children = $this->get_parent()->get_children();
 
 					// Loops through settings of the entry
-					foreach ( $this->get_parent()->get_parent()->run_type()->get_children() as $child ) {
-
+					foreach ( $children as $child ) {
 						// Checks if the setting is a color setting
 						if ( $child->get_type() === 'setting_color' ) {
-							$ID     = $child->get_field_id() . '[' . $key . '][' . $child->get_ID() . ']';
-							$data   = get_option( $child->get_field_id() )[ $key ][ $child->get_ID() ]
-								? get_option( $child->get_field_id() )[ $key ][ $child->get_ID() ]
+							$field_id = $child->get_parent()->get_parent()->get_field_id();
+							$ID     = $field_id . '[' . $key . '][' . $child->get_ID() . ']';
+							$data   = get_option( $field_id )[ $key ][ $child->get_ID() ]
+								? get_option( $field_id )[ $key ][ $child->get_ID() ]
 								: '';
 
 							$this->localize_script( $ID, $data );
@@ -59,23 +75,22 @@
 		// Replaces the default color input, with the react-color picker
 		public function load_color_picker() {
 			// This setting is a child of a setting group
-			if (
-				method_exists( $this->get_parent()->get_parent(), 'get_type' )
-				&& $this->get_parent()->get_parent()->get_type() === 'setting_group'
-			) {
+			if ( $this->get_parent()->get_module_name() === 'setting_group' ) {
 				$this->load_child_setting_color_picker();
 			}
 
 			// Normal setting
 			else {
-				$this->localize_script( $this->get_field_id(), $this->get_data() );
+				$this->localize_script( $this->get_parent()->get_field_id(), $this->get_parent()->get_data() );
 			}
 		}
 
 		public function after_setup_theme() {
 			$this->set_color_palette();
-		
-			add_action( 'sv_core_module_scripts_loaded', array( $this, 'load_color_picker' ) );
+
+			if(is_admin()) {
+				add_action('sv_core_module_scripts_loaded', array($this, 'load_color_picker'));
+			}
 		}
 
 		public function localize_script( $ID, $data ) {
@@ -86,29 +101,9 @@
 						$this->get_active_core()->get_script('sv_core_color_picker')->get_localized(),
 						array(
 							'color_palette' => $this->get_color_palette(),
-							$ID             => $data,
+							$ID => $data,
 						)
 					)
 				);
-		}
-
-		public function html( $ID, $title, $description, $name, $value ) {
-			$this->localize_script( $this->get_field_id(), $this->get_data() );
-			
-			$value = ! empty( $value ) ? 'value="' . esc_attr( $this->get_hex( $value ) ) . '"' : '';
-
-			return '
-				<h4>' . $title . '</h4>
-				<label for="' . $ID . '" class="sv_input_label_color">
-					<input
-					data-sv_type="sv_form_field"
-					class="sv_input"
-					id="' . $ID . '"
-					name="' . $name . '"
-					type="color"
-					' . $value . '
-					/>
-				</label>
-				<div class="description">' . $description . '</div>';
 		}
 	}

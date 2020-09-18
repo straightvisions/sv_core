@@ -16,7 +16,7 @@
 		
 		}
 		public function __get(string $name){
-			if(file_exists($this->get_path_core('settings/modules/'.$name.'.php'))){ // look for class file in modules directory
+			if(is_file($this->get_path_core('settings/modules/'.$name.'.php'))){ // look for class file in modules directory
 				require_once($this->get_path_core('settings/modules/'.$name.'.php'));
 				$class_name							= __NAMESPACE__.'\\'.$name;
 				
@@ -69,11 +69,10 @@
 			}
 			wp_nonce_field($this->get_prefix(), $this->get_prefix('nonce'));
 
-			foreach($this->get_parent()->s as $setting){
+			foreach($this->get_parent()->get_settings() as $setting){
 				$meta_field					= $setting->get_prefix($setting->get_ID());
-				$setting->run_type()->set_data(get_post_meta($post->ID, $meta_field, true));
-				
-				echo $setting->run_type()->default(true);
+				$setting->set_data(get_post_meta($post->ID, $meta_field, true));
+				echo $setting->form();
 			}
 		}
 		public function save_post($post_id, $post){
@@ -93,7 +92,7 @@
 			foreach($this->get_parent()->s as $setting){
 				$field_id											= $setting->get_prefix($setting->get_ID());
 				
-				add_filter('sanitize_sv_core_'.$setting->get_type().'_meta_'.$setting->run_type()->get_field_id(), array($setting,'sanitize'), 10, 3);
+				add_filter('sanitize_sv_core_'.$setting->get_type().'_meta_'.$setting->get_field_id(), array($setting,'sanitize'), 10, 3);
 				
 				// Get the posted data and sanitize it for use.
 				$new_meta_value										= (isset($_POST[$field_id]) ? sanitize_meta($field_id, $_POST[$field_id], 'sv_core_'.$setting->get_type()) : '');

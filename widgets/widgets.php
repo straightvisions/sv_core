@@ -132,9 +132,9 @@
 					$this->get_class()->get_root()->acp_style();
 					$this->get_class()::$scripts_loaded		= true;
 				}
-				
+
 				foreach ($this->get_class()->get_widget_settings() as $setting) {
-					echo $setting->run_type()->widget( ( isset ( $instance[ $setting->get_ID() ] ) ? $instance[ $setting->get_ID() ] : $setting->run_type()->get_default_value() ), $this );
+					echo $setting->widget( ( isset ( $instance[ $setting->get_ID() ] ) ? $instance[ $setting->get_ID() ] : $setting->get_default_value() ), $this );
 				}
 			}
 		}
