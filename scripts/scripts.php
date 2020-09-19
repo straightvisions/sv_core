@@ -77,6 +77,26 @@
 					 ->load_type( 'checkbox' );
 				
 				foreach ( $this->get_scripts() as $script ) {
+					// Renew CSS Cache
+					if($script->get_ID() == 'config' && $script->get_type() == 'css'){
+						$module		= $script->get_parent();
+						if($module->get_css_cache_active()){
+							if($module->get_css_cache_invalidated()){
+								$_s = $script->get_parent()->get_settings();
+								$_s = reset($_s);
+
+								ob_start();
+								require_once($script->get_path());
+								$css = ob_get_clean();
+
+								file_put_contents($module->get_path('lib/css/dist/frontend.css'),$css);
+							}
+
+							$script->set_path('lib/css/dist/frontend.css');
+						}
+					}
+
+
 					$this->s[ $script->get_UID() ] = $this->get_parent()::$settings->create( $this )
 					   ->set_ID( $script->get_UID() )
 					   ->set_default_value( 'default' )
@@ -410,6 +430,13 @@
 		
 		public function set_ID( string $ID ): scripts {
 			$this->ID								= $ID;
+
+			if($ID == 'common'){
+				$this->set_path('lib//css/common/common.css');
+			}
+			if($ID == 'config'){
+				$this->set_path('lib/css/config/init.php');
+			}
 			
 			return $this;
 		}

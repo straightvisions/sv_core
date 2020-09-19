@@ -32,6 +32,9 @@
 		protected $scripts_queue			= array();
 		protected static $expert_mode		= false;
 		public static $breakpoints			= false;
+
+		protected $module_css_cache					= false; // default false, set true in a module to opt in for CSS Caching
+		protected $module_css_cache_invalidated	= true;
 		
 		/**
 		 * @desc			initialize plugin
@@ -53,6 +56,8 @@
 		 */
 		public function __get( string $name ) {
 			// look for class file in modules directory
+			// @deprecated: move module files into own subdirectory
+			// @todo: remove
 			if ( is_file($this->get_path( 'lib/modules/'.$name . '.php' )) ) {
 				require_once( $this->get_path( 'lib/modules/'.$name . '.php' ) );
 				
@@ -604,8 +609,8 @@
 			return $this->section_template_path;
 		}
 		
-		public function set_section_template_path( string $path ) {
-			$this->section_template_path = $path;
+		public function set_section_template_path( string $path = 'lib/tpl/settings/init.php' ) {
+			$this->section_template_path = $this->get_path($path);
 
 			return $this;
 		}
@@ -793,5 +798,23 @@
 			}
 
 			return $block;
+		}
+
+		public function get_css_cache_active(){
+			return $this->module_css_cache;
+		}
+		public function set_css_cache_active(bool $active = true){
+			$this->module_css_cache = $active;
+
+			return $this;
+		}
+
+		public function get_css_cache_invalidated(){
+			return $this->module_css_cache_invalidated;
+		}
+		public function set_css_cache_invalidated(bool $invalidated = true){
+			$this->module_css_cache_invalidated = $invalidated;
+
+			return $this;
 		}
 	}
