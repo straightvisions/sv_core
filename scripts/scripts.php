@@ -47,56 +47,35 @@
 			add_action( 'wp_footer', array( $this, 'wp_footer' ), 10 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 99999);
 			add_action( 'enqueue_block_editor_assets', array( $this, 'gutenberg_scripts' ));
-			
+
 			// Loads Settings
 			if(!is_admin()) {
 				add_action( 'wp_footer', array( $this, 'load_settings' ), 1 );
 			}else{
 				add_action( 'init', array( $this, 'load_settings' ));
+				add_action( 'admin_init', array( $this, 'cache_css' ), 10);
 			}
-			
-			$this->load_settings();
 		}
-		
+
 		public function load_settings() {
 			if(count($this->get_scripts()) > 0) {
 				if($this->get_is_expert_mode()) {
 					$this->get_root()->add_section( $this );
 				}
-				
+
 				$this->s[ 'disable_all_css' ] = $this->get_parent()::$settings->create( $this )
 					  ->set_ID( 'disable_all_css' )
 					  ->set_title( __('Disable all CSS per Default', 'sv_core') )
 					  ->set_description( __('CSS enqueued will be disabled by default - you may override this later down below.', 'sv_core') )
 					  ->load_type( 'checkbox' );
-				
+
 				$this->s[ 'disable_all_js' ] = $this->get_parent()::$settings->create( $this )
 					 ->set_ID( 'disable_all_js' )
 					 ->set_title( __('Disable all JS per Default', 'sv_core') )
 					 ->set_description( __('JS enqueued will be disabled by default - you may override this later down below.', 'sv_core') )
 					 ->load_type( 'checkbox' );
-				
+
 				foreach ( $this->get_scripts() as $script ) {
-					// Renew CSS Cache
-					if($script->get_ID() == 'config' && $script->get_type() == 'css'){
-						$module		= $script->get_parent();
-						if($module->get_css_cache_active()){
-							if($module->get_css_cache_invalidated()){
-								$_s = $script->get_parent()->get_settings();
-								$_s = reset($_s);
-
-								ob_start();
-								require_once($script->get_path());
-								$css = ob_get_clean();
-
-								file_put_contents($module->get_path('lib/css/dist/frontend.css'),$css);
-							}
-
-							$script->set_path('lib/css/dist/frontend.css');
-						}
-					}
-
-
 					$this->s[ $script->get_UID() ] = $this->get_parent()::$settings->create( $this )
 					   ->set_ID( $script->get_UID() )
 					   ->set_default_value( 'default' )
@@ -215,26 +194,31 @@
 		public function gutenberg_scripts(){
 			wp_register_style('sv_core_gutenberg_style', $this->get_url_core('backend/css/gutenberg.css'), false, filemtime($this->get_path_core('backend/css/gutenberg.css')));
 			wp_register_script('sv_core_gutenberg_script', $this->get_url_core('backend/js/gutenberg.js'), false, filemtime($this->get_path_core('backend/js/gutenberg.js')));
-			
+
 			foreach ( $this->get_scripts() as $script ) {
 				if ( $script->get_is_gutenberg() ) {
 					if($script->get_type() == 'css') {
-						ob_start();
+						$module		= $script->get_parent();
+						if($module->get_css_cache_active()){
+							$this->add_script($script);
+						}else {
+							ob_start();
 
-						// get settings object for build css later
-						$_s			= $script->get_parent()->get_settings();
-						$_s			= reset($_s);
+							// get settings object for build css later
+							$_s = $script->get_parent()->get_settings();
+							$_s = reset($_s);
 
-						require_once( $script->get_path() );
-						$css		= ob_get_clean();
-						
-						wp_add_inline_style( 'sv_core_gutenberg_style', $css );
+							require_once($script->get_path());
+							$css = ob_get_clean();
+
+							wp_add_inline_style('sv_core_gutenberg_style', $css);
+						}
 					}else{
 						$this->add_script($script);
 					}
 				}
 			}
-			
+
 			wp_enqueue_style('sv_core_gutenberg_style');
 		}
 		public function register_scripts(){
@@ -298,7 +282,7 @@
 					$script->set_is_loaded();
 
 					// CSS or JS
-					
+
 					switch ($script->get_type()) {
 						case 'css':
 							// check if inline per settings (higher prio) or per parameter (lower prio)
@@ -431,13 +415,6 @@
 		public function set_ID( string $ID ): scripts {
 			$this->ID								= $ID;
 
-			if($ID == 'common'){
-				$this->set_path('lib//css/common/common.css');
-			}
-			if($ID == 'config'){
-				$this->set_path('lib/css/config/init.php');
-			}
-			
 			return $this;
 		}
 		public function get_ID(): string {
@@ -500,6 +477,8 @@
 		}
 		
 		public function set_path(string $path, bool $full = false, string $url = ''): scripts {
+			$path = $this->cache_css($path);
+
 			if($this->is_valid_url($path)){
 				$this->script_url					= $path;
 				$this->is_external					= true;
@@ -520,6 +499,27 @@
 			}
 			
 			return $this;
+		}
+		public function cache_css(string $path = ''){
+			if ($this->get_ID() == 'config' && $this->get_type() == 'css') {
+				$module = $this->get_parent();
+				if ($module->get_css_cache_active()) {
+					if ($module->get_css_cache_invalidated()) {
+						$module->set_css_cache_invalidated(false);
+						$_s = $module->get_settings();
+						$_s = reset($_s);
+
+						ob_start();
+						require_once($module->get_path($path));
+						$css = ob_get_clean();
+
+						file_put_contents($module->get_path('lib/css/dist/frontend.css'), $css);
+					}
+
+					 return 'lib/css/dist/frontend.css';
+				}
+			}
+			return $path;
 		}
 		public function get_path(string $suffix = ''): string {
 			return $this->script_path;

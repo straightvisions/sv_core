@@ -31,6 +31,10 @@ class setting_select extends settings{
 	}
 	// @todo: maybe outsource this into specialized font setting type
 	public function get_css_font_data(){
+		if(!$this->get_parent()->get_parent()->get_module('sv_webfontloader')){
+			return array();
+		}
+
 		$properties				= array();
 		$font_family			= false;
 		$font_weight			= false;
