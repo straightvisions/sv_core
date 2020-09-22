@@ -31,17 +31,24 @@
 		
 		// JS specific
 		private $localized							= array();
-		
+
+		private static $list						= array();
+
+		//protected $option_updated					= false;
+
+		protected $module_css_cache_invalidated							= NULL;
+
 		public function __construct() {
-		
+			add_action('updated_option', array($this,'update_setting_flush_css_cache'), 10, 3);
 		}
 		
 		public function init(){
 			// Section Info
-			$this->set_section_title( __('Scripts', 'sv_core') );
-			$this->set_section_desc( __( 'Override Scripts Loading.', 'sv_core' ) );
-			$this->set_section_type( 'settings' );
-			
+			$this->set_section_title( __('Scripts', 'sv_core') )
+				->set_section_desc( __( 'Override Scripts Loading.', 'sv_core' ) )
+				->set_section_type( 'settings' )
+				->set_section_template_path($this->get_path_core('lib/tpl/settings/scripts.php'));
+
 			add_action( 'init', array( $this, 'register_scripts' ), 10 );
 			
 			add_action( 'wp_footer', array( $this, 'wp_footer' ), 10 );
@@ -52,8 +59,23 @@
 			if(!is_admin()) {
 				add_action( 'wp_footer', array( $this, 'load_settings' ), 1 );
 			}else{
-				add_action( 'init', array( $this, 'load_settings' ));
-				add_action( 'admin_init', array( $this, 'cache_css' ), 10);
+				add_action( 'admin_init', array( $this, 'load_settings' ), 1);
+			}
+		}
+
+		public function update_setting_flush_css_cache($option_name, $old_value, $value){
+			if(
+				strpos($option_name, 'sv100_scripts_settings_flush_css_cache') === false // do not trigger when script settings are saved
+				&& strpos($option_name, 'sv') === 0 // but trigger when SV settings are saved
+				//&& $old_value != $value // only when something has changed
+				//&& isset($this->get_parent()->option_updated)
+				//&& $this->get_parent()->option_updated === false
+			){
+				//var_dump($option_name);
+				//$this->module_css_cache_invalidated = true;
+				//$this->get_parent()->option_updated = true;
+				remove_action('updated_option', array($this,'update_setting_flush_css_cache'), 10);
+				update_option('sv100_scripts_settings_flush_css_cache', 1);
 			}
 		}
 
@@ -62,6 +84,12 @@
 				if($this->get_is_expert_mode()) {
 					$this->get_root()->add_section( $this );
 				}
+
+				$this->s[ 'flush_css_cache' ] = $this->get_parent()::$settings->create( $this )
+					->set_ID( 'flush_css_cache' )
+					->set_title( __('Flush cache for all CSS files', 'sv_core') )
+					->set_description( __('All cached CSS Files will be regenerated', 'sv_core') )
+					->load_type( 'checkbox' );
 
 				$this->s[ 'disable_all_css' ] = $this->get_parent()::$settings->create( $this )
 					  ->set_ID( 'disable_all_css' )
@@ -76,37 +104,76 @@
 					 ->load_type( 'checkbox' );
 
 				foreach ( $this->get_scripts() as $script ) {
-					$this->s[ $script->get_UID() ] = $this->get_parent()::$settings->create( $this )
-					   ->set_ID( $script->get_UID() )
+					// Setting attached
+					static::$list[$script->get_UID()][ 'attached' ] = $this->get_parent()::$settings->create( $this )
+					   ->set_ID( $script->get_UID().'_attached' )
 					   ->set_default_value( 'default' )
 					   ->set_title( '<div class="fab fa-' . ( $script->get_type() == 'css' ? 'css3' : 'js' ) . '" style="font-size:24px;margin-right:12px;display:inline-block;"></div><div style="display:inline-block;"><a href="'.$script->get_url().'" target="_blank">' . $script->get_handle().'</a></div>' )
 					   ->load_type( 'select' )
 					   ->set_disabled( $script->get_is_required() ? true : false );
-					
+
 					if(
 						($this->s[ 'disable_all_css' ]->get_data() == 1 && $script->get_type() == 'css') ||
 						($this->s[ 'disable_all_js' ]->get_data() == 1 && $script->get_type() == 'js')
 					){
-						
+
 						$default_label											=  __( 'Disabled', 'sv_core' );
 					}else{
 						$default_label											= $script->get_inline() ? __( 'Inline', 'sv_core' ) : __( 'Attached', 'sv_core' );
 					}
-					
-					
+
+
 					$options = array(
 						'default'  => __( 'Default', 'sv_core' ) . ': ' . $default_label,
 						'inline'   => __( 'Inline', 'sv_core' ),
 						'attached' => __( 'Attached', 'sv_core' ),
 						'disable'  => __( 'Disabled', 'sv_core' )
 					);
-					
-					$this->s[ $script->get_UID() ]->set_options( $options );
-					
+
+					static::$list[$script->get_UID()][ 'attached' ]->set_options( $options );
+
+					// Setting cache invalidated
+					if($script->get_parent()->get_css_cache_active() && $script->get_ID() == 'config'){
+						static::$list[$script->get_UID()]['cache']['active'] = true;
+					}else{
+						static::$list[$script->get_UID()]['cache']['active'] = false;
+					}
+
+					static::$list[$script->get_UID()]['cache'][ 'invalidated' ]['gutenberg'] = $this->get_parent()::$settings->create( $this )
+						->set_ID( $script->get_UID().'_cache_invalidated_gutenberg' )
+						->set_default_value( 1 )
+						->set_title( 'Cache Gutenberg' )
+						->set_options( array(
+							'1'		=> __( 'Flush Cache', 'sv_core' ),
+							'0'		=> __( 'Cache Active', 'sv_core' )
+						))
+						->load_type( 'select' );
+
+					static::$list[$script->get_UID()]['cache'][ 'invalidated' ]['frontend'] = $this->get_parent()::$settings->create( $this )
+						->set_ID( $script->get_UID().'_cache_invalidated_frontend' )
+						->set_default_value( 1 )
+						->set_title( 'Cache Frontend' )
+						->set_options( array(
+							'1'		=> __( 'Flush Cache', 'sv_core' ),
+							'0'		=> __( 'Cache Active', 'sv_core' )
+						))
+						->load_type( 'select' );
+
+					// invalidate cache globally if requested
+					if($this->s[ 'flush_css_cache' ]->get_data() == 1){
+						$script->set_css_cache_invalidated(true,true);
+					}
+
+					$script->cache_css();
 				}
+				$this->s[ 'flush_css_cache' ]->set_data('0')->save_option();
 			}
 		}
-		
+
+		public function get_list(){
+			return static::$list;
+		}
+
 		public function get_scripts(): array {
 			return isset( self::$scripts[ $this->get_root()->get_name() ] ) ? self::$scripts[ $this->get_root()->get_name() ] : array();
 		}
@@ -116,27 +183,27 @@
 		public function get_active_scripts(): array {
 			return self::$scripts_active;
 		}
-		
+
 		public function wp_footer() {
 			// we need to register an attached style to be allowed to add inline styles with WP function
 			wp_register_style('sv_core_init_style', $this->get_url_core('frontend/css/style.css'));
-			
+
 			foreach ( $this->get_scripts() as $script ) {
 				if(!$script->get_is_backend()) {
 					$this->add_script($script);
 				}
 			}
-			
+
 			// inline styles are printed
 			wp_enqueue_style('sv_core_init_style');
-			
+
 			ob_start();
 			// now remove the attached style
 			add_action('wp_print_footer_scripts', function(){
 				$html = ob_get_contents();
 				ob_end_clean();
 				$html = preg_replace("/<link(.*)sv_core_init_style-css(.*)\/>/", '', $html);
-				
+
 				$html = $this->replace_type_attr($html);
 
 				echo $html;
@@ -162,7 +229,7 @@
 						$input);
 				}
 			}
-			
+
 			return $input;
 		}
 		public function admin_scripts($hook){
@@ -171,7 +238,6 @@
 				&& (
 					strpos( $hook,'straightvisions' ) !== false
 					|| strpos( $hook,'appearance_page_sv100' ) !== false
-					|| function_exists('get_current_screen') // if it's a content edit screen, load backend scripts
 				)
 			) {
 				foreach ( $this->get_scripts() as $script ) {
@@ -208,7 +274,7 @@
 							$_s = $script->get_parent()->get_settings();
 							$_s = reset($_s);
 
-							require_once($script->get_path());
+							require($script->get_path());
 							$css = ob_get_clean();
 
 							wp_add_inline_style('sv_core_gutenberg_style', $css);
@@ -240,25 +306,25 @@
 				}
 			}
 		}
-		
+
 		private function check_for_enqueue(scripts $script): bool{
 			if($script->get_is_loaded()){ // always load scripts once only
 				return false;
 			}
-			
+
 			if($script->get_is_required()){ // always load required scripts
 				return true;
 			}
-			
-			if(isset($this->s[$script->get_UID()]) && $this->s[$script->get_UID()]->get_data() == 'disable'){ // don't load disabled scripts
+
+			if(isset(static::$list[$script->get_UID()][ 'attached' ]) && static::$list[$script->get_UID()][ 'attached' ]->get_data() == 'disable'){ // don't load disabled scripts
 				return false;
 			}
-			
+
 			if( // if script has no user load settings
-				isset($this->s[$script->get_UID()]) &&
+				isset(static::$list[$script->get_UID()][ 'attached' ]) &&
 				(
-					$this->s[$script->get_UID()]->get_data() == '' ||
-					$this->s[$script->get_UID()]->get_data() == 'default'
+					static::$list[$script->get_UID()][ 'attached' ]->get_data() == '' ||
+					static::$list[$script->get_UID()][ 'attached' ]->get_data() == 'default'
 				)
 			){
 				if( // make sure they are not globally disabled
@@ -268,7 +334,7 @@
 					return false;
 				}
 			}
-			
+
 			return true;
 		}
 		private function add_script( scripts $script ) {
@@ -282,46 +348,61 @@
 					$script->set_is_loaded();
 
 					// CSS or JS
-
 					switch ($script->get_type()) {
 						case 'css':
+							// get settings object for build css later
+							if($script->get_ID() == 'config') {
+								if($script->get_parent()->get_css_cache_active()) {
+									$script->cache_css();
+								}else {
+									// legacy
+									$_s = $script->get_parent()->get_settings();
+									$_s = reset($_s);
+								}
+							}
+
 							// check if inline per settings (higher prio) or per parameter (lower prio)
-							if ( $this->s[$script->get_UID()] && // checks if null - Dennis
+							if ( static::$list[$script->get_UID()][ 'attached' ] && // checks if null - Dennis
 								(
-									$this->s[$script->get_UID()]->get_data() === 'inline'
+									static::$list[$script->get_UID()][ 'attached' ]->get_data() === 'inline'
 									|| (
-										$this->s[$script->get_UID()]->get_data() === 'default'
+										static::$list[$script->get_UID()][ 'attached' ]->get_data() === 'default'
 										&& $script->get_inline()
 									)
 								)
 								&& ! $script->get_is_backend()
 							) {
-								// get settings object for build css later
-
-								if($script->get_ID() == 'config') {
-									$_s = $script->get_parent()->get_settings();
-									$_s = reset($_s);
-								}
-
 								if(is_file($script->get_path())) {
 									ob_start();
-									require_once($script->get_path());
-									$css = ob_get_contents();
-									ob_end_clean();
+									require($script->get_path());
+									$css = ob_get_clean();
 
 									wp_add_inline_style('sv_core_init_style', $css);
+									wp_add_inline_style('sv_core_gutenberg_style', $css);
 
 								}else{
 									error_log(__('Script '.$script->get_path().' not found.'));
 								}
 							} else {
-								wp_enqueue_style(
-									$script->get_handle(),                          // script handle
-									$script->get_url(),                            // script url
-									$script->get_deps(),                            // script dependencies
-									( $this->is_external() ? md5( $script->get_url() ) : filemtime( $script->get_path() ) ),     // script version, generated by last filechange time
-									$script->get_media()                            // The media for which this stylesheet has been defined. Accepts media types like 'all', 'print' and 'screen', or media queries like '(orientation: portrait)' and '(max-width: 640px)'.
-								);
+								if(!is_admin()) {
+									wp_enqueue_style(
+										$script->get_handle(),                          // script handle
+										$script->get_url(),                            // script url
+										$script->get_deps(),                            // script dependencies
+										($this->is_external() ? md5($script->get_url()) : filemtime($script->get_path())),     // script version, generated by last filechange time
+										$script->get_media()                            // The media for which this stylesheet has been defined. Accepts media types like 'all', 'print' and 'screen', or media queries like '(orientation: portrait)' and '(max-width: 640px)'.
+									);
+								}else{
+									if($script->get_is_gutenberg()){
+										if(is_file($script->get_path())) {
+											ob_start();
+											require($script->get_path());
+											$css = ob_get_clean();
+
+											wp_add_inline_style('sv_core_gutenberg_style', $css);
+										}
+									}
+								}
 							}
 							break;
 						case 'js':
@@ -332,7 +413,7 @@
 								($this->is_external() ? md5($script->get_url()) : filemtime($script->get_path())),         // script version, generated by last filechange time
 								true                                       // print in footer
 							);
-							
+
 							if ($script->is_localized()) {
 								wp_localize_script($script->get_handle(), $script->get_uid(), $script->get_localized());
 							}
@@ -342,22 +423,22 @@
 				}
 			}
 		}
-		
+
 		// OBJECT METHODS
 		public static function create( $parent ) {
 			$new									= new static();
-			
+
 			$new->prefix							= $parent->get_prefix() . '_';
 			$new->set_root( $parent->get_root() );
 			$new->set_parent( $parent );
-			
+
 			self::$scripts[ $parent->get_root()->get_name() ][]						= $new;
-			
+
 			return $new;
 		}
 		public function set_consent_required( bool $is_consent_required = true ): scripts {
 			$this->is_consent_required						= $is_consent_required;
-			
+
 			return $this;
 		}
 		public function get_consent_required(): bool {
@@ -365,7 +446,7 @@
 		}
 		public function set_custom_attributes( string $string = '' ): scripts {
 			$this->custom_attributes						= $string;
-			
+
 			return $this;
 		}
 		public function get_custom_attributes(): string {
@@ -373,7 +454,7 @@
 		}
 		public function set_is_required( bool $is_required = true ): scripts {
 			$this->is_required						= $is_required;
-			
+
 			return $this;
 		}
 		public function get_is_required(): bool {
@@ -381,22 +462,22 @@
 		}
 		public function set_is_no_prefix( bool $no_prefix = true ): scripts {
 			$this->no_prefix						= $no_prefix;
-			
+
 			return $this;
 		}
 		public function get_is_no_prefix(): bool {
 			return $this->no_prefix;
 		}
-		
+
 		public function set_is_enqueued( bool $is_enqueued = true ): scripts {
 			$this->is_enqueued						= $is_enqueued;
-			
+
 			return $this;
 		}
 		public function get_is_enqueued(): bool {
 			return $this->is_enqueued;
 		}
-		
+
 		public function get_handle(): string {
 			if ( $this->get_is_no_prefix() ) {
 				return $this->get_ID();
@@ -411,7 +492,7 @@
 				return $this->get_type() . '_' . $this->get_prefix( $this->get_ID() );
 			}
 		}
-		
+
 		public function set_ID( string $ID ): scripts {
 			$this->ID								= $ID;
 
@@ -420,7 +501,7 @@
 		public function get_ID(): string {
 			return $this->ID;
 		}
-		
+
 		public function set_localized(array $settings): scripts{
 
 			if( $this->is_localized() ){
@@ -428,7 +509,7 @@
 			}
 
 			$this->localized						= $settings;
-			
+
 			return $this;
 		}
 		public function get_localized(): array{
@@ -437,55 +518,53 @@
 		public function is_localized(): bool{
 			return boolval(count($this->get_localized()));
 		}
-		
+
 		public function set_is_loaded(): scripts {
 			static::$is_loaded[$this->get_type()][$this->get_handle()]	= true;
-			
+
 			return $this;
 		}
-		
+
 		public function get_is_loaded(): bool {
 			return isset(static::$is_loaded[$this->get_type()][$this->get_handle()]);
 		}
-		
+
 		public function set_type( string $type ): scripts {
 			$this->type								= $type;
-			
+
 			return $this;
 		}
-		
+
 		public function get_type(): string {
 			return $this->type;
 		}
-		
+
 		public function set_is_backend(): scripts {
 			$this->is_backend						= true;
-			
+
 			return $this;
 		}
 		public function get_is_backend(): bool {
 			return $this->is_backend;
 		}
-		
+
 		public function set_is_gutenberg(): scripts {
 			$this->is_gutenberg						= true;
-			
+
 			return $this;
 		}
 		public function get_is_gutenberg(): bool {
 			return $this->is_gutenberg;
 		}
-		
-		public function set_path(string $path, bool $full = false, string $url = ''): scripts {
-			$path = $this->cache_css($path);
 
+		public function set_path(string $path, bool $full = false, string $url = ''): scripts {
 			if($this->is_valid_url($path)){
 				$this->script_url					= $path;
 				$this->is_external					= true;
-				
+
 				return $this;
 			}
-			
+
 			if(!$full){
 				$this->script_url					= $this->get_parent()->get_url($path);
 				if(is_file($this->get_parent()->get_parent()->get_path($path))){
@@ -497,29 +576,89 @@
 				$this->script_path					= $path;
 				$this->script_url					= $url;
 			}
-			
+
 			return $this;
 		}
-		public function cache_css(string $path = ''){
+		public function get_css_cache_invalidated(): bool{
+			// true = cache invalidated
+			// false = cache valid
+
+			if($this->module_css_cache_invalidated !== NULL){
+				return $this->module_css_cache_invalidated; // status already retrieved
+			}
+
+			if(!isset(static::$list[$this->get_UID()]['cache'][ 'invalidated' ])){
+				$this->module_css_cache_invalidated = true;
+				return true; // setting not saved yet
+			}
+
+			if(is_admin() && intval(static::$list[$this->get_UID()]['cache'][ 'invalidated' ]['gutenberg']->get_data()) === 1){
+				$this->module_css_cache_invalidated = true;
+				return true; // cache is invalidated
+			}
+			if(!is_admin() && intval(static::$list[$this->get_UID()]['cache'][ 'invalidated' ]['frontend']->get_data()) === 1){
+				$this->module_css_cache_invalidated = true;
+				return true; // cache is invalidated
+			}
+
+			$this->module_css_cache_invalidated = false;
+			return false; // cache is valid
+		}
+		public function set_css_cache_invalidated(bool $invalidated = true, bool $all = false): scripts {
+			$this->module_css_cache_invalidated = $invalidated;
+
+			if($all){
+				static::$list[$this->get_UID()]['cache']['invalidated']['gutenberg']->set_data(intval($invalidated))->save_option();
+				static::$list[$this->get_UID()]['cache']['invalidated']['frontend']->set_data(intval($invalidated))->save_option();
+			}else{
+				if(is_admin()) {
+					static::$list[$this->get_UID()]['cache']['invalidated']['gutenberg']->set_data(intval($invalidated))->save_option();
+				}else{
+					static::$list[$this->get_UID()]['cache']['invalidated']['frontend']->set_data(intval($invalidated))->save_option();
+				}
+			}
+
+			return $this;
+		}
+		public function cache_css(): scripts {
 			if ($this->get_ID() == 'config' && $this->get_type() == 'css') {
 				$module = $this->get_parent();
 				if ($module->get_css_cache_active()) {
-					if ($module->get_css_cache_invalidated()) {
-						$module->set_css_cache_invalidated(false);
-						$_s = $module->get_settings();
-						$_s = reset($_s);
-
-						ob_start();
-						require_once($module->get_path($path));
-						$css = ob_get_clean();
-
-						file_put_contents($module->get_path('lib/css/dist/frontend.css'), $css);
+					if(!is_admin()) {
+						$this->cache_css_file();
+						$this->set_path('lib/css/dist/frontend.css');
+					}else{
+						add_action('admin_footer', array($this,'cache_css_file'), 1000);
+						$this->set_path('lib/css/dist/gutenberg.css');
 					}
-
-					 return 'lib/css/dist/frontend.css';
 				}
 			}
-			return $path;
+			return $this;
+		}
+		public function cache_css_file(){
+			$module = $this->get_parent();
+			if ($module->get_css_cache_active()) {
+				if ($this->get_css_cache_invalidated()) {
+					$_s = $module->get_settings();
+					$_s = reset($_s);
+
+					ob_start();
+					require($module->get_path('lib/css/config/init.php'));
+					$css = ob_get_clean();
+
+					if(is_admin()) {
+						file_put_contents($module->get_path('lib/css/dist/gutenberg.css'), $css);
+						$this->set_css_cache_invalidated(false);
+					}else{
+						file_put_contents($module->get_path('lib/css/dist/frontend.css'), $css);
+						$this->set_css_cache_invalidated(false);
+					}
+				}
+
+				return $this;
+			}
+
+			return $this;
 		}
 		public function get_path(string $suffix = ''): string {
 			return $this->script_path;

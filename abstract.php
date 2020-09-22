@@ -33,9 +33,8 @@
 		protected static $expert_mode		= false;
 		public static $breakpoints			= false;
 
-		protected $module_css_cache					= false; // default false, set true in a module to opt in for CSS Caching
-		protected $module_css_cache_invalidated	= true;
-		
+		protected $module_css_cache			= false; // default false, set true in a module to opt in for CSS Caching
+
 		/**
 		 * @desc			initialize plugin
 		 * @author			Matthias Bathke
@@ -610,7 +609,7 @@
 		}
 		
 		public function set_section_template_path( string $path = 'lib/tpl/settings/init.php' ) {
-			$this->section_template_path = $this->get_path($path);
+			$this->section_template_path = is_file($path) ? $path : $this->get_path($path);
 
 			return $this;
 		}
@@ -805,15 +804,6 @@
 		}
 		public function set_css_cache_active(bool $active = true){
 			$this->module_css_cache = $active;
-
-			return $this;
-		}
-
-		public function get_css_cache_invalidated(){
-			return $this->module_css_cache_invalidated;
-		}
-		public function set_css_cache_invalidated(bool $invalidated = true){
-			$this->module_css_cache_invalidated = $invalidated;
 
 			return $this;
 		}
