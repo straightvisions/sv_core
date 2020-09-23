@@ -24,8 +24,11 @@
 			$property				= ((strlen($custom_property) > 0) ? $custom_property : 'color');
 			$properties				= array();
 
-			if($this->get_parent()->get_data()) {
+			$data = $this->get_parent()->get_data();
+			if($data && is_array($data)) {
 				$properties[$property]		= $this->prepare_css_property_responsive($this->get_parent()->get_data(),$prefix,$suffix);
+			}elseif($data && is_string($data)){
+				$properties[$property]		= $this->prepare_css_property($this->get_parent()->get_data(),$prefix,$suffix);
 			}
 
 			return $properties;

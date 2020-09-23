@@ -50,17 +50,16 @@
 				->load_settings()
 				->set_section_template_path($this->get_path_core('lib/tpl/settings/scripts.php'));
 
-			add_action( 'init', array( $this, 'register_scripts' ), 10 );
-			
-			add_action( 'wp_footer', array( $this, 'wp_footer' ), 10 );
-			add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 99999);
-			add_action( 'enqueue_block_editor_assets', array( $this, 'gutenberg_scripts' ));
-
 			// Loads Settings
-			if(!is_admin()) {
-				add_action( 'wp_footer', array( $this, 'start' ), 1 );
-			}else{
+			if(is_admin()) {
 				add_action( 'admin_init', array( $this, 'start' ), 1);
+				add_action( 'admin_enqueue_scripts', array( $this, 'register_scripts' ), 10 );
+				add_action( 'admin_enqueue_scripts', array($this, 'admin_scripts'), 99999);
+				add_action( 'enqueue_block_editor_assets', array($this, 'gutenberg_scripts'));
+			}else{
+				add_action( 'wp_enqueue_script', array( $this, 'register_scripts' ), 10 );
+				add_action( 'wp_footer', array( $this, 'start' ), 1 );
+				add_action( 'wp_footer', array( $this, 'wp_footer' ), 10 );
 			}
 		}
 
