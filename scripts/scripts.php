@@ -39,14 +39,15 @@
 		protected $module_css_cache_invalidated							= NULL;
 
 		public function __construct() {
-			add_action('updated_option', array($this,'update_setting_flush_css_cache'), 10, 3);
+
 		}
-		
+
 		public function init(){
 			// Section Info
 			$this->set_section_title( __('Scripts', 'sv_core') )
 				->set_section_desc( __( 'Override Scripts Loading.', 'sv_core' ) )
 				->set_section_type( 'settings' )
+				->load_settings()
 				->set_section_template_path($this->get_path_core('lib/tpl/settings/scripts.php'));
 
 			add_action( 'init', array( $this, 'register_scripts' ), 10 );
@@ -57,52 +58,55 @@
 
 			// Loads Settings
 			if(!is_admin()) {
-				add_action( 'wp_footer', array( $this, 'load_settings' ), 1 );
+				add_action( 'wp_footer', array( $this, 'start' ), 1 );
 			}else{
-				add_action( 'admin_init', array( $this, 'load_settings' ), 1);
+				add_action( 'admin_init', array( $this, 'start' ), 1);
 			}
 		}
 
 		public function update_setting_flush_css_cache($option_name, $old_value, $value){
 			if(
-				strpos($option_name, 'sv100_scripts_settings_flush_css_cache') === false // do not trigger when script settings are saved
+				isset($this->s[ 'flush_css_cache' ])
+				&& strpos($option_name, '_scripts_settings') === false // do not trigger when script settings are saved
 				&& strpos($option_name, 'sv') === 0 // but trigger when SV settings are saved
 				//&& $old_value != $value // only when something has changed
 				//&& isset($this->get_parent()->option_updated)
 				//&& $this->get_parent()->option_updated === false
 			){
-				//var_dump($option_name);
 				//$this->module_css_cache_invalidated = true;
 				//$this->get_parent()->option_updated = true;
 				remove_action('updated_option', array($this,'update_setting_flush_css_cache'), 10);
-				update_option('sv100_scripts_settings_flush_css_cache', 1);
+				update_option($this->s[ 'flush_css_cache' ]->get_field_id(), 1);
 			}
 		}
-
 		public function load_settings() {
-			if(count($this->get_scripts()) > 0) {
-				if($this->get_is_expert_mode()) {
-					$this->get_root()->add_section( $this );
+				if ($this->get_is_expert_mode()) {
+					$this->get_root()->add_section($this);
 				}
+				$this->s['flush_css_cache'] = $this->get_parent()::$settings->create($this)
+					->set_ID('flush_css_cache')
+					->set_title(__('Flush cache for all CSS files', 'sv_core'))
+					->set_description(__('All cached CSS Files will be regenerated', 'sv_core'))
+					->load_type('checkbox');
 
-				$this->s[ 'flush_css_cache' ] = $this->get_parent()::$settings->create( $this )
-					->set_ID( 'flush_css_cache' )
-					->set_title( __('Flush cache for all CSS files', 'sv_core') )
-					->set_description( __('All cached CSS Files will be regenerated', 'sv_core') )
-					->load_type( 'checkbox' );
+				$this->s['disable_all_css'] = $this->get_parent()::$settings->create($this)
+					->set_ID('disable_all_css')
+					->set_title(__('Disable all CSS per Default', 'sv_core'))
+					->set_description(__('CSS enqueued will be disabled by default - you may override this later down below.', 'sv_core'))
+					->load_type('checkbox');
 
-				$this->s[ 'disable_all_css' ] = $this->get_parent()::$settings->create( $this )
-					  ->set_ID( 'disable_all_css' )
-					  ->set_title( __('Disable all CSS per Default', 'sv_core') )
-					  ->set_description( __('CSS enqueued will be disabled by default - you may override this later down below.', 'sv_core') )
-					  ->load_type( 'checkbox' );
+				$this->s['disable_all_js'] = $this->get_parent()::$settings->create($this)
+					->set_ID('disable_all_js')
+					->set_title(__('Disable all JS per Default', 'sv_core'))
+					->set_description(__('JS enqueued will be disabled by default - you may override this later down below.', 'sv_core'))
+					->load_type('checkbox');
 
-				$this->s[ 'disable_all_js' ] = $this->get_parent()::$settings->create( $this )
-					 ->set_ID( 'disable_all_js' )
-					 ->set_title( __('Disable all JS per Default', 'sv_core') )
-					 ->set_description( __('JS enqueued will be disabled by default - you may override this later down below.', 'sv_core') )
-					 ->load_type( 'checkbox' );
+				add_action('updated_option', array($this,'update_setting_flush_css_cache'), 10, 3);
 
+			return $this;
+		}
+		public function start() {
+			if(count($this->get_scripts()) > 0) {
 				foreach ( $this->get_scripts() as $script ) {
 					// Setting attached
 					static::$list[$script->get_UID()][ 'attached' ] = $this->get_parent()::$settings->create( $this )
@@ -160,12 +164,14 @@
 						->load_type( 'select' );
 
 					// invalidate cache globally if requested
-					if($this->s[ 'flush_css_cache' ]->get_data() == 1){
+					//var_dump(intval($this->s[ 'flush_css_cache' ]->get_data()));
+					if(intval($this->s[ 'flush_css_cache' ]->get_data()) === 1){
 						$script->set_css_cache_invalidated(true,true);
 					}
 
 					$script->cache_css();
 				}
+				//die('end');
 				$this->s[ 'flush_css_cache' ]->set_data('0')->save_option();
 			}
 		}
