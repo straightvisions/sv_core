@@ -632,7 +632,7 @@
 					if(!is_admin()) {
 						$this->cache_css_file();
 						$this->set_path('lib/css/dist/frontend.css');
-					}else{
+					}elseif($this->get_is_gutenberg()){
 						add_action('admin_footer', array($this,'cache_css_file'), 1000);
 						$this->set_path('lib/css/dist/gutenberg.css');
 					}
