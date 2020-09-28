@@ -39,6 +39,11 @@ class setting_select extends settings{
 		$font_family			= false;
 		$font_weight			= false;
 
+		if($this->get_parent()->get_data() && $this->get_parent()->get_data() == $this->get_parent()->get_default_value()){
+			$properties['font-family'] = $this->prepare_css_property_responsive($this->get_parent()->get_data(), '', ', sans-serif');
+			return $properties;
+		}
+
 		if($this->get_parent()->get_data()) {
 			foreach ($this->get_parent()->get_data() as $breakpoint => $val) {
 				if ($val) {
@@ -52,9 +57,11 @@ class setting_select extends settings{
 			}
 		}
 
-		if($font_family && is_array($font_family) && (count(array_unique($font_family)) > 1 || array_unique($font_family)['mobile'] !== false)){
-			$properties['font-family']	= $this->prepare_css_property_responsive($font_family,'',', sans-serif');
-			$properties['font-weight']	= $this->prepare_css_property_responsive($font_weight,'','');
+		if($font_family && is_array($font_family) && (count(array_unique($font_family)) > 1 || array_unique($font_family)['mobile'] !== false)) {
+			$properties['font-family'] = $this->prepare_css_property_responsive($font_family, '', ', sans-serif');
+			if ($font_weight) {
+				$properties['font-weight'] = $this->prepare_css_property_responsive($font_weight, '', '');
+			}
 		}
 
 		return $properties;

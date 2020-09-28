@@ -374,7 +374,7 @@ class settings extends sv_abstract{
 
 		if($data === false || $data === ''){
 			$db_data	= get_option($this->get_field_id());
-			$data		= ($db_data !== false && $db_data !== '') ? $db_data : $this->get_default_value();
+			$data		= ($db_data === false || $db_data === '') ? $db_data : $this->get_default_value();
 
 			if($this->get_is_responsive() && !is_array($data)){
 				$breakpoints = $this->get_breakpoints();
