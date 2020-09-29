@@ -386,7 +386,7 @@
 									wp_add_inline_style('sv_core_gutenberg_style', $css);
 
 								}else{
-									error_log(__('Script '.$script->get_path().' not found.'));
+									error_log(__('Script "'.$script->get_handle().'" in path "'.$script->get_path().'" not found.'));
 								}
 							} else {
 								if(!is_admin()) {
