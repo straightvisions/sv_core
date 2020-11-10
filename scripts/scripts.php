@@ -625,16 +625,30 @@
 
 			return $this;
 		}
+		public function get_path_cached(string $file): string{
+			$path	= wp_upload_dir()['basedir'].'/straightvisions/cache/'.$this->get_root()->get_prefix().'/'.$this->get_parent()->get_prefix().'/';
+
+			// create directories of not exist
+			if (!is_dir($path)) {
+				// dir doesn't exist, make it
+				mkdir($path, 0755, true);
+			}
+
+			return $path.$file;
+		}
+		public function get_url_cached(string $url): string{
+			return wp_upload_dir()['baseurl'].'/straightvisions/cache/'.$this->get_root()->get_prefix().'/'.$this->get_parent()->get_prefix().'/'.$url;
+		}
 		public function cache_css(): scripts {
 			if ($this->get_ID() == 'config' && $this->get_type() == 'css') {
 				$module = $this->get_parent();
 				if ($module->get_css_cache_active()) {
 					if(!is_admin()) {
 						$this->cache_css_file();
-						$this->set_path('lib/css/dist/frontend.css');
+						$this->set_path($this->get_path_cached('frontend.css'), true, $this->get_url_cached('frontend.css'));
 					}elseif($this->get_is_gutenberg()){
 						add_action('admin_footer', array($this,'cache_css_file'), 1000);
-						$this->set_path('lib/css/dist/gutenberg.css');
+						$this->set_path($this->get_path_cached('gutenberg.css'), true, $this->get_url_cached('gutenberg.css'));
 					}
 				}
 			}
@@ -652,10 +666,10 @@
 					$css = ob_get_clean();
 
 					if(is_admin()) {
-						file_put_contents($module->get_path('lib/css/dist/gutenberg.css'), $css);
+						file_put_contents($this->get_path_cached('gutenberg.css'), $css);
 						$this->set_css_cache_invalidated(false);
 					}else{
-						file_put_contents($module->get_path('lib/css/dist/frontend.css'), $css);
+						file_put_contents($this->get_path_cached('frontend.css'), $css);
 						$this->set_css_cache_invalidated(false);
 					}
 				}
