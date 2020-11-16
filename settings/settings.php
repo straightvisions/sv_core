@@ -31,7 +31,6 @@ class settings extends sv_abstract{
 	private $default_value			= false;
 	private $responsive            = false;
 	private $radio_style           = 'radio';
-	private $code_editor			= '';
 	private $is_label				= false;
 	protected static $new			= array();
 
@@ -352,22 +351,6 @@ class settings extends sv_abstract{
 
 		return $this;
 	}
-	
-	public function get_code_editor(): string {
-		return $this->code_editor;
-	}
-	
-	public function set_code_editor( string $code_editor = 'css' ) {
-		$this->code_editor           = $code_editor;
-
-		if(is_admin()) {
-			wp_enqueue_code_editor(array('type' => 'text/' . $code_editor));
-			wp_enqueue_script('wp-theme-plugin-editor');
-			wp_enqueue_style('wp-codemirror');
-		}
-
-		return $this;
-	}
 
 	public function get_data(){
 		$data = $this->data;
@@ -683,7 +666,6 @@ class settings extends sv_abstract{
 		$props['max']				= $this->get_max();
 		$props['min']				= $this->get_min();
 		$props['radio_style']		= $this->get_radio_style();
-		$props['code_editor']		= $this->get_code_editor();
 		$props['default_value']		= $this->get_default_value();
 		$props['value']				= $value;
 
@@ -750,7 +732,6 @@ class settings extends sv_abstract{
 		$props['max']				= isset($props['max']) ? $props['max'] : $this->get_max();
 		$props['min']				= isset($props['min']) ? $props['min'] : $this->get_min();
 		$props['radio_style']		= isset($props['radio_style']) ? $props['radio_style'] : $this->get_radio_style();
-		$props['code_editor']		= isset($props['code_editor']) ? $props['code_editor'] : $this->get_code_editor();
 		$props['default_value']		= isset($props['default_value']) ? $props['default_value'] : $this->get_default_value();
 
 		return $props;

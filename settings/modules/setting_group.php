@@ -82,8 +82,7 @@
 						'minlength'		=> $child->get_minlength(),
 						'max'			=> $child->get_max(),
 						'min'			=> $child->get_min(),
-						'radio_style'	=> $child->get_radio_style(),
-						'code_editor'	=> $this->get_code_editor()
+						'radio_style'	=> $child->get_radio_style()
 					);
 
 					$fields[]			= '<div class="'.$this->get_prefix($this->get_type()).'_item">';
