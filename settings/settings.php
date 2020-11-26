@@ -200,28 +200,18 @@ class settings extends sv_abstract{
 	public function get_default_value(){
 		$value = $this->default_value;
 
-		if($this->get_is_responsive() && !is_array($value)){
+		if(!$this->get_is_responsive()){
+			return $value;
+		}
+
+		if(!is_array($value) || array_key_first($value) != 'mobile'){
 			$breakpoints = $this->get_breakpoints();
 
 			foreach($breakpoints as &$bp){
 				$bp = $this->default_value;
 			}
 
-			$value = $breakpoints;
-		}
-
-		// workaround for array defaults
-		if($this->get_is_responsive() && is_array($value)){
-	
-			if(array_key_first($value) != 'mobile'){
-				$breakpoints = $this->get_breakpoints();
-				
-				foreach($breakpoints as &$bp){
-					$bp = $this->default_value;
-				}
-				
-				$value = $breakpoints;
-			}
+			return $breakpoints;
 		}
 
 		return $value;
