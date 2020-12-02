@@ -29,8 +29,8 @@ class settings extends sv_abstract{
 	private $prefix					= 'sv_';
 	private $data					= false;
 	private $default_value			= false;
-	private $responsive            = false;
-	private $radio_style           = 'radio';
+	private $responsive             = false;
+	private $radio_style            = 'radio';
 	private $is_label				= false;
 	protected static $new			= array();
 
@@ -55,7 +55,7 @@ class settings extends sv_abstract{
 		$class_name							= __NAMESPACE__.'\\'.$name;
 
 		if(!class_exists($class_name)) {
-			require_once($this->get_path_core('settings/modules/' . $name . '.php'));
+			require_once($this->get_path_core('settings/modules/' . $name . '/' . $name  . '.php'));
 		}
 
 		if(!isset($this->$name)) {
@@ -200,18 +200,28 @@ class settings extends sv_abstract{
 	public function get_default_value(){
 		$value = $this->default_value;
 
-		if(!$this->get_is_responsive()){
-			return $value;
-		}
-
-		if(!is_array($value) || array_key_first($value) != 'mobile'){
+		if($this->get_is_responsive() && !is_array($value)){
 			$breakpoints = $this->get_breakpoints();
 
 			foreach($breakpoints as &$bp){
 				$bp = $this->default_value;
 			}
 
-			return $breakpoints;
+			$value = $breakpoints;
+		}
+
+		// workaround for array defaults
+		if($this->get_is_responsive() && is_array($value)){
+	
+			if(array_key_first($value) != 'mobile'){
+				$breakpoints = $this->get_breakpoints();
+				
+				foreach($breakpoints as &$bp){
+					$bp = $this->default_value;
+				}
+				
+				$value = $breakpoints;
+			}
 		}
 
 		return $value;
@@ -689,7 +699,6 @@ class settings extends sv_abstract{
 	}
 	private function load_form_field_html_wrapper(string $settings_html, array $props): string{
 		ob_start();
-
 		require($this->get_path_core('settings/tpl/_wrapper.php'));
 		$output = ob_get_contents();
 		ob_end_clean();

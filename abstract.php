@@ -514,11 +514,65 @@
 		public function acp_style( bool $hook = false ) {
 			if ( !$hook || $hook == 'sv-100_page_' . $this->get_module_name() ) {
 				if(is_file($this->get_path_core('../assets/admin_inline.css'))) { // file exists only when core_plugin is loaded, so if only theme is loaded, don't load this asset
-					wp_enqueue_style($this->get_prefix(), $this->get_url_core('../assets/admin.css'), array('wp-editor'), filemtime($this->get_path_core('../assets/admin.css')));
+					// Common
+					wp_enqueue_style($this->get_prefix('common'), $this->get_url_core('../assets/common.css'), array('wp-editor'), filemtime($this->get_path_core('../assets/common.css')));
+
+					// Dashboard
+					wp_enqueue_style($this->get_prefix('dashboard'), $this->get_url_core('../assets/dashboard.css'), array($this->get_prefix('common')), filemtime($this->get_path_core('../assets/dashboard.css')));
+
+					// Form
+					wp_enqueue_style($this->get_prefix('settings'), $this->get_url_core('../assets/settings.css'), array($this->get_prefix('dashboard')), filemtime($this->get_path_core('../assets/settings.css')));
+
+					// Log - @notice Deactivated, because not in use
+					//wp_enqueue_style($this->get_prefix('log'), $this->get_url_core('../assets/log.css'), array($this->get_prefix('form')), filemtime($this->get_path_core('../assets/log.css')));
+
+					// Check if page is settings page
+					$this->setting_scripts();
+
 					ob_start();
 					require_once($this->get_path_core('../assets/admin_inline.css'));
 					$css = ob_get_clean();
-					wp_add_inline_style($this->get_prefix(), $css);
+					wp_add_inline_style($this->get_prefix('common'), $css);
+				}
+			}
+		}
+
+		protected function setting_scripts() {
+			$settings = glob( $this->get_path_core('settings/modules/*') );
+
+			foreach( $settings as $setting ) {
+				$path = str_replace('\\', '/', $this->get_path());
+				$css = $setting . '/lib/css/';
+				$js = $setting . '/lib/js/';
+
+				// Styles
+				if ( file_exists($css) && $files = list_files( $css ) ) {
+					foreach( $files as $file ) {
+						$relative_path = str_replace( $path, '', $file );
+						$url = $this->get_url( $relative_path );
+						$setting_name = wp_basename( $setting );
+						$filename = wp_basename( $file, '.css' );
+						$handle = $setting_name . '_' . $filename;
+						
+						if ( filesize($file) && filesize($file) > 0 ) {
+							wp_enqueue_style( $handle, $url, array($this->get_prefix('settings')), filemtime( $file ) );
+						}
+					}
+				}
+
+				// Scripts
+				if ( file_exists($js) && $files = list_files( $js ) ) {
+					foreach( $files as $file ) {
+						$relative_path = str_replace( $path, '', $file );
+						$url = $this->get_url( $relative_path );
+						$setting_name = wp_basename( $setting );
+						$filename = wp_basename( $file, '.js' );
+						$handle = $setting_name . '_' . $filename;
+						
+						if ( filesize($file) && filesize($file) > 0 ) {
+							wp_enqueue_script( $handle, $url, array(), filemtime( $file ) );
+						}
+					}
 				}
 			}
 		}
@@ -691,7 +745,7 @@
                 $path = $custom_about_path;
             }
             
-            require_once( $path );
+			require_once( $path );
 			
 			// $this->load_section_html();
 			
@@ -717,6 +771,7 @@
 			foreach( $this->get_sections_sorted_by_title() as $section ) {
 				$section_name = $section['object']->get_prefix(); // var will be used in included file
 				$path = $this->get_path_core( 'backend/tpl/section_' . $section[ 'object' ]->get_section_type() . '.php' );
+
 				require( $path );
 			}
 		}

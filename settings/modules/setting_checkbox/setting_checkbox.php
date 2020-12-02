@@ -1,10 +1,10 @@
 <?php
-	
+
 	namespace sv_core;
-	
+
 	class setting_checkbox extends settings{
 		private $parent				= false;
-		
+
 		/**
 		 * @desc			initialize
 		 * @author			Matthias Bathke
@@ -14,6 +14,7 @@
 		public function __construct($parent=false){
 			$this->parent			= $parent;
 		}
+
 		public function get_css_data(string $custom_property = '', string $prefix = '', string $suffix = ''): array{
 			$property				= ((strlen($custom_property) > 0) ? $custom_property : false);
 			$properties				= array();
@@ -25,9 +26,11 @@
 
 			return $properties;
 		}
+
 		public function sanitize($meta_value, $meta_key, $object_type){
 			return intval($meta_value);
 		}
+
 		public function get($value,$format,$object){
 			return $this->$format($value,$object);
 		}

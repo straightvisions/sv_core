@@ -37,23 +37,7 @@ $props['value']		    = explode( ' ', $props['value'] );
 </div>
 
 <style>
-.sv_setting_range {
-	display: flex;
-}
-
-.sv_setting_range input[type="number"].sv_input_range_indicator {
-	width: 60px !important;
-	margin-left: 10px;
-}
-
-.sv_setting_box_shadow .sv_setting_preview {
-	width: 50%;
-    margin: 20px auto;
-	text-align: center;
+.sv_setting_box_shadow_parent .sv_setting_preview {
 	box-shadow: <?php echo esc_attr( $props['value'] ); ?>;
-}
-
-.sv_setting_box_shadow .sv_setting_preview > * {
-	margin: 0;
 }
 </style>
