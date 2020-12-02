@@ -513,15 +513,15 @@
 		
 		public function acp_style( bool $hook = false ) {
 			if ( !$hook || $hook == 'sv-100_page_' . $this->get_module_name() ) {
-				if(is_file($this->get_path_core('../assets/admin_inline.css'))) { // file exists only when core_plugin is loaded, so if only theme is loaded, don't load this asset
+				if(is_file($this->get_active_core()->get_path_core('../assets/admin_inline.css'))) { // file exists only when core_plugin is loaded, so if only theme is loaded, don't load this asset
 					// Common
-					wp_enqueue_style($this->get_prefix('common'), $this->get_url_core('../assets/common.css'), array('wp-editor'), filemtime($this->get_path_core('../assets/common.css')));
+					wp_enqueue_style($this->get_prefix('common'), $this->get_active_core()->get_url_core('../assets/common.css'), array('wp-editor'), filemtime($this->get_path_core('../assets/common.css')));
 
 					// Dashboard
-					wp_enqueue_style($this->get_prefix('dashboard'), $this->get_url_core('../assets/dashboard.css'), array($this->get_prefix('common')), filemtime($this->get_path_core('../assets/dashboard.css')));
+					wp_enqueue_style($this->get_prefix('dashboard'), $this->get_active_core()->get_url_core('../assets/dashboard.css'), array($this->get_prefix('common')), filemtime($this->get_active_core()->get_path_core('../assets/dashboard.css')));
 
 					// Form
-					wp_enqueue_style($this->get_prefix('settings'), $this->get_url_core('../assets/settings.css'), array($this->get_prefix('dashboard')), filemtime($this->get_path_core('../assets/settings.css')));
+					wp_enqueue_style($this->get_prefix('settings'), $this->get_active_core()->get_url_core('../assets/settings.css'), array($this->get_prefix('dashboard')), filemtime($this->get_active_core()->get_path_core('../assets/settings.css')));
 
 					// Log - @notice Deactivated, because not in use
 					//wp_enqueue_style($this->get_prefix('log'), $this->get_url_core('../assets/log.css'), array($this->get_prefix('form')), filemtime($this->get_path_core('../assets/log.css')));
@@ -530,7 +530,7 @@
 					$this->setting_scripts();
 
 					ob_start();
-					require_once($this->get_path_core('../assets/admin_inline.css'));
+					require_once($this->get_active_core()->get_path_core('../assets/admin_inline.css'));
 					$css = ob_get_clean();
 					wp_add_inline_style($this->get_prefix('common'), $css);
 				}
@@ -538,10 +538,10 @@
 		}
 
 		protected function setting_scripts() {
-			$settings = glob( $this->get_path_core('settings/modules/*') );
+			$settings = glob( $this->get_active_core()->get_path_core('settings/modules/*') );
 
 			foreach( $settings as $setting ) {
-				$path = str_replace('\\', '/', $this->get_path());
+				$path = str_replace('\\', '/', $this->get_active_core()->get_path());
 				$css = $setting . '/lib/css/';
 				$js = $setting . '/lib/js/';
 
@@ -549,7 +549,7 @@
 				if ( file_exists($css) && $files = list_files( $css ) ) {
 					foreach( $files as $file ) {
 						$relative_path = str_replace( $path, '', $file );
-						$url = $this->get_url( $relative_path );
+						$url = $this->get_active_core()->get_url( $relative_path );
 						$setting_name = wp_basename( $setting );
 						$filename = wp_basename( $file, '.css' );
 						$handle = $setting_name . '_' . $filename;
@@ -564,7 +564,7 @@
 				if ( file_exists($js) && $files = list_files( $js ) ) {
 					foreach( $files as $file ) {
 						$relative_path = str_replace( $path, '', $file );
-						$url = $this->get_url( $relative_path );
+						$url = $this->get_active_core()->get_url( $relative_path );
 						$setting_name = wp_basename( $setting );
 						$filename = wp_basename( $file, '.js' );
 						$handle = $setting_name . '_' . $filename;
