@@ -515,7 +515,7 @@
 			if ( !$hook || $hook == 'sv-100_page_' . $this->get_module_name() ) {
 				if(is_file($this->get_active_core()->get_path_core('../assets/admin_inline.css'))) { // file exists only when core_plugin is loaded, so if only theme is loaded, don't load this asset
 					// Common
-					wp_enqueue_style($this->get_prefix('common'), $this->get_active_core()->get_url_core('../assets/common.css'), array('wp-editor'), filemtime($this->get_path_core('../assets/common.css')));
+					wp_enqueue_style($this->get_prefix('common'), $this->get_active_core()->get_url_core('../assets/common.css'), array('wp-editor'), filemtime($this->get_active_core()->get_path_core('../assets/common.css')));
 
 					// Dashboard
 					wp_enqueue_style($this->get_prefix('dashboard'), $this->get_active_core()->get_url_core('../assets/dashboard.css'), array($this->get_prefix('common')), filemtime($this->get_active_core()->get_path_core('../assets/dashboard.css')));
