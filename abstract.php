@@ -34,6 +34,7 @@
 		public static $breakpoints			= false;
 
 		protected $module_css_cache			= false; // default false, set true in a module to opt in for CSS Caching
+		protected $default_section_icon		= '';
 
 		/**
 		 * @desc			initialize plugin
@@ -754,16 +755,32 @@
 		}
 		
 		public function load_section_menu() {
+			$this->default_section_icon = file_get_contents( $this->get_active_core()->get_url_core('backend/img/default_section_icon.svg') );
+
 			foreach ( $this->get_sections_sorted_by_order() as $section ) {
 				$section_name = $section['object']->get_prefix();
-				echo '<div data-sv_admin_menu_target="#section_'
-                    . $section_name
-                    . '" class="sv_admin_menu_item section_'
-                    . $section[ 'object' ]->get_section_type()
-                    . '"><h4>'
-                    .  $section[ 'object' ]->get_section_title()
-                    . '</h4><span>' . $section[ 'object' ]->get_section_desc()
-                    . '</span></div>';
+				$section_icon = $this->get_section_icon( $section['object'] );
+
+				$output = '<div data-sv_admin_menu_target="#section_';
+				$output .= $section_name . '" class="sv_admin_menu_item section_';
+				$output .= $section[ 'object' ]->get_section_type() . '">';
+				$output .= '<i class="section_icon">' . $section_icon . '</i>';
+				$output .= '<div class="section_title">';
+				$output .= '<h4>' . $section[ 'object' ]->get_section_title() . '</h4>';
+				$output .= '<span>' . $section[ 'object' ]->get_section_desc() . '</span>';
+				$output .= '</div>';
+				$output .= '</div>';
+
+				echo $output;
+
+			}
+		}
+
+		public function get_section_icon( $module ) {
+			if ( isset( $module->section_icon ) && ! empty( $module->section_icon ) ) {
+				return $module->section_icon;
+			} else {
+				return $this->default_section_icon;
 			}
 		}
 		
