@@ -514,7 +514,7 @@
 		
 		public function acp_style( bool $hook = false ) {
 			if ( !$hook || $hook == 'sv-100_page_' . $this->get_module_name() ) {
-				if(is_file($this->get_active_core()->get_path_core('../assets/admin_inline.css'))) { // file exists only when core_plugin is loaded, so if only theme is loaded, don't load this asset
+				if(file_exists($this->get_active_core()->get_path_core('../assets'))) { // dir exists only when core_plugin is loaded, so if only theme is loaded, don't load these assets
 					// Common
 					wp_enqueue_style($this->get_prefix('common'), $this->get_active_core()->get_url_core('../assets/common.css'), array('wp-editor'), filemtime($this->get_active_core()->get_path_core('../assets/common.css')));
 
@@ -529,11 +529,6 @@
 
 					// Check if page is settings page
 					$this->setting_scripts();
-
-					ob_start();
-					require_once($this->get_active_core()->get_path_core('../assets/admin_inline.css'));
-					$css = ob_get_clean();
-					wp_add_inline_style($this->get_prefix('common'), $css);
 				}
 			}
 		}

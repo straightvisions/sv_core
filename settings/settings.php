@@ -755,4 +755,38 @@ class settings extends sv_abstract{
 			echo __('Settings Template not found: ', 'sv_core').$this->get_path_core('settings/tpl/'.$this->run_type()->get_module_name().'_field.php');
 		}
 	}
+
+	protected function get_responsive_select(): string {
+		$output = '<div class="sv_setting_responsive_select">';
+		$icon_mobile = '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="mobile" class="svg-inline--fa fa-mobile fa-w-10" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M272 0H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h224c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48zM160 480c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"></path></svg>';
+		$icon_tablet = '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="tablet" class="svg-inline--fa fa-tablet fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M400 0H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48zM224 480c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"></path></svg>';
+		$icon_tablet_pro = '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="tablet-alt" class="svg-inline--fa fa-tablet-alt fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M400 0H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48zM224 480c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm176-108c0 6.6-5.4 12-12 12H60c-6.6 0-12-5.4-12-12V60c0-6.6 5.4-12 12-12h328c6.6 0 12 5.4 12 12v312z"></path></svg>';
+		$icon_desktop = '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="desktop" class="svg-inline--fa fa-desktop fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M528 0H48C21.5 0 0 21.5 0 48v320c0 26.5 21.5 48 48 48h192l-16 48h-72c-13.3 0-24 10.7-24 24s10.7 24 24 24h272c13.3 0 24-10.7 24-24s-10.7-24-24-24h-72l-16-48h192c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48zm-16 352H64V64h448v288z"></path></svg>';
+		$sizes = array(
+			array( 'name' => 'mobile', 'landscape' => true ,'icon' => $icon_mobile ),
+			array( 'name' => 'tablet', 'landscape' => true ,'icon' => $icon_tablet ),
+			array( 'name' => 'tablet_pro', 'landscape' => true ,'icon' => $icon_tablet_pro ),
+			array( 'name' => 'desktop', 'landscape' => false ,'icon' => $icon_desktop ),
+		);
+
+		for( $i = 0; $i < count($sizes); $i++ ) {
+			$title = ucwords( str_replace( '_', ' ', $sizes[$i]['name'] ) );
+			$output .= '<i class="sv_setting_responsive_icon';
+			$output .= ($i === 0) ? ' active" ' : '" ';
+			$output .= 'data-sv_setting_responsive_select="' . $sizes[$i]['name'] . '" ';
+			$output .= 'title="' . $title . '">';
+			$output .= $sizes[$i]['icon'] . '</i>';
+
+			if ( $sizes[$i]['landscape'] ) {
+				$output .= '<i class="sv_setting_responsive_icon landscape" ';
+				$output .= 'data-sv_setting_responsive_select="' . $sizes[$i]['name'] . '_landscape" ';
+				$output .= 'title="' . $title . ' Landscape">';
+				$output .= $sizes[$i]['icon'] . '</i>';
+			}
+		}
+
+		$output .= '</div>';
+
+		return $output;
+	}
 }
