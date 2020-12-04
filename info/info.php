@@ -2,7 +2,7 @@
 
 namespace sv_core;
 
-class info extends sv_abstract{
+class info extends sv_abstract{	
 	/**
 	 * @desc			initialize
 	 * @author			Matthias Bathke
