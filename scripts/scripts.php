@@ -360,6 +360,7 @@
 							if($script->get_ID() == 'config') {
 								if($script->get_parent()->get_css_cache_active()) {
 									$script->cache_css();
+									$script->get_parent()->get_script('common')->set_is_enqueued(false);
 								}else {
 									// legacy
 									$_s = $script->get_parent()->get_settings();
@@ -391,6 +392,9 @@
 								}
 							} else {
 								if(!is_admin()) {
+									if($script->get_path() && filesize($script->get_path()) === 0){
+										continue;
+									}
 									wp_enqueue_style(
 										$script->get_handle(),                          // script handle
 										$script->get_url(),                            // script url
@@ -663,6 +667,7 @@
 					$_s = reset($_s);
 
 					ob_start();
+					require($module->get_path('lib/css/common/common.css'));
 					require($module->get_path('lib/css/config/init.php'));
 					$css = ob_get_clean();
 
