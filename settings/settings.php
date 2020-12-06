@@ -464,7 +464,9 @@ class settings extends sv_abstract{
 		}
 
 		// css with media queries required
-		$output[]			= $this->wrap_media_queries($responsive_css);
+		if(count($responsive_css) > 0) {
+			$output[] = $this->wrap_media_queries($responsive_css);
+		}
 
 		return implode('', $output);
 	}
@@ -482,12 +484,28 @@ class settings extends sv_abstract{
 				}elseif($breakpoint == 'mobile_landscape'){
 					$orientation		= ' and (orientation: landscape)';
 				}elseif($breakpoint == 'tablet'){
+					if($css[$breakpoint] === $css['mobile']){
+						continue;
+					}
+
 					$orientation		= ' and (orientation: portrait)';
 				}elseif($breakpoint == 'tablet_landscape'){
+					if($css[$breakpoint] === $css['mobile_landscape']){
+						continue;
+					}
+
 					$orientation		= ' and (orientation: landscape)';
 				}elseif($breakpoint == 'tablet_pro'){
+					if($css[$breakpoint] === $css['tablet']){
+						continue;
+					}
+
 					$orientation		= ' and (orientation: portrait)';
 				}elseif($breakpoint == 'tablet_pro_landscape'){
+					if($css[$breakpoint] === $css['tablet_landscape']){
+						continue;
+					}
+
 					$orientation		= ' and (orientation: landscape)';
 				}else{
 					$orientation		= '';

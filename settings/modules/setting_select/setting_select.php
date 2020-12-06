@@ -41,7 +41,10 @@
 			$font_italic			= false;
 
 			if($this->get_parent()->get_data() && $this->get_parent()->get_data() == $this->get_parent()->get_default_value()){
-				$properties['font-family'] = $this->prepare_css_property_responsive($this->get_parent()->get_data(), '', ', sans-serif');
+				if(count(array_filter($this->get_parent()->get_data())) > 0){
+					$properties['font-family'] = $this->prepare_css_property_responsive($this->get_parent()->get_data(), '', ', sans-serif');
+				}
+
 				return $properties;
 			}
 

@@ -112,7 +112,7 @@
 					static::$list[$script->get_UID()][ 'attached' ] = $this->get_parent()::$settings->create( $this )
 					   ->set_ID( $script->get_UID().'_attached' )
 					   ->set_default_value( 'default' )
-					   ->set_title( '<div class="fab fa-' . ( $script->get_type() == 'css' ? 'css3' : 'js' ) . '" style="font-size:24px;margin-right:12px;display:inline-block;"></div><div style="display:inline-block;"><a href="'.$script->get_url().'" target="_blank">' . $script->get_handle().'</a></div>' )
+					   ->set_title( '<div class="sv_core_scripts sv_core_scripts_'.$script->get_type().'"></div><div style="display:inline-block;"><a href="'.$script->get_url().'" target="_blank">' . $script->get_handle().'</a></div>' )
 					   ->load_type( 'select' )
 					   ->set_disabled( $script->get_is_required() ? true : false );
 

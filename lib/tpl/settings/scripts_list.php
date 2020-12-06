@@ -1,6 +1,6 @@
 <?php if ( current_user_can( 'activate_plugins' ) ) { ?>
 	<div class="sv_setting_subpage">
-		<h2><?php _e('Scripts Overvview', 'sv100'); ?></h2>
+		<h2><?php _e('Scripts Overview', 'sv100'); ?></h2>
 		<?php foreach($module->get_list() as $settings) { ?>
 		<div class="sv_setting_flex">
 			<?php
