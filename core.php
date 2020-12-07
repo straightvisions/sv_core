@@ -215,21 +215,23 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
 			});
 
-			add_action('wp_footer', function(){
+			if(!defined('WP_ROCKET_PATH')) {
+				add_action('wp_footer', function () {
 
-			    echo "\n\n".'<!--' . __( 'Website enhanced by straightvisions.com', 'sv_core' ). '-->'."\n\n";
+					echo "\n" . '<!--' . __('Website enhanced by straightvisions.com', 'sv_core') . '-->' . "\n";
 
-			    },
-                999999
-            );
+				},
+					999999
+				);
+			}else {
+				add_filter('rocket_buffer', function ($buffer) {
 
-			add_filter('rocket_buffer', function($buffer){
+					return $buffer . "\n" . '<!--' . __('Website enhanced by straightvisions.com', 'sv_core') . '-->' . "\n";
 
-			    return $buffer."\n\n".'<!--' . __( 'Website enhanced by straightvisions.com', 'sv_core' ). '-->'."\n\n";
-
-			    },
-                999999
-            );
+				},
+					999999
+				);
+			}
 
 		}
 		
