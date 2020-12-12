@@ -796,7 +796,7 @@
 				'settings'				=> '<a href="admin.php?page=' . $this->get_root()->get_prefix() . '">'
                                             .__('Settings', 'sv_core')
                                             .'</a>',
-				'straightvisions'		=> '<a href="https://straightvisions.com" target="_blank">straightvisions GmbH</a>',
+				'straightvisions'		=> '<a href="https://straightvisions.com" target="_blank" rel="noopener">straightvisions GmbH</a>',
 			);
 			
 			$actions			        = array_merge( $links, $actions );

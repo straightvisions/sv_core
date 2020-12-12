@@ -393,7 +393,7 @@
 							} else {
 								if(!is_admin()) {
 									if($script->get_path() && filesize($script->get_path()) === 0){
-										continue;
+										break;
 									}
 									wp_enqueue_style(
 										$script->get_handle(),                          // script handle
