@@ -62,6 +62,57 @@
 				add_action( 'wp_footer', array( $this, 'start' ), 1 );
 				add_action( 'wp_footer', array( $this, 'wp_footer' ), 10 );
 			}
+
+			add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_menu' ), 999 );
+			add_action( 'admin_post_' . $this->get_prefix( 'clear_cache' ), array( $this, 'clear_cache' ) );
+		}
+
+		public function add_admin_bar_menu( $admin_bar ) {
+			if ( ! $this->is_theme_instance() ) return;
+			if ( ! current_user_can( 'activate_plugins' ) ) return;
+		
+			$admin_bar->add_menu( 
+				array( 
+					'id' 	=> $this->get_root()->get_prefix(),
+					'title' => __( 'SV100', 'sv_core' ),
+					'href'	=> '/wp-admin/admin.php?page=sv100'
+				) 
+			);
+		
+			$admin_bar->add_menu(
+				array(
+					'parent' 	=> $this->get_root()->get_prefix(),
+					'id'		=> $this->get_root()->get_prefix( 'settings' ),
+					'title'		=> __( 'Settings', 'sv_core' ),
+					'href'		=> '/wp-admin/admin.php?page=sv100'
+				)
+			);
+		
+			$clear_cache_nonce 	= wp_create_nonce( 'admin_post_' . $this->get_prefix( 'clear_cache' ) );
+			$clear_cache_url	= '/wp-admin/admin-post.php?action=' . $this->get_prefix( 'clear_cache' ) . '&_wpnonce=' . $clear_cache_nonce;
+		
+			$admin_bar->add_menu(
+				array(
+					'parent' 	=> $this->get_root()->get_prefix(),
+					'id'		=> $this->get_root()->get_prefix( 'clear_cache' ),
+					'title'		=> __( 'Clear Cache', 'sv_core' ),
+					'href'		=> $clear_cache_url
+				)
+			);
+		}
+		
+		public function clear_cache() {
+			if ( 
+				isset( $_REQUEST['_wpnonce'] ) 
+				&& ! empty( $_REQUEST['_wpnonce'] ) 
+				&& current_user_can( 'activate_plugins' )
+				&& isset( $this->s[ 'flush_css_cache' ] )
+				&& wp_verify_nonce( $_REQUEST['_wpnonce'], 'admin_post_' . $this->get_prefix( 'clear_cache' ) )
+			) {
+				update_option( $this->s[ 'flush_css_cache' ]->get_field_id(), 1 );
+			}
+		
+			wp_redirect( '/' );
 		}
 
 		public function update_setting_flush_css_cache($option_name, $old_value, $value){
