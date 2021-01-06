@@ -6,7 +6,8 @@
 			$selected		= $o_value;
 		}
 	}
-	if(!$selected && strlen($props['default_value']) > 0){
+
+	if(!$selected && $selected !== 0 && strlen($props['default_value']) > 0){
 		$selected		= $props['default_value'];
 	}
 ?>

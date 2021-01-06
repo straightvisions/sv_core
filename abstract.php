@@ -2,7 +2,7 @@
 	namespace sv_core;
 	
 	abstract class sv_abstract {
-		const version_core					= 5000;
+		const version_core					= 5104;
 		
 		protected $name						= false;
 		protected $module_name				= false;
@@ -28,11 +28,14 @@
 		protected $section_order			= false;
 		protected $section_desc				= false;
 		protected $section_privacy			= false;
-		protected $section_type				= '';
+		protected $section_type				= 'settings';
+		protected $section_icon				= '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 14.187v-4.374c-2.148-.766-2.726-.802-3.027-1.529-.303-.729.083-1.169 1.059-3.223l-3.093-3.093c-2.026.963-2.488 1.364-3.224 1.059-.727-.302-.768-.889-1.527-3.027h-4.375c-.764 2.144-.8 2.725-1.529 3.027-.752.313-1.203-.1-3.223-1.059l-3.093 3.093c.977 2.055 1.362 2.493 1.059 3.224-.302.727-.881.764-3.027 1.528v4.375c2.139.76 2.725.8 3.027 1.528.304.734-.081 1.167-1.059 3.223l3.093 3.093c1.999-.95 2.47-1.373 3.223-1.059.728.302.764.88 1.529 3.027h4.374c.758-2.131.799-2.723 1.537-3.031.745-.308 1.186.099 3.215 1.062l3.093-3.093c-.975-2.05-1.362-2.492-1.059-3.223.3-.726.88-.763 3.027-1.528zm-4.875.764c-.577 1.394-.068 2.458.488 3.578l-1.084 1.084c-1.093-.543-2.161-1.076-3.573-.49-1.396.581-1.79 1.693-2.188 2.877h-1.534c-.398-1.185-.791-2.297-2.183-2.875-1.419-.588-2.507-.045-3.579.488l-1.083-1.084c.557-1.118 1.066-2.18.487-3.58-.579-1.391-1.691-1.784-2.876-2.182v-1.533c1.185-.398 2.297-.791 2.875-2.184.578-1.394.068-2.459-.488-3.579l1.084-1.084c1.082.538 2.162 1.077 3.58.488 1.392-.577 1.785-1.69 2.183-2.875h1.534c.398 1.185.792 2.297 2.184 2.875 1.419.588 2.506.045 3.579-.488l1.084 1.084c-.556 1.121-1.065 2.187-.488 3.58.577 1.391 1.689 1.784 2.875 2.183v1.534c-1.188.398-2.302.791-2.877 2.183zm-7.125-5.951c1.654 0 3 1.346 3 3s-1.346 3-3 3-3-1.346-3-3 1.346-3 3-3zm0-2c-2.762 0-5 2.238-5 5s2.238 5 5 5 5-2.238 5-5-2.238-5-5-5z"/></svg>';
 		protected $scripts_queue			= array();
 		protected static $expert_mode		= false;
 		public static $breakpoints			= false;
-		
+
+		protected $module_css_cache			= false; // default false, set true in a module to opt in for CSS Caching
+
 		/**
 		 * @desc			initialize plugin
 		 * @author			Matthias Bathke
@@ -53,6 +56,8 @@
 		 */
 		public function __get( string $name ) {
 			// look for class file in modules directory
+			// @deprecated: move module files into own subdirectory
+			// @todo: remove
 			if ( is_file($this->get_path( 'lib/modules/'.$name . '.php' )) ) {
 				require_once( $this->get_path( 'lib/modules/'.$name . '.php' ) );
 				
@@ -395,7 +400,7 @@
 		public function get_breakpoints(): array {
 			if(!self::$breakpoints){
 				self::$breakpoints	= apply_filters($this->get_root()->get_prefix('breakpoints'), array( // number = min width
-					'mobile'						=> 0,		// mobile first!
+					'mobile'						=> 0,
 					'mobile_landscape'				=> 0,
 					'tablet'						=> 768,
 					'tablet_landscape'				=> 992,
@@ -403,6 +408,12 @@
 					'tablet_pro_landscape'			=> 1366,
 					'desktop'						=> 1600,
 				));
+			}
+
+			foreach(self::$breakpoints as &$val){
+				if(empty($val) === true){
+					$val = 0;
+				}
 			}
 
 			return self::$breakpoints;
@@ -503,12 +514,61 @@
 		
 		public function acp_style( bool $hook = false ) {
 			if ( !$hook || $hook == 'sv-100_page_' . $this->get_module_name() ) {
-				if(is_file($this->get_path_core('../assets/admin_inline.css'))) { // file exists only when core_plugin is loaded, so if only theme is loaded, don't load this asset
-					wp_enqueue_style($this->get_prefix(), $this->get_url_core('../assets/admin.css'), array('wp-editor'), filemtime($this->get_path_core('../assets/admin.css')));
-					ob_start();
-					require_once($this->get_path_core('../assets/admin_inline.css'));
-					$css = ob_get_clean();
-					wp_add_inline_style($this->get_prefix(), $css);
+				if(file_exists($this->get_active_core()->get_path_core('../assets'))) { // dir exists only when core_plugin is loaded, so if only theme is loaded, don't load these assets
+					// Common
+					wp_enqueue_style($this->get_prefix('common'), $this->get_active_core()->get_url_core('../assets/common.css'), array('wp-editor'), filemtime($this->get_active_core()->get_path_core('../assets/common.css')));
+
+					// Dashboard
+					wp_enqueue_style($this->get_prefix('dashboard'), $this->get_active_core()->get_url_core('../assets/dashboard.css'), array($this->get_prefix('common')), filemtime($this->get_active_core()->get_path_core('../assets/dashboard.css')));
+
+					// Form
+					wp_enqueue_style($this->get_prefix('settings'), $this->get_active_core()->get_url_core('../assets/settings.css'), array($this->get_prefix('dashboard')), filemtime($this->get_active_core()->get_path_core('../assets/settings.css')));
+
+					// Log - @notice Deactivated, because not in use
+					//wp_enqueue_style($this->get_prefix('log'), $this->get_url_core('../assets/log.css'), array($this->get_prefix('form')), filemtime($this->get_path_core('../assets/log.css')));
+
+					// Check if page is settings page
+					$this->setting_scripts();
+				}
+			}
+		}
+
+		protected function setting_scripts() {
+			$settings = glob( $this->get_active_core()->get_path_core('settings/modules/*') );
+
+			foreach( $settings as $setting ) {
+				$path = str_replace('\\', '/', $this->get_active_core()->get_path());
+				$css = $setting . '/lib/css/';
+				$js = $setting . '/lib/js/';
+
+				// Styles
+				if ( file_exists($css) && $files = list_files( $css ) ) {
+					foreach( $files as $file ) {
+						$relative_path = str_replace( $path, '', $file );
+						$url = $this->get_active_core()->get_url( $relative_path );
+						$setting_name = wp_basename( $setting );
+						$filename = wp_basename( $file, '.css' );
+						$handle = $setting_name . '_' . $filename;
+						
+						if ( filesize($file) && filesize($file) > 0 ) {
+							wp_enqueue_style( $handle, $url, array($this->get_prefix('settings')), filemtime( $file ) );
+						}
+					}
+				}
+
+				// Scripts
+				if ( file_exists($js) && $files = list_files( $js ) ) {
+					foreach( $files as $file ) {
+						$relative_path = str_replace( $path, '', $file );
+						$url = $this->get_active_core()->get_url( $relative_path );
+						$setting_name = wp_basename( $setting );
+						$filename = wp_basename( $file, '.js' );
+						$handle = $setting_name . '_' . $filename;
+						
+						if ( filesize($file) && filesize($file) > 0 ) {
+							wp_enqueue_script( $handle, $url, array(), filemtime( $file ) );
+						}
+					}
 				}
 			}
 		}
@@ -604,8 +664,8 @@
 			return $this->section_template_path;
 		}
 		
-		public function set_section_template_path( string $path ) {
-			$this->section_template_path = $path;
+		public function set_section_template_path( string $path = 'lib/tpl/settings/init.php' ) {
+			$this->section_template_path = is_file($path) ? $path : $this->get_path($path);
 
 			return $this;
 		}
@@ -681,7 +741,7 @@
                 $path = $custom_about_path;
             }
             
-            require_once( $path );
+			require_once( $path );
 			
 			// $this->load_section_html();
 			
@@ -692,21 +752,41 @@
 		public function load_section_menu() {
 			foreach ( $this->get_sections_sorted_by_order() as $section ) {
 				$section_name = $section['object']->get_prefix();
-				echo '<div data-sv_admin_menu_target="#section_'
-                    . $section_name
-                    . '" class="sv_admin_menu_item section_'
-                    . $section[ 'object' ]->get_section_type()
-                    . '"><h4>'
-                    .  $section[ 'object' ]->get_section_title()
-                    . '</h4><span>' . $section[ 'object' ]->get_section_desc()
-                    . '</span></div>';
+				$section_icon = $this->get_section_icon( $section['object'] );
+
+				$output = '<div data-sv_admin_menu_target="#section_';
+				$output .= $section_name . '" class="sv_admin_menu_item section_';
+				$output .= $section[ 'object' ]->get_section_type() . '">';
+				$output .= '<i class="section_icon">' . $section_icon . '</i>';
+				$output .= '<div class="section_title">';
+				$output .= '<h4>' . $section[ 'object' ]->get_section_title() . '</h4>';
+				$output .= '<span>' . $section[ 'object' ]->get_section_desc() . '</span>';
+				$output .= '</div>';
+				$output .= '</div>';
+
+				echo $output;
+
 			}
+		}
+
+		public function get_section_icon( $module ) {
+			if ( isset( $module->section_icon ) && ! empty( $module->section_icon ) ) {
+				return $module->section_icon;
+			} else {
+				return $this->section_icon;
+			}
+		}
+		public function set_section_icon(string $icon) {
+			$this->section_icon = $icon;
+
+			return $this;
 		}
 		
 		public function load_section_html() {
 			foreach( $this->get_sections_sorted_by_title() as $section ) {
 				$section_name = $section['object']->get_prefix(); // var will be used in included file
 				$path = $this->get_path_core( 'backend/tpl/section_' . $section[ 'object' ]->get_section_type() . '.php' );
+
 				require( $path );
 			}
 		}
@@ -716,7 +796,7 @@
 				'settings'				=> '<a href="admin.php?page=' . $this->get_root()->get_prefix() . '">'
                                             .__('Settings', 'sv_core')
                                             .'</a>',
-				'straightvisions'		=> '<a href="https://straightvisions.com" target="_blank">straightvisions GmbH</a>',
+				'straightvisions'		=> '<a href="https://straightvisions.com" target="_blank" rel="noopener">straightvisions GmbH</a>',
 			);
 			
 			$actions			        = array_merge( $links, $actions );
@@ -793,5 +873,14 @@
 			}
 
 			return $block;
+		}
+
+		public function get_css_cache_active(){
+			return $this->module_css_cache;
+		}
+		public function set_css_cache_active(bool $active = true){
+			$this->module_css_cache = $active;
+
+			return $this;
 		}
 	}

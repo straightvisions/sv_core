@@ -8,7 +8,7 @@
 		<div class="section_content">
 			<h3 class="divider"><?php _e('General Information', 'sv_core'); ?></h3>
 			<ul class="info_list">
-				<li><?php _e('Project Website:', 'sv_core'); ?><span> <a href="https://straightvisions.com/" target="_blank"><?php _e('straightvisions GmbH', 'sv_core'); ?></a></span></li>
+				<li><?php _e('Project Website:', 'sv_core'); ?><span> <a href="https://straightvisions.com/" target="_blank" rel="noopener"><?php _e('straightvisions GmbH', 'sv_core'); ?></a></span></li>
 			</ul>
 			<h3 class="divider"><?php _e('License: GPL3 or later', 'sv_core'); ?></h3>
 			<p>
@@ -33,7 +33,7 @@
 				. __( 'You should have received a copy of the GNU General Public License along with this program.', 'sv_core' )
 				. '<br>'
 				. __( 'If not, See', 'sv_core' ) . ' '
-				. '<a href="http://www.gnu.org/licenses/" target="_blank">'
+				. '<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener">'
 				. __( 'http://www.gnu.org/licenses/', 'sv_core' )
 				. '</a>.';
 				?>
