@@ -589,7 +589,7 @@ class settings extends sv_abstract{
 	// Example Output: 255,0,255,1
 	function get_rgb( string $val, string $opacity = '1' ): string {
 		// Value is a hex color
-		if ( preg_match( '/#([a-f0-9]{3}){1,2}\b/i', $val ) && is_int( hexdec( $val ) ) ) {
+		if ( preg_match( '/^#[0-9A-F]{6}$/i', $val ) ) {
 			list( $r, $g, $b ) = sscanf( $val, "#%02x%02x%02x" );
 			
 			return $r . ',' . $g . ',' . $b . ','.$opacity;
@@ -608,7 +608,7 @@ class settings extends sv_abstract{
 	// Example Output: #ff00ff
 	function get_hex( string $val ): string {
 		// Value is a hex color
-		if ( preg_match( '/#([a-f0-9]{3}){1,2}\b/i', $val ) && is_int( hexdec( $val ) ) ) {
+		if ( preg_match( '/^#[0-9A-F]{6}$/i', $val ) ) {
 			return $val;
 		}
 		

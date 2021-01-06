@@ -12,7 +12,7 @@ class setting_border extends settings {
 		$properties			= array();
 
 		if($this->get_parent()->get_data()) {
-			foreach ($this->get_parent()->get_data() as $breakpoint => &$query) {
+			foreach ($this->get_parent()->get_data() as $breakpoint => $query) {
 
 				if (isset($query['top_width'])) {
 					$val = $query['top_width'] . ' ' . $query['top_style'] . ' rgba(' . $query['color'] . ')';
