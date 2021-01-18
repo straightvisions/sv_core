@@ -111,8 +111,8 @@
 			) {
 				update_option( $this->s[ 'flush_css_cache' ]->get_field_id(), 1 );
 			}
-		
-			wp_redirect( '/' );
+
+			wp_redirect( $_SERVER['HTTP_REFERER'] );
 		}
 
 		public function update_setting_flush_css_cache($option_name, $old_value, $value){
