@@ -208,13 +208,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 		}
 
 		private function setup_credits() {
-			add_filter('wp_headers', function($headers){
-
-				$headers['X-straightvisions'] = __( 'Website enhanced by straightvisions.com', 'sv_core' );
-				return $headers;
-
-			});
-
 			add_action('wp_footer', function(){
 
 				echo "\n\n".'<!--' . __( 'Website enhanced by straightvisions.com', 'sv_core' ). '-->'."\n\n";
@@ -222,15 +215,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				},
 				999999
 			);
-
-			add_filter('rocket_buffer', function($buffer){
-
-				return $buffer."\n\n".'<!--' . __( 'Website enhanced by straightvisions.com', 'sv_core' ). '-->'."\n\n";
-
-				},
-				999999
-			);
-
 		}
 		
 		protected function setup_settings(){
