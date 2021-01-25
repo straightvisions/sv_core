@@ -1,12 +1,45 @@
 <?php
-	$border_top_width_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['top_width'] ) ) );
-	$border_top_width_unit      = esc_attr( preg_replace('/[0-9]+/', '', $props['value']['top_width'] ) );
-	$border_right_width_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['right_width'] ) ) );
-	$border_right_width_unit    = esc_attr( preg_replace('/[0-9]+/', '', $props['value']['right_width'] ) );
-	$border_bottom_width_number = intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['bottom_width'] ) ) );
-	$border_bottom_width_unit   = esc_attr( preg_replace('/[0-9]+/', '', $props['value']['bottom_width'] ) );
-	$border_left_width_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['left_width'] ) ) );
-    $border_left_width_unit     = esc_attr( preg_replace('/[0-9]+/', '', $props['value']['left_width'] ) );
+    // Default
+    $border_top_width           = '0px';
+    $border_right_width         = '0px';
+    $border_bottom_width        = '0px';
+    $border_left_width          = '0px';
+
+    $border_top_width_number    = 0;
+    $border_right_width_number  = 0;
+    $border_bottom_width_number = 0;
+    $border_left_width_number   = 0;
+
+    $border_top_width_unit      = 'px';
+    $border_right_width_unit    = 'px';
+    $border_bottom_width_unit   = 'px';
+    $border_left_width_unit     = 'px';
+
+    if ( isset( $props['value'] ) ) {
+        if ( isset( $props['value']['top_width'] ) && ! empty( $props['value']['top_width'] ) ) {
+            $border_top_width           = esc_attr( $props['value']['top_width'] );
+            $border_top_width_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $border_top_width ) ) );
+	        $border_top_width_unit      = esc_attr( preg_replace('/[0-9]+/', '', $border_top_width ) );
+        }
+
+        if ( isset( $props['value']['right_width'] ) && ! empty( $props['value']['right_width'] ) ) {
+            $border_right_width         = esc_attr( $props['value']['right_width'] );
+            $border_right_width_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $border_right_width ) ) );
+	        $border_right_width_unit    = esc_attr( preg_replace('/[0-9]+/', '', $border_right_width ) );
+        }
+
+        if ( isset( $props['value']['bottom_width'] ) && ! empty( $props['value']['bottom_width'] ) ) {
+            $border_bottom_width        = esc_attr( $props['value']['bottom_width'] );
+            $border_bottom_width_number = intval( esc_attr( preg_replace('/[^0-9]/', '', $border_bottom_width ) ) );
+	        $border_bottom_width_unit   = esc_attr( preg_replace('/[0-9]+/', '', $border_bottom_width ) );
+        }
+
+        if ( isset( $props['value']['left_width'] ) && ! empty( $props['value']['left_width'] ) ) {
+            $border_left_width          = esc_attr( $props['value']['left_width'] );
+            $border_left_width_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $border_left_width ) ) );
+            $border_left_width_unit     = esc_attr( preg_replace('/[0-9]+/', '', $border_left_width ) );
+        }
+    }
 ?>
 
 <div id="<?php echo $props['ID'] . '_width'; ?>" class="sv_setting">
@@ -38,7 +71,7 @@
                         id="<?php echo $props['ID'] . '_top_width'; ?>"
                         name="<?php echo $props['name'] . '[top_width]'; ?>"
                         type="hidden"
-                        value="<?php echo esc_attr( $props['value']['top_width'] ); ?>"
+                        value="<?php echo $border_top_width; ?>"
                     />
                 </label>
             </td>
@@ -69,7 +102,7 @@
                         id="<?php echo $props['ID'] . '_left_width'; ?>"
                         name="<?php echo $props['name'] . '[left_width]'; ?>"
                         type="hidden"
-                        value="<?php echo esc_attr( $props['value']['left_width'] ); ?>"
+                        value="<?php echo $border_left_width; ?>"
                     />
                 </label>
             </td>
@@ -99,7 +132,7 @@
                         id="<?php echo $props['ID'] . '_right_width'; ?>"
                         name="<?php echo $props['name'] . '[right_width]'; ?>"
                         type="hidden"
-                        value="<?php echo esc_attr( $props['value']['right_width'] ); ?>"
+                        value="<?php echo $border_right_width; ?>"
                     />
                 </label>
             </td>
@@ -130,7 +163,7 @@
                         id="<?php echo $props['ID'] . '_bottom_width'; ?>"
                         name="<?php echo $props['name'] . '[bottom_width]'; ?>"
                         type="hidden"
-                        value="<?php echo esc_attr( $props['value']['bottom_width'] ); ?>"
+                        value="<?php echo $border_bottom_width; ?>"
                     />
                 </label>
             </td>

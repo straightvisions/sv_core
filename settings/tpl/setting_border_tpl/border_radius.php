@@ -1,12 +1,45 @@
-<?php 
-	$border_top_left_radius_number 	    = intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['top_left_radius'] ) ) );
-    $border_top_left_radius_unit        = esc_attr( preg_replace('/[0-9]+/', '', $props['value']['top_left_radius'] ) );
-    $border_top_right_radius_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['top_right_radius'] ) ) );
-    $border_top_right_radius_unit       = esc_attr( preg_replace('/[0-9]+/', '', $props['value']['top_right_radius'] ) );
-    $border_bottom_left_radius_number   = intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['bottom_left_radius'] ) ) );
-	$border_bottom_left_radius_unit     = esc_attr( preg_replace('/[0-9]+/', '', $props['value']['bottom_left_radius'] ) );
-    $border_bottom_right_radius_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $props['value']['bottom_right_radius'] ) ) );
-    $border_bottom_right_radius_unit    = esc_attr( preg_replace('/[0-9]+/', '', $props['value']['bottom_right_radius'] ) );
+<?php
+    // Default
+    $border_top_left_radius             = '0px';
+    $border_top_right_radius            = '0px';
+    $border_bottom_left_radius          = '0px';
+    $border_bottom_right_radius         = '0px';
+
+    $border_top_left_radius_number      = 0;
+    $border_top_right_radius_number     = 0;
+    $border_bottom_left_radius_number   = 0;
+    $border_bottom_right_radius_number  = 0;
+
+    $border_top_left_radius_unit        = 'px';
+    $border_top_right_radius_unit       = 'px';
+    $border_bottom_left_radius_unit     = 'px';
+    $border_bottom_right_radius_unit    = 'px';
+
+    if ( isset( $props['value'] ) ) {
+        if ( isset( $props['value']['top_left_radius'] ) && ! empty( $props['value']['top_left_radius'] ) ) {
+            $border_top_left_radius             = esc_attr( $props['value']['top_left_radius'] );
+            $border_top_left_radius_number 	    = intval( esc_attr( preg_replace('/[^0-9]/', '', $border_top_left_radius ) ) );
+            $border_top_left_radius_unit        = esc_attr( preg_replace('/[0-9]+/', '', $border_top_left_radius ) );
+        }
+
+        if ( isset( $props['value']['top_right_radius'] ) && ! empty( $props['value']['top_right_radius'] ) ) {
+            $border_top_right_radius            = esc_attr( $props['value']['top_right_radius'] );
+            $border_top_right_radius_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $border_top_right_radius ) ) );
+            $border_top_right_radius_unit       = esc_attr( preg_replace('/[0-9]+/', '', $border_top_right_radius ) );
+        }
+
+        if ( isset( $props['value']['bottom_left_radius'] ) && ! empty( $props['value']['bottom_left_radius'] ) ) {
+            $border_bottom_left_radius          = esc_attr( $props['value']['bottom_left_radius'] );
+            $border_bottom_left_radius_number   = intval( esc_attr( preg_replace('/[^0-9]/', '', $border_bottom_left_radius ) ) );
+	        $border_bottom_left_radius_unit     = esc_attr( preg_replace('/[0-9]+/', '', $border_bottom_left_radius ) );
+        }
+
+        if ( isset( $props['value']['bottom_right_radius'] ) && ! empty( $props['value']['bottom_right_radius'] ) ) {
+            $border_bottom_right_radius         = esc_attr( $props['value']['bottom_right_radius'] );
+            $border_bottom_right_radius_number 	= intval( esc_attr( preg_replace('/[^0-9]/', '', $border_bottom_right_radius ) ) );
+            $border_bottom_right_radius_unit    = esc_attr( preg_replace('/[0-9]+/', '', $border_bottom_right_radius ) );
+        }
+    }
 ?>
 
 <div id="<?php echo $props['ID'] . '_radius'; ?>" class="sv_setting">
@@ -36,7 +69,7 @@
                         id="<?php echo $props['ID'] . '_top_left_radius'; ?>"
                         name="<?php echo $props['name'] . '[top_left_radius]'; ?>"
                         type="hidden"
-                        value="<?php echo esc_attr( $props['value']['top_left_radius'] ); ?>"
+                        value="<?php echo $border_top_left_radius; ?>"
                     />
                 </label>
             </td>
@@ -64,7 +97,7 @@
                         id="<?php echo $props['ID'] . '_top_right_radius'; ?>"
                         name="<?php echo $props['name'] . '[top_right_radius]'; ?>"
                         type="hidden"
-                        value="<?php echo esc_attr( $props['value']['top_right_radius'] ); ?>"
+                        value="<?php echo $border_top_right_radius; ?>"
                     />
                 </label>
             </td>
@@ -98,7 +131,7 @@
                         id="<?php echo $props['ID'] . '_bottom_left_radius'; ?>"
                         name="<?php echo $props['name'] . '[bottom_left_radius]'; ?>"
                         type="hidden"
-                        value="<?php echo esc_attr( $props['value']['bottom_left_radius'] ); ?>"
+                        value="<?php echo $border_bottom_left_radius; ?>"
                     />
                 </label>
             </td>
@@ -126,7 +159,7 @@
                         id="<?php echo $props['ID'] . '_bottom_right_radius'; ?>"
                         name="<?php echo $props['name'] . '[bottom_right_radius]'; ?>"
                         type="hidden"
-                        value="<?php echo esc_attr( $props['value']['bottom_right_radius'] ); ?>"
+                        value="<?php echo $border_bottom_right_radius; ?>"
                     />
                 </label>
             </td>

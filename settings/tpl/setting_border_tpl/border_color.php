@@ -1,4 +1,11 @@
-<?php $color = esc_attr( $props['value']['color'] ? $this->get_rgb( $props['value']['color']) : '0,0,0,1' ); ?>
+<?php 
+	// Default
+	$color = esc_attr( '0,0,0,1' );
+
+	if ( isset( $props['value'] ) && isset( $props['value']['color'] ) ) {
+		$color = esc_attr( $this->get_rgb( $props['value']['color']) );
+	} 
+?>
 <script>
 	jQuery( document ).ready( function() {
 		if ( typeof SVColorPicker !== 'undefined' ) {

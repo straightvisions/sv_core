@@ -14,8 +14,11 @@
                     >
                     <?php  
                         foreach( $border_style_options as $style ) {
+                            $selected = ( isset( $props['value'] ) && isset( $props['value']['top_style'] ) 
+                                && $props['value']['top_style'] === $style ) ? ' selected' : '';
+
                             echo '<option value="' . $style . '"';
-                            echo $props['value']['top_style'] === $style ? ' selected' : '';
+                            echo $selected;
                             echo '>' . $style . '</option>';
                         }
                     ?>
@@ -34,8 +37,11 @@
                     >
                     <?php  
                         foreach( $border_style_options as $style ) {
+                            $selected = ( isset( $props['value'] ) && isset( $props['value']['left_style'] ) 
+                                && $props['value']['left_style'] === $style ) ? ' selected' : '';
+
                             echo '<option value="' . $style . '"';
-                            echo $props['value']['left_style'] === $style ? ' selected' : '';
+                            echo $selected;
                             echo '>' . $style . '</option>';
                         }
                     ?>
@@ -53,8 +59,11 @@
                     >
                     <?php  
                         foreach( $border_style_options as $style ) {
+                            $selected = ( isset( $props['value'] ) && isset( $props['value']['right_style'] ) 
+                                && $props['value']['right_style'] === $style ) ? ' selected' : '';
+
                             echo '<option value="' . $style . '"';
-                            echo $props['value']['right_style'] === $style ? ' selected' : '';
+                            echo $selected;
                             echo '>' . $style . '</option>';
                         }
                     ?>
@@ -73,8 +82,11 @@
                     >
                     <?php  
                         foreach( $border_style_options as $style ) {
+                            $selected = ( isset( $props['value'] ) && isset( $props['value']['bottom_style'] ) 
+                                && $props['value']['bottom_style'] === $style ) ? ' selected' : '';
+
                             echo '<option value="' . $style . '"';
-                            echo $props['value']['bottom_style'] === $style ? ' selected' : '';
+                            echo $selected;
                             echo '>' . $style . '</option>';
                         }
                     ?>
