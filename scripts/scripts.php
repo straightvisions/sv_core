@@ -692,8 +692,8 @@
 
 			return $path.$file;
 		}
-		public function get_url_cached(string $url): string{
-			return wp_upload_dir()['baseurl'].'/straightvisions/cache/'.$this->get_root()->get_prefix().'/'.$this->get_parent()->get_prefix().'/'.$url;
+		public function get_url_cached(string $file): string{
+			return wp_upload_dir()['baseurl'].'/straightvisions/cache/'.$this->get_root()->get_prefix().'/'.$this->get_parent()->get_prefix().'/'.$file;
 		}
 		public function cache_css(): scripts {
 			if ($this->get_ID() == 'config' && $this->get_type() == 'css') {
