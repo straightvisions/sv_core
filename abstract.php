@@ -883,4 +883,10 @@
 
 			return $this;
 		}
+		public function get_path_cached(string $file): string{
+			return static::$scripts->create( $this )->get_path_cached($file);
+		}
+		public function get_url_cached(string $file): string{
+			return static::$scripts->create( $this )->get_url_cached($file);
+		}
 	}
