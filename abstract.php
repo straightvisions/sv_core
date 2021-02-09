@@ -889,4 +889,7 @@
 		public function get_url_cached(string $file): string{
 			return static::$scripts->create( $this )->get_url_cached($file);
 		}
+		public function get_templates_archive(): array{
+			return apply_filters('sv_core_templates_archive', array());
+		}
 	}
