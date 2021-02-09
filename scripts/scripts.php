@@ -298,7 +298,7 @@
 				)
 			) {
 				foreach ( $this->get_scripts() as $script ) {
-					if ( $script->get_is_backend() ) {
+					if ( $script->get_is_backend() && !$script->get_is_gutenberg() ) {
 						if($script->get_type() == 'css') {
 							wp_enqueue_style(
 								$script->get_handle(),                          // script handle
