@@ -13,6 +13,7 @@
 		private $parent						= false;
 		private $root						= false;
 		protected $s						= array(); // settings object array
+		protected $s_clustered				= array(); // clustered settings object array
 		protected $m						= array(); // metabox object array
 		protected static $wpdb				= false;
 		private static $instances			= array();
@@ -387,11 +388,23 @@
 			
 			return $this->s;
 		}
+
+		public function get_settings_clustered(): array {
+			if(count($this->s_clustered) === 0){
+				return array(__('Common', 'sv_core') => $this->get_settings());
+			}
+
+			return $this->s_clustered;
+		}
 		
-		public function get_setting(string $setting = ''): settings {
-			if( strlen($setting) === 0 || isset($this->s[$setting]) === false ){
-                // create empty setting if not set
-                $this->s[$setting] = static::$settings->create( $this )->set_ID($setting);
+		public function get_setting(string $setting = '', string $cluster = ''): settings {
+			if( strlen($setting) === 0 || isset($this->s[$setting]) === false ) {
+				// create empty setting if not set
+				$this->s[$setting] = static::$settings->create($this)->set_ID($setting);
+
+				if (strlen($cluster) > 0){
+					$this->s_clustered[$cluster][$setting]	=  $this->s[$setting]->set_cluster($cluster);
+				}
 			}
 
 			return $this->s[$setting];

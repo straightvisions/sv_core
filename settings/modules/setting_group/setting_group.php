@@ -5,6 +5,7 @@
 	class setting_group extends settings{
 		private $parent						= false;
 		private $children					= array();
+		private $children_clustered			= array();
 		public static $initialized			= false;
 		
 		/**
@@ -27,12 +28,17 @@
 			return $input;
 		}
 		public function add_child($setting = false){
-			$child					= $setting ? $setting : static::create($this);
-			$this->children[]		= $child;
+			$child														= $setting ? $setting : static::create($this);
+			$this->children[]											= $child;
+			$this->children_clustered[$child->get_cluster()][]			= $child;
+
 			return $child;
 		}
-		public function get_children(){
+		public function get_children(): array{
 			return $this->children;
+		}
+		public function get_children_clustered(): array{
+			return $this->children_clustered;
 		}
 		protected function group_draft_html( string $field_id = '' ) {
 			return '<div class="sv_'.$this->get_module_name().'_new_draft" style="display:none;">'.$this->html_field(false,false,$field_id).'</div>';
@@ -52,38 +58,42 @@
 			$fields					= array();
 			$output					= array();
 
-			if($this->get_children()){
+			if(count($this->get_children()) > 0){
 				// allow custom labels for groups.
                 $label = ($setting_id !== false ? __('Entry', 'sv_core') . ' #' . ($i + 1) : __('Group #', 'sv_core'));
 
-				foreach($this->get_children() as $child) {
-					$probs				= array(
-						'ID'			=> ($setting_id !== false ? $field_id.'['.$setting_id.']['.$child->get_ID().']' : $field_id.'[sv_form_field_index]['.$child->get_ID().']'),
-						'title'			=> $child->get_title(),
-						'description'	=> $child->get_description(),
-						'name'			=> ($setting_id !== false ? $field_id.'['.$setting_id.']['.$child->get_ID().']' : ''),
-						'value'			=> (
-						(
-							$setting_id !== false &&
-							get_option($field_id) !== false &&
-							isset(get_option($field_id)[$setting_id]) &&
-							isset(get_option($field_id)[$setting_id][$child->get_ID()])
-						)
-							? get_option($field_id)[$setting_id][$child->get_ID()]
-							: $child->run_type()->get_data()),
-						'required'		=> $child->get_required(),
-						'disabled'		=> $child->get_disabled(),
-						'placeholder'	=> $child->get_placeholder(),
-						'maxlength'		=> $child->get_maxlength(),
-						'minlength'		=> $child->get_minlength(),
-						'max'			=> $child->get_max(),
-						'min'			=> $child->get_min(),
-						'radio_style'	=> $child->get_radio_style()
-					);
+				foreach($this->get_children_clustered() as $cluster_name => $cluster) {
+					$fields[]		= '<h3>'.$cluster_name.'</h3>';
+					foreach($cluster as $child) {
+						$props = array(
+							'ID' => ($setting_id !== false ? $field_id . '[' . $setting_id . '][' . $child->get_ID() . ']' : $field_id . '[sv_form_field_index][' . $child->get_ID() . ']'),
+							'title' => $child->get_title(),
+							'cluster' => $child->get_cluster(),
+							'description' => $child->get_description(),
+							'name' => ($setting_id !== false ? $field_id . '[' . $setting_id . '][' . $child->get_ID() . ']' : ''),
+							'value' => (
+							(
+								$setting_id !== false &&
+								get_option($field_id) !== false &&
+								isset(get_option($field_id)[$setting_id]) &&
+								isset(get_option($field_id)[$setting_id][$child->get_ID()])
+							)
+								? get_option($field_id)[$setting_id][$child->get_ID()]
+								: $child->run_type()->get_data()),
+							'required' => $child->get_required(),
+							'disabled' => $child->get_disabled(),
+							'placeholder' => $child->get_placeholder(),
+							'maxlength' => $child->get_maxlength(),
+							'minlength' => $child->get_minlength(),
+							'max' => $child->get_max(),
+							'min' => $child->get_min(),
+							'radio_style' => $child->get_radio_style()
+						);
 
-					$fields[]			= '<div class="'.$this->get_prefix($this->get_type()).'_item">';
-					$fields[]			= '<div class="sv_'.$this->get_module_name().'_input" data-sv_input_name="'.$field_id.'[sv_form_field_index]['.$child->get_ID().']'.'">'.$child->form($probs);
-					$fields[]			= '</div></div>';
+						$fields[]			= '<div class="'.$this->get_prefix($this->get_type()).'_item">';
+						$fields[]			= '<div class="sv_'.$this->get_module_name().'_input" data-sv_input_name="'.$field_id.'[sv_form_field_index]['.$child->get_ID().']'.'">'.$child->form($props);
+						$fields[]			= '</div></div>';
+					}
 
 					// overwrite child group label
 					// take label from custom field
@@ -103,8 +113,6 @@
                         }
 
                     }
-
-
 				}
 
 				$header[]				= ($setting_id !== false ? '<div class="sv_'.$this->get_module_name().'" sv_'.$this->get_module_name().'_entry_id="'.$setting_id.'">' : '');

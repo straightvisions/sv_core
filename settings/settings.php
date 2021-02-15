@@ -13,6 +13,7 @@ class settings extends sv_abstract{
 	private $section_description	= '';
 	private $type					= false;
 	private $title					= '';
+	private $cluster				= '';
 	private $description			= '';
 	private $options				= array();
 	private $placeholder			= '';
@@ -183,6 +184,14 @@ class settings extends sv_abstract{
 	}
 	public function get_title(): string{
 		return $this->title;
+	}
+	public function set_cluster(string $cluster): settings{
+		$this->cluster							= $cluster;
+
+		return $this;
+	}
+	public function get_cluster(): string{
+		return $this->cluster;
 	}
     public function set_is_label(bool $check): settings{
         $this->is_label							= $check;
@@ -674,6 +683,7 @@ class settings extends sv_abstract{
 	public function widget(string $value, $object): string{
 		$props['ID']				= $object->get_field_id($this->get_ID());
 		$props['title']				= $this->get_title();
+		$props['cluster']			= $this->get_cluster();
 		$props['description']		= $this->get_description();
 		$props['name']				= $object->get_field_name($this->get_ID());
 		$props['required']			= $this->get_required();
@@ -738,6 +748,7 @@ class settings extends sv_abstract{
 	private function map_props(array $props): array{
 		$props['ID']				= isset($props['ID']) ? $props['ID'] : $this->get_field_id();
 		$props['title']				= isset($props['title']) ? $props['title'] : $this->get_title();
+		$props['cluster']			= isset($props['cluster']) ? $props['cluster'] : $this->get_cluster();
 		$props['description']		= isset($props['description']) ?  $props['description'] : $this->get_description();
 		$props['name']				= isset($props['name']) ? $props['name'] : $this->get_field_id();
 		$props['value']				= isset($props['value']) ? $props['value'] : $this->get_data();

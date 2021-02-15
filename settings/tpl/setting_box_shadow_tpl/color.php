@@ -1,4 +1,4 @@
-<?php $color = esc_attr( $props['value']['color'] ? $this->get_rgb( $props['value']['color']) : '0,0,0,1' ); ?>
+<?php $color = esc_attr( $props['value']['color'] ? $this->get_rgb( $props['value']['color']) : 'transparent' ); ?>
 <script>
 	jQuery( document ).ready( function() {
 		if ( typeof SVColorPicker !== 'undefined' ) {

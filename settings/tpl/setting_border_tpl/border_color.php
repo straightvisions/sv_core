@@ -1,6 +1,6 @@
 <?php 
 	// Default
-	$color = esc_attr( '0,0,0,1' );
+	$color = esc_attr( 'transparent' );
 
 	if ( isset( $props['value'] ) && isset( $props['value']['color'] ) ) {
 		$color = esc_attr( $this->get_rgb( $props['value']['color']) );
