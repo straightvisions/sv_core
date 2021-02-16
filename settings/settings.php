@@ -411,6 +411,7 @@ class settings extends sv_abstract{
 		if(strlen($custom_property) > 0){
 			return $this->run_type()->get_css_data($custom_property);
 		}
+
 		return $this->run_type()->get_css_data();
 	}
 
@@ -425,7 +426,7 @@ class settings extends sv_abstract{
 	}
 	public function prepare_css_property_responsive(array $val, string $prefix = '', string $suffix = ''): array{
 		return array_map(function ($val) use($prefix, $suffix) {
-			return $prefix.$val.$suffix;
+			return $val ? $prefix.$val.$suffix : $val; // do not add prefix or suffix when val is empty
 		}, $val);
 	}
 	public function build_css(string $selector, array $vars): string{

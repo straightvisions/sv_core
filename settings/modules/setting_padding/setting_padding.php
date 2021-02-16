@@ -14,7 +14,6 @@ class setting_padding extends settings{
 		$properties				= array();
 
 		if($this->get_parent()->get_data()) {
-			$imploded		= false;
 			foreach($this->get_parent()->get_data() as $breakpoint => $val) {
 				$top = (isset($val['top']) && strlen($val['top']) > 0) ? $val['top'] : false;
 				$right = (isset($val['right']) && strlen($val['right']) > 0) ? $val['right'] : false;

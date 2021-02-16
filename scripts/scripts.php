@@ -188,7 +188,8 @@
 					static::$list[$script->get_UID()][ 'attached' ]->set_options( $options );
 
 					// Setting cache invalidated
-					if($script->get_parent()->get_css_cache_active() && $script->get_ID() == 'config'){
+					//if($script->get_parent()->get_css_cache_active() && $script->get_ID() == 'config'){
+					if(strpos($script->get_ID(),'config') !== false){
 						static::$list[$script->get_UID()]['cache']['active'] = true;
 					}else{
 						static::$list[$script->get_UID()]['cache']['active'] = false;
@@ -682,12 +683,12 @@
 			return $this;
 		}
 		public function get_path_cached(string $file): string{
-			$path	= wp_upload_dir()['basedir'].'/straightvisions/cache/'.$this->get_root()->get_prefix().'/'.$this->get_parent()->get_prefix().'/';
+			$path		= wp_upload_dir()['basedir'].'/straightvisions/cache/'.$this->get_root()->get_prefix().'/'.$this->get_parent()->get_prefix().'/';
 
 			// create directories of not exist
-			if (!is_dir($path)) {
+			if (!is_dir($path.dirname($file))) {
 				// dir doesn't exist, make it
-				mkdir($path, 0755, true);
+				mkdir($path.dirname($file), 0755, true);
 			}
 
 			return $path.$file;
