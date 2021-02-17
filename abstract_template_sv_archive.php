@@ -5,15 +5,15 @@
 	if(!class_exists('abstract_template_sv_archive')) {
 		// complete template logic should be here
 		class abstract_template_sv_archive{
-			protected static $path		= '';
-			protected static $url		= '';
+			protected $path				= '';
+			protected $url				= '';
 
 			protected $prefix			= '';
 
 			protected $instance			= false;
 			protected $setting_prefix	= '';
 
-			protected static $parts		= array();
+			protected $parts			= array();
 
 			public function __construct($instance, string $setting_prefix){
 				$this->init($instance, $setting_prefix);
@@ -21,7 +21,7 @@
 			protected function init($instance, string $setting_prefix): abstract_template_sv_archive{
 				$this->set_prefix(get_called_class());
 
-				self::$parts		= array(
+				$this->parts		= array(
 					'common'				=> array(
 						'loaded'			=> true,
 						'label'				=> __('Common', 'template_sv_archive_list')
@@ -76,8 +76,8 @@
 				$this->set_instance($instance)->set_setting_prefix($setting_prefix)->load_settings();
 
 				// templates are always within this path structure: /path-to-instance/path-to-object/lib/template-dir/
-				self::$path				= trailingslashit($this->get_instance()->get_path('lib/'.$this->get_prefix()));
-				self::$url				= trailingslashit($this->get_instance()->get_url('lib/'.$this->get_prefix()));
+				$this->path				= trailingslashit($this->get_instance()->get_path('lib/'.$this->get_prefix()));
+				$this->url				= trailingslashit($this->get_instance()->get_url('lib/'.$this->get_prefix()));
 
 				foreach($this->get_parts() as $part => $properties){
 					$this->get_script($this->get_prefix($part))
@@ -123,18 +123,18 @@
 				return $this->get_instance()->get_settings();
 			}
 			public function get_parts(): array{
-				return self::$parts;
+				return $this->parts;
 			}
 			protected function set_part_loaded(string $part): abstract_template_sv_archive{
-				self::$parts[$part]['loaded']	= true;
+				$this->parts[$part]['loaded']	= true;
 
 				return $this;
 			}
-			protected static function get_path( string $suffix = ''): string {
-				return self::$path . $suffix;
+			protected function get_path( string $suffix = ''): string {
+				return $this->path . $suffix;
 			}
-			protected static function get_url( string $suffix = ''): string {
-				return self::$url . $suffix;
+			protected function get_url( string $suffix = ''): string {
+				return $this->url . $suffix;
 			}
 			protected function set_prefix( string $prefix = ''): abstract_template_sv_archive{
 				$this->prefix	= $prefix;
@@ -154,7 +154,7 @@
 			}
 			protected function get_html(){
 				ob_start();
-				require(self::get_path('lib/tpl/frontend/loop.php'));
+				require($this->get_path('lib/tpl/frontend/loop.php'));
 				return ob_get_clean();
 			}
 			public function get_output(): string{
@@ -189,14 +189,14 @@
 				$this->set_part_loaded($part);
 
 				ob_start();
-				require(self::get_path('lib/tpl/frontend/parts/'.$part.'.php'));
+				require($this->get_path('lib/tpl/frontend/parts/'.$part.'.php'));
 				return '<div class="'.$this->get_prefix($part).'">'.ob_get_clean().'</div>';
 			}
 			// We want to serve cached CSS depending on active configuration
 			protected function cache_config_css(\sv_core\scripts $script): abstract_template_sv_archive{
 				if ($script->get_css_cache_invalidated()) {
 					ob_start();
-					require(self::get_path('lib/css/config/init.php'));
+					require($this->get_path('lib/css/config/init.php'));
 					$css = ob_get_clean();
 
 					file_put_contents($this->get_instance()->get_path_cached($this->get_prefix() . '/' . $this->get_setting_prefix() . '/frontend.css'), $css);
@@ -206,7 +206,8 @@
 				return $this;
 			}
 			protected function load_settings(): abstract_template_sv_archive{
-
+				// logic comes from child
+				
 				return $this;
 			}
 		}
