@@ -155,6 +155,39 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
 		}
 		
+		public function ajax_settings_save_form(){
+			if( $_POST['nonce'] &&
+			    $_POST['fields'] &&
+			    $_POST['page'] &&
+			    wp_verify_nonce( $_POST['nonce'], 'sv_admin_ajax_'.$_POST['page'] ) !== false
+			) {
+			    
+		
+			    foreach($_POST['fields'] as $arr){
+			        $key = $arr['name'];
+			        $val = $arr['value'];
+			      
+			        // primitive check prefixed key names, if not ignore it
+			        if( strpos($key, 'sv100_') === false ){ // true >= 0
+			            continue;
+                    }
+			        
+				    $val = trim( $val );
+				    $val = stripslashes_deep( $val );
+				
+				    $setting = static::$settings->get_setting($key);
+				    
+				    //update_option( $key, $val );
+                }
+
+				$this->ajaxStatus('success', __('Setting saved', 'sv_core'));
+				
+			}else{
+				$this->ajaxStatus( 'error', __('Nonce check failed / Empty data.', 'sv_core') );
+            }
+	
+		}
+		
 		public function ajax_expert_mode(){
 			if( empty($_POST) || isset($_POST) === false ){
 
@@ -295,6 +328,8 @@ if ( !class_exists( '\sv_core\core' ) ) {
 			add_action( 'wp_ajax_sv_core_expert_mode', array($this, 'ajax_expert_mode'));
 
 			add_action( 'wp_ajax_sv_ajax_get_section', array($this, 'ajax_get_section'));
+			
+			add_action( 'wp_ajax_sv_ajax_settings_save_form', array($this, 'ajax_settings_save_form'));
 
 			// setup update routine
 			add_action( 'shutdown', array( $this, 'update_routine' ) );

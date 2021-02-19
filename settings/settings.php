@@ -576,14 +576,15 @@ class settings extends sv_abstract{
 	}
 	public static function get_module_settings_form($module): string{
 		ob_start();
-		echo '<form id="' . $module->get_name() . '" method="post" action="options.php" enctype="multipart/form-data">';
+		echo '<form id="' . $module->get_name() . '" class="'.$module->get_parent()->get_prefix('settings_ajax_save_form').'" method="post" action="options.php" enctype="multipart/form-data">';
 		\settings_fields($module->get_name()); // $option_group from register_settings()
 		if($module->get_section_template_path()){
 			require_once($module->get_section_template_path());
 		}else {
 			\do_settings_sections($module->get_name()); // $page from add_settings_section()
 		}
-		\submit_button();
+		//\submit_button();
+		echo '<p class="submit"><input type="button" name="button-classic" id="submit-classic" class="button button-primary save-classic" value="Speichern Klassisch"> <input type="button" name="submit-ajax" id="submit-ajax" class="button button-secondary save-ajax" value="Änderungen speichern"></p>';
 		echo '</form>';
 		$form			= ob_get_contents();
 		ob_end_clean();
