@@ -154,34 +154,107 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
 
 		}
-		
+		private function is_valid_array($array): bool{
+			// no array
+			if(!is_array($array)){
+				$this->ajaxStatus(var_export($array,true), __('Setting saved', 'sv_core'));
+				return false;
+			}
+
+			// array empty
+			if(count($array) === 0){
+				$this->ajaxStatus(var_export($array,true), __('Setting saved', 'sv_core'));
+				return false;
+			}
+
+			return true;
+		}
 		public function ajax_settings_save_form(){
 			if( $_POST['nonce'] &&
 			    $_POST['fields'] &&
 			    $_POST['page'] &&
 			    wp_verify_nonce( $_POST['nonce'], 'sv_admin_ajax_'.$_POST['page'] ) !== false
 			) {
-			    
-		
-			    foreach($_POST['fields'] as $arr){
-			        $key = $arr['name'];
-			        $val = $arr['value'];
-			      
-			        // primitive check prefixed key names, if not ignore it
-			        if( strpos($key, 'sv100_') === false ){ // true >= 0
-			            continue;
-                    }
-			        
-				    $val = trim( $val );
-				    $val = stripslashes_deep( $val );
-				
-				    $setting = static::$settings->get_setting($key);
-				    
-				    //update_option( $key, $val );
+				// @todo: strip unnecessary array level
+				//var_dump($_POST['fields']); return;
+				$fields = reset($_POST['fields']);
+
+				// no array
+				if(!$this->is_valid_array($fields)){
+					return;
+				}
+
+			    foreach($fields as $arr){
+					if(!$this->is_valid_array($arr)){
+						continue;
+					}
+
+					if(!isset($arr['name'])){
+						error_log('Setting has no name: '.var_export($arr,true));
+						continue;
+					}
+
+					if(!isset($arr['value'])){
+						error_log('Setting has no value: '.var_export($arr,true));
+						continue;
+					}
+
+					$key = $arr['name'];
+					$val = $arr['value'];
+
+					// primitive check prefixed key names, if not ignore it
+					if( strpos($key, 'sv100_') === false ){ // true >= 0
+						continue;
+					}
+
+					// uncomment this if you want to test a single setting
+					/*if($key != 'sv100_sv_archive_settings_home_title_font_size[mobile]') {
+						continue;
+					}*/
+					/*
+					if($key != 'sv100_sv_archive_settings_home_show_header') {
+						continue;
+					}*/
+
+					// primitive check if this is a single option (no array)
+					if( strpos($key, '[') === false ){ // true >= 0
+						// @todo: implement input validation
+						update_option( $key, $val );
+						continue;
+					}
+
+					// setting may be an array now
+					$setting_update_array		= array();
+					parse_str ( $key , $setting_update_array );
+
+					if(!is_array($setting_update_array)){
+						continue; // setting is not a string, not an array, so not supported yet
+					}
+
+					// @todo: support for multi level option structure like border
+					$setting_update_key			= array_key_first($setting_update_array); // option key
+					$setting_update_structure	= reset($setting_update_array); // option structure
+					$setting_update_val			= array(
+						array_key_first($setting_update_structure)	=> $val
+					);
+
+					// @todo: implement input validation
+
+					// get existing option
+					$option_db				= get_option( $setting_update_key, true );
+
+					// setting is empty or not valid array, so replace with value
+					if(!$option_db || !$this->is_valid_array($option_db)){
+						update_option( $setting_update_key, $setting_update_val );
+						continue;
+					}
+
+					// merge updated setting into existing option
+					$setting_merged			= array_merge($option_db, $setting_update_val);
+					update_option( $setting_update_key, $setting_merged );
                 }
 
 				$this->ajaxStatus('success', __('Setting saved', 'sv_core'));
-				
 			}else{
 				$this->ajaxStatus( 'error', __('Nonce check failed / Empty data.', 'sv_core') );
             }
