@@ -402,17 +402,18 @@ class settings extends sv_abstract{
 	}
 
 	public function get_css_data(string $custom_property = '', string $prefix = '', string $suffix = ''): array{
+		if(strlen($custom_property) === 0){
+			return $this->run_type()->get_css_data();
+		}
+
 		if(strlen($suffix) > 0){
 			return $this->run_type()->get_css_data($custom_property, $prefix, $suffix);
 		}
 		if(strlen($prefix) > 0){
 			return $this->run_type()->get_css_data($custom_property, $prefix);
 		}
-		if(strlen($custom_property) > 0){
-			return $this->run_type()->get_css_data($custom_property);
-		}
 
-		return $this->run_type()->get_css_data();
+		return $this->run_type()->get_css_data($custom_property);
 	}
 
 	// set data value from external source
@@ -422,11 +423,19 @@ class settings extends sv_abstract{
 		return $this;
 	}
 	public function prepare_css_property(string $val, string $prefix = '', string $suffix = ''): string{
+		if($val === 'transparent,undefined,undefined,undefined'){ // if setting color is transparent, no output
+			return '';
+		}
+
 		return $prefix.$val.$suffix;
 	}
 	public function prepare_css_property_responsive(array $val, string $prefix = '', string $suffix = ''): array{
 		return array_map(function ($val) use($prefix, $suffix) {
-			return $val ? $prefix.$val.$suffix : $val; // do not add prefix or suffix when val is empty
+			if($val === 'transparent,undefined,undefined,undefined'){ // if setting color is transparent, no output
+				return '';
+			}
+
+			return (strlen($val) > 0) ? $prefix.$val.$suffix : $val; // do not add prefix or suffix when val is empty
 		}, $val);
 	}
 	public function build_css(string $selector, array $vars): string{

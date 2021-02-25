@@ -208,6 +208,9 @@ if ( !class_exists( '\sv_core\core' ) ) {
 					}
 
 					// uncomment this if you want to test a single setting
+					/*if($key != 'sv100_sv_archive_settings_home_padding[mobile][right]') {
+						continue;
+					}*/
 					/*if($key != 'sv100_sv_archive_settings_home_title_font_size[mobile]') {
 						continue;
 					}*/
@@ -231,12 +234,37 @@ if ( !class_exists( '\sv_core\core' ) ) {
 						continue; // setting is not a string, not an array, so not supported yet
 					}
 
-					// @todo: support for multi level option structure like border
 					$setting_update_key			= array_key_first($setting_update_array); // option key
 					$setting_update_structure	= reset($setting_update_array); // option structure
-					$setting_update_val			= array(
-						array_key_first($setting_update_structure)	=> $val
-					);
+
+					/*
+					 * Set value to deepest array key, e.g. set array
+					 *
+
+					 array (
+					  'mobile' =>
+					  array (
+						'right' => '',
+					  ),
+					)
+
+					to
+
+					array (
+					  'mobile' =>
+					  array (
+						'right' => '22px',
+					  ),
+					)
+
+					 *
+					 */
+					array_walk_recursive($setting_update_structure, function (&$item, $key, $val)
+					{
+						$item = $val;
+					}, $val);
+
+					$setting_update_val			= $setting_update_structure;
 
 					// @todo: implement input validation
 
