@@ -58,6 +58,10 @@
 						'loaded'			=> false,
 						'label'				=> __('Read More', 'template_sv_archive_list')
 					),
+					'author'				=> array(
+						'loaded'			=> false,
+						'label'				=> __('Author', 'template_sv_archive_list')
+					),
 					'date'					=> array(
 						'loaded'			=> false,
 						'label'				=> __('Date', 'template_sv_archive_list')
