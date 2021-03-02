@@ -208,9 +208,13 @@ if ( !class_exists( '\sv_core\core' ) ) {
 					}
 
 					// uncomment this if you want to test a single setting
-					/*if($key != 'sv100_sv_archive_settings_home_padding[mobile][right]') {
+					/*if(strpos($key,'sv100_sv_archive_settings_home_margin') === false) {
 						continue;
 					}*/
+					/*if($key != 'sv100_sv_archive_settings_home_margin[desktop][left]') {
+						continue;
+					}*/
+
 					/*if($key != 'sv100_sv_archive_settings_home_title_font_size[mobile]') {
 						continue;
 					}*/
@@ -236,6 +240,9 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
 					$setting_update_key			= array_key_first($setting_update_array); // option key
 					$setting_update_structure	= reset($setting_update_array); // option structure
+
+					/*error_log(var_export($setting_update_key,true));
+					error_log(var_export($setting_update_structure,true));*/
 
 					/*
 					 * Set value to deepest array key, e.g. set array
@@ -268,6 +275,8 @@ if ( !class_exists( '\sv_core\core' ) ) {
 
 					// @todo: implement input validation
 
+					//delete_option( $setting_update_key); continue;
+
 					// get existing option
 					$option_db				= get_option( $setting_update_key, true );
 
@@ -278,7 +287,16 @@ if ( !class_exists( '\sv_core\core' ) ) {
 					}
 
 					// merge updated setting into existing option
-					$setting_merged			= array_merge($option_db, $setting_update_val);
+					//$setting_merged			= array_merge_recursive($option_db, $setting_update_val);
+					//$setting_merged			= $setting_update_val+$option_db;
+					$setting_merged			= $this->array_merge_recursive_distinct($option_db, $setting_update_val);
+
+					/*error_log(var_export($setting_update_key,true));
+					error_log(var_export($option_db,true));
+					error_log(var_export($setting_update_val,true));
+					error_log(var_export($setting_merged,true));*/
+					//die('end');
+
 					update_option( $setting_update_key, $setting_merged );
                 }
 
@@ -287,6 +305,25 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				$this->ajaxStatus( 'error', __('Nonce check failed / Empty data.', 'sv_core') );
             }
 	
+		}
+
+		private function array_merge_recursive_distinct ( array &$array1, array &$array2 )
+		{
+			$merged = $array1;
+
+			foreach ( $array2 as $key => &$value )
+			{
+				if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) )
+				{
+					$merged [$key] = $this->array_merge_recursive_distinct ( $merged [$key], $value );
+				}
+				else
+				{
+					$merged [$key] = $value;
+				}
+			}
+
+			return $merged;
 		}
 		
 		public function ajax_expert_mode(){

@@ -438,7 +438,11 @@ class settings extends sv_abstract{
 			return (strlen($val) > 0) ? $prefix.$val.$suffix : $val; // do not add prefix or suffix when val is empty
 		}, $val);
 	}
-	public function build_css(string $selector, array $vars): string{
+	public function build_css(string $selector, $vars): string{
+		if(!is_array($vars)){
+			return '';
+		}
+
 		$output				= array();
 		$merged_css			= array();
 		$responsive_css		= array();

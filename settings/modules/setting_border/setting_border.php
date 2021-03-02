@@ -14,24 +14,26 @@ class setting_border extends settings {
 		if($this->get_parent()->get_data()) {
 			foreach ($this->get_parent()->get_data() as $breakpoint => $query) {
 
-				if (isset($query['top_width'])) {
-					$val = $query['top_width'] . ' ' . $query['top_style'] . ' rgba(' . $query['color'] . ')';
-					$properties['border-top'][$breakpoint] = $val;
-				}
+				if(isset($query['color']) && $query['color'] != 'transparent,undefined,undefined,undefined') {
+					if (isset($query['top_width']) && isset($query['top_style'])) {
+						$val = $query['top_width'] . ' ' . $query['top_style'] . ' rgba(' . $query['color'] . ')';
+						$properties['border-top'][$breakpoint] = $val;
+					}
 
-				if (isset($query['right_width'])) {
-					$val = $query['right_width'] . ' ' . $query['right_style'] . ' rgba(' . $query['color'] . ')';
-					$properties['border-right'][$breakpoint] = $val;
-				}
+					if (isset($query['right_width']) && isset($query['right_style'])) {
+						$val = $query['right_width'] . ' ' . $query['right_style'] . ' rgba(' . $query['color'] . ')';
+						$properties['border-right'][$breakpoint] = $val;
+					}
 
-				if (isset($query['bottom_width'])) {
-					$val = $query['bottom_width'] . ' ' . $query['bottom_style'] . ' rgba(' . $query['color'] . ')';
-					$properties['border-bottom'][$breakpoint] = $val;
-				}
+					if (isset($query['bottom_width']) && isset($query['bottom_style'])) {
+						$val = $query['bottom_width'] . ' ' . $query['bottom_style'] . ' rgba(' . $query['color'] . ')';
+						$properties['border-bottom'][$breakpoint] = $val;
+					}
 
-				if (isset($query['left_width'])) {
-					$val = $query['left_width'] . ' ' . $query['left_style'] . ' rgba(' . $query['color'] . ')';
-					$properties['border-left'][$breakpoint] = $val;
+					if (isset($query['left_width']) && isset($query['left_style'])) {
+						$val = $query['left_width'] . ' ' . $query['left_style'] . ' rgba(' . $query['color'] . ')';
+						$properties['border-left'][$breakpoint] = $val;
+					}
 				}
 
 				$top_left_radius = (empty($query['top_left_radius'])) ? 0 : (int)$query['top_left_radius'];
