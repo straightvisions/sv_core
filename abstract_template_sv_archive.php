@@ -19,8 +19,6 @@
 				$this->init($instance, $setting_prefix);
 			}
 			protected function init($instance, string $setting_prefix): abstract_template_sv_archive{
-				$this->set_prefix(get_called_class());
-
 				$this->parts		= array(
 					'common'				=> array(
 						'loaded'			=> true,
@@ -76,16 +74,17 @@
 					)
 				);
 
-				// $instance is a SV-instance extending the SV core
-				$this->set_instance($instance)->set_setting_prefix($setting_prefix)->load_settings();
+				$this->set_prefix(get_called_class())->set_instance($instance);
 
 				// templates are always within this path structure: /path-to-instance/path-to-object/lib/template-dir/
-				$this->path				= trailingslashit($this->get_instance()->get_path('lib/'.$this->get_prefix()));
-				$this->url				= trailingslashit($this->get_instance()->get_url('lib/'.$this->get_prefix()));
+				$this->set_path(trailingslashit($this->get_instance()->get_path('lib/'.$this->get_prefix())));
+				$this->set_url(trailingslashit($this->get_instance()->get_url('lib/'.$this->get_prefix())));
+
+				// $instance is a SV-instance extending the SV core
+				$this->set_setting_prefix($setting_prefix)->load_settings();
 
 				foreach($this->get_parts() as $part => $properties){
 					$this->get_script($this->get_prefix($part))
-						//->set_is_no_prefix()
 						->set_path($this->get_path('lib/css/common/parts/'.$part.'.css'), true, $this->get_url('lib/css/common/parts/'.$part.'.css'));
 				}
 
@@ -131,6 +130,16 @@
 			}
 			protected function set_part_loaded(string $part): abstract_template_sv_archive{
 				$this->parts[$part]['loaded']	= true;
+
+				return $this;
+			}
+			protected function set_path( string $path = ''): abstract_template_sv_archive {
+				$this->path = $path;
+
+				return $this;
+			}
+			protected function set_url( string $url = ''): abstract_template_sv_archive {
+				$this->url = $url;
 
 				return $this;
 			}
