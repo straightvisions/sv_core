@@ -106,7 +106,7 @@
 				return $this;
 			}
 			public function get_setting_prefix( string $suffix = ''): string{
-				if( strlen( $suffix ) > 0 ) {
+				if( strlen($this->setting_prefix) > 0 && strlen( $suffix ) > 0 ) {
 					$suffix = '_' . $suffix;
 				}
 
@@ -120,10 +120,10 @@
 			protected function get_script( string $ID = ''){
 				return $this->get_instance()->get_script($this->get_prefix($this->get_setting_prefix($ID)));
 			}
-			protected function get_setting( string $ID = '', string $cluster = ''){
+			public function get_setting( string $ID = '', string $cluster = ''){
 				return $this->get_instance()->get_setting($this->get_setting_prefix($ID), $cluster);
 			}
-			protected function get_settings(){
+			public function get_settings(){
 				return $this->get_instance()->get_settings();
 			}
 			public function get_parts(): array{
