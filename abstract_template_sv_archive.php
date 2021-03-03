@@ -214,5 +214,43 @@
 				
 				return $this;
 			}
+			protected function load_settings_extra_styles(): abstract_template_sv_archive{
+				$this->get_instance()->get_setting( 'extra_styles' )
+					->set_title( __( 'Extra Styles', 'template_sv_archive_pba_default' ) )
+					->load_type( 'group' );
+
+				$this->get_instance()->get_setting( 'extra_styles' )
+					->run_type()
+					->add_child()
+					->set_ID( 'entry_label' )
+					->set_title( __( 'Style Label', 'template_sv_archive_pba_default' ) )
+					->set_description( __( 'A label to differentiate your Styles.', 'template_sv_archive_pba_default' ) )
+					->load_type( 'text' )
+					->set_placeholder( __( 'Label', 'template_sv_archive_pba_default' ) );
+
+				$this->get_instance()->get_setting( 'extra_styles' )
+					->run_type()
+					->add_child()
+					->set_ID( 'slug' )
+					->set_title( __( 'Slug', 'template_sv_archive_pba_default' ) )
+					->set_description( __( 'This slug is used for the helper classes.', 'template_sv_archive_pba_default' ) )
+					->load_type( 'text' );
+
+				foreach($this->get_settings() as $setting) {
+					if(strpos($setting->get_ID(), 'extra_styles') !== false) {
+						continue;
+					}
+					if(strpos($setting->get_ID(), 'archive_') !== 0) {
+						continue;
+					}
+					if($setting->get_ID() != 'extra_styles') {
+						$this->get_instance()->get_setting( 'extra_styles' )
+							->run_type()
+							->add_child($setting);
+					}
+				}
+
+				return $this;
+			}
 		}
 	}
