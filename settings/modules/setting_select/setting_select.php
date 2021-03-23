@@ -54,7 +54,8 @@
 						$f = $this->get_parent()->get_parent()->get_module('sv_webfontloader')->get_font_by_label($val);
 						$font_family[$breakpoint] = $f['family'];
 						$font_weight[$breakpoint] = $f['weight'];
-						$font_italic[$breakpoint] = isset($f['italic']) ? 'italic' : false;
+
+						$font_italic[$breakpoint] = (intval($f['italic']) > 0) ? 'italic' : false;
 					} else {
 						$font_family[$breakpoint] = false;
 						$font_weight[$breakpoint] = false;
