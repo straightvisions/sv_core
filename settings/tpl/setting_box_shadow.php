@@ -1,7 +1,7 @@
 <?php 
 $tpl_path	= $this->get_path_core( 'settings/tpl/' . $this->run_type()->get_module_name() . '_tpl/' ); 
 $props['value'] 		= $props['value'] ? $props['value'] : '0px 0px 0px 0px #000000';
-$props['value']		    = explode( ' ', $props['value'] );
+$props['value']			= explode( ' ', $props['value'] );
 ?>
 
 <div class="sv_setting_box_shadow">

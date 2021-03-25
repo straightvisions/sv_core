@@ -60,7 +60,7 @@
 
 			if(count($this->get_children()) > 0){
 				// allow custom labels for groups.
-                $label = ($setting_id !== false ? __('Entry', 'sv_core') . ' #' . ($i + 1) : __('Group #', 'sv_core'));
+				$label = ($setting_id !== false ? __('Entry', 'sv_core') . ' #' . ($i + 1) : __('Group #', 'sv_core'));
 
 				foreach($this->get_children_clustered() as $cluster_name => $cluster) {
 					$fields[]		= '<h3>'.$cluster_name.'</h3>';
@@ -97,22 +97,22 @@
 
 					// overwrite child group label
 					// take label from custom field
-                    if( $child->get_is_label() ){
+					if( $child->get_is_label() ){
 
-                        if ( $setting_id !== false && isset( get_option( $field_id )[ $setting_id ][ $child->get_ID() ] )
-                            && ! empty( get_option($field_id)[$setting_id][ $child->get_ID() ] ) ) {
-                            $label = get_option($field_id)[$setting_id][ $child->get_ID() ];
-                        }
+						if ( $setting_id !== false && isset( get_option( $field_id )[ $setting_id ][ $child->get_ID() ] )
+							&& ! empty( get_option($field_id)[$setting_id][ $child->get_ID() ] ) ) {
+							$label = get_option($field_id)[$setting_id][ $child->get_ID() ];
+						}
 
-                    }else{
+					}else{
 
-                        // take label from entry label field
-                        if ( $setting_id !== false && isset( get_option( $field_id )[ $setting_id ]['entry_label'] )
-                            && ! empty( get_option($field_id)[$setting_id]['entry_label'] ) ) {
-                            $label = get_option($field_id)[$setting_id]['entry_label'];
-                        }
+						// take label from entry label field
+						if ( $setting_id !== false && isset( get_option( $field_id )[ $setting_id ]['entry_label'] )
+							&& ! empty( get_option($field_id)[$setting_id]['entry_label'] ) ) {
+							$label = get_option($field_id)[$setting_id]['entry_label'];
+						}
 
-                    }
+					}
 				}
 
 				$header[]				= ($setting_id !== false ? '<div class="sv_'.$this->get_module_name().'" sv_'.$this->get_module_name().'_entry_id="'.$setting_id.'">' : '');
@@ -123,7 +123,7 @@
 					</div>
 					';
 
-				$header[]               = '<div class="sv_' . $this->get_module_name() . '_settings_wrapper">';
+				$header[]			   = '<div class="sv_' . $this->get_module_name() . '_settings_wrapper">';
 
 				$footer[]				= ($setting_id !== false ? '</div></div>' : '</div>');
 

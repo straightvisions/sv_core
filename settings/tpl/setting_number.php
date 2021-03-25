@@ -10,7 +10,7 @@
 			placeholder="<?php echo $props['placeholder']; ?>"
 			value="<?php echo $val_number; ?>"
 			<?php echo $props['max'] ? 'max="'.$props['max'].'"' : ''; ?>
-            <?php echo $props['min'] ? 'min="'.$props['min'].'"' : ''; ?>
+			<?php echo $props['min'] ? 'min="'.$props['min'].'"' : ''; ?>
 			<?php 
 				echo ( $props['maxlength'] ? 'maxlength="'.$props['maxlength'].'"' :  '' ). '"
 				' . $props['minlength'] . '

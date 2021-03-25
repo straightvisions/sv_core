@@ -1,5 +1,5 @@
 <div id="<?php echo $props['ID'] . '_inset'; ?>" class="sv_setting">
-    <h4><?php _e( 'Shadow Style', 'sv100' ); ?></h4>
+	<h4><?php _e( 'Shadow Style', 'sv100' ); ?></h4>
 	<label for="<?php echo $props['ID'] . '_deco'; ?>" class="sv_setting_box_shadow_inset">
 		<select class="sv_input">
 		<?php 

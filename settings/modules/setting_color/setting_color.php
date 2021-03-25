@@ -2,8 +2,8 @@
 	namespace sv_core;
 
 	class setting_color extends settings {
-		private $parent				        = false;
-		private $color_palette              = false;
+		private $parent						= false;
+		private $color_palette			  = false;
 		public static $initialized			= false;
 
 		/**
@@ -63,7 +63,7 @@
 						// Checks if the setting is a color setting
 						if ( $child->get_type() === 'setting_color' ) {
 							$field_id = $child->get_parent()->get_parent()->get_field_id();
-							$ID     = $field_id . '[' . $key . '][' . $child->get_ID() . ']';
+							$ID	 = $field_id . '[' . $key . '][' . $child->get_ID() . ']';
 							$data   = get_option( $field_id )[ $key ][ $child->get_ID() ]
 								? get_option( $field_id )[ $key ][ $child->get_ID() ]
 								: '';

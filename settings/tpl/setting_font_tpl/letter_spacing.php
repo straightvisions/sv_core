@@ -4,7 +4,7 @@
 ?>
 
 <div id="<?php echo $props['ID'] . '_spacing'; ?>" class="sv_setting">
-    <h4><?php _e( 'Letter Spacing', 'sv100' ); ?></h4>
+	<h4><?php _e( 'Letter Spacing', 'sv100' ); ?></h4>
 	<label for="<?php echo $props['ID'] . '_spacing'; ?>">
 		<input
 			class="sv_input"

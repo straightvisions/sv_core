@@ -4,7 +4,7 @@
 ?>
 
 <div id="<?php echo $props['ID'] . '_height'; ?>" class="sv_setting">
-    <h4><?php _e( 'Line Height', 'sv100' ); ?></h4>
+	<h4><?php _e( 'Line Height', 'sv100' ); ?></h4>
 	<label for="<?php echo $props['ID'] . '_height'; ?>">
 		<input
 			class="sv_input"
