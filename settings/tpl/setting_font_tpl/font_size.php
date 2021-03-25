@@ -4,7 +4,7 @@
 ?>
 
 <div id="<?php echo $props['ID'] . '_size'; ?>" class="sv_setting">
-    <h4><?php _e( 'Font Size', 'sv100' ); ?></h4>
+	<h4><?php _e( 'Font Size', 'sv100' ); ?></h4>
 	<label for="<?php echo $props['ID'] . '_size'; ?>">
 		<input
 			class="sv_input"

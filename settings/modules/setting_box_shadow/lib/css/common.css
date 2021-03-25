@@ -1,6 +1,6 @@
 .sv_setting_box_shadow_parent input,
 .sv_setting_box_shadow_parent select {
-    color: rgba( 50, 50, 48, 1 );
+	color: rgba( 50, 50, 48, 1 );
 	width: 100%;
 	border-radius: 5px;
 	height: 50px;
@@ -14,12 +14,12 @@
 
 .sv_setting_box_shadow_parent input:focus,
 .sv_setting_box_shadow_parent select:focus {
-    border-color: rgba( 50, 50, 48, .5 );
+	border-color: rgba( 50, 50, 48, .5 );
 }
 
 .sv_setting_box_shadow_parent input:disabled,
 .sv_setting_box_shadow_parent select:disabled {
-    background-color: rgba( 50, 50, 48, .2 );
+	background-color: rgba( 50, 50, 48, .2 );
 }
 
 .sv_setting_box_shadow_parent .sv_setting_range {
@@ -33,7 +33,7 @@
 
 .sv_setting_box_shadow_parent .sv_setting_preview {
 	width: 50%;
-    margin: 20px auto;
+	margin: 20px auto;
 	text-align: center;
 }
 

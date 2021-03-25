@@ -171,9 +171,9 @@ if ( !class_exists( '\sv_core\core' ) ) {
 		}
 		public function ajax_settings_save_form(){
 			if( $_POST['nonce'] &&
-			    $_POST['fields'] &&
-			    $_POST['page'] &&
-			    wp_verify_nonce( $_POST['nonce'], 'sv_admin_ajax_'.$_POST['page'] ) !== false
+				$_POST['fields'] &&
+				$_POST['page'] &&
+				wp_verify_nonce( $_POST['nonce'], 'sv_admin_ajax_'.$_POST['page'] ) !== false
 			) {
 				// @todo: strip unnecessary array level
 				//var_dump($_POST['fields']); return;
@@ -184,7 +184,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 					return;
 				}
 
-			    foreach($fields as $arr){
+				foreach($fields as $arr){
 					if(!$this->is_valid_array($arr)){
 						continue;
 					}
@@ -298,12 +298,12 @@ if ( !class_exists( '\sv_core\core' ) ) {
 					//die('end');
 
 					update_option( $setting_update_key, $setting_merged );
-                }
+				}
 
 				$this->ajaxStatus('success', __('Setting saved', 'sv_core'));
 			}else{
 				$this->ajaxStatus( 'error', __('Nonce check failed / Empty data.', 'sv_core') );
-            }
+			}
 	
 		}
 

@@ -5,7 +5,7 @@
 	)  { 
 ?>
 <div id="<?php echo $props['ID'] . '_family'; ?>" class="sv_setting">
-    <h4><?php _e( 'Font Family', 'sv100' ); ?></h4>
+	<h4><?php _e( 'Font Family', 'sv100' ); ?></h4>
 	<label for="<?php echo $props['ID'] . '_family'; ?>">
 		<select
 			data-sv_type="sv_form_field"

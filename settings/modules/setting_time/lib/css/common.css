@@ -1,5 +1,5 @@
 .sv_setting_time_parent input {
-    color: rgba( 50, 50, 48, 1 );
+	color: rgba( 50, 50, 48, 1 );
 	width: 100%;
 	border-radius: 5px;
 	height: 50px;
@@ -12,9 +12,9 @@
 }
 
 .sv_setting_time_parent input:focus {
-    border-color: rgba( 50, 50, 48, .5 );
+	border-color: rgba( 50, 50, 48, .5 );
 }
 
 .sv_setting_time_parent input:disabled {
-    background-color: rgba( 50, 50, 48, .2 );
+	background-color: rgba( 50, 50, 48, .2 );
 }

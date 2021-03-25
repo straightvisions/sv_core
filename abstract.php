@@ -18,8 +18,8 @@
 		protected static $wpdb				= false;
 		private static $instances			= array();
 		protected static $instances_active	= array();
-		protected $loaded			        = array();
-		protected static $active_core       = false;
+		protected $loaded					= array();
+		protected static $active_core	   = false;
 		protected static $path_core			= false;
 		protected static $url_core			= false;
 		protected $sections					= array();
@@ -62,8 +62,8 @@
 			if ( is_file($this->get_path( 'lib/modules/'.$name . '.php' )) ) {
 				require_once( $this->get_path( 'lib/modules/'.$name . '.php' ) );
 				
-				$class_name	    = $this->get_root()->get_name() . '\\' . $name;
-				$this->$name    = new $class_name();
+				$class_name		= $this->get_root()->get_name() . '\\' . $name;
+				$this->$name	= new $class_name();
 				$this->$name->set_root( $this->get_root() );
 				$this->$name->set_parent( $this );
 				
@@ -73,8 +73,8 @@
 			if ( is_file($this->get_root()->get_path( 'lib/modules/'.$name . '/'.$name . '.php' )) ) {
 				require_once( $this->get_root()->get_path( 'lib/modules/'.$name . '/'.$name . '.php' ) );
 				
-				$class_name	    = $this->get_root()->get_name() . '\\' . $name;
-				$this->$name    = new $class_name();
+				$class_name		= $this->get_root()->get_name() . '\\' . $name;
+				$this->$name	= new $class_name();
 				$this->$name->set_root( $this->get_root() );
 				$this->$name->set_parent( $this );
 				$this->$name->set_path( $this->get_root()->get_path( 'lib/modules/'.$name . '/' ) );
@@ -84,18 +84,18 @@
 			}
 			
 			throw new \Exception( __( 'Class', 'sv_core' ) . ' '
-                . $name
-                . ' ' . __( 'could not be loaded (tried to load class-file', 'sv_core' ) . ' '
-                . $this->get_path()
-                . 'lib/modules/'.$name . '.php)' );
+				. $name
+				. ' ' . __( 'could not be loaded (tried to load class-file', 'sv_core' ) . ' '
+				. $this->get_path()
+				. 'lib/modules/'.$name . '.php)' );
 		}
 
 		public function wordpress_version_check(string $min_version = '5.0.0'){
-            $wp_version = '1.0.0'; // declare default even it's re-declared by an included file
+			$wp_version = '1.0.0'; // declare default even it's re-declared by an included file
 			// Get unmodified $wp_version.
 			include ABSPATH . WPINC . '/version.php';
 			// Strip '-src' from the version string. Messes up version_compare().
-            $wp_version = str_replace( '-src', '', $wp_version );
+			$wp_version = str_replace( '-src', '', $wp_version );
 			if ( version_compare( $wp_version, $min_version, '<' ) ) {
 				add_action( 'admin_notices', array($this, 'wordpress_version_notice') );
 			}
@@ -147,13 +147,13 @@
 		}
 		
 		public function get_version( bool $formatted = false ): string{
-		    $output = '0';
+			$output = '0';
 
 			if ( defined( get_called_class() . '::version' ) ) {
 				if ( $formatted === true ) {
-                    $output =  number_format( get_called_class()::version, 0, ',', '.' );
+					$output =  number_format( get_called_class()::version, 0, ',', '.' );
 				} else {
-                    $output =  get_called_class()::version;
+					$output =  get_called_class()::version;
 				}
 			} else {
 				if ( $formatted ) {
@@ -165,35 +165,35 @@
 		}
 		
 		public function get_version_core_match( bool $formatted = false ): string {
-            $output = '0';
+			$output = '0';
 
 			if ( defined( get_called_class() . '::version_core_match' ) ) {
 				if ( $formatted === true ) {
-                    $output = number_format( get_called_class()::version_core_match, 0, ',', '.' );
+					$output = number_format( get_called_class()::version_core_match, 0, ',', '.' );
 				} else {
-                    $output = get_called_class()::version_core_match;
+					$output = get_called_class()::version_core_match;
 				}
 			} else {
 				if ( $formatted ) {
-                    $output = __( 'not defined', 'sv_core' );
+					$output = __( 'not defined', 'sv_core' );
 				}
 			}
 
-            return $output;
+			return $output;
 		}
 		
 		public function get_version_core( bool $formatted = false ): string {
-		    $output = '0';
+			$output = '0';
 
 			if ( defined( get_called_class() . '::version_core' ) ) {
 				if ( $formatted === true) {
-                    $output = number_format( get_called_class()::version_core, 0, ',', '.' );
+					$output = number_format( get_called_class()::version_core, 0, ',', '.' );
 				} else {
-                    $output = get_called_class()::version_core;
+					$output = get_called_class()::version_core;
 				}
 			} else {
 				if ( $formatted ) {
-                    $output = __( 'not defined', 'sv_core' );
+					$output = __( 'not defined', 'sv_core' );
 				}
 			}
 
@@ -201,25 +201,25 @@
 		}
 		
 		public function find_parent( $class_name, bool $qualified = false ){
-		    /*
-		     * @todo shouldn't we return an empty object or better NULL as default here?
-		     * same for find_parent_by_name or other object returning functions
-		     * a change to null or empty object could be a breaking change
-		     */
-		    $output = false;
+			/*
+			 * @todo shouldn't we return an empty object or better NULL as default here?
+			 * same for find_parent_by_name or other object returning functions
+			 * a change to null or empty object could be a breaking change
+			 */
+			$output = false;
 
 			if ( $this->get_parent() != $this->get_root() ) {
 				if ( $qualified === false ) {
 					if ( $this->get_parent()->get_module_name() == $class_name ) {
-                        $output = $this->get_parent();
+						$output = $this->get_parent();
 					} else {
-                        $output = $this->get_parent()->find_parent( $class_name, $qualified );
+						$output = $this->get_parent()->find_parent( $class_name, $qualified );
 					}
 				} else {
 					if ( get_class( $this->get_parent() ) == $class_name ) {
-                        $output = $this->get_parent();
+						$output = $this->get_parent();
 					} else {
-                        $output = $this->get_parent()->find_parent( $class_name, $qualified );
+						$output = $this->get_parent()->find_parent( $class_name, $qualified );
 					}
 				}
 			}
@@ -228,13 +228,13 @@
 		}
 		
 		public function find_parent_by_name( string $name ) {
-		    $output = false;
+			$output = false;
 
 			if ( $this->get_parent() != $this->get_root() ) {
 				if ( $this->get_parent()->get_name() == $name ) {
 					$output = $this->get_parent();
 				} else {
-                    $output = $this->get_parent()->find_parent_by_name( $name );
+					$output = $this->get_parent()->find_parent_by_name( $name );
 				}
 			}
 			
@@ -246,37 +246,37 @@
 		}
 
 		protected function setup( string $name, $file ): bool {
-		    $output = false;
+			$output = false;
 			// make sure to init only once
 			//$namespace = strstr(get_class($this->get_root()), '\\', true);
 			//if(isset($this->get_instances()[$namespace])){
 			if( isset($this->get_instances()[$name]) === false) {
 				$this->set_section_types();
 				
-                global $wpdb;
+				global $wpdb;
 
-                self::$wpdb     = $wpdb;
-                $this->name     = $name;
+				self::$wpdb	 = $wpdb;
+				$this->name	 = $name;
 
-                if ( $this->is_theme_instance() === true ) {
-                    $this->path = trailingslashit(get_template_directory());
-                    $this->url  = trailingslashit(get_template_directory_uri());
-                } else {
-                    $this->path = plugin_dir_path($file);
-                    $this->url  = trailingslashit(plugins_url('', $this->get_path() . $this->get_name()));
-                    $this->plugins_loaded();
-                }
+				if ( $this->is_theme_instance() === true ) {
+					$this->path = trailingslashit(get_template_directory());
+					$this->url  = trailingslashit(get_template_directory_uri());
+				} else {
+					$this->path = plugin_dir_path($file);
+					$this->url  = trailingslashit(plugins_url('', $this->get_path() . $this->get_name()));
+					$this->plugins_loaded();
+				}
 
-                if (!isset(self::$instances[$name])) {
-                    $output = $this->setup_core($this->path, $name);
-                }else{
-                    $output = true;
-                }
+				if (!isset(self::$instances[$name])) {
+					$output = $this->setup_core($this->path, $name);
+				}else{
+					$output = true;
+				}
 
-                self::$instances[$name] = $this;
-            }
+				self::$instances[$name] = $this;
+			}
 
-            return $output;
+			return $output;
 		}
 		
 		protected function set_section_types(): sv_abstract {
@@ -293,11 +293,11 @@
 		}
 
 		public static function get_instance(string $name) {
-		    $output = false;
+			$output = false;
 
-		    if( isset(self::$instances[$name]) === true ){
-		        $output = self::$instances[$name];
-            }
+			if( isset(self::$instances[$name]) === true ){
+				$output = self::$instances[$name];
+			}
 
 			return $output;
 		}
@@ -338,7 +338,7 @@
 		}
 
 		public function get_name(): string {
-		    $output = 'sv';
+			$output = 'sv';
 
 			if ( $this->name ) { // if name is set, use it
 				$output = $this->name;
@@ -442,12 +442,12 @@
 		}
 
 		public function get_script(string $script = ''): scripts {
-            if( strlen($script) === 0 || isset($this->scripts_queue[$script]) === false ){
-                // create empty setting if not set
-                $this->scripts_queue[$script] = static::$scripts->create( $this )->set_ID($script);
-            }
+			if( strlen($script) === 0 || isset($this->scripts_queue[$script]) === false ){
+				// create empty setting if not set
+				$this->scripts_queue[$script] = static::$scripts->create( $this )->set_ID($script);
+			}
 
-            return $this->scripts_queue[$script];
+			return $this->scripts_queue[$script];
 		}
 		public function get_scripts(): array {
 			return $this->scripts_queue;
@@ -481,7 +481,7 @@
 		}
 
 		public function get_url( string $suffix = ''): string {
-		    $url = '';
+			$url = '';
 			if ( $this->url ) { // if url is set, use it
 				$url	= $this->url;
 			} else if ( $this != $this->get_parent() ) { // if there's a parent, go a step higher
@@ -503,12 +503,12 @@
 		}
 
 		public function get_current_url(): string {
-            $protocol = 'http';
+			$protocol = 'http';
 
-            // check if set and not 'off' for support ISAPI under IIS
-            if( isset($_SERVER['HTTPS']) === true && $_SERVER['HTTPS'] !== 'off' ){
-                $protocol = 'https';
-            }
+			// check if set and not 'off' for support ISAPI under IIS
+			if( isset($_SERVER['HTTPS']) === true && $_SERVER['HTTPS'] !== 'off' ){
+				$protocol = 'https';
+			}
 
 			return $protocol . '://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
 		}
@@ -518,10 +518,10 @@
 		}
 
 		public function is_valid_url(string $url): bool{
-		    $output = true;
-		    if( filter_var($url, FILTER_VALIDATE_URL) === false ){
-		        $output = false;
-            }
+			$output = true;
+			if( filter_var($url, FILTER_VALIDATE_URL) === false ){
+				$output = false;
+			}
 			return $output;
 		}
 		
@@ -587,8 +587,8 @@
 		}
 		
 		public function add_section( $object ) {
-		    $output = null;
-            // @todo: remove the following line once sv_bb_dashboard is upgraded
+			$output = null;
+			// @todo: remove the following line once sv_bb_dashboard is upgraded
 			if ( is_object( $object ) && !empty( $object->get_section_type() ) ) {
 				$this->sections[ $object->get_prefix() ] = array(
 					'object'	=> $object,
@@ -684,11 +684,11 @@
 		}
 
 		public function has_section_template_path(): bool{
-		    $output = false;
+			$output = false;
 
-		    if( strlen($this->get_section_template_path()) > 0 && is_file($this->get_section_template_path()) ){
-		        $output = true;
-		    }
+			if( strlen($this->get_section_template_path()) > 0 && is_file($this->get_section_template_path()) ){
+				$output = true;
+			}
 
 			return $output;
 		}
@@ -744,16 +744,16 @@
 		}
 
 		public function load_page( string $custom_about_path = '' ) {
-            $path = $this->get_path_core( 'backend/tpl/about.php' );
+			$path = $this->get_path_core( 'backend/tpl/about.php' );
 
 			$this->get_root()->acp_style();
 			
 			require_once( $this->get_path_core( 'backend/tpl/header.php' ) );
 
-            if( strlen( $custom_about_path ) > 0 ){
-                $path = $custom_about_path;
-            }
-            
+			if( strlen( $custom_about_path ) > 0 ){
+				$path = $custom_about_path;
+			}
+
 			require_once( $path );
 			
 			// $this->load_section_html();
@@ -807,12 +807,12 @@
 		public function plugin_action_links( array $actions ): array {
 			$links						= array(
 				'settings'				=> '<a href="admin.php?page=' . $this->get_root()->get_prefix() . '">'
-                                            .__('Settings', 'sv_core')
-                                            .'</a>',
+											.__('Settings', 'sv_core')
+											.'</a>',
 				'straightvisions'		=> '<a href="https://straightvisions.com" target="_blank" rel="noopener">straightvisions GmbH</a>',
 			);
 			
-			$actions			        = array_merge( $links, $actions );
+			$actions					= array_merge( $links, $actions );
 			
 			return $actions;
 		}

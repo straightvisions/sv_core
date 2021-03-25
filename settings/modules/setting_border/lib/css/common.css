@@ -1,6 +1,6 @@
 .sv_setting_border_parent input,
 .sv_setting_border_parent select {
-    color: rgba( 50, 50, 48, 1 );
+	color: rgba( 50, 50, 48, 1 );
 	width: 100%;
 	border-radius: 5px;
 	height: 50px;
@@ -14,12 +14,12 @@
 
 .sv_setting_border_parent input:focus
 .sv_setting_border_parent select:focus {
-    border-color: rgba( 50, 50, 48, .5 );
+	border-color: rgba( 50, 50, 48, .5 );
 }
 
 .sv_setting_border_parent input:disabled,
 .sv_setting_border_parent select:disabled {
-    background-color: rgba( 50, 50, 48, .2 );
+	background-color: rgba( 50, 50, 48, .2 );
 }
 
 .sv_setting_border_parent .sv_setting_border {

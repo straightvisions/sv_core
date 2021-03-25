@@ -12,7 +12,7 @@
 	
 	class ajax_fragmented_requests extends sv_abstract{
 
-	    private $settings_js = '';
+		private $settings_js = '';
 
 		public function init(){
 		
@@ -37,9 +37,9 @@
 					)).';';
 			}
 
-            wp_localize_script('sv_ajax_fragmented_requests', 'sv_ajax_fragmented_requests_vars', array(
-                'l10n_print_after' => $this->settings_js
-            ));
+			wp_localize_script('sv_ajax_fragmented_requests', 'sv_ajax_fragmented_requests_vars', array(
+				'l10n_print_after' => $this->settings_js
+			));
 		}
 		public function load_form(string $prefix = ''){
 			include($this->get_path_core($this->get_module_name().'/backend/tpl/form.php'));
