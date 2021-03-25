@@ -171,11 +171,11 @@
 			wp_delete_attachment( $this->get_data(), true );
 			
 			$input				= wp_insert_attachment(array(
-				'guid'           => wp_upload_dir()['url'] . '/' . basename( $file['file'] ),
+				'guid'		   => wp_upload_dir()['url'] . '/' . basename( $file['file'] ),
 				'post_mime_type' => $file['type'],
-				'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $file['file'] ) ),
+				'post_title'	 => preg_replace( '/\.[^.]+$/', '', basename( $file['file'] ) ),
 				'post_content'   => '',
-				'post_status'    => 'inherit',
+				'post_status'	=> 'inherit',
 			),
 				$file['file']);
 			

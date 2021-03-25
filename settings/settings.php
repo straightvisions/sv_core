@@ -19,8 +19,8 @@ class settings extends sv_abstract{
 	private $placeholder			= '';
 	private $maxlength				= false;
 	private $minlength				= false;
-	private $max	    			= false;
-	private $min    				= false;
+	private $max					= false;
+	private $min					= false;
 	private $is_units 				= false;
 	private $units					= array( 'px', 'em', 'rem', '%' );
 	private $required  				= false;
@@ -30,8 +30,8 @@ class settings extends sv_abstract{
 	private $prefix					= 'sv_';
 	private $data					= false;
 	private $default_value			= false;
-	private $responsive             = false;
-	private $radio_style            = 'radio';
+	private $responsive			 = false;
+	private $radio_style			= 'radio';
 	private $is_label				= false;
 	protected static $new			= array();
 
@@ -193,14 +193,14 @@ class settings extends sv_abstract{
 	public function get_cluster(): string{
 		return $this->cluster;
 	}
-    public function set_is_label(bool $check): settings{
-        $this->is_label							= $check;
+	public function set_is_label(bool $check): settings{
+		$this->is_label							= $check;
 
-        return $this;
-    }
-    public function get_is_label(): bool{
-        return $this->is_label;
-    }
+		return $this;
+	}
+	public function get_is_label(): bool{
+		return $this->is_label;
+	}
 	public function set_default_value($default_value): settings{
 		$this->default_value							= $default_value;
 
@@ -356,7 +356,7 @@ class settings extends sv_abstract{
 	}
 
 	public function set_radio_style( string $style ) {
-		$this->radio_style            = $style;
+		$this->radio_style			= $style;
 
 		return $this;
 	}
@@ -664,27 +664,27 @@ class settings extends sv_abstract{
 			$section_name = '';
 
 			\add_settings_section(
-				$section_group,                                            // $id, String for use in the 'id' attribute of tags.
-				$section_name,                                            // $title, Title of the section.
-				array($setting->get_parent(), 'section_callback'),    // $callback, Function that fills the section with the desired content. The function should echo its output.
-				$section                                            // $page, the menu page on which to display this section
+				$section_group,											// $id, String for use in the 'id' attribute of tags.
+				$section_name,											// $title, Title of the section.
+				array($setting->get_parent(), 'section_callback'),	// $callback, Function that fills the section with the desired content. The function should echo its output.
+				$section											// $page, the menu page on which to display this section
 			);
 
 			\add_settings_field(
-				$setting->get_parent()->get_field_id(),                                            // $id, Slug-name to identify the field. Used in the 'id' attribute of tags.
-				$setting->get_parent()->get_title(),                                // $title, Formatted title of the field. Shown as the label for the field during output.
-				array($setting->get_parent(), 'print_form_field'),                    // $callback, Function that fills the field with the desired form inputs. The function should echo its output.
-				$section,                                            // $page, The slug-name of the settings page on which to show the section (general, reading, writing, ...).
-				$section_group,                                            // $section, The slug-name of the section of the settings page in which to show the box.
-				array(                                                        // $args, Extra arguments used when outputting the field.
+				$setting->get_parent()->get_field_id(),											// $id, Slug-name to identify the field. Used in the 'id' attribute of tags.
+				$setting->get_parent()->get_title(),								// $title, Formatted title of the field. Shown as the label for the field during output.
+				array($setting->get_parent(), 'print_form_field'),					// $callback, Function that fills the field with the desired form inputs. The function should echo its output.
+				$section,											// $page, The slug-name of the settings page on which to show the section (general, reading, writing, ...).
+				$section_group,											// $section, The slug-name of the section of the settings page in which to show the box.
+				array(														// $args, Extra arguments used when outputting the field.
 					'description' => $setting->get_parent()->get_description(),
 					'setting_id' => $setting->get_parent()->get_field_id()
 				)
 			);
 
 			\register_setting(
-				$section,                                            // $option_group, A settings group name.
-				$setting->get_parent()->get_field_id(),            // $option_name, The name of an option to sanitize and save.
+				$section,											// $option_group, A settings group name.
+				$setting->get_parent()->get_field_id(),			// $option_name, The name of an option to sanitize and save.
 				array('sanitize_callback'	=> array($setting,'field_callback'))
 			);
 		}
@@ -724,11 +724,11 @@ class settings extends sv_abstract{
 
 		// responsive setting
 		$output		= '';
-		$i          = 0;
+		$i		  = 0;
 
 		foreach($this->get_breakpoints() as $breakpoint => $min_width){
 			$i++;
-			$active                             = ($i === 1) ? 'active' : ''; // flag for responsive copy force script
+			$active							 = ($i === 1) ? 'active' : ''; // flag for responsive copy force script
 			$props_child						= $props;
 			$props_child['name']				= $props['name'].'['.$breakpoint.']';
 			$props_child['ID']					= $props['ID'].'['.$breakpoint.']';

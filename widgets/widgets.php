@@ -7,7 +7,7 @@
 		private $title								= false;
 		private $description						= false;
 		private $settings							= array();
-		public static $scripts_loaded		        = false;
+		public static $scripts_loaded				= false;
 		private $widget_class_name					= false;
 		private $template_path						= array();
 		

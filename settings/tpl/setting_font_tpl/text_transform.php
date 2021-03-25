@@ -1,5 +1,5 @@
 <div id="<?php echo $props['ID'] . '_transform'; ?>" class="sv_setting">
-    <h4><?php _e( 'Text Transform', 'sv100' ); ?></h4>
+	<h4><?php _e( 'Text Transform', 'sv100' ); ?></h4>
 	<label for="<?php echo $props['ID'] . '_transform'; ?>">
 		<select
 			data-sv_type="sv_form_field"

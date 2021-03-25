@@ -1,5 +1,5 @@
 <div id="<?php echo $props['ID'] . '_deco'; ?>" class="sv_setting">
-    <h4><?php _e( 'Text Decoration', 'sv100' ); ?></h4>
+	<h4><?php _e( 'Text Decoration', 'sv100' ); ?></h4>
 	<label for="<?php echo $props['ID'] . '_deco'; ?>">
 		<select
 			data-sv_type="sv_form_field"
