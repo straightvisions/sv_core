@@ -19,7 +19,7 @@
 		private static $instances			= array();
 		protected static $instances_active	= array();
 		protected $loaded					= array();
-		protected static $active_core	   = false;
+		protected static $active_core		= false;
 		protected static $path_core			= false;
 		protected static $url_core			= false;
 		protected $sections					= array();
@@ -34,6 +34,8 @@
 		protected $scripts_queue			= array();
 		protected static $expert_mode		= false;
 		public static $breakpoints			= false;
+
+		protected $modules_loaded 			= array();
 
 		protected $module_css_cache			= false; // default false, set true in a module to opt in for CSS Caching
 
@@ -904,5 +906,56 @@
 		}
 		public function get_templates_archive(): array{
 			return apply_filters('sv_core_templates_archive', array());
+		}
+
+
+		public function get_scripts_settings(): array {
+			$settings = array();
+
+			foreach ( static::$scripts->get_scripts() as $script ) {
+				$name				= static::$scripts->get_prefix( 'settings_' . $script->get_UID() );
+
+				if ( isset( static::$scripts->s[ $script->get_UID() ] ) ) {
+					$settings[ $name ] 	= static::$scripts->s[ $script->get_UID() ]->get_data();
+				}
+			}
+
+			return $settings;
+		}
+
+
+		public function get_modules_settings(): array {
+			$settings = array();
+
+			foreach ( $this->get_modules_loaded() as $prefix => $module ) {
+				$module_settings = array();
+
+				foreach ( $module->s as $setting_name => $setting ) {
+					if ( $setting ) {
+						$module_settings[ $setting->get_field_id() ] = $setting->get_data();
+					}
+				}
+
+				$settings[ $prefix ] = $module_settings;
+			}
+
+			return $settings;
+		}
+		protected function set_modules_loaded(string $name, $object){
+			$this->get_root()->modules_loaded[$name] = $object;
+		}
+		protected function get_modules_loaded(): array {
+			return $this->get_root()->modules_loaded;
+		}
+		protected function is_module_loaded(string $name): bool{
+			return isset($this->get_modules_loaded()[$this->get_root()->get_prefix($name)]) ? true : false;
+		}
+		public function get_module( string $name, bool $required = false ) {
+
+			return false;
+		}
+
+		public function load_module( string $name, string $path, string $url, bool $required = false ): bool {
+			return false;
 		}
 	}

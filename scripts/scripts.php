@@ -64,7 +64,7 @@
 			}
 
 			add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_menu' ), 999 );
-			add_action( 'admin_post_' . $this->get_prefix( 'clear_cache' ), array( $this, 'clear_cache' ) );
+			add_action( 'admin_post_' . $this->get_prefix( 'clear_cache' ), array( $this, 'clear_cache_link' ) );
 		}
 
 		public function add_admin_bar_menu( $admin_bar ) {
@@ -100,19 +100,26 @@
 				)
 			);
 		}
-		
-		public function clear_cache() {
-			if ( 
-				isset( $_REQUEST['_wpnonce'] ) 
-				&& ! empty( $_REQUEST['_wpnonce'] ) 
+
+		public function clear_cache_link() {
+			if (
+				isset( $_REQUEST['_wpnonce'] )
+				&& ! empty( $_REQUEST['_wpnonce'] )
 				&& current_user_can( 'activate_plugins' )
 				&& isset( $this->s[ 'flush_css_cache' ] )
 				&& wp_verify_nonce( $_REQUEST['_wpnonce'], 'admin_post_' . $this->get_prefix( 'clear_cache' ) )
 			) {
-				update_option( $this->s[ 'flush_css_cache' ]->get_field_id(), 1 );
+				$this->clear_cache();
 			}
 
 			wp_redirect( $_SERVER['HTTP_REFERER'] );
+		}
+
+		public function clear_cache() {
+			foreach($this->get_instances() as $instance){
+				//var_dump($instance->get_prefix('scripts_settings_flush_css_cache')); die('end');
+				update_option($instance->get_prefix('scripts_settings_flush_css_cache'), '1');
+			}
 		}
 
 		public function update_setting_flush_css_cache($option_name, $old_value, $value){
