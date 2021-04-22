@@ -347,19 +347,21 @@
 		}
 		public function register_scripts(){
 			foreach ( $this->get_scripts() as $script ) {
+				$filetime = file_exists($script->get_path()) ? filemtime($script->get_path()) : time();
+				
 				if($script->get_type() == 'js'){
 					wp_register_script(
 						$script->get_handle(),
 						$script->get_url(),
 						$script->get_deps(),
-						($this->is_external() ? md5($script->get_url()) : filemtime($script->get_path()))
+						($this->is_external() ? md5($script->get_url()) : $filetime)
 					);
 				}else{
 					wp_register_style(
 						$script->get_handle(),
 						$script->get_url(),
 						$script->get_deps(),
-						($this->is_external() ? md5($script->get_url()) : filemtime($script->get_path()))
+						($this->is_external() ? md5($script->get_url()) : $filetime)
 					);
 				}
 			}
