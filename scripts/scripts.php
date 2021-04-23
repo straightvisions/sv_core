@@ -117,7 +117,6 @@
 
 		public function clear_cache() {
 			foreach($this->get_instances() as $instance){
-				//var_dump($instance->get_prefix('scripts_settings_flush_css_cache')); die('end');
 				update_option($instance->get_prefix('scripts_settings_flush_css_cache'), '1');
 			}
 		}
