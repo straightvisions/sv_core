@@ -2,9 +2,9 @@
 	namespace sv_core;
 
 	// this class could be part of different products
-	if(!class_exists('abstract_template_sv_archive')) {
+	if(!class_exists('abstract_template_sv_content')) {
 		// complete template logic should be here
-		class abstract_template_sv_archive{
+		class abstract_template_sv_content{
 			protected $path				= '';
 			protected $url				= '';
 
@@ -18,7 +18,7 @@
 			public function __construct($instance, string $setting_prefix){
 				$this->init($instance, $setting_prefix);
 			}
-			protected function init($instance, string $setting_prefix): abstract_template_sv_archive{
+			protected function init($instance, string $setting_prefix): abstract_template_sv_content{
 				$this->parts		= array(
 					'common'				=> array(
 						'loaded'			=> true,
@@ -115,7 +115,7 @@
 			protected function get_instance(){
 				return $this->instance;
 			}
-			protected function set_instance($instance): abstract_template_sv_archive{
+			protected function set_instance($instance): abstract_template_sv_content{
 				$this->instance	= $instance;
 
 				return $this;
@@ -127,7 +127,7 @@
 
 				return $this->setting_prefix . $suffix;
 			}
-			protected function set_setting_prefix(string $setting_prefix): abstract_template_sv_archive{
+			protected function set_setting_prefix(string $setting_prefix): abstract_template_sv_content{
 				$this->setting_prefix	= $setting_prefix;
 
 				return $this;
@@ -144,17 +144,17 @@
 			public function get_parts(): array{
 				return $this->parts;
 			}
-			protected function set_part_loaded(string $part): abstract_template_sv_archive{
+			protected function set_part_loaded(string $part): abstract_template_sv_content{
 				$this->parts[$part]['loaded']	= true;
 
 				return $this;
 			}
-			protected function set_path( string $path = ''): abstract_template_sv_archive {
+			protected function set_path( string $path = ''): abstract_template_sv_content {
 				$this->path = $path;
 
 				return $this;
 			}
-			protected function set_url( string $url = ''): abstract_template_sv_archive {
+			protected function set_url( string $url = ''): abstract_template_sv_content {
 				$this->url = $url;
 
 				return $this;
@@ -200,7 +200,7 @@
 
 				return '';
 			}
-			protected function set_prefix( string $prefix = ''): abstract_template_sv_archive{
+			protected function set_prefix( string $prefix = ''): abstract_template_sv_content{
 				$this->prefix	= $prefix;
 
 				return $this;
@@ -257,7 +257,7 @@
 				return '<div class="'.$this->get_prefix($part).'">'.ob_get_clean().'</div>';
 			}
 			// We want to serve cached CSS depending on active configuration
-			protected function cache_config_css(\sv_core\scripts $script): abstract_template_sv_archive{
+			protected function cache_config_css(\sv_core\scripts $script): abstract_template_sv_content{
 				if ($script->get_css_cache_invalidated()) {
 					ob_start();
 					require($this->get_path('lib/css/config/init.php'));
@@ -269,31 +269,31 @@
 				}
 				return $this;
 			}
-			protected function load_settings(): abstract_template_sv_archive{
+			protected function load_settings(): abstract_template_sv_content{
 				// logic comes from child
 				
 				return $this;
 			}
-			protected function load_settings_extra_styles(): abstract_template_sv_archive{
+			protected function load_settings_extra_styles(): abstract_template_sv_content{
 				$this->get_instance()->get_setting( 'extra_styles' )
-					->set_title( __( 'Extra Styles', 'abstract_template_sv_archive' ) )
+					->set_title( __( 'Extra Styles', 'abstract_template_sv_content' ) )
 					->load_type( 'group' );
 
 				$this->get_instance()->get_setting( 'extra_styles' )
 					->run_type()
 					->add_child()
 					->set_ID( 'entry_label' )
-					->set_title( __( 'Style Label', 'abstract_template_sv_archive' ) )
-					->set_description( __( 'A label to differentiate your Styles.', 'abstract_template_sv_archive' ) )
+					->set_title( __( 'Style Label', 'abstract_template_sv_content' ) )
+					->set_description( __( 'A label to differentiate your Styles.', 'abstract_template_sv_content' ) )
 					->load_type( 'text' )
-					->set_placeholder( __( 'Label', 'abstract_template_sv_archive' ) );
+					->set_placeholder( __( 'Label', 'abstract_template_sv_content' ) );
 
 				$this->get_instance()->get_setting( 'extra_styles' )
 					->run_type()
 					->add_child()
 					->set_ID( 'slug' )
-					->set_title( __( 'Slug', 'abstract_template_sv_archive' ) )
-					->set_description( __( 'This slug is used for the helper classes.', 'abstract_template_sv_archive' ) )
+					->set_title( __( 'Slug', 'abstract_template_sv_content' ) )
+					->set_description( __( 'This slug is used for the helper classes.', 'abstract_template_sv_content' ) )
 					->load_type( 'text' );
 
 				foreach($this->get_settings() as $setting) {
