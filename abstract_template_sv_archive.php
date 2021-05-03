@@ -254,7 +254,13 @@
 
 				ob_start();
 				require($this->get_path('lib/tpl/frontend/parts/'.$part.'.php'));
-				return '<div class="'.$this->get_prefix($part).'">'.ob_get_clean().'</div>';
+				$output = ob_get_clean();
+
+				if(strlen($output) === 0){
+					return '';
+				}
+
+				return '<div class="'.$this->get_prefix($part).'">'.$output.'</div>';
 			}
 			// We want to serve cached CSS depending on active configuration
 			protected function cache_config_css(\sv_core\scripts $script): abstract_template_sv_archive{
