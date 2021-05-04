@@ -217,6 +217,8 @@
 				return 'class="'. $this->get_prefix('entry') . ' ' . esc_attr( implode( ' ', get_post_class( $class, $post_id ) ) ) . '"';
 			}
 			protected function get_html(){
+				global $wp_query;
+
 				ob_start();
 				require($this->get_path('lib/tpl/frontend/loop.php'));
 				return ob_get_clean();
