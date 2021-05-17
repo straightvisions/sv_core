@@ -954,8 +954,24 @@
 
 			return false;
 		}
-
 		public function load_module( string $name, string $path, string $url, bool $required = false ): bool {
 			return false;
+		}
+		public function array_merge_recursive_distinct ( array $array1, array $array2 ): array{
+			$merged = $array1;
+
+			foreach ( $array2 as $key => &$value )
+			{
+				if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) )
+				{
+					$merged [$key] = $this->array_merge_recursive_distinct ( $merged [$key], $value );
+				}
+				else
+				{
+					$merged [$key] = $value;
+				}
+			}
+
+			return $merged;
 		}
 	}
