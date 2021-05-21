@@ -35,18 +35,13 @@ class setting_border extends settings {
 						$properties['border-left'][$breakpoint] = $val;
 					}
 				}
+				$top_left_radius = (empty($query['top_left_radius'])) ? 0 : $query['top_left_radius'];
+				$top_right_radius = (empty($query['top_right_radius'])) ? 0 : $query['top_right_radius'];
+				$bottom_right_radius = (empty($query['bottom_right_radius'])) ? 0 : $query['bottom_right_radius'];
+				$bottom_left_radius = (empty($query['bottom_left_radius'])) ? 0 : $query['bottom_left_radius'];
 
-				$top_left_radius = (empty($query['top_left_radius'])) ? 0 : (int)$query['top_left_radius'];
-				$top_right_radius = (empty($query['top_right_radius'])) ? 0 : (int)$query['top_right_radius'];
-				$bottom_right_radius = (empty($query['bottom_right_radius'])) ? 0 : (int)$query['bottom_right_radius'];
-				$bottom_left_radius = (empty($query['bottom_left_radius'])) ? 0 : (int)$query['bottom_left_radius'];
-
-				if ($top_left_radius + $top_right_radius + $bottom_right_radius + $bottom_left_radius > 0) {
-					// @todo: implement unit settings here
-					//$query_radius = $top_left_radius . ' ' . $top_right_radius . ' ' . $bottom_right_radius . ' ' . $bottom_left_radius;
-					$query_radius = $top_left_radius . 'px ' . $top_right_radius . 'px ' . $bottom_right_radius . 'px ' . $bottom_left_radius . 'px';
-					$properties['border-radius'][$breakpoint] = $query_radius;
-				}
+				$query_radius = $top_left_radius . ' ' . $top_right_radius . ' ' . $bottom_right_radius . ' ' . $bottom_left_radius . '';
+				$properties['border-radius'][$breakpoint] = $query_radius;
 			}
 		}
 
