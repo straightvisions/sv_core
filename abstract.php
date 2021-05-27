@@ -413,7 +413,7 @@
 		}
 
 		public function get_breakpoints(): array {
-			if(!self::$breakpoints){
+			//if(!self::$breakpoints){ // disabled this check, as filter may be triggered later
 				self::$breakpoints	= apply_filters($this->get_root()->get_prefix('breakpoints'), array( // number = min width
 					'mobile'						=> 0,
 					'mobile_landscape'				=> 0,
@@ -423,13 +423,15 @@
 					'tablet_pro_landscape'			=> 1366,
 					'desktop'						=> 1600,
 				));
-			}
+			//}
 
 			foreach(self::$breakpoints as &$val){
 				if(empty($val) === true){
 					$val = 0;
 				}
 			}
+
+			error_log(var_export(self::$breakpoints, true));
 
 			return self::$breakpoints;
 		}
