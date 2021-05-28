@@ -430,9 +430,7 @@
 					$val = 0;
 				}
 			}
-
-			error_log(var_export(self::$breakpoints, true));
-
+			
 			return self::$breakpoints;
 		}
 
