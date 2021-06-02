@@ -475,6 +475,15 @@ if ( !class_exists( '\sv_core\core' ) ) {
 					) )
 					->set_localized(static::$scripts_localized_collection['sv_core_admin'])
 					;
+				
+				$this->get_root()->get_script( 'sv_core_admin_navigation' )
+				     ->set_path( $this->get_path_core( '../assets/admin_navigation.js' ), true, $this->get_url_core( '../assets/admin_navigation.js' ) )
+				     ->set_is_backend()
+				     ->set_is_enqueued()
+				     ->set_is_no_prefix()
+				     ->set_type( 'js' )
+				     ->set_deps( array( 'sv_core_admin', 'jquery' ) )
+				     ->set_is_required();
 
 				$this->get_root()->get_script( 'sv_core_admin_sections' )
 					->set_path( $this->get_path_core( '../assets/admin_sections.js' ), true, $this->get_url_core( '../assets/admin_sections.js' ) )
@@ -482,7 +491,7 @@ if ( !class_exists( '\sv_core\core' ) ) {
 					->set_is_enqueued()
 					->set_is_no_prefix()
 					->set_type( 'js' )
-					->set_deps( array( 'sv_core_admin', 'jquery' ) )
+					->set_deps( array( 'sv_core_admin' , 'jquery' ) )
 					->set_is_required();
 
 				$this->get_root()->get_script( 'sv_core_color_picker' )
