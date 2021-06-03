@@ -484,16 +484,25 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				     ->set_type( 'js' )
 				     ->set_deps( array( 'sv_core_admin', 'jquery' ) )
 				     ->set_is_required();
-
-				$this->get_root()->get_script( 'sv_core_admin_sections' )
-					->set_path( $this->get_path_core( '../assets/admin_sections.js' ), true, $this->get_url_core( '../assets/admin_sections.js' ) )
-					->set_is_backend()
-					->set_is_enqueued()
-					->set_is_no_prefix()
-					->set_type( 'js' )
-					->set_deps( array( 'sv_core_admin' , 'jquery' ) )
-					->set_is_required();
-
+				
+				$this->get_root()->get_script( 'sv_core_admin_clipboard' )
+				     ->set_path( $this->get_path_core( '../assets/admin_clipboard.js' ), true, $this->get_url_core( '../assets/admin_clipboard.js' ) )
+				     ->set_is_backend()
+				     ->set_is_enqueued()
+				     ->set_is_no_prefix()
+				     ->set_type( 'js' )
+				     ->set_deps( array( 'sv_core_admin' , 'jquery' ) )
+				     ->set_is_required();
+				
+				$this->get_root()->get_script( 'sv_core_admin_description' )
+				     ->set_path( $this->get_path_core( '../assets/admin_description.js' ), true, $this->get_url_core( '../assets/admin_description.js' ) )
+				     ->set_is_backend()
+				     ->set_is_enqueued()
+				     ->set_is_no_prefix()
+				     ->set_type( 'js' )
+				     ->set_deps( array( 'sv_core_admin' , 'jquery' ) )
+				     ->set_is_required();
+				
 				$this->get_root()->get_script( 'sv_core_color_picker' )
 					->set_is_no_prefix()
 					->set_path( $this->get_path_core( 'settings/js/sv_color_picker_min/sv_color_picker.min.js' ), true, $this->get_url_core( 'settings/js/sv_color_picker_min/sv_color_picker.min.js' ) )
@@ -501,6 +510,16 @@ if ( !class_exists( '\sv_core\core' ) ) {
 					->set_deps( array( 'jquery', 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ) )
 					->set_is_backend()
 					->set_is_enqueued();
+				
+				// must be called last
+				$this->get_root()->get_script( 'sv_core_admin_sections' )
+				     ->set_path( $this->get_path_core( '../assets/admin_sections.js' ), true, $this->get_url_core( '../assets/admin_sections.js' ) )
+				     ->set_is_backend()
+				     ->set_is_enqueued()
+				     ->set_is_no_prefix()
+				     ->set_type( 'js' )
+				     ->set_deps( array( 'sv_core_admin' , 'jquery' ) )
+				     ->set_is_required();
 			}
 
 			// Creates an action when all required core scripts are loaded
