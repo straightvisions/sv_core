@@ -84,7 +84,8 @@
 					return $input;
 				}
 			}
-			return $input ? $input : $this->get_data();
+
+			return $input ? $input : $this->get_parent()->get_data();
 		}
 		/*
 		 * IMPORTANT: This method just resorts the FILES-Upload array to allow handling and sanitation through wp_handle_upload. Do not work with return values of this method without proper sanitation.
