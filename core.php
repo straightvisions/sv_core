@@ -511,6 +511,15 @@ if ( !class_exists( '\sv_core\core' ) ) {
 					->set_is_backend()
 					->set_is_enqueued();
 				
+				$this->get_root()->get_script( 'sv_core_admin_subpages' )
+				     ->set_path( $this->get_path_core( '../assets/admin_subpages.js' ), true, $this->get_url_core( '../assets/admin_subpages.js' ) )
+				     ->set_is_backend()
+				     ->set_is_enqueued()
+				     ->set_is_no_prefix()
+				     ->set_type( 'js' )
+				     ->set_deps( array( 'sv_core_admin' , 'jquery' ) )
+				     ->set_is_required();
+				
 				// must be called last
 				$this->get_root()->get_script( 'sv_core_admin_sections' )
 				     ->set_path( $this->get_path_core( '../assets/admin_sections.js' ), true, $this->get_url_core( '../assets/admin_sections.js' ) )
