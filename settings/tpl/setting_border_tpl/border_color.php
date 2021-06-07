@@ -13,7 +13,7 @@
 		}
 	} );
 </script>
-<div class="sv_setting">
+<div class="sv_setting sv_setting_color_parent">
 	<div class="sv_setting_header">
 		<h4 title="<?php _e( 'Toggle Color Picker', 'sv_core' ); ?>"><?php _e( 'Border Color', 'sv_core' ); ?></h4>
 	</div>
@@ -23,6 +23,7 @@
 	<label for="<?php echo $props['name'] . '[color]'; ?>" class="sv_input_label_color sv_hidden">
 		<input
 			data-sv_type="sv_form_field"
+            data-sv_settings_type="color"
 			class="sv_input"
 			id="<?php echo $props['name'] . '[color]'; ?>"
 			name="<?php echo $props['name'] . '[color]'; ?>"

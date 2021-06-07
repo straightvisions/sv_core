@@ -12,6 +12,7 @@
 <label for="<?php echo $props['name']; ?>" class="sv_input_label_color sv_hidden">
 	<input
 		data-sv_type="sv_form_field"
+        data-sv_settings_type="color"
 		class="sv_input"
 		id="<?php echo $props['name']; ?>"
 		name="<?php echo $props['name']; ?>"
