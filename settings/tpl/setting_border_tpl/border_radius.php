@@ -46,15 +46,15 @@
 	<h4><?php _e( 'Border Radius', 'sv100' ); ?></h4>
 	<table class="sv_setting_border">
 		<tr>
-			<td>
+			<td class="sv_setting_border_radius_wrapper">
 				<label for="<?php echo $props['ID'] . '_top_left_radius'; ?>">
 					<input
-						class="sv_input"
+						class="sv_input sv_setting_border_radius_number"
 						type="number"
 						value="<?php echo $border_top_left_radius_number; ?>"
 						min="0"
 					/>
-					<select class="sv_input_units">
+					<select class="sv_input_units sv_setting_border_radius_unit">
 					<?php
 						foreach( $this->get_units() as $unit ) {
 							echo '<option value="' . $unit . '"';
@@ -65,6 +65,7 @@
 					</select>
 					<input
 						data-sv_type="sv_form_field"
+                        data-sv_settings_type="border_radius"
 						class="sv_input"
 						id="<?php echo $props['ID'] . '_top_left_radius'; ?>"
 						name="<?php echo $props['name'] . '[top_left_radius]'; ?>"
@@ -74,15 +75,15 @@
 				</label>
 			</td>
 			<td style="border:none"></td>
-			<td>
+			<td class="sv_setting_border_radius_wrapper">
 				<label for="<?php echo $props['ID'] . '_top_right_radius'; ?>">
 					<input
-						class="sv_input"
+						class="sv_input sv_setting_border_radius_number"
 						type="number"
 						value="<?php echo $border_top_right_radius_number; ?>"
 						min="0"
 					/>
-					<select class="sv_input_units">
+					<select class="sv_input_units sv_setting_border_radius_unit">
 					<?php
 						foreach( $this->get_units() as $unit ) {
 							echo '<option value="' . $unit . '"';
@@ -93,6 +94,7 @@
 					</select>
 					<input
 						data-sv_type="sv_form_field"
+                        data-sv_settings_type="border_radius"
 						class="sv_input"
 						id="<?php echo $props['ID'] . '_top_right_radius'; ?>"
 						name="<?php echo $props['name'] . '[top_right_radius]'; ?>"
@@ -108,15 +110,15 @@
 			<td style="border:none"></td>
 		</tr>
 		<tr>
-			<td>
+			<td class="sv_setting_border_radius_wrapper">
 				<label for="<?php echo $props['ID'] . '_bottom_left_radius'; ?>">
 					<input
-						class="sv_input"
+						class="sv_input sv_setting_border_radius_number"
 						type="number"
 						value="<?php echo $border_bottom_left_radius_number; ?>"
 						min="0"
 					/>
-					<select class="sv_input_units">
+					<select class="sv_input_units sv_setting_border_radius_unit">
 					<?php
 						foreach( $this->get_units() as $unit ) {
 							echo '<option value="' . $unit . '"';
@@ -127,6 +129,7 @@
 					</select>
 					<input
 						data-sv_type="sv_form_field"
+                        data-sv_settings_type="border_radius"
 						class="sv_input"
 						id="<?php echo $props['ID'] . '_bottom_left_radius'; ?>"
 						name="<?php echo $props['name'] . '[bottom_left_radius]'; ?>"
@@ -136,15 +139,15 @@
 				</label>
 			</td>
 			<td style="border:none"></td>
-			<td>
+			<td class="sv_setting_border_radius_wrapper">
 				<label for="<?php echo $props['ID'] . '_bottom_right_radius'; ?>">
 					<input
-						class="sv_input"
+						class="sv_input sv_setting_border_radius_number"
 						type="number"
 						value="<?php echo $border_bottom_right_radius_number; ?>"
 						min="0"
 					/>
-					<select class="sv_input_units">
+					<select class="sv_input_units sv_setting_border_radius_unit">
 					<?php
 						foreach( $this->get_units() as $unit ) {
 							echo '<option value="' . $unit . '"';
@@ -155,6 +158,7 @@
 					</select>
 					<input
 						data-sv_type="sv_form_field"
+                        data-sv_settings_type="border_radius"
 						class="sv_input"
 						id="<?php echo $props['ID'] . '_bottom_right_radius'; ?>"
 						name="<?php echo $props['name'] . '[bottom_right_radius]'; ?>"
