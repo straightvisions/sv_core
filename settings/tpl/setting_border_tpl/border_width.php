@@ -44,9 +44,9 @@
 
 <div id="<?php echo $props['ID'] . '_width'; ?>" class="sv_setting">
 	<h4><?php _e( 'Border Width', 'sv100' ); ?></h4>
-	<table class="sv_setting_border sv_setting_border_width_wrapper">
+	<table class="sv_setting_border">
 		<tr>
-			<td colspan="3">
+			<td colspan="3" class="sv_setting_border_width_wrapper">
 				<label for="<?php echo $props['ID'] . '_top_width'; ?>">
 					<input
 						class="sv_input sv_setting_border_width_number"
@@ -71,22 +71,22 @@
 						class="sv_input"
 						id="<?php echo $props['ID'] . '_top_width'; ?>"
 						name="<?php echo $props['name'] . '[top_width]'; ?>"
-				
+				        type="hidden"
 						value="<?php echo $border_top_width; ?>"
 					/>
 				</label>
 			</td>
 		</tr>
 		<tr>
-			<td>
+			<td class="sv_setting_border_width_wrapper">
 				<label for="<?php echo $props['ID'] . '_left_width'; ?>">
 					<input
-						class="sv_input"
+						class="sv_input sv_setting_border_width_number"
 						type="number"
 						value="<?php echo $border_left_width_number; ?>"
 						min="0"
 					/>
-					<select class="sv_input_units">
+					<select class="sv_input_units sv_setting_border_width_unit">
 					<?php 
 						foreach( $this->get_units() as $unit ) {
 							if ( $unit !== '%' ) {
@@ -99,6 +99,7 @@
 					</select>
 					<input
 						data-sv_type="sv_form_field"
+                        data-sv_settings_type="border_width"
 						class="sv_input"
 						id="<?php echo $props['ID'] . '_left_width'; ?>"
 						name="<?php echo $props['name'] . '[left_width]'; ?>"
@@ -108,15 +109,15 @@
 				</label>
 			</td>
 			<td style="width:100px;height:100px;">Content</td>
-			<td>
+			<td class="sv_setting_border_width_wrapper">
 				<label for="<?php echo $props['ID'] . '_right_width'; ?>">
 					<input
-						class="sv_input"
+						class="sv_input sv_setting_border_width_number"
 						type="number"
 						value="<?php echo $border_right_width_number; ?>"
 						min="0"
 					/>
-					<select class="sv_input_units">
+					<select class="sv_input_units sv_setting_border_width_unit">
 					<?php 
 						foreach( $this->get_units() as $unit ) {
 							if ( $unit !== '%' ) {
@@ -129,6 +130,7 @@
 					</select>
 					<input
 						data-sv_type="sv_form_field"
+                        data-sv_settings_type="border_width"
 						class="sv_input"
 						id="<?php echo $props['ID'] . '_right_width'; ?>"
 						name="<?php echo $props['name'] . '[right_width]'; ?>"
@@ -139,15 +141,15 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3">
+			<td colspan="3" class="sv_setting_border_width_wrapper">
 				<label for="<?php echo $props['ID'] . '_bottom_width'; ?>">
 					<input
-						class="sv_input"
+						class="sv_input sv_setting_border_width_number"
 						type="number"
 						value="<?php echo $border_bottom_width_number; ?>"
 						min="0"
 					/>
-					<select class="sv_input_units">
+					<select class="sv_input_units sv_setting_border_width_unit">
 					<?php 
 						foreach( $this->get_units() as $unit ) {
 							if ( $unit !== '%' ) {
@@ -160,6 +162,7 @@
 					</select>
 					<input
 						data-sv_type="sv_form_field"
+                        data-sv_settings_type="border_width"
 						class="sv_input"
 						id="<?php echo $props['ID'] . '_bottom_width'; ?>"
 						name="<?php echo $props['name'] . '[bottom_width]'; ?>"
