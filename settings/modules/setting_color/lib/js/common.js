@@ -1,4 +1,4 @@
-jQuery(document).on('click', '.sv_setting_color_parent .sv_setting_color_display', function(e) {
+jQuery(document).on('click', '.sv_setting_color_parent:not(.ignore_deprecated_color_picker) .sv_setting_color_display', function(e) {
 	const color_picker = jQuery( this ).parent().find('.sv_input_label_color');
 
 	if ( color_picker.hasClass('sv_hidden') ) {

@@ -13,7 +13,7 @@
 		}
 	} );
 </script>
-<div class="sv_setting sv_setting_color_parent">
+<div class="sv_setting sv_setting_color_parent ignore_deprecated_color_picker">
 	<div class="sv_setting_header">
 		<h4 title="<?php _e( 'Toggle Color Picker', 'sv_core' ); ?>"><?php _e( 'Border Color', 'sv_core' ); ?></h4>
 	</div>
