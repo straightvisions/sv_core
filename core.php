@@ -503,6 +503,14 @@ if ( !class_exists( '\sv_core\core' ) ) {
 				     ->set_deps( array( 'sv_core_admin', 'jquery' ) )
 				     ->set_is_required();
 				
+				$this->get_root()->get_script( 'sv_core_admin_select_number_units' )
+				     ->set_path( $this->get_path_core( '../assets/admin_select_number_units.js' ), true, $this->get_url_core( '../assets/admin_select_number_units.js' ) )
+				     ->set_is_backend()
+				     ->set_is_enqueued()
+				     ->set_is_no_prefix()
+				     ->set_type( 'js' )
+				     ->set_deps( array( 'sv_core_admin', 'jquery' ) );
+				
 				$this->get_root()->get_script( 'sv_core_admin_clipboard' )
 				     ->set_path( $this->get_path_core( '../assets/admin_clipboard.js' ), true, $this->get_url_core( '../assets/admin_clipboard.js' ) )
 				     ->set_is_backend()
