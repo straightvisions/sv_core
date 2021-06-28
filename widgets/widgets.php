@@ -9,7 +9,7 @@
 		private $settings							= array();
 		public static $scripts_loaded				= false;
 		private $widget_class_name					= false;
-		private $template_path						= array();
+		private $template_path						= '';
 		
 		/**
 		 * @desc			initialize

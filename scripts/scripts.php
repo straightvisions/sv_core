@@ -302,6 +302,7 @@
 				&& (
 					strpos( $hook,'straightvisions' ) !== false
 					|| strpos( $hook,'appearance_page_sv100' ) !== false
+					|| (get_current_screen() && get_current_screen()->base == "post")
 				)
 			) {
 				foreach ( $this->get_scripts() as $script ) {
