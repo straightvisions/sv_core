@@ -142,7 +142,7 @@
 			$instance = array();
 			
 			foreach ($new_instance as $name => $field) {
-				$instance[$name] = (!empty($new_instance[$name])) ? strip_tags($new_instance[$name]) : '';
+				$instance[$name] = (!empty($new_instance[$name])) ? $new_instance[$name] : '';
 			}
 			
 			return $instance;
