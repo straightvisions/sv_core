@@ -2,7 +2,7 @@
 	// check for selected item
 	$selected				= false;
 	foreach( $this->get_options() as $o_value => $o_name ) {
-		if($props['value'] == $o_value){
+		if($props['value'] === strval($o_value)){
 			$selected		= $o_value;
 		}
 	}
@@ -10,6 +10,7 @@
 	if(!$selected && $selected !== 0 && strlen($props['default_value']) > 0){
 		$selected		= $props['default_value'];
 	}
+	//var_dump($selected);
 ?>
 <label for="<?php echo $props['ID']; ?>">
 	<select
@@ -22,7 +23,7 @@
 		<?php
 			foreach( $this->get_options() as $o_value => $o_name ) {
 				echo '<option
-				' . ( ( $selected == $o_value)  ? ' selected="selected"' : '' ) . '
+				' . ( ( $o_value !== false && strval($selected) === strval($o_value))  ? ' selected="selected"' : '' ) . '
 				value="' . $o_value . '">' . $o_name . '</option>';
 			}
 		?>
