@@ -417,6 +417,8 @@
 					// CSS or JS
 					switch ($script->get_type()) {
 						case 'css':
+							$module = $script->get_parent();
+
 							// get settings object for build css later
 							if($script->get_ID() == 'config') {
 								if($script->get_parent()->get_css_cache_active()) {
