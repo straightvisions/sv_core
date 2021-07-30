@@ -364,6 +364,11 @@ class settings extends sv_abstract{
 	public function get_data(){
 		$data = $this->data;
 
+		// Allow Setting Data override via constant
+		if(defined($this->get_field_id())){
+			return constant($this->get_field_id());
+		}
+
 		if($data === false || $data === ''){
 			$db_data	= get_option($this->get_field_id());
 			$data		= ($db_data === false || $db_data === '') ? $this->get_default_value() : $db_data;
