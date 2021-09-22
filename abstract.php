@@ -557,6 +557,9 @@
 				$js = $setting . '/lib/js/';
 
 				// Styles
+				if(!function_exists('list_files')){
+					require(ABSPATH.'/wp-admin/includes/file.php');
+				}
 				if ( file_exists($css) && $files = list_files( $css ) ) {
 					foreach( $files as $file ) {
 						$relative_path = str_replace( $path, '', $file );
