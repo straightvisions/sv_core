@@ -696,6 +696,7 @@ class settings extends sv_abstract{
 	}
 	public function field_callback($input){
 		return $input;
+		return $this->sanitize($input);
 	}
 	public function get_field_id(): string{
 		return $this->get_is_no_prefix() ? $this->get_ID() : $this->get_prefix($this->get_ID());
@@ -794,7 +795,7 @@ class settings extends sv_abstract{
 
 		return $this;
 	}
-	public function sanitize($meta_value, $meta_key, $object_type){
+	public function sanitize($meta_value){
 		return sanitize_text_field($meta_value);
 	}
 	protected function print_sub_field(array $props, string $sub){

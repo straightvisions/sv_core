@@ -15,7 +15,7 @@
 			$this->parent = $parent;
 		}
 
-		public function sanitize($meta_value, $meta_key, $object_type) {
+		public function sanitize($meta_value) {
 			return intval($meta_value);
 		}
 		public function get_css_data(string $custom_property = '', string $prefix = '', string $suffix = ''): array{

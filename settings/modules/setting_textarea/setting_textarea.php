@@ -25,7 +25,7 @@
 
 			return $properties;
 		}
-		public function sanitize($meta_value, $meta_key, $object_type){
+		public function sanitize($meta_value){
 			return wp_filter_nohtml_kses($meta_value);
 		}
 	}

@@ -14,7 +14,7 @@
 		public function __construct($parent=false){
 			$this->parent			= $parent;
 		}
-		public function sanitize($meta_value, $meta_key, $object_type){
+		public function sanitize($meta_value){
 			return intval($meta_value);
 		}
 	}
