@@ -822,6 +822,16 @@
 			
 			return $actions;
 		}
+		public function has_block_sidebar( string $block_name ): bool{
+			$widget_blocks = get_option( 'widget_block' );
+			foreach( (array) $widget_blocks as $widget_block ) {
+				if ( ! empty( $widget_block['content'] ) && has_block( $block_name, $widget_block['content'] )) {
+					return true;
+				}
+			}
+
+			return false;
+		}
 		public function has_block_frontend(string $block_name): bool{
 			if( ! is_admin() ) {
 				$post = apply_filters('sv_core_has_block_frontend_queried_object', get_queried_object());
@@ -830,7 +840,10 @@
 					return false;
 				}
 
-				if ( !$this->has_block( $block_name, $post->ID )) {
+				if (
+					!$this->has_block( $block_name, $post->ID )
+					&& !$this->has_block_sidebar($block_name)
+				) {
 					return false;
 				}
 			}
