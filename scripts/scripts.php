@@ -119,6 +119,20 @@
 			foreach($this->get_instances() as $instance){
 				update_option($instance->get_prefix('scripts_settings_flush_css_cache'), '1');
 			}
+
+			$this->clear_cache_wp_rocket();
+		}
+
+		public function clear_cache_wp_rocket() {
+			// Clear cache.
+			if ( function_exists( 'rocket_clean_domain' ) ) {
+				rocket_clean_domain();
+			}
+
+			// Preload cache.
+			if ( function_exists( 'run_rocket_sitemap_preload' ) ) {
+				run_rocket_sitemap_preload();
+			}
 		}
 
 		public function update_setting_flush_css_cache($option_name, $old_value, $value){
