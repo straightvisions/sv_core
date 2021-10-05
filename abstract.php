@@ -874,18 +874,8 @@
 					}
 
 					foreach ( $blocks as $block ) {
-						$block = $this->flatten_inner_blocks($block); // search for child blocks
-
-						if ( $block['blockName'] === 'core/block' && ! empty( $block['attrs']['ref'] ) ) {
-							if( has_block( $block_name, $block['attrs']['ref'] ) ){
-								return true;
-							}
-						}
-
-						if ( $block['blockName'] === 'core/block' && ! empty( $block['attrs']['ref'] ) ) {
-							if( has_block( $block_name, $block['attrs']['ref'] ) ){
-								return true;
-							}
+						if($this->check_inner_blocks($block_name, $block)){
+							return true;
 						}
 					}
 
@@ -894,17 +884,32 @@
 
 			return false;
 		}
-		protected function flatten_inner_blocks(array $block): array{
+		protected function check_inner_blocks(string $block_name, array $block): bool{
+
+			if ( $block['blockName'] === 'core/block' && ! empty( $block['attrs']['ref'] ) ) {
+				if( has_block( $block_name, $block['attrs']['ref'] ) ){
+					return true;
+				}
+			}
+
+			if ( $block['blockName'] === 'core/block' && ! empty( $block['attrs']['ref'] ) ) {
+				if( has_block( $block_name, $block['attrs']['ref'] ) ){
+					return true;
+				}
+			}
+
 			if(isset($block['innerBlocks'])){
 				$inner_blocks = $block['innerBlocks'];
 				unset($block['innerBlocks']);
 				foreach($inner_blocks as $inner_block) {
-					$block = array_merge($block, $this->flatten_inner_blocks($inner_block));
+					if($this->check_inner_blocks($block_name, $inner_block)){
+						return true;
+					}
 				}
 
 			}
 
-			return $block;
+			return false;
 		}
 
 		public function get_css_cache_active(){

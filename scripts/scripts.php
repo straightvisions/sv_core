@@ -744,6 +744,10 @@
 					$_s = reset($_s);
 
 					ob_start();
+					if(file_exists($module->get_path('lib/css/common/default.css'))){
+						include($module->get_path('lib/css/common/default.css'));
+					}
+
 					require($module->get_path('lib/css/common/common.css'));
 					require($module->get_path('lib/css/config/init.php'));
 					$css = ob_get_clean();
