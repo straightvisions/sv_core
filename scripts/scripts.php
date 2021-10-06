@@ -438,6 +438,7 @@
 								if($script->get_parent()->get_css_cache_active()) {
 									$script->cache_css();
 									$script->get_parent()->get_script('common')->set_is_enqueued(false);
+									$script->get_parent()->get_script('default')->set_is_enqueued(false);
 								}else {
 									// legacy
 									$_s = $script->get_parent()->get_settings();
