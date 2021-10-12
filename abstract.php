@@ -2,7 +2,7 @@
 	namespace sv_core;
 	
 	abstract class sv_abstract {
-		const version_core					= 7000;
+		const version_core					= 8000;
 		
 		protected $name						= false;
 		protected $module_name				= false;
@@ -549,7 +549,7 @@
 		}
 
 		protected function setting_scripts() {
-			$settings = glob( $this->get_active_core()->get_path_core('settings/modules/*') );
+			$settings = glob( $this->get_active_core()->get_path_core('settings/modules/*'), GLOB_ONLYDIR );
 
 			foreach( $settings as $setting ) {
 				$path = str_replace('\\', '/', $this->get_active_core()->get_path());
@@ -557,6 +557,10 @@
 				$js = $setting . '/lib/js/';
 
 				// Styles
+				if(!function_exists('list_files')){
+					require(ABSPATH.'/wp-admin/includes/file.php');
+				}
+
 				if ( file_exists($css) && $files = list_files( $css ) ) {
 					foreach( $files as $file ) {
 						$relative_path = str_replace( $path, '', $file );
@@ -818,6 +822,16 @@
 			
 			return $actions;
 		}
+		public function has_block_sidebar( string $block_name ): bool{
+			$widget_blocks = get_option( 'widget_block' );
+			foreach( (array) $widget_blocks as $widget_block ) {
+				if ( ! empty( $widget_block['content'] ) && has_block( $block_name, $widget_block['content'] )) {
+					return true;
+				}
+			}
+
+			return false;
+		}
 		public function has_block_frontend(string $block_name): bool{
 			if( ! is_admin() ) {
 				$post = apply_filters('sv_core_has_block_frontend_queried_object', get_queried_object());
@@ -826,7 +840,10 @@
 					return false;
 				}
 
-				if ( !$this->has_block( $block_name, $post->ID )) {
+				if (
+					!$this->has_block( $block_name, $post->ID )
+					&& !$this->has_block_sidebar($block_name)
+				) {
 					return false;
 				}
 			}
@@ -857,18 +874,8 @@
 					}
 
 					foreach ( $blocks as $block ) {
-						$block = $this->flatten_inner_blocks($block); // search for child blocks
-
-						if ( $block['blockName'] === 'core/block' && ! empty( $block['attrs']['ref'] ) ) {
-							if( has_block( $block_name, $block['attrs']['ref'] ) ){
-								return true;
-							}
-						}
-
-						if ( $block['blockName'] === 'core/block' && ! empty( $block['attrs']['ref'] ) ) {
-							if( has_block( $block_name, $block['attrs']['ref'] ) ){
-								return true;
-							}
+						if($this->check_inner_blocks($block_name, $block)){
+							return true;
 						}
 					}
 
@@ -877,17 +884,32 @@
 
 			return false;
 		}
-		protected function flatten_inner_blocks(array $block): array{
+		protected function check_inner_blocks(string $block_name, array $block): bool{
+
+			if ( $block['blockName'] === 'core/block' && ! empty( $block['attrs']['ref'] ) ) {
+				if( has_block( $block_name, $block['attrs']['ref'] ) ){
+					return true;
+				}
+			}
+
+			if ( $block['blockName'] === 'core/block' && ! empty( $block['attrs']['ref'] ) ) {
+				if( has_block( $block_name, $block['attrs']['ref'] ) ){
+					return true;
+				}
+			}
+
 			if(isset($block['innerBlocks'])){
 				$inner_blocks = $block['innerBlocks'];
 				unset($block['innerBlocks']);
 				foreach($inner_blocks as $inner_block) {
-					$block = array_merge($block, $this->flatten_inner_blocks($inner_block));
+					if($this->check_inner_blocks($block_name, $inner_block)){
+						return true;
+					}
 				}
 
 			}
 
-			return $block;
+			return false;
 		}
 
 		public function get_css_cache_active(){

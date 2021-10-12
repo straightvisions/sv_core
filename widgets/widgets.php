@@ -9,7 +9,7 @@
 		private $settings							= array();
 		public static $scripts_loaded				= false;
 		private $widget_class_name					= false;
-		private $template_path						= array();
+		private $template_path						= '';
 		
 		/**
 		 * @desc			initialize
@@ -142,7 +142,7 @@
 			$instance = array();
 			
 			foreach ($new_instance as $name => $field) {
-				$instance[$name] = (!empty($new_instance[$name])) ? strip_tags($new_instance[$name]) : '';
+				$instance[$name] = (!empty($new_instance[$name])) ? $new_instance[$name] : '';
 			}
 			
 			return $instance;

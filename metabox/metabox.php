@@ -49,6 +49,14 @@
 			add_action('load-post-new.php', array($this,'post_meta_boxes_setup'));
 		}
 		public function post_meta_boxes_setup(){
+			global $current_screen;
+
+			// avoid custom meta boxes on non public post types
+			// @todo: make this a parameter
+			if(!is_post_type_viewable($current_screen->post_type)){
+				return;
+			}
+
 			add_action('add_meta_boxes', array($this,'add_meta_boxes'));
 			add_action('save_post', array($this,'save_post'), 10, 2);
 		}
@@ -99,7 +107,7 @@
 				
 				// Get the meta value of the custom field key.
 				$meta_value											= get_post_meta($post_id, $field_id, true);
-				
+
 				// If a new meta value was added and there was no previous value, add it.
 				if($new_meta_value !== false && $meta_value === false){
 					add_post_meta($post_id, $field_id, $new_meta_value, true);
@@ -112,5 +120,14 @@
 				}
 			}
 			return $post_id;
+		}
+		public function get_data(int $post_id, string $field_id, $default_value = false){
+			$meta_value = get_post_meta($post_id, $field_id, true);
+
+			if(strlen($meta_value) === 0){
+				return $default_value;
+			}
+
+			return $meta_value;
 		}
 	}

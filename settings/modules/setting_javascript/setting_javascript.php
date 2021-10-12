@@ -1,10 +1,10 @@
 <?php
-	
+
 	namespace sv_core;
-	
-	class setting_select_page extends settings{
+
+	class setting_javascript extends settings{
 		private $parent				= false;
-		
+
 		/**
 		 * @desc			initialize
 		 * @author			Matthias Bathke
@@ -15,6 +15,6 @@
 			$this->parent			= $parent;
 		}
 		public function sanitize($meta_value){
-			return intval($meta_value);
+			return wp_kses($meta_value, 'strip');
 		}
 	}
