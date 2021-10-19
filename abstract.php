@@ -539,9 +539,6 @@
 					// Form
 					wp_enqueue_style($this->get_prefix('settings'), $this->get_active_core()->get_url_core('../assets/settings.css'), array($this->get_prefix('dashboard')), filemtime($this->get_active_core()->get_path_core('../assets/settings.css')));
 
-					// Log - @notice Deactivated, because not in use
-					//wp_enqueue_style($this->get_prefix('log'), $this->get_url_core('../assets/log.css'), array($this->get_prefix('form')), filemtime($this->get_path_core('../assets/log.css')));
-
 					// Check if page is settings page
 					$this->setting_scripts();
 				}

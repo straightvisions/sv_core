@@ -6,9 +6,9 @@
 	<div class="sv_admin_menu">
 		<div class="sv_admin_menu_head">
 			<a href="https://straightvisions.com" target="_blank" class="sv_admin_brand">
-				<img src="<?php echo $this->get_url_core('../assets/logo.png'); ?>">
+				<img src="<?php echo $this->get_url_core('../assets/logo.svg'); ?>">
 			</a>
-			<div class="sv_admin_mobile_toggle" data-sv_admin_menu_target="#sv_admin_menu_body"></div>
+			<div class="sv_admin_mobile_toggle"></div>
 		</div>
 		<div id="sv_admin_menu_body">
 			<div data-sv_admin_menu_target="#section_about" class="sv_admin_menu_item section_about active">
