@@ -52,9 +52,9 @@
 				foreach ($this->get_parent()->get_data() as $breakpoint => $val) {
 					if ($val) {
 						$f = $this->get_parent()->get_parent()->get_module('sv_webfontloader')->get_font_by_label($val);
-						$font_family[$breakpoint] = isset($f['family']) ? $f['family'] : false;
-						$font_weight[$breakpoint] = isset($f['weight']) ? $f['weight'] : false;
 
+						$font_family[$breakpoint] = isset($f['family']) ? '"'.$f['family'].'"' : false;
+						$font_weight[$breakpoint] = isset($f['weight']) ? $f['weight'] : false;
 						$font_italic[$breakpoint] = (isset($f['italic']) && intval($f['italic']) > 0) ? 'italic' : false;
 					} else {
 						$font_family[$breakpoint] = false;
