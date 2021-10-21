@@ -18,23 +18,15 @@
 			$this->parent			= $parent;
 		}
 		public function field_callback($input){
-			$settings	= array();
-
 			if($this->get_children()) {
 				foreach ( $this->get_children() as $setting ) {
-					$settings[$setting->get_id()]		= $setting;
+					if(method_exists($setting->run_type(), 'field_callback')) {
+						$input = $setting->run_type()->field_callback( $input );
+					}
 				}
 			}
 
-			$settings_sanitized				= array();
-			foreach($input as $i => $setting_group){
-				$settings_sanitized[$i]		= array();
-				foreach($setting_group as $setting_name => $value){
-					$settings_sanitized[$i]	[$setting_name]		= $settings[$setting_name]->run_type()->sanitize($value);
-				}
-			}
-
-			return $settings_sanitized;
+			return $input;
 		}
 		public function add_child($setting = false){
 			$child														= $setting ? $setting : static::create($this);
