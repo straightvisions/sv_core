@@ -3,6 +3,7 @@
 	
 	class scripts extends sv_abstract {
 		private static $scripts						= array();
+		private static $scripts_by_handle			= array();
 		private static $scripts_enqueued			= array();
 		private static $scripts_active				= array();
 		
@@ -28,12 +29,13 @@
 		
 		// CSS specific
 		private $media								= 'all';
-		private $inline								= false;
+		private $inline								= '';
 		
 		// JS specific
 		private $localized							= array();
 
 		private static $list						= array();
+		private $load_in_header						= false;
 
 		//protected $option_updated					= false;
 
@@ -59,8 +61,38 @@
 				add_action( 'enqueue_block_editor_assets', array($this, 'gutenberg_scripts'));
 			}else{
 				add_action( 'wp_enqueue_script', array( $this, 'register_scripts' ), 10 );
+				add_action( 'wp_enqueue_scripts', array($this, 'wp_head_start'), 1);
+				add_action( 'wp_enqueue_scripts', array($this, 'wp_head'), 10);
+
 				add_action( 'wp_footer', array( $this, 'start' ), 1 );
 				add_action( 'wp_footer', array( $this, 'wp_footer' ), 10 );
+
+
+				add_filter('script_loader_tag', function($tag, $handle){
+					if(isset($this->get_scripts_by_handle()[$handle])){
+						$script			= $this->get_scripts_by_handle()[$handle];
+
+						if($script->get_consent_required()) {
+							$tag = str_replace(
+								array(
+									"type='text/javascript'",
+									'type="text/javascript"'
+								),
+								'type="text/plain"'.$script->get_custom_attributes(),
+								$tag);
+						}else{
+							$tag = str_replace(
+								array(
+									"type='text/javascript'",
+									'type="text/javascript"'
+								),
+								'type="text/javascript"'.$script->get_custom_attributes(),
+								$tag);
+						}
+					}
+
+					return $tag;
+				}, 10, 2);
 			}
 
 			add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_menu' ), 999 );
@@ -208,7 +240,6 @@
 					static::$list[$script->get_UID()][ 'attached' ]->set_options( $options );
 
 					// Setting cache invalidated
-					//if($script->get_parent()->get_css_cache_active() && $script->get_ID() == 'config'){
 					if(strpos($script->get_ID(),'config') !== false){
 						static::$list[$script->get_UID()]['cache']['active'] = true;
 					}else{
@@ -236,14 +267,12 @@
 						->load_type( 'select' );
 
 					// invalidate cache globally if requested
-					//var_dump(intval($this->s[ 'flush_css_cache' ]->get_data()));
 					if(intval($this->s[ 'flush_css_cache' ]->get_data()) === 1){
 						$script->set_css_cache_invalidated(true,true);
 					}
 
 					$script->cache_css();
 				}
-				//die('end');
 				$this->s[ 'flush_css_cache' ]->set_data('0')->save_option();
 			}
 		}
@@ -255,19 +284,35 @@
 		public function get_scripts(): array {
 			return isset( self::$scripts[ $this->get_root()->get_name() ] ) ? self::$scripts[ $this->get_root()->get_name() ] : array();
 		}
+		public function get_scripts_by_handle(): array {
+			return isset( self::$scripts_by_handle ) ? self::$scripts_by_handle : array();
+		}
 		public function get_enqueued_scripts(): array{
 			return self::$scripts_enqueued;
 		}
 		public function get_active_scripts(): array {
 			return self::$scripts_active;
 		}
-
+		public function wp_head_start(){
+			ob_start();
+			// now remove the attached style
+			add_action('wp_footer', function(){
+				$this->replace_type_attributes();
+			}, 99999999);
+		}
+		public function wp_head() {
+			foreach ( $this->get_scripts() as $script ) {
+				if(!$script->get_is_backend() && $script->get_load_in_header()) {
+					$this->add_script($script);
+				}
+			}
+		}
 		public function wp_footer() {
 			// we need to register an attached style to be allowed to add inline styles with WP function
 			wp_register_style('sv_core_init_style', $this->get_url_core('frontend/css/style.css'));
 
 			foreach ( $this->get_scripts() as $script ) {
-				if(!$script->get_is_backend()) {
+				if(!$script->get_is_backend() && !$script->get_load_in_header()) {
 					$this->add_script($script);
 				}
 			}
@@ -278,17 +323,21 @@
 			ob_start();
 			// now remove the attached style
 			add_action('wp_print_footer_scripts', function(){
-				$html = ob_get_contents();
-				ob_end_clean();
-				$html = preg_replace("/<link(.*)sv_core_init_style-css(.*)\/>/", '', $html);
-
-				$html = $this->replace_type_attr($html);
-
-				echo $html;
+				$this->replace_type_attributes();
 			});
+		}
+		private function replace_type_attributes(){
+			$html = ob_get_contents();
+			ob_end_clean();
+			$html = preg_replace("/<link(.*)sv_core_init_style-css(.*)\/>/", '', $html);
+
+			$html = $this->replace_type_attr($html);
+
+			echo $html;
 		}
 		public function replace_type_attr($input){
 			foreach ( $this->get_scripts() as $script ) {
+				//var_dump($script->get_handle());
 				if($script->get_consent_required()) {
 					$input = str_replace(
 						array(
@@ -307,7 +356,7 @@
 						$input);
 				}
 			}
-
+//die('end');
 			return $input;
 		}
 		public function admin_scripts($hook){
@@ -427,6 +476,7 @@
 				if ($this->check_for_enqueue($script)) {
 					// set as loaded
 					$script->set_is_loaded();
+					self::$scripts_by_handle[$script->get_handle()]	= $script;
 
 					// CSS or JS
 					switch ($script->get_type()) {
@@ -494,20 +544,28 @@
 							}
 							break;
 						case 'js':
-							wp_enqueue_script(
-								$script->get_handle(),							  // script handle
-								$script->get_url(),							  // script url
-								$script->get_deps(),								// script dependencies
-								($this->is_external() ? md5($script->get_url()) : filemtime($script->get_path())),		 // script version, generated by last filechange time
-								true									   // print in footer
-							);
+							if(strlen($script->get_inline()) > 0){
+								ob_start();
+								require($script->get_path());
+								$js = ob_get_clean();
+
+								wp_add_inline_script($script->get_inline(), $js, 'before');
+							}else{
+								wp_enqueue_script(
+									$script->get_handle(),							  // script handle
+									$script->get_url(),							  // script url
+									$script->get_deps(),								// script dependencies
+									($this->is_external() ? md5($script->get_url()) : filemtime($script->get_path())),		 // script version, generated by last filechange time
+									$script->get_load_in_header() ? false : true									   // print in footer
+								);
+							}
 
 							if ($script->is_localized()) {
 								wp_localize_script($script->get_handle(), $script->get_uid(), $script->get_localized());
 							}
 							break;
 					}
-					self::$scripts_active[]						= $script;
+					self::$scripts_active[]								= $script;
 				}
 			}
 		}
@@ -798,13 +856,23 @@
 			return $this->media;
 		}
 		
-		public function set_inline( bool $inline ): scripts {
+		public function set_inline( string $inline ): scripts {
 			$this->inline							= $inline;
 			
 			return $this;
 		}
 		
-		public function get_inline(): bool {
+		public function get_inline(): string {
 			return $this->inline;
+		}
+
+		public function set_load_in_header( bool $load_in_header ): scripts {
+			$this->load_in_header							= $load_in_header;
+
+			return $this;
+		}
+
+		public function get_load_in_header(): bool {
+			return $this->load_in_header;
 		}
 	}
