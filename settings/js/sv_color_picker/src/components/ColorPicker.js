@@ -22,11 +22,12 @@ class ColorPicker extends Component {
     }
 
     this.state = {
-      id: props.id,
-      color: colorObject,
-      presetColors: presetColors,
-      rootElement: props.rootElement,
+		id: props.id,
+		color: colorObject,
+		presetColors: presetColors,
+		rootElement: props.rootElement
     };
+
   }
 
   updateColorDisplay() {
@@ -34,6 +35,7 @@ class ColorPicker extends Component {
     const value = `rgba(${this.state.color.r},${this.state.color.g},${this.state.color.b},${this.state.color.a})`;
 
     colorDisplay.css('background-color', value);
+	 
   }
 
   rgbToHex = (rgb) => { 
@@ -55,13 +57,29 @@ class ColorPicker extends Component {
   };
 
   handleChangeComplete = ( color ) => {
-    this.setState({ color: color.rgb });
+    this.setState({ color: color.rgb, hasChanged:true });
+    
+	const colorString = color.rgb.r + ',' + color.rgb.g + ',' + color.rgb.b + ',' + color.rgb.a;
+	// trigger sv custom event
+	const event = new CustomEvent('sv_react_el_changed', {
+	  bubbles:true,
+	  composed:true,
+	  detail:{
+		  id:     this.state.id,
+		  name:   this.state.id,
+		  value:  colorString,
+		  title:  'ColorPickerElement'
+	  }
+	});
+	
+	window.dispatchEvent(event);
+
     this.updateColorDisplay();
   };
   
   render() {
     const colorString = this.state.color.r + ',' + this.state.color.g + ',' + this.state.color.b + ',' + this.state.color.a;
-
+	
     return [
         <SketchPicker 
           color={ this.state.color }
@@ -74,7 +92,7 @@ class ColorPicker extends Component {
           id={ this.state.id } 
           name={ this.state.id } 
           type="hidden" 
-          value={ colorString } 
+          value={ colorString }
         />
     ];
   }
