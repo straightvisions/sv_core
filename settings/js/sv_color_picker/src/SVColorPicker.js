@@ -3,15 +3,15 @@ import ColorPicker from './components/ColorPicker';
 export default {
     // Returns the color value as RGB format
     getRGB: function (color) {
-        var c;
+        let c;
     
         // Color is hex
         if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(color)){
-            c= color.substring(1).split('');
-            if(c.length== 3){
-                c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+            c = color.substring(1).split('');
+            if(c.length === 3){
+                c = [c[0], c[0], c[1], c[1], c[2], c[2]];
             }
-            c= '0x'+c.join('');
+            c = '0x'+c.join('');
             return ''+[(c>>16)&255, (c>>8)&255, c&255].join(',')+',1';
         }
     

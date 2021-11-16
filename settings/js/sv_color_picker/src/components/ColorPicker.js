@@ -7,9 +7,9 @@ class ColorPicker extends Component {
     
     // Turns the color string into an color object
     const colorObject = {};
-    colorObject.r = props.color.split(',')[0],
-    colorObject.g = props.color.split(',')[1],
-    colorObject.b = props.color.split(',')[2],
+    colorObject.r = props.color.split(',')[0];
+    colorObject.g = props.color.split(',')[1];
+    colorObject.b = props.color.split(',')[2];
     colorObject.a = props.color.split(',')[3];
 
     // Turns the color palette array into an presetColors array
@@ -57,7 +57,7 @@ class ColorPicker extends Component {
   handleChangeComplete = ( color ) => {
     this.setState({ color: color.rgb });
     this.updateColorDisplay();
-  }
+  };
   
   render() {
     const colorString = this.state.color.r + ',' + this.state.color.g + ',' + this.state.color.b + ',' + this.state.color.a;
@@ -69,8 +69,8 @@ class ColorPicker extends Component {
           presetColors={ this.state.presetColors }
         />,
         <input 
-          data-sv_type="sv_form_field" 
-          class="sv_input" 
+          data-sv_type="sv_form_field"
+          className="sv_input"
           id={ this.state.id } 
           name={ this.state.id } 
           type="hidden" 
