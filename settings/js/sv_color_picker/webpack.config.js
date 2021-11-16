@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: './src/index.js',
     output: {
-        path: path.join(__dirname, '/sv_color_picker_min'),
+        path: path.join(__dirname, '/dist'),
         filename: 'sv_color_picker.min.js',
     },
     externals: {
@@ -29,4 +29,4 @@ module.exports = {
         })
     ]
     */
-}
+};
