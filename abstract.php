@@ -830,21 +830,28 @@
 			return false;
 		}
 		public function has_block_frontend(string $block_name): bool{
+			// always deliver all assets in Gutenberg, as we don't know when a block is added
 			if( ! is_admin() ) {
-				$post = apply_filters('sv_core_has_block_frontend_queried_object', get_queried_object());
+				return true;
+			}
 
-				if(!$post || get_class($post) != 'WP_Post'){
-					return false;
-				}
+			// check if it's a post
+			$post = apply_filters('sv_core_has_block_frontend_queried_object', get_queried_object());
 
-				if (
-					!$this->has_block( $block_name, $post->ID )
-					&& !$this->has_block_sidebar($block_name)
-				) {
+			if($post && get_class($post) == 'WP_Post'){
+				// post contains block?
+				if (!$this->has_block( $block_name, $post->ID )) {
 					return false;
 				}
 			}
-			return true;
+
+			// check if any sidebar contains block
+			if ($this->has_block_sidebar($block_name)) {
+				return true;
+			}
+
+			// nothing found
+			return false;
 		}
 		public function has_block( string $block_name, int $id = 0 ): bool{
 			$id = (!$id) ? get_the_ID() : $id;
