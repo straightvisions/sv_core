@@ -831,7 +831,7 @@
 		}
 		public function has_block_frontend(string $block_name): bool{
 			// always deliver all assets in Gutenberg, as we don't know when a block is added
-			if( ! is_admin() ) {
+			if( is_admin() ) {
 				return true;
 			}
 
@@ -840,8 +840,8 @@
 
 			if($post && get_class($post) == 'WP_Post'){
 				// post contains block?
-				if (!$this->has_block( $block_name, $post->ID )) {
-					return false;
+				if ($this->has_block( $block_name, $post->ID )) {
+					return true;
 				}
 			}
 
