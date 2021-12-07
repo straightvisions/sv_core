@@ -72,21 +72,25 @@
 					if(isset($this->get_scripts_by_handle()[$handle])){
 						$script			= $this->get_scripts_by_handle()[$handle];
 
-						if($script->get_consent_required()) {
+						$tag = str_replace(
+							array(
+								"type='text/javascript'",
+								'type="text/javascript"'
+							),
+							'',
+							$tag);
+
+						if(strpos($tag, $script->get_custom_attributes()) === false) {
 							$tag = str_replace(
-								array(
-									"type='text/javascript'",
-									'type="text/javascript"'
-								),
-								'type="text/plain"'.$script->get_custom_attributes(),
+								'<script ',
+								'<script ' . $script->get_custom_attributes(),
 								$tag);
-						}else{
+						}
+
+						if($script->get_consent_required() && strpos($tag, 'type="text/plain"') === false) {
 							$tag = str_replace(
-								array(
-									"type='text/javascript'",
-									'type="text/javascript"'
-								),
-								'type="text/javascript"'.$script->get_custom_attributes(),
+								'<script ',
+								'<script type="text/plain"',
 								$tag);
 						}
 					}
