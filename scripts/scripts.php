@@ -90,7 +90,7 @@
 						if($script->get_consent_required() && strpos($tag, 'type="text/plain"') === false) {
 							$tag = str_replace(
 								'<script ',
-								'<script type="text/plain "',
+								'<script type="text/plain"',
 								$tag);
 						}
 					}
