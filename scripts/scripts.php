@@ -369,7 +369,8 @@
 				&& (
 					strpos( $hook,'straightvisions' ) !== false
 					|| strpos( $hook,'appearance_page_sv100' ) !== false
-					|| (get_current_screen() && get_current_screen()->base == "post")
+					|| (get_current_screen() && get_current_screen()->base == "post"
+					|| (get_current_screen() && get_current_screen()->id === 'edit-category'))
 				)
 			) {
 				foreach ( $this->get_scripts() as $script ) {
