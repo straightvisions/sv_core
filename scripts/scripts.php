@@ -80,7 +80,7 @@
 							'',
 							$tag);
 
-						if(strpos($tag, $script->get_custom_attributes()) === false) {
+						if(strlen($script->get_custom_attributes()) > 0 && strpos($tag, $script->get_custom_attributes()) === false) {
 							$tag = str_replace(
 								'<script ',
 								'<script ' . $script->get_custom_attributes().' ',

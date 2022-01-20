@@ -30,7 +30,7 @@ jQuery( 'body' ).on( 'click','.sv_setting_group_add_new_button', function() {
 
 	index++;
 
-	form_clone.find('.data_sv_type_sv_form_field, [data-sv_type="sv_form_field"]').each(function(e) {
+	form_clone.find('[data-sv_type="sv_form_field"]').each(function(e) {
 		let id = jQuery(this).attr('id').replace("sv_form_field_index", index );
 		let name = jQuery(this).parents('.sv_setting_group_input').data('sv_input_name').replace("sv_form_field_index", index );
 

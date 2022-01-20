@@ -6,12 +6,6 @@
 		private $color_palette			  = false;
 		public static $initialized			= false;
 
-		/**
-		 * @desc			initialize
-		 * @author			Adrian Chudzynski
-		 * @since			1.0
-		 * @ignore
-		 */
 		public function __construct( $parent = false ) {
 			$this->parent			= $parent;
 

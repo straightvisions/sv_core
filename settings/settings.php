@@ -407,10 +407,14 @@ class settings extends sv_abstract{
 	}
 
 	public function get_css_data(string $custom_property = '', string $prefix = '', string $suffix = ''): array{
+		/*if($this->get_type() === false){
+			error_log($this->get_field_id().__(' cannot be loaded correctly', 'sv_core'));
+			return array();
+		}*/
+
 		if(strlen($custom_property) === 0){
 			return $this->run_type()->get_css_data();
 		}
-
 		if(strlen($suffix) > 0){
 			return $this->run_type()->get_css_data($custom_property, $prefix, $suffix);
 		}
