@@ -659,5 +659,28 @@
 
 				return $this;
 			}
+			protected function get_sidebar(string $position): string{
+				if(!$this->get_instance()->get_module( 'sv_sidebar' )){
+					return '';
+				}
+				if(strlen($this->get_instance()->get_active_archive_type()) === 0){
+					return '';
+				}
+
+				return $this->get_instance()->get_module( 'sv_sidebar' )->load(
+					$this->get_setting( 'show_sidebar_'.$position )->get_data()
+				);
+			}
+			protected function has_sidebar(string $position): string{
+				if(!$this->get_setting('show_sidebar_'.$position)->get_data()){
+					return false;
+				}
+
+				if(strlen($this->get_sidebar($position)) === 0){
+					return false;
+				}
+
+				return true;
+			}
 		}
 	}
