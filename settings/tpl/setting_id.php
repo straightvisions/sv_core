@@ -5,6 +5,7 @@
 		id="<?php echo $props['ID']; ?>"
 		name="<?php echo $props['name']; ?>"
 		type="text"
+		pattern="[A-Za-z0-9_-]+"
 		placeholder="<?php echo $props['placeholder']; ?>"
 		value="<?php echo esc_attr($props['value']); ?>"
 <?php echo ($props['maxlength'] ? 'maxlength="'.$props['maxlength'].'"' :  ''). '
