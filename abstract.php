@@ -850,6 +850,10 @@
 				return true;
 			}
 
+			if(is_404()){ // load all styles on 404 page as it won't detect sidebar styles correctly
+				return true;
+			}
+
 			// nothing found
 			return false;
 		}
