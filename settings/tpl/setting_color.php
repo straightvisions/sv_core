@@ -1,4 +1,4 @@
-<?php $color = esc_attr( $props['value'] ? $this->get_rgb( $props['value']) : 'transparent' ); ?>
+<?php $color = esc_attr( $props['value'] ? $this->get_rgb( $props['value']) : $props['default_value'] ); ?>
 <script>
 	<?php if(strpos($props['ID'], 'sv_form_field_index') === false){ ?>
 	jQuery( document ).ready( function() {
