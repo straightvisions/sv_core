@@ -822,9 +822,27 @@
 		public function has_block_sidebar( string $block_name ): bool{
 			$widget_blocks = get_option( 'widget_block' );
 			foreach( (array) $widget_blocks as $widget_block ) {
-				if ( ! empty( $widget_block['content'] ) && has_block( $block_name, $widget_block['content'] )) {
+				if ( ! empty( $widget_block['content'] ) && $this->has_block( $block_name, do_shortcode($widget_block['content'] ))) {
 					return true;
 				}
+			}
+
+			return false;
+		}
+		public function has_block_term_desc(string $block_name): bool{
+			$object = apply_filters('sv_core_has_block_frontend_queried_object', get_queried_object());
+
+			if(!$object){
+				return false;
+			}
+
+			if( get_class($object) !== 'WP_Term'){
+				return false;
+			}
+
+			$content	= do_shortcode($object->category_description);
+			if($this->has_block( $block_name, $content)){
+				return true;
 			}
 
 			return false;
@@ -835,14 +853,20 @@
 				return true;
 			}
 
-			// check if it's a post
-			$post = apply_filters('sv_core_has_block_frontend_queried_object', get_queried_object());
+			// get object
+			$object = apply_filters('sv_core_has_block_frontend_queried_object', get_queried_object());
 
-			if($post && get_class($post) == 'WP_Post'){
+			// check if it's a post
+			if($object && get_class($object) == 'WP_Post'){
 				// post contains block?
-				if ($this->has_block( $block_name, $post->ID )) {
+				if ($this->has_block( $block_name, get_post_field( 'post_content', $object->ID ) )) {
 					return true;
 				}
+			}
+
+			// check if it's a term
+			if($this->has_block_term_desc($block_name)){
+				return true;
 			}
 
 			// check if any sidebar contains block
@@ -857,36 +881,34 @@
 			// nothing found
 			return false;
 		}
-		public function has_block( string $block_name, int $id = 0 ): bool{
-			$id = (!$id) ? get_the_ID() : $id;
-
-			if(has_block($block_name, $id)){
+		public function has_block( string $block_name, string $content = '' ): bool{
+			if(has_block($block_name, $content)){
 				return true;
 			}
-			if($this->has_reusable_block($block_name, $id)){
+			if($this->has_reusable_block($block_name, $content)){
 				return true;
 			}
 			return false;
 		}
-		public function has_reusable_block( string $block_name, int $id = 0 ): bool{
-			$id = (!$id) ? get_the_ID() : $id;
+		public function has_reusable_block( string $block_name, string $content = '' ): bool{
+			if( strlen($content) === 0 ) {
+				return false;
+			}
 
-			if( $id ){
-				if ( has_block( 'block', $id ) ){
-					// Check reusable blocks
-					$content = get_post_field( 'post_content', $id );
-					$blocks = parse_blocks( $content );
+			if (has_block( 'block', $content ) ) {
+				return true;
+			}
 
-					if ( ! is_array( $blocks ) || empty( $blocks ) ) {
-						return false;
-					}
+			// Check reusable blocks
+			$blocks = parse_blocks( $content );
 
-					foreach ( $blocks as $block ) {
-						if($this->check_inner_blocks($block_name, $block)){
-							return true;
-						}
-					}
+			if ( ! is_array( $blocks ) || empty( $blocks ) ) {
+				return false;
+			}
 
+			foreach ( $blocks as $block ) {
+				if($this->check_inner_blocks($block_name, $block)){
+					return true;
 				}
 			}
 
