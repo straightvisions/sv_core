@@ -1,9 +1,11 @@
-<?php $color = esc_attr( $props['value'] ? $this->get_rgb( $props['value']) : $props['default_value'] ); ?>
+<?php
+	$color = esc_attr( $props['value'] ? $this->get_rgb( $props['value']) : $props['default_value'] );
+	?>
 <script>
 	<?php if(strpos($props['ID'], 'sv_form_field_index') === false){ ?>
 	jQuery( document ).ready( function() {
 		if ( typeof SVColorPicker !== 'undefined' ) {
-			SVColorPicker.renderColorPicker( '<?php echo $props['ID']; ?>', '<?php echo $color; ?>', <?php echo json_encode( get_theme_support( 'editor-color-palette' )[0] ) ?> );
+			SVColorPicker.renderColorPicker( '<?php echo $props['ID']; ?>', '<?php echo $color ? $color : '0,0,0,0'; ?>', <?php echo json_encode( get_theme_support( 'editor-color-palette' )[0] ) ?> );
 		}
 	} );
 	<?php }else{ ?>
