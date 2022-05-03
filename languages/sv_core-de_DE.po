@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SV Core\n"
-"POT-Creation-Date: 2022-02-16 15:51+0100\n"
-"PO-Revision-Date: 2022-02-16 15:52+0100\n"
+"POT-Creation-Date: 2022-05-03 17:38+0200\n"
+"PO-Revision-Date: 2022-05-03 17:38+0200\n"
 "Last-Translator: \n"
 "Language-Team: straightvisions GmbH\n"
 "Language: de_DE\n"
@@ -60,6 +60,10 @@ msgstr "Keine Datenschutzerklärung definiert."
 #: abstract.php:813 scripts/scripts.php:122
 msgid "Settings"
 msgstr "Einstellungen"
+
+#: abstract.php:1087
+msgid "Minutes"
+msgstr "Minuten"
 
 #: abstract_template_sv_archive.php:29 abstract_template_sv_archive.php:430
 #: abstract_template_sv_archive.php:435 abstract_template_sv_archive.php:448
@@ -671,7 +675,7 @@ msgstr "Template für Einstellungen nicht gefunden: "
 #: settings/tpl/setting_border_tpl/border_color.php:20
 #: settings/tpl/setting_box_shadow_tpl/color.php:11
 #: settings/tpl/setting_box_shadow_tpl/color.php:13
-#: settings/tpl/setting_color.php:13 settings/tpl/setting_font_tpl/color.php:5
+#: settings/tpl/setting_color.php:15 settings/tpl/setting_font_tpl/color.php:5
 #: settings/tpl/setting_font_tpl/color.php:8
 msgid "Toggle Color Picker"
 msgstr "Wechsel Farbwähler"
