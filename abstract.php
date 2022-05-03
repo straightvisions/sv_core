@@ -1,9 +1,9 @@
 <?php
 	namespace sv_core;
-	
+
 	abstract class sv_abstract {
 		const version_core					= 8000;
-		
+
 		protected $name						= false;
 		protected $module_name				= false;
 		protected $basename					= false;
@@ -63,28 +63,28 @@
 			// @todo: remove
 			if ( is_file($this->get_path( 'lib/modules/'.$name . '.php' )) ) {
 				require_once( $this->get_path( 'lib/modules/'.$name . '.php' ) );
-				
+
 				$class_name		= $this->get_root()->get_name() . '\\' . $name;
 				$this->$name	= new $class_name();
 				$this->$name->set_root( $this->get_root() );
 				$this->$name->set_parent( $this );
-				
+
 				return $this->$name;
 			}
-			
+
 			if ( is_file($this->get_root()->get_path( 'lib/modules/'.$name . '/'.$name . '.php' )) ) {
 				require_once( $this->get_root()->get_path( 'lib/modules/'.$name . '/'.$name . '.php' ) );
-				
+
 				$class_name		= $this->get_root()->get_name() . '\\' . $name;
 				$this->$name	= new $class_name();
 				$this->$name->set_root( $this->get_root() );
 				$this->$name->set_parent( $this );
 				$this->$name->set_path( $this->get_root()->get_path( 'lib/modules/'.$name . '/' ) );
 				$this->$name->set_url( $this->get_root()->get_url( 'lib/modules/'.$name . '/' ) );
-				
+
 				return $this->$name;
 			}
-			
+
 			throw new \Exception( __( 'Class', 'sv_core' ) . ' '
 				. $name
 				. ' ' . __( 'could not be loaded (tried to load class-file', 'sv_core' ) . ' '
@@ -124,15 +124,15 @@
 
 			return $this;
 		}
-		
+
 		public function get_parent() {
 			return $this->parent ? $this->parent : $this;
 		}
-		
+
 		public function get_root() {
 			return $this->root ? $this->root : $this;
 		}
-		
+
 		public function set_root( $root ) {
 			$this->root = $root;
 
@@ -143,11 +143,11 @@
 		public function get_active_core(): core {
 			return $this::$active_core;
 		}
-		
+
 		public function get_previous_version(): int{
 			return intval( get_option( $this->get_prefix( 'version') ) );
 		}
-		
+
 		public function get_version( bool $formatted = false ): string{
 			$output = '0';
 
@@ -165,7 +165,7 @@
 
 			return $output;
 		}
-		
+
 		public function get_version_core_match( bool $formatted = false ): string {
 			$output = '0';
 
@@ -183,7 +183,7 @@
 
 			return $output;
 		}
-		
+
 		public function get_version_core( bool $formatted = false ): string {
 			$output = '0';
 
@@ -201,7 +201,7 @@
 
 			return $output;
 		}
-		
+
 		public function find_parent( $class_name, bool $qualified = false ){
 			/*
 			 * @todo shouldn't we return an empty object or better NULL as default here?
@@ -225,10 +225,10 @@
 					}
 				}
 			}
-			
+
 			return $output;
 		}
-		
+
 		public function find_parent_by_name( string $name ) {
 			$output = false;
 
@@ -239,10 +239,10 @@
 					$output = $this->get_parent()->find_parent_by_name( $name );
 				}
 			}
-			
+
 			return $output;
 		}
-		
+
 		public function is_theme_instance(): bool{
 			return get_class( $this->get_root() ) == 'sv100\init' ? true : false;
 		}
@@ -254,7 +254,7 @@
 			//if(isset($this->get_instances()[$namespace])){
 			if( isset($this->get_instances()[$name]) === false) {
 				$this->set_section_types();
-				
+
 				global $wpdb;
 
 				self::$wpdb	 = $wpdb;
@@ -280,16 +280,16 @@
 
 			return $output;
 		}
-		
+
 		protected function set_section_types(): sv_abstract {
 			$this->section_types = array(
 				'settings'	=> __( 'Configuration &amp; Settings', 'sv_core' ),
 				'tools'		=> __( 'Helpful tools &amp; helper', 'sv_core' )
 			);
-			
+
 			return $this;
 		}
-		
+
 		public static function get_instances(): array {
 			return self::$instances;
 		}
@@ -303,11 +303,11 @@
 
 			return $output;
 		}
-		
+
 		public static function get_instances_active(): array {
 			return self::$instances_active;
 		}
-		
+
 		public static function is_instance_active( string $name ): bool{
 			return isset( self::$instances_active[ $name ] );
 		}
@@ -320,11 +320,11 @@
 				load_plugin_textdomain( $this->get_root()->get_prefix(), false, basename( $this->get_path() ) . '/languages' );
 			}
 		}
-		
+
 		public function update_routine() {
 			update_option( $this->get_prefix( 'version' ), $this->get_version() );
 		}
-		
+
 		public function init() {
 			if(did_action('plugins_loaded')){
 				$this->load_translation();
@@ -332,10 +332,10 @@
 				add_action('plugins_loaded', array($this, 'load_translation'));
 			}
 		}
-		
+
 		public function set_name(string $name) {
 			$this->name		= $name;
-			
+
 			return $this;
 		}
 
@@ -350,44 +350,44 @@
 
 			return $output;
 		}
-		
+
 		public function get_module_name() {
 			if(!$this->module_name){
 				$this->module_name = ( new \ReflectionClass( get_called_class() ) )->getShortName();
 			}
 			return $this->module_name;
 		}
-		
+
 		public function get_prefix( string $append = '' ) {
 			if( strlen( $append ) > 0 ) {
 				$append = '_' . $append;
 			}
-			
+
 			return $this->get_name() . $append;
 		}
 		public function get_prefix_gutenberg( $append = '' ) {
 			if( strlen( $append ) > 0 ) {
 				$append = '/' . $append;
 			}
-			
+
 			return str_replace('_', '-', $this->get_name() . $append);
 		}
-		
+
 		public function get_relative_prefix( string $append = '' ): string {
 			if( strlen( $append ) > 0 ) {
 				$append = '_' . $append;
 			}
 
 			$prefix = str_replace( $this->get_root()->get_name(), 'sv_common', $this->get_name() );
-			
+
 			return  $prefix . $append;
 		}
-		
+
 		public function get_settings(): array {
 			if(count($this->s) === 0){
 				$this->load_settings();
 			}
-			
+
 			return $this->s;
 		}
 
@@ -398,7 +398,7 @@
 
 			return $this->s_clustered;
 		}
-		
+
 		public function get_setting(string $setting = '', string $cluster = ''): settings {
 			if( strlen($setting) === 0 || isset($this->s[$setting]) === false ) {
 				// create empty setting if not set
@@ -430,7 +430,7 @@
 					$val = 0;
 				}
 			}
-			
+
 			return self::$breakpoints;
 		}
 
@@ -454,7 +454,7 @@
 		public function get_scripts(): array {
 			return $this->scripts_queue;
 		}
-		
+
 		public function set_path(string $path) {
 			$this->path	= $path;
 
@@ -469,13 +469,13 @@
 			} else { // fallback
 				$path	= trailingslashit( dirname( __FILE__ ) );
 			}
-			
+
 			$this->set_path($path);
 
 			return $this->path . $suffix;
 			//return apply_filters('get_path', $this->path . $suffix, $path, $suffix, $this->get_prefix(), $this);
 		}
-		
+
 		public function set_url(string $url) {
 			$this->url	= $url;
 
@@ -489,7 +489,7 @@
 			} else if ( $this != $this->get_parent() ) { // if there's a parent, go a step higher
 				$url	= $this->get_parent()->get_url();
 			}
-			
+
 			$this->set_url($url);
 
 			return $this->url . $suffix;
@@ -514,7 +514,7 @@
 
 			return $protocol . '://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
 		}
-		
+
 		public function get_current_path(): string {
 			return $_SERVER[ 'REQUEST_URI' ];
 		}
@@ -526,7 +526,7 @@
 			}
 			return $output;
 		}
-		
+
 		public function acp_style( bool $hook = false ) {
 			if ( !$hook || $hook == 'sv-100_page_' . $this->get_module_name() ) {
 				if(file_exists($this->get_active_core()->get_path_core('../assets'))) { // dir exists only when core_plugin is loaded, so if only theme is loaded, don't load these assets
@@ -565,7 +565,7 @@
 						$setting_name = wp_basename( $setting );
 						$filename = wp_basename( $file, '.css' );
 						$handle = $setting_name . '_' . $filename;
-						
+
 						if ( filesize($file) && filesize($file) > 0 ) {
 							wp_enqueue_style( $handle, $url, array($this->get_prefix('settings')), filemtime( $file ) );
 						}
@@ -580,7 +580,7 @@
 						$setting_name = wp_basename( $setting );
 						$filename = wp_basename( $file, '.js' );
 						$handle = $setting_name . '_' . $filename;
-						
+
 						if ( filesize($file) && filesize($file) > 0 ) {
 							wp_enqueue_script( $handle, $url, array(), filemtime( $file ) );
 						}
@@ -588,7 +588,7 @@
 				}
 			}
 		}
-		
+
 		public function add_section( $object ) {
 			$output = null;
 			// @todo: remove the following line once sv_bb_dashboard is upgraded
@@ -597,7 +597,7 @@
 					'object'	=> $object,
 					'type'		=> $this->section_types[ $object->get_section_type() ],
 				);
-				
+
 				$output = $object;
 			} else {
 				$output = $this; // @todo Notification forS SV Notices that the section_type is missing.
@@ -605,7 +605,7 @@
 
 			return $output;
 		}
-		
+
 		public function get_sections(): array {
 			return $this->sections;
 		}
@@ -640,12 +640,12 @@
 
 		public function get_sections_sorted_by_title(): array {
 			$sections = array();
-			
+
 			if ( empty( $this->sections ) === false ) {
 				foreach($this->sections as $section){
 					$sections[$section['object']->get_section_title()] = $section;
 				}
-				
+
 				ksort($sections);
 			}
 			return $sections;
@@ -675,11 +675,11 @@
 
 			return $sections;
 		}
-		
+
 		public function get_section_template_path(): string {
 			return $this->section_template_path;
 		}
-		
+
 		public function set_section_template_path( string $path = 'lib/tpl/settings/init.php' ) {
 			$this->section_template_path = is_file($path) ? $path : $this->get_path($path);
 
@@ -695,13 +695,13 @@
 
 			return $output;
 		}
-		
+
 		public function set_section_title( string $title ) {
 			$this->section_title = $title;
-			
+
 			return $this;
 		}
-		
+
 		public function get_section_title(): string {
 			return $this->section_title ? $this->section_title : __( 'No Title defined.', 'sv_core' );
 		}
@@ -715,33 +715,33 @@
 		public function get_section_order(): int {
 			return $this->section_order ? $this->section_order : 0;
 		}
-		
+
 		public function set_section_desc( string $desc ) {
 			$this->section_desc = $desc;
-			
+
 			return $this;
 		}
-		
+
 		public function get_section_desc(): string {
 			return $this->section_desc ? $this->section_desc : __( 'No description defined.', 'sv_core' );
 		}
 
 		public function set_section_privacy( string $section_privacy ) {
 			$this->section_privacy = $section_privacy;
-			
+
 			return $this;
 		}
-		
+
 		public function get_section_privacy(): string {
 			return $this->section_privacy ? $this->section_privacy : __( 'No privacy statement defined.', 'sv_core' );
 		}
-		
+
 		public function set_section_type( string $type ) {
 			$this->section_type = $type;
-			
+
 			return $this;
 		}
-		
+
 		public function get_section_type(): string {
 			return $this->section_type;
 		}
@@ -750,7 +750,7 @@
 			$path = $this->get_path_core( 'backend/tpl/about.php' );
 
 			$this->get_root()->acp_style();
-			
+
 			require_once( $this->get_path_core( 'backend/tpl/header.php' ) );
 
 			if( strlen( $custom_about_path ) > 0 ){
@@ -758,13 +758,13 @@
 			}
 
 			require_once( $path );
-			
+
 			// $this->load_section_html();
-			
+
 			require_once( $this->get_path_core( 'backend/tpl/legal.php' ) );
 			require_once( $this->get_path_core( 'backend/tpl/footer.php' ) );
 		}
-		
+
 		public function load_section_menu() {
 			foreach ( $this->get_sections_sorted_by_order() as $section ) {
 				$section_name = $section['object']->get_prefix();
@@ -797,7 +797,7 @@
 
 			return $this;
 		}
-		
+
 		public function load_section_html() {
 			foreach( $this->get_sections_sorted_by_title() as $section ) {
 				$section_name = $section['object']->get_prefix(); // var will be used in included file
@@ -806,7 +806,7 @@
 				require( $path );
 			}
 		}
-		
+
 		public function plugin_action_links( array $actions ): array {
 			$links						= array(
 				'settings'				=> '<a href="admin.php?page=' . $this->get_root()->get_prefix() . '">'
@@ -814,9 +814,9 @@
 											.'</a>',
 				'straightvisions'		=> '<a href="https://straightvisions.com" target="_blank" rel="noopener">straightvisions GmbH</a>',
 			);
-			
+
 			$actions					= array_merge( $links, $actions );
-			
+
 			return $actions;
 		}
 		public function has_block_sidebar( string $block_name ): bool{
@@ -1025,5 +1025,65 @@
 			}
 
 			return $merged;
+		}
+		public function get_category_name($post = false): string{
+			if($this->get_category()){
+				return esc_html( $this->get_category($post)->name );
+			}
+
+			return '';
+		}
+		public function get_category_link($post = false, $string = false): string{
+			if($string){
+				$string	= str_replace('%name', esc_html( $this->get_category($post)->name ), $string);
+			}else{
+				$string	= esc_html( $this->get_category($post)->name );
+			}
+
+			if($this->get_category()){
+				return '<a href="' . esc_url( get_category_link( $this->get_category($post)->term_id ) ) . '">' . $string . '</a>';
+			}
+
+			return '';
+		}
+		public function get_category($post = false){
+			$post		= get_post($post);
+
+			// get first category if yoast is not available
+			if(!function_exists('yoast_get_primary_term_id')){
+				return $this->get_first_category($post);
+			}
+
+			return $this->get_primary_category($post);
+		}
+		public function get_first_category($post){
+			$categories = get_the_category($post);
+
+			if ( empty( $categories ) ) {
+				return '';
+			}
+
+			return $categories[0];
+		}
+		public function get_primary_category($post){
+			$primary_term_id = yoast_get_primary_term_id( 'taxonomy_slug', $post );
+
+			if ( !$primary_term_id ) {
+				return $this->get_first_category($post);
+			}
+
+			$primary_term = get_term( $primary_term_id );
+			if ( !$primary_term ) {
+				return $this->get_first_category($post);
+			}
+
+			return $primary_term;
+		}
+		public function get_reading_time(): string{
+			if(!function_exists('YoastSEO')){
+				return '';
+			}
+
+			return YoastSEO()->meta->for_current_page()->estimated_reading_time_minutes.' '.__('Minutes', 'sv_core');
 		}
 	}
