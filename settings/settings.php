@@ -42,7 +42,7 @@ class settings extends sv_abstract{
 	 * @ignore
 	 */
 	public function __construct(){
-	
+
 	}
 	/**
 	 * @desc			Load's requested libraries dynamicly
@@ -87,7 +87,7 @@ class settings extends sv_abstract{
 	}
 	public function set_is_no_prefix(bool $no = true): settings{
 		$this->no_prefix								= $no;
-		
+
 		return $this;
 	}
 	public function get_is_no_prefix(): bool{
@@ -221,14 +221,14 @@ class settings extends sv_abstract{
 
 		// workaround for array defaults
 		if($this->get_is_responsive() && is_array($value)){
-	
+
 			if(array_key_first($value) != 'mobile'){
 				$breakpoints = $this->get_breakpoints();
-				
+
 				foreach($breakpoints as &$bp){
 					$bp = $this->default_value;
 				}
-				
+
 				$value = $breakpoints;
 			}
 		}
@@ -260,7 +260,7 @@ class settings extends sv_abstract{
 		if ( count( $this->options ) === 0 ) {
 			$this->options = array( __( 'No Options defined!', 'sv_core' ) );
 		}
-		
+
 		return $this->options;
 	}
 	public function has_options(): bool{
@@ -362,45 +362,56 @@ class settings extends sv_abstract{
 	}
 
 	public function get_data(){
-		$data = $this->data;
-
 		// Allow Setting Data override via constant
 		if(defined($this->get_field_id())){
 			return constant($this->get_field_id());
 		}
 
-		if($data === false || $data === ''){
-			$db_data	= get_option($this->get_field_id());
-			$data		= ($db_data === false || $db_data === '') ? $this->get_default_value() : $db_data;
+		// Upgrade non-responsive data for responsive settings
+		if($this->data !== false && !is_array($this->data) && $this->get_is_responsive()){
+			$breakpoints = $this->get_breakpoints();
 
-			if($this->get_is_responsive() && !is_array($data)){
+			foreach($breakpoints as &$bp){
+				$bp = $this->data;
+			}
+
+			return $breakpoints;
+		}
+
+		// get data from db
+		if($this->data === false){
+			$db_data	= get_option($this->get_field_id());
+			$this->data		= ($db_data === false || $db_data === '') ? $this->get_default_value() : $db_data;
+
+			// Upgrade non-responsive data for responsive settings
+			if($this->get_is_responsive() && !is_array($this->data)){
 				$breakpoints = $this->get_breakpoints();
 
 				foreach($breakpoints as &$bp){
-					$bp = $data;
+					$bp = $this->data;
 				}
 
-				$data = $breakpoints;
+				$this->data = $breakpoints;
 			}
 
 			// workaround for array defaults
-			if($this->get_is_responsive() && is_array($data)){
-				if(array_key_first($data) != 'mobile'){
+			if($this->get_is_responsive() && is_array($this->data)){
+				if(array_key_first($this->data) != 'mobile'){
 					$breakpoints = $this->get_breakpoints();
-					
+
 					foreach($breakpoints as &$bp){
-						$bp = $data;
+						$bp = $this->data;
 					}
-					
-					$data = $breakpoints;
+
+					$this->data = $breakpoints;
 				}
 			}
 
-			if($data !== false && $db_data !== $data){ // fill options not created yet in DB with default values to allow cached requests
-				update_option($this->get_field_id(),$data,'yes');
+			if($this->data !== false && $db_data !== $this->data){ // fill options not created yet in DB with default values to allow cached requests
+				update_option($this->get_field_id(),$this->data,'yes');
 			}
 
-			$this->data = $data;
+			return $this->data;
 		}
 
 		return $this->data;
@@ -617,26 +628,26 @@ class settings extends sv_abstract{
 	}
 
 	// Helper Methods
-	
+
 	// Returns a value in the rgb format, with alpha value
 	// Example Output: 255,0,255,1
 	function get_rgb( string $val, string $opacity = '1' ): string {
 		// Value is a hex color
 		if ( preg_match( '/^#[0-9A-F]{6}$/i', $val ) ) {
 			list( $r, $g, $b ) = sscanf( $val, "#%02x%02x%02x" );
-			
+
 			return $r . ',' . $g . ',' . $b . ','.$opacity;
 		}
-		
+
 		// Value is a rgb color
 		elseif ( preg_match( '/(\d{1,3}),(\d{1,3}),(\d{1,3})/ix', str_replace( ' ', '', $val ) ) ) {
 			return str_replace( ' ', '', $val );
 		}
-		
+
 		// Couldn't detect format
 		return $val;
 	}
-	
+
 	// Returns a value in the hex format
 	// Example Output: #ff00ff
 	function get_hex( string $val ): string {
@@ -644,14 +655,14 @@ class settings extends sv_abstract{
 		if ( preg_match( '/^#[0-9A-F]{6}$/i', $val ) ) {
 			return $val;
 		}
-		
+
 		// Value is a rgb color
 		elseif ( preg_match( '/(\d{1,3}),(\d{1,3}),(\d{1,3})/ix', str_replace( ' ', '', $val ) ) ) {
 			$rgb = explode( ',', str_replace( ' ', '', $val ) );
-			
+
 			return sprintf( "#%02x%02x%02x", $rgb[0], $rgb[1], $rgb[2] );
 		}
-		
+
 		// Couldn't detect format
 		return $val;
 	}
