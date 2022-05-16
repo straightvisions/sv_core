@@ -1,11 +1,11 @@
 <?php
-	
+
 	namespace sv_core;
-	
+
 	class metabox extends sv_abstract{
 		static $scripts_loaded		= false;
 		private $title				= '';
-		
+
 		/**
 		 * @desc			initialize
 		 * @author			Matthias Bathke
@@ -13,13 +13,13 @@
 		 * @ignore
 		 */
 		public function __construct(){
-		
+
 		}
 		public function __get(string $name){
 			if(is_file($this->get_path_core('settings/modules/'.$name.'.php'))){ // look for class file in modules directory
 				require_once($this->get_path_core('settings/modules/'.$name.'.php'));
 				$class_name							= __NAMESPACE__.'\\'.$name;
-				
+
 				$this->$name						= new $class_name($this);
 				return $this->$name;
 			}else{
@@ -29,13 +29,18 @@
 		// OBJECT METHODS
 		public static function create($parent){
 			$new									= new static();
-			
-			$new->prefix							= $parent->get_prefix().'_';
+
+			$new->prefix							= '_'.$parent->get_prefix().'_';
 			$new->set_root($parent->get_root());
 			$new->set_parent($parent);
 			$new->run();
-			
+
 			return $new;
+		}
+		private function run_upgrade(){
+			if($this->get_version() === '8000'){
+				die('test');
+			}
 		}
 		public function set_title(string $title){
 			$this->title							= $title;
@@ -88,23 +93,23 @@
 			if(!isset($_POST[$this->get_prefix('nonce')]) || !wp_verify_nonce($_POST[$this->get_prefix('nonce')], $this->get_prefix())){
 				return $post_id;
 			}
-			
+
 			// Get the post type object.
 			$post_type											= get_post_type_object($post->post_type);
-			
+
 			// Check if the current user has permission to edit the post.
 			if(!current_user_can($post_type->cap->edit_post, $post_id)){
 				return $post_id;
 			}
-			
+
 			foreach($this->get_parent()->s as $setting){
 				$field_id											= $setting->get_prefix($setting->get_ID());
-				
+
 				add_filter('sanitize_sv_core_'.$setting->get_type().'_meta_'.$setting->get_field_id(), array($setting,'sanitize'), 10, 3);
-				
+
 				// Get the posted data and sanitize it for use.
 				$new_meta_value										= (isset($_POST[$field_id]) ? sanitize_meta($field_id, $_POST[$field_id], 'sv_core_'.$setting->get_type()) : '');
-				
+
 				// Get the meta value of the custom field key.
 				$meta_value											= get_post_meta($post_id, $field_id, true);
 
