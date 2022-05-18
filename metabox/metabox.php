@@ -37,11 +37,6 @@
 
 			return $new;
 		}
-		private function run_upgrade(){
-			if($this->get_version() === '8000'){
-				die('test');
-			}
-		}
 		public function set_title(string $title){
 			$this->title							= $title;
 			return $this;
