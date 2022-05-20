@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SV Core\n"
-"POT-Creation-Date: 2022-05-03 17:38+0200\n"
-"PO-Revision-Date: 2022-05-03 17:38+0200\n"
+"POT-Creation-Date: 2022-05-20 15:39+0200\n"
+"PO-Revision-Date: 2022-05-20 15:42+0200\n"
 "Last-Translator: \n"
 "Language-Team: straightvisions GmbH\n"
 "Language: de_DE\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0.1\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-KeywordsList: __;_e;_n:2,3\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: abstract.php:88
@@ -61,9 +61,12 @@ msgstr "Keine Datenschutzerklärung definiert."
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: abstract.php:1087
-msgid "Minutes"
-msgstr "Minuten"
+#: abstract.php:1095
+#, php-format
+msgid "%s Minute"
+msgid_plural "%s Minutes"
+msgstr[0] "%s Minute"
+msgstr[1] "%s Minuten"
 
 #: abstract_template_sv_archive.php:29 abstract_template_sv_archive.php:430
 #: abstract_template_sv_archive.php:435 abstract_template_sv_archive.php:448
@@ -659,15 +662,15 @@ msgstr "Du brauchst mindestens"
 msgid "characters."
 msgstr "Zeichen."
 
-#: settings/settings.php:609
+#: settings/settings.php:620
 msgid "Save (classic)"
 msgstr "Speichern (klassisch)"
 
-#: settings/settings.php:609
+#: settings/settings.php:620
 msgid "Save (AJAX)"
 msgstr "Speichern (AJAX)"
 
-#: settings/settings.php:766 settings/settings.php:809
+#: settings/settings.php:777 settings/settings.php:820
 msgid "Settings Template not found: "
 msgstr "Template für Einstellungen nicht gefunden: "
 

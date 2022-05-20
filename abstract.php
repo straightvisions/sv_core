@@ -1090,6 +1090,8 @@
 				return '';
 			}
 
-			return YoastSEO()->meta->for_current_page()->estimated_reading_time_minutes.' '.__('Minutes', 'sv_core');
+			$minutes		= \YoastSEO()->meta->for_current_page()->estimated_reading_time_minutes;
+
+			return sprintf( _n('%s Minute', '%s Minutes', $minutes, 'sv_core'), $minutes);
 		}
 	}
