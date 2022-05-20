@@ -1065,8 +1065,8 @@
 
 			return $categories[0];
 		}
-		public function get_primary_category($post){
-			$primary_term_id = yoast_get_primary_term_id( 'taxonomy_slug', $post );
+		public function get_primary_category($post, string $taxonomy_slug = 'category'){
+			$primary_term_id = yoast_get_primary_term_id( $taxonomy_slug, $post );
 
 			if ( !$primary_term_id ) {
 				return $this->get_first_category($post);
