@@ -1027,13 +1027,17 @@
 			return $merged;
 		}
 		public function get_category_name($post = false): string{
-			if($this->get_category()){
+			$post		= get_post($post);
+
+			if($this->get_category($post)){
 				return esc_html( $this->get_category($post)->name );
 			}
 
 			return '';
 		}
 		public function get_category_link($post = false, $string = false): string{
+			$post		= get_post($post);
+
 			if($string){
 				$string	= str_replace('%name', esc_html( $this->get_category($post)->name ), $string);
 			}else{
@@ -1065,7 +1069,9 @@
 
 			return $categories[0];
 		}
-		public function get_primary_category($post, string $taxonomy_slug = 'category'){
+		public function get_primary_category($post = false, string $taxonomy_slug = 'category'){
+			$post		= get_post($post);
+
 			$primary_term_id = yoast_get_primary_term_id( $taxonomy_slug, $post );
 
 			if ( !$primary_term_id ) {
