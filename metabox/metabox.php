@@ -62,7 +62,7 @@
 		}
 		public function add_meta_boxes(){
 			add_meta_box(
-				$this->get_prefix(),								// Unique ID
+				'_'.$this->get_prefix(),								// Unique ID
 				$this->get_title(),		// Title
 				array($this,'post_class_meta_box'),				// Callback function
 				NULL,											// Admin page (or post type)
@@ -78,7 +78,7 @@
 			wp_nonce_field($this->get_prefix(), $this->get_prefix('nonce'));
 
 			foreach($this->get_parent()->get_settings() as $setting){
-				$meta_field					= $setting->get_prefix($setting->get_ID());
+				$meta_field					= '_'.$setting->get_prefix($setting->get_ID());
 				$setting->set_data(get_post_meta($post->ID, $meta_field, true));
 				echo $setting->form();
 			}
@@ -98,7 +98,7 @@
 			}
 
 			foreach($this->get_parent()->s as $setting){
-				$field_id											= $setting->get_prefix($setting->get_ID());
+				$field_id											= '_'.$setting->get_prefix($setting->get_ID());
 
 				add_filter('sanitize_sv_core_'.$setting->get_type().'_meta_'.$setting->get_field_id(), array($setting,'sanitize'), 10, 3);
 
@@ -122,7 +122,7 @@
 			return $post_id;
 		}
 		public function get_data(int $post_id, string $field_id, $default_value = false){
-			$meta_value = get_post_meta($post_id, $field_id, true);
+			$meta_value = get_post_meta($post_id, '_'.$field_id, true);
 
 			if(strlen($meta_value) === 0){
 				return $default_value;
