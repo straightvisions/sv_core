@@ -79,7 +79,9 @@
 
 			foreach($this->get_parent()->get_settings() as $setting){
 				$meta_field					= '_'.$setting->get_prefix($setting->get_ID());
-				$setting->set_data(get_post_meta($post->ID, $meta_field, true));
+				$setting->set_data(get_post_meta($post->ID, $meta_field, true))
+					->set_ID($meta_field)
+					->set_is_no_prefix();
 				echo $setting->form();
 			}
 		}
