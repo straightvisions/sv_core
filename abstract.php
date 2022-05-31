@@ -1085,12 +1085,19 @@
 
 			return $primary_term;
 		}
-		public function get_reading_time(): string{
+		public function get_reading_time($post=false): string{
 			if(!function_exists('YoastSEO')){
 				return '';
 			}
 
-			$minutes		= \YoastSEO()->meta->for_current_page()->estimated_reading_time_minutes;
+			if($post){
+				$post		= get_post($post);
+				$meta		= \YoastSEO()->meta->for_post( $post->ID );
+			}else{
+				$meta		= \YoastSEO()->meta->for_current_page();
+			}
+
+			$minutes		= $meta->estimated_reading_time_minutes;
 
 			return sprintf( _n('%s Minute', '%s Minutes', $minutes, 'sv_core'), $minutes);
 		}
