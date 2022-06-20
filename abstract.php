@@ -35,6 +35,8 @@
 		protected static $expert_mode		= false;
 		public static $breakpoints			= false;
 
+		protected $block_handle             = '';
+
 		protected $modules_loaded 			= array();
 
 		protected $module_css_cache			= false; // default false, set true in a module to opt in for CSS Caching
@@ -1100,5 +1102,13 @@
 			$minutes		= $meta->estimated_reading_time_minutes;
 
 			return sprintf( _n('%s Minute', '%s Minutes', $minutes, 'sv_core'), $minutes);
+		}
+		public function set_block_handle( string $string = '' ) {
+			$this->block_handle				= $string;
+
+			return $this;
+		}
+		public function get_block_handle(): string {
+			return $this->block_handle;
 		}
 	}
