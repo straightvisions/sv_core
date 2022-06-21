@@ -94,7 +94,7 @@
 				. 'lib/modules/'.$name . '.php)' );
 		}
 
-		public function wordpress_version_check(string $min_version = '5.0.0'){
+		public function wordpress_version_check(string $min_version = '6.0'){
 			$wp_version = '1.0.0'; // declare default even it's re-declared by an included file
 			// Get unmodified $wp_version.
 			include ABSPATH . WPINC . '/version.php';
