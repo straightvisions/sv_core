@@ -36,6 +36,7 @@
 		public static $breakpoints			= false;
 
 		protected $block_handle             = '';
+		protected $block_name               = '';
 
 		protected $modules_loaded 			= array();
 
@@ -1110,5 +1111,13 @@
 		}
 		public function get_block_handle(): string {
 			return $this->block_handle;
+		}
+		public function set_block_name( string $string = '' ) {
+			$this->block_name				= $string;
+
+			return $this;
+		}
+		public function get_block_name(): string {
+			return $this->block_name;
 		}
 	}
