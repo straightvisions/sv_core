@@ -20,9 +20,13 @@
 
 			$data = $this->get_parent()->get_data();
 			if($data && is_array($data)) {
-				$properties[$property]		= $this->prepare_css_property_responsive($this->get_parent()->get_data(),$prefix,$suffix);
+				$val                        = $this->get_parent()->get_data();
+				array_walk($val, array($this, 'replace_color_slug_to_code'));
+				$properties[$property]		= $this->prepare_css_property_responsive($val,$prefix,$suffix);
 			}elseif($data && is_string($data)){
-				$properties[$property]		= $this->prepare_css_property($this->get_parent()->get_data(),$prefix,$suffix);
+				$val                        = str_replace(array_flip($this->get_palette_colors()), $this->get_palette_colors(), $this->get_parent()->get_data());
+				var_dump($val);
+				$properties[$property]		= $this->prepare_css_property($val,$prefix,$suffix);
 			}
 
 			return $properties;
@@ -102,5 +106,55 @@
 						)
 					)
 				);
+		}
+		// save color slug instead of color code if a palette color is selected
+		public function field_callback($input){
+			if(strlen($input) === 0){
+				return $input;
+			}
+
+			if(!$this->is_instance_active('sv100')){
+				return $input;
+			}
+
+			if(!$this->get_instance('sv100')->is_module_loaded('sv_colors')){
+				return $input;
+			}
+
+			if(!$this->get_palette_colors()){
+				return $input;
+			}
+
+			// input is string
+			if(is_string($input)){
+				return str_replace($this->get_palette_colors(), array_flip($this->get_palette_colors()), $input);
+			}
+
+			if(is_array($input)){
+				array_walk($input, array($this, 'replace_color_code_to_slug'));
+			}
+
+			return $input;
+		}
+		public function get_palette_colors(){
+			$colors     = $this->get_instance('sv100')->get_module('sv_colors')->get_list();
+
+			if(!$colors || !is_array($colors) || count($colors) === 0){
+				return false;
+			}
+
+			// resort colors array for easier search
+			$c          = array();
+			foreach($colors as $color){
+				$c[$color['slug']]      = $this->get_rgb($color['color']);
+			}
+
+			return $c;
+		}
+		public function replace_color_code_to_slug(&$input){
+			$input       = str_replace($this->get_palette_colors(), array_flip($this->get_palette_colors()), $input);
+		}
+		public function replace_color_slug_to_code(&$input){
+			$input       = str_replace(array_flip($this->get_palette_colors()), $this->get_palette_colors(), $input);
 		}
 	}
