@@ -109,10 +109,6 @@
 		}
 		// save color slug instead of color code if a palette color is selected
 		public function field_callback($input){
-			if(strlen($input) === 0){
-				return $input;
-			}
-
 			if(!$this->is_instance_active('sv100')){
 				return $input;
 			}
