@@ -133,6 +133,16 @@
 			return $input;
 		}
 		public function get_palette_colors(){
+			$c          = array();
+
+			if(!$this->is_instance_active('sv100')){
+				return $c;
+			}
+
+			if(!$this->get_instance('sv100')->is_module_loaded('sv_colors')){
+				return $c;
+			}
+
 			$colors     = $this->get_instance('sv100')->get_module('sv_colors')->get_list();
 
 			if(!$colors || !is_array($colors) || count($colors) === 0){
@@ -140,7 +150,6 @@
 			}
 
 			// resort colors array for easier search
-			$c          = array();
 			foreach($colors as $color){
 				$c[$color['slug']]      = $this->get_rgb($color['color']);
 			}

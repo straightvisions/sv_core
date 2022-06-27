@@ -4,12 +4,13 @@
 	if(isset($this->run_type()->get_palette_colors()[$color])){
 		$color = $this->run_type()->get_palette_colors()[$color];
 	}
-	?>
+?>
 <script>
 	<?php if(strpos($props['ID'], 'sv_form_field_index') === false){ ?>
 	jQuery( document ).ready( function() {
 		if ( typeof SVColorPicker !== 'undefined' ) {
-			SVColorPicker.renderColorPicker( '<?php echo $props['ID']; ?>', '<?php echo $color ? $color : '0,0,0,0'; ?>', <?php echo json_encode( get_theme_support( 'editor-color-palette' ) ? get_theme_support( 'editor-color-palette' )[0] : '' ) ?> );
+			// <?php var_dump(get_theme_support( 'editor-color-palette' )); ?>
+			SVColorPicker.renderColorPicker( '<?php echo $props['ID']; ?>', '<?php echo $color ? $color : '0,0,0,0'; ?>', <?php echo json_encode(wp_get_global_settings(array('color','palette','theme'))); ?> );
 		}
 	} );
 	<?php }else{ ?>
