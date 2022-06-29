@@ -468,7 +468,7 @@
 						$module = $script->get_parent();
 
 						// get settings object for build css later
-						if ( $script->get_ID() == 'config' ) {
+						if ( $script->get_ID() === 'config' || $script->get_ID() === $module->get_block_handle() ) {
 							if ( $script->get_parent()->get_css_cache_active() ) {
 								$script->cache_css();
 								$script->get_parent()->get_script( 'common' )->set_is_enqueued( false );
@@ -493,7 +493,7 @@
 						) {
 							if ( is_file( $script->get_path() ) ) {
 								ob_start();
-								require( $script->get_path() );
+								require_once( $script->get_path() );
 								$css = ob_get_clean();
 
 								wp_add_inline_style( 'sv_core_init_style', $css );
@@ -504,7 +504,7 @@
 							}
 						} else {
 							if ( $script->get_path() && filesize( $script->get_path() ) === 0 ) {
-								return $this;
+								return $this->set_script_active($script);
 							}
 
 							// remove default styles from Gutenberg
@@ -523,10 +523,10 @@
 							if ( is_admin() && $script->get_is_gutenberg() ) {
 								if ( $module->get_css_cache_active() ) {
 									if ( $script->get_ID() == 'common' ) {
-										return $this;
+										return $this->set_script_active($script);
 									}
 									if ( $script->get_ID() == 'default' ) {
-										return $this;
+										return $this->set_script_active($script);
 									}
 								}
 
@@ -540,7 +540,7 @@
 								// add_editor_style( "styles/blocks/$block_name.min.css" );
 								if ( is_file( $script->get_path() ) ) {
 									ob_start();
-									require( $script->get_path() );
+									require_once( $script->get_path() );
 									$css = ob_get_clean();
 
 									// site editor
@@ -568,13 +568,12 @@
 							// non block styles
 							if ( $script->get_is_enqueued() && strlen( $module->get_block_handle() ) === 0 ) {
 								wp_enqueue_style( $script->get_handle() );
-								return $this;
 							}
 						}
 					}else{
 						if(strlen($script->get_inline()) > 0){
 							ob_start();
-							require($script->get_path());
+							require_once($script->get_path());
 							$js = ob_get_clean();
 
 							wp_add_inline_script($script->get_inline(), $js, 'before');
@@ -592,11 +591,15 @@
 							wp_localize_script($script->get_handle(), $script->get_uid(), $script->get_localized());
 						}
 					}
-					self::$scripts_active[]								= $script;
+					return $this->set_script_active($script);
 				}
 			}
 		}
+		public function set_script_active($script){
+			self::$scripts_active[]								= $script;
 
+			return $this;
+		}
 		// OBJECT METHODS
 		public static function create( $parent ) {
 			$new									= new static();
@@ -843,11 +846,11 @@
 
 					ob_start();
 					if(file_exists($module->get_path('lib/css/common/default.css'))){
-						include($module->get_path('lib/css/common/default.css'));
+						require_once($module->get_path('lib/css/common/default.css'));
 					}
 
-					require($module->get_path('lib/css/common/common.css'));
-					require($module->get_path('lib/css/config/init.php'));
+					require_once($module->get_path('lib/css/common/common.css'));
+					require_once($module->get_path('lib/css/config/init.php'));
 					$css = ob_get_clean();
 
 					if(is_admin()) {
