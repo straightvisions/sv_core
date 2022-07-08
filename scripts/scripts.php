@@ -68,6 +68,7 @@
 
 				add_action( 'template_redirect', array( $this, 'start' ), 1 );
 				add_action( 'template_redirect', array( $this, 'wp_footer' ), 10 );
+				add_action( 'wp_footer', array( $this, 'wp_footer' ), 10 ); // enqueue late registered scripts
 
 
 				add_filter('script_loader_tag', function($tag, $handle){
