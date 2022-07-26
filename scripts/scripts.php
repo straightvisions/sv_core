@@ -69,7 +69,7 @@
 				add_action( 'template_redirect', array( $this, 'start' ), 1 );
 				add_action( 'template_redirect', array( $this, 'wp_footer' ), 10 );
 				add_action( 'wp_footer', array( $this, 'wp_footer' ), 10 ); // enqueue late registered scripts
-
+				add_action( 'wp_footer', array( $this, 'enqueue_inline_style' ), 10 ); // enqueue late registered scripts
 
 				add_filter('script_loader_tag', function($tag, $handle){
 					if(isset($this->get_scripts_by_handle()[$handle])){
@@ -107,8 +107,12 @@
 		}
 
 		public function add_admin_bar_menu( $admin_bar ) {
-			if ( ! $this->is_theme_instance() ) return;
-			if ( ! current_user_can( 'activate_plugins' ) ) return;
+			if ( ! $this->is_theme_instance() ){
+				return;
+			}
+			if ( ! current_user_can( 'activate_plugins' ) ){
+				return;
+			}
 		
 			$admin_bar->add_menu( 
 				array( 
@@ -236,7 +240,6 @@
 						$default_label											= $script->get_inline() ? __( 'Inline', 'sv_core' ) : __( 'Attached', 'sv_core' );
 					}
 
-
 					$options = array(
 						'default'  => __( 'Default', 'sv_core' ) . ': ' . $default_label,
 						'inline'   => __( 'Inline', 'sv_core' ),
@@ -283,11 +286,9 @@
 				$this->s[ 'flush_css_cache' ]->set_data('0')->save_option();
 			}
 		}
-
 		public function get_list(){
 			return static::$list;
 		}
-
 		public function get_scripts(): array {
 			return isset( self::$scripts[ $this->get_root()->get_name() ] ) ? self::$scripts[ $this->get_root()->get_name() ] : array();
 		}
@@ -314,6 +315,9 @@
 				}
 			}
 		}
+		public function enqueue_inline_style() {
+			wp_enqueue_style('sv_core_init_style');
+		}
 		public function wp_footer() {
 			// we need to register an attached style to be allowed to add inline styles with WP function
 			wp_register_style('sv_core_init_style', $this->get_url_core('frontend/css/style.css'));
@@ -325,7 +329,7 @@
 			}
 
 			// inline styles are printed
-			wp_enqueue_style('sv_core_init_style');
+			//wp_enqueue_style('sv_core_init_style');
 
 			ob_start();
 			// now remove the attached style
@@ -455,6 +459,9 @@
 		}
 		private function add_script( scripts $script ) {
 			// run all registered scripts
+			if(is_admin() && $script->get_is_gutenberg()){
+				$script->set_is_enqueued();
+			}
 
 			// check if script is enqueued
 			if($script->get_is_enqueued()) {
@@ -491,6 +498,7 @@
 							     )
 						     )
 						     && ! $script->get_is_backend()
+							&& !is_admin()
 						) {
 							if ( is_file( $script->get_path() ) ) {
 								ob_start();
@@ -499,7 +507,6 @@
 
 								wp_add_inline_style( 'sv_core_init_style', $css );
 								wp_add_inline_style( 'sv_core_gutenberg_style', $css );
-
 							} else {
 								error_log( __( 'Script "' . $script->get_handle() . '" in path "' . $script->get_path() . '" not found.' ) );
 							}
@@ -827,13 +834,9 @@
 					)
 				)
 			) {
-				if(!is_admin()) {
-					$this->cache_css_file();
-					$this->set_path($this->get_path_cached('frontend.css'), true, $this->get_url_cached('frontend.css'));
-				}elseif($this->get_is_gutenberg()){
-					add_action('admin_footer', array($this,'cache_css_file'), 1000);
-					$this->set_path($this->get_path_cached('gutenberg.css'), true, $this->get_url_cached('gutenberg.css'));
-				}
+				$this->cache_css_file();
+				$this->set_path($this->get_path_cached('frontend.css'), true, $this->get_url_cached('frontend.css'));
+				add_action('admin_footer', array($this,'cache_css_file'), 1000);
 			}
 
 			return $this;
@@ -846,21 +849,15 @@
 					$_s = reset($_s);
 
 					ob_start();
-					if(file_exists($module->get_path('lib/css/common/default.css'))){
-						require_once($module->get_path('lib/css/common/default.css'));
+					foreach($module->get_scripts() as $script){
+						if($script->get_is_enqueued() && file_exists($script->get_path())) {
+							require_once($script->get_path());
+						}
 					}
-
-					require_once($module->get_path('lib/css/common/common.css'));
-					require_once($module->get_path('lib/css/config/init.php'));
 					$css = ob_get_clean();
 
-					if(is_admin()) {
-						file_put_contents($this->get_path_cached('gutenberg.css'), $css);
-						$this->set_css_cache_invalidated(false);
-					}else{
-						file_put_contents($this->get_path_cached('frontend.css'), $css);
-						$this->set_css_cache_invalidated(false);
-					}
+					file_put_contents($this->get_path_cached('frontend.css'), $css);
+					$this->set_css_cache_invalidated(false);
 
 					// update theme.json
 					if($module->get_root()->get_prefix() === 'sv100'){
