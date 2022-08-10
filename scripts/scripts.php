@@ -479,8 +479,12 @@
 						if ( $script->get_ID() === 'config' || $script->get_ID() === $module->get_block_handle() ) {
 							if ( $script->get_parent()->get_css_cache_active() ) {
 								$script->cache_css();
-								$script->get_parent()->get_script( 'common' )->set_is_enqueued( false );
-								$script->get_parent()->get_script( 'default' )->set_is_enqueued( false );
+								foreach($script->get_parent()->get_scripts() as $combined_script){
+									if($combined_script->get_ID() === $script->get_ID()){
+										continue;
+									}
+									$combined_script->set_is_enqueued(false);
+								}
 							} else {
 								// legacy
 								$_s = $script->get_parent()->get_settings();
