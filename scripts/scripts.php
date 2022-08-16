@@ -483,6 +483,9 @@
 									if($combined_script->get_ID() === $script->get_ID()){
 										continue;
 									}
+									if($combined_script->get_inline() === true){
+										continue;
+									}
 									$combined_script->set_is_enqueued(false);
 								}
 							} else {
@@ -854,7 +857,7 @@
 
 					ob_start();
 					foreach($module->get_scripts() as $script){
-						if($script->get_is_enqueued() && file_exists($script->get_path())) {
+						if($script->get_is_enqueued() && file_exists($script->get_path()) && !$script->get_inline()) {
 							require_once($script->get_path());
 						}
 					}
