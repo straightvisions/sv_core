@@ -4,8 +4,7 @@ namespace sv_core;
 
 if ( !class_exists( '\sv_core\core' ) ) {
 	require_once('abstract.php');
-	require_once('abstract_template_sv_archive.php');
-	
+
 	class core extends sv_abstract {
 		public static $notices				= false;
 		public static $settings				= false;
