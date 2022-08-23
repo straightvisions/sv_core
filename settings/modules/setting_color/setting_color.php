@@ -156,10 +156,12 @@ class setting_color extends settings {
 	}
 	
 	public function replace_color_code_to_slug( &$input ) {
-		$input = str_replace( $this->get_palette_colors(), array_flip( $this->get_palette_colors() ), $input );
+		// HOTFIX COLOR SAVE DENNIS
+		//$input = str_replace( $this->get_palette_colors(), array_flip( $this->get_palette_colors() ), $input );
 	}
 	
 	public function replace_color_slug_to_code( &$input ) {
-		$input = str_replace( array_flip( $this->get_palette_colors() ), $this->get_palette_colors(), $input );
+		// HOTFIX COLOR SAVE DENNIS
+		//$input = str_replace( array_flip( $this->get_palette_colors() ), $this->get_palette_colors(), $input );
 	}
 }
