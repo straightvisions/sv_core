@@ -27,7 +27,6 @@ class setting_color extends settings {
 			$properties[ $property ] = $this->prepare_css_property_responsive( $val, $prefix, $suffix );
 		} elseif ( $data && is_string( $data ) ) {
 			$val = str_replace( array_flip( $this->get_palette_colors() ), $this->get_palette_colors(), $this->get_parent()->get_data() );
-			var_dump( $val );
 			$properties[ $property ] = $this->prepare_css_property( $val, $prefix, $suffix );
 		}
 		

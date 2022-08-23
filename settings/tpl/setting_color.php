@@ -9,12 +9,11 @@
 	<?php if(strpos($props['ID'], 'sv_form_field_index') === false){ ?>
 	jQuery( document ).ready( function() {
 		if ( typeof SVColorPicker !== 'undefined' ) {
-			// <?php var_dump(get_theme_support( 'editor-color-palette' )); ?>
 			SVColorPicker.renderColorPicker( '<?php echo $props['ID']; ?>', '<?php echo $color ? $color : '0,0,0,0'; ?>', <?php echo json_encode(wp_get_global_settings(array('color','palette','theme'))); ?> );
 		}
 	} );
-	<?php }else{ ?>
-	// @todo: Support for cloned draft fields
+	<?php }else{ // @todo: Support for cloned draft fields ?>
+	
 	<?php } ?>
 </script>
 <div class="sv_setting_color_display" title="<?php echo __( 'Toggle Color Picker', 'sv_core' ); ?>">
