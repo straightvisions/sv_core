@@ -156,7 +156,7 @@ class setting_color extends settings {
 	}
 	
 	public function replace_color_code_to_slug( &$input ) {
-		if(is_admin() && isset($_POST)){
+		if(is_admin() && isset($_POST['sv100_sv_colors_settings_colors_palette'])){
 			return;
 		}
 
@@ -164,7 +164,7 @@ class setting_color extends settings {
 	}
 	
 	public function replace_color_slug_to_code( &$input ) {
-		if(is_admin() && isset($_POST)){
+		if(is_admin() && isset($_POST['sv100_sv_colors_settings_colors_palette'])){
 			return;
 		}
 
