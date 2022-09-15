@@ -35,7 +35,7 @@ class setting_color extends settings {
 	
 	// Returns the color pallete
 
-	public function get_palette_colors() {
+	public function get_palette_colors(): array {
 		$c = array();
 		
 		if ( ! $this->is_instance_active( 'sv100' ) ) {
@@ -45,18 +45,17 @@ class setting_color extends settings {
 		if ( ! $this->get_instance( 'sv100' )->is_module_loaded( 'sv_colors' ) ) {
 			return $c;
 		}
-		
+
+        //@todo make sure functions return expected datatype and not mixed (false)
 		$colors = $this->get_instance( 'sv100' )->get_module( 'sv_colors' )->get_list();
-		
-		if ( ! $colors || ! is_array( $colors ) || count( $colors ) === 0 ) {
-			return false;
+
+		if( is_array( $colors ) ) {
+            // resort colors array for easier search
+            foreach ( $colors as $color ) {
+                $c[ $color['slug'] ] = $this->get_rgb( $color['color'] );
+            }
 		}
-		
-		// resort colors array for easier search
-		foreach ( $colors as $color ) {
-			$c[ $color['slug'] ] = $this->get_rgb( $color['color'] );
-		}
-		
+
 		return $c;
 	}
 	
@@ -139,7 +138,7 @@ class setting_color extends settings {
 			return $input;
 		}
 		
-		if ( ! $this->get_palette_colors() ) {
+		if ( empty($this->get_palette_colors()) ) {
 			return $input;
 		}
 		
@@ -155,19 +154,21 @@ class setting_color extends settings {
 		return $input;
 	}
 	
-	public function replace_color_code_to_slug( &$input ) {
+	public function replace_color_code_to_slug( &$input ){
 		if(is_admin() && isset($_POST['sv100_sv_colors_settings_colors_palette'])){
-			return;
-		}
+			// do nothing
+		}else{
+            $input = str_replace( $this->get_palette_colors(), array_flip( $this->get_palette_colors() ), $input );
+        }
 
-		$input = str_replace( $this->get_palette_colors(), array_flip( $this->get_palette_colors() ), $input );
 	}
 	
-	public function replace_color_slug_to_code( &$input ) {
+	public function replace_color_slug_to_code( &$input ){
 		if(is_admin() && isset($_POST['sv100_sv_colors_settings_colors_palette'])){
-			return;
-		}
+            // do nothing
+		}else{
+            $input = str_replace( array_flip( $this->get_palette_colors() ), $this->get_palette_colors(), $input );
+        }
 
-		$input = str_replace( array_flip( $this->get_palette_colors() ), $this->get_palette_colors(), $input );
 	}
 }
