@@ -118,7 +118,7 @@ class scripts extends sv_abstract {
 			array(
 				'id' 	=> $this->get_root()->get_prefix(),
 				'title' => __( 'SV100', 'sv_core' ),
-				'href'	=> '/wp-admin/admin.php?page=sv100'
+				'href'	=> admin_url('/admin.php?page=sv100')
 			)
 		);
 	
@@ -127,12 +127,12 @@ class scripts extends sv_abstract {
 				'parent' 	=> $this->get_root()->get_prefix(),
 				'id'		=> $this->get_root()->get_prefix( 'settings' ),
 				'title'		=> __( 'Settings', 'sv_core' ),
-				'href'		=> '/wp-admin/admin.php?page=sv100'
+				'href'		=> admin_url('/admin.php?page=sv100')
 			)
 		);
 	
 		$clear_cache_nonce 	= wp_create_nonce( 'admin_post_' . $this->get_prefix( 'clear_cache' ) );
-		$clear_cache_url	= '/wp-admin/admin-post.php?action=' . $this->get_prefix( 'clear_cache' ) . '&_wpnonce=' . $clear_cache_nonce;
+		$clear_cache_url	= admin_url('/admin-post.php?action=' . $this->get_prefix( 'clear_cache' ) . '&_wpnonce=' . $clear_cache_nonce);
 	
 		$admin_bar->add_menu(
 			array(
