@@ -5,6 +5,7 @@
 	class metabox extends sv_abstract{
 		static $scripts_loaded		= false;
 		private $title				= '';
+		private $post_types			= array('post', 'page');
 
 		/**
 		 * @desc			initialize
@@ -44,6 +45,13 @@
 		public function get_title(): string{
 			return $this->title;
 		}
+		public function set_post_types(array $post_types){
+			$this->post_types							= $post_types;
+			return $this;
+		}
+		public function get_post_types(): array{
+			return $this->post_types;
+		}
 		public function run(){
 			add_action('load-post.php', array($this,'post_meta_boxes_setup'));
 			add_action('load-post-new.php', array($this,'post_meta_boxes_setup'));
@@ -51,11 +59,9 @@
 		public function post_meta_boxes_setup(){
 			global $current_screen;
 
-			// avoid custom meta boxes on non public post types
-			// @todo: make this a parameter
-			if(!is_post_type_viewable($current_screen->post_type)){
+			/*if(!in_array($current_screen->post_type, $this->get_post_types())){
 				return;
-			}
+			}*/
 
 			add_action('add_meta_boxes', array($this,'add_meta_boxes'));
 			add_action('save_post', array($this,'save_post'), 10, 2);
@@ -65,7 +71,7 @@
 				'_'.$this->get_prefix(),								// Unique ID
 				$this->get_title(),		// Title
 				array($this,'post_class_meta_box'),				// Callback function
-				NULL,											// Admin page (or post type)
+				$this->get_post_types(),											// Admin page (or post type)
 				'side',											// Context
 				'default'										// Priority
 			);
@@ -78,7 +84,7 @@
 			wp_nonce_field($this->get_prefix(), $this->get_prefix('nonce'));
 
 			foreach($this->get_parent()->get_settings() as $setting){
-				$meta_field					= '_'.$setting->get_prefix($setting->get_ID());
+				$meta_field					= $setting->get_is_no_prefix() ? $setting->get_ID() : '_'.$setting->get_prefix($setting->get_ID());
 				$setting->set_data(get_post_meta($post->ID, $meta_field, true))
 					->set_ID($meta_field)
 					->set_is_no_prefix();
@@ -100,7 +106,7 @@
 			}
 
 			foreach($this->get_parent()->s as $setting){
-				$field_id											= '_'.$setting->get_prefix($setting->get_ID());
+				$field_id											= $setting->get_is_no_prefix() ? $setting->get_ID() : '_'.$setting->get_prefix($setting->get_ID());
 
 				add_filter('sanitize_sv_core_'.$setting->get_type().'_meta_'.$setting->get_field_id(), array($setting,'sanitize'), 10, 3);
 
