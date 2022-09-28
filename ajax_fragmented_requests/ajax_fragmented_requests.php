@@ -3,9 +3,9 @@
 	 * @author			Matthias Bathke
 	 * @package			sv_bb_dashboard
 	 * @copyright		2018 Matthias Bathke
-	 * @link			https://straightvisions.com/
+	 * @link			https://straightvisions.com
 	 * @since			1.0
-	 * @license			See license.txt or https://straightvisions.com/
+	 * @license			See license.txt or https://straightvisions.com
 	 */
 
 	namespace sv_core;
