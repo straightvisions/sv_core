@@ -1075,9 +1075,11 @@
 		public function get_primary_category($post = false, string $taxonomy_slug = 'category'){
 			$post		= get_post($post);
 
-			$primary_term_id = yoast_get_primary_term_id( $taxonomy_slug, $post );
+			if(function_exists('yoast_get_primary_term_id')) {
+				$primary_term_id = yoast_get_primary_term_id( $taxonomy_slug, $post );
+			}
 
-			if ( !$primary_term_id ) {
+			if ( !isset($primary_term_id) ) {
 				return $this->get_first_category($post);
 			}
 
