@@ -158,7 +158,7 @@ class setting_color extends settings {
 		if(is_admin() && isset($_POST['sv100_sv_colors_settings_colors_palette'])){
 			// do nothing
 		}else{
-            $input = str_replace( $this->get_palette_colors(), array_flip( $this->get_palette_colors() ), $input );
+            $input = strtr( $input, $this->get_palette_colors(), array_flip( $this->get_palette_colors() ) );
         }
 
 	}
@@ -167,7 +167,7 @@ class setting_color extends settings {
 		if(is_admin() && isset($_POST['sv100_sv_colors_settings_colors_palette'])){
             // do nothing
 		}else{
-            $input = str_replace( array_flip( $this->get_palette_colors() ), $this->get_palette_colors(), $input );
+			$input	= strtr( $input, array_combine(array_flip( $this->get_palette_colors() ), $this->get_palette_colors()) );
         }
 
 	}
