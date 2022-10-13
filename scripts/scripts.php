@@ -171,11 +171,6 @@ class scripts extends sv_abstract {
 		if ( function_exists( 'rocket_clean_domain' ) ) {
 			rocket_clean_domain();
 		}
-
-		// Preload cache.
-		if ( function_exists( 'run_rocket_sitemap_preload' ) ) {
-			run_rocket_sitemap_preload();
-		}
 	}
 
 	public function update_setting_flush_css_cache($option_name, $old_value, $value){
@@ -236,7 +231,6 @@ class scripts extends sv_abstract {
 					($this->s[ 'disable_all_css' ]->get_data() == 1 && $script->get_type() == 'css') ||
 					($this->s[ 'disable_all_js' ]->get_data() == 1 && $script->get_type() == 'js')
 				){
-
 					$default_label											=  __( 'Disabled', 'sv_core' );
 				}else{
 					$default_label											= $script->get_inline() ? __( 'Inline', 'sv_core' ) : __( 'Attached', 'sv_core' );
@@ -516,7 +510,7 @@ class scripts extends sv_abstract {
 	private function handle_add_script_css($script) {
 		//@todo could be a dedicated function
 		$module = $script->get_parent();
-		
+
 		// get settings object for build css later
 		if ( $script->get_ID() === 'config' || $script->get_ID() === $module->get_block_handle() ) {
 			if ( $script->get_parent()->get_css_cache_active() ) {
@@ -596,9 +590,9 @@ class scripts extends sv_abstract {
 				// add_editor_styles doesn't allow absolute paths at the moment
 				// add_editor_style( "styles/blocks/$block_name.min.css" );
 				if ( is_file( $script->get_path() ) ) {
-					ob_start();
+					/*ob_start();
 					require_once( $script->get_path() );
-					$css = ob_get_clean();
+					$css = ob_get_clean();*/
 					
 					// site editor
 					// we use a standard block to enqueue global styles until add_editor_style works for site editor
@@ -942,7 +936,7 @@ class scripts extends sv_abstract {
 
 				ob_start();
 				foreach($module->get_scripts() as $script){
-					if($script->get_is_enqueued() && file_exists($script->get_path()) && !$script->get_inline()) {
+					if($script->get_is_enqueued() && file_exists($script->get_path())) {
 						require_once($script->get_path());
 					}
 				}
