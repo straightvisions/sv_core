@@ -560,7 +560,7 @@ class scripts extends sv_abstract {
 			if ( $script->get_path() && filesize( $script->get_path() ) === 0 ) {
 				return $this->set_script_active( $script );
 			}
-			
+
 			// remove default styles from Gutenberg
 			wp_dequeue_style( $script->get_handle() );
 			wp_deregister_style( $script->get_handle() );
@@ -610,6 +610,11 @@ class scripts extends sv_abstract {
 						&& wp_style_is( $module->get_block_handle(), 'enqueued' )
 						&& ! wp_style_is( $script->get_handle(), 'enqueued' )
 						&& $script->get_handle() != $module->get_block_handle()
+						||
+						( // load block styles when used in archive descriptions on demand
+							is_archive()
+							&& $this->has_block_term_desc($script->get_parent()->get_block_name())
+						)
 					) {
 						wp_enqueue_style( $script->get_handle() );
 					}

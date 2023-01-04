@@ -843,7 +843,7 @@
 				return false;
 			}
 
-			$content	= (string) do_shortcode($object->category_description);
+			$content	= (string) term_description($object);
 			if($this->has_block( $block_name, $content)){
 				return true;
 			}
