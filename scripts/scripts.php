@@ -516,6 +516,9 @@ class scripts extends sv_abstract {
 			if ( $script->get_parent()->get_css_cache_active() ) {
 				$script->cache_css();
 				foreach($script->get_parent()->get_scripts() as $combined_script){
+					if($combined_script->get_type() === 'js'){
+						continue;
+					}
 					if($combined_script->get_ID() === $script->get_ID()){
 						continue;
 					}
