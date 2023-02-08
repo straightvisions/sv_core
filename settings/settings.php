@@ -617,7 +617,7 @@ class settings extends sv_abstract{
 			\do_settings_sections($module->get_name()); // $page from add_settings_section()
 		}
 		//\submit_button();
-		echo '<p class="submit"><input type="submit" name="button-classic" id="submit-classic" class="button button-primary save-classic" value="'.__('Save (classic)', 'sv_core').'"> <input type="button" name="submit-ajax" id="submit-ajax" class="button button-secondary save-ajax" value="'.__('Save (AJAX)', 'sv_core').'"></p>';
+		echo '<p class="submit"><input type="submit" name="button-classic" id="submit-classic" class="button button-primary save-classic" value="'.__('Save (classic)', 'sv_core').'"></p>';
 		echo '</form>';
 		$form			= ob_get_contents();
 		ob_end_clean();
