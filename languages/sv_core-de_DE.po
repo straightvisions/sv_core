@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SV Core\n"
-"POT-Creation-Date: 2022-05-20 15:39+0200\n"
-"PO-Revision-Date: 2022-05-20 15:42+0200\n"
+"POT-Creation-Date: 2023-02-08 11:43+0100\n"
+"PO-Revision-Date: 2023-02-08 11:43+0100\n"
 "Last-Translator: \n"
 "Language-Team: straightvisions GmbH\n"
 "Language: de_DE\n"
@@ -10,324 +10,50 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_n:2,3\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: abstract.php:88
+#: abstract.php:91
 msgid "Class"
 msgstr "Klasse"
 
-#: abstract.php:90
+#: abstract.php:93
 msgid "could not be loaded (tried to load class-file"
 msgstr "konnte nicht geladen werden (versucht, die Klassendatei zu laden"
 
-#: abstract.php:162 abstract.php:180 abstract.php:198
+#: abstract.php:165 abstract.php:183 abstract.php:201
 msgid "not defined"
 msgstr "nicht definiert"
 
-#: abstract.php:286
+#: abstract.php:289
 msgid "Configuration &amp; Settings"
 msgstr "Konfiguration &amp; Einstellungen"
 
-#: abstract.php:287
+#: abstract.php:290
 msgid "Helpful tools &amp; helper"
 msgstr "Hilfreiche Tools &amp; Helfer"
 
-#: abstract.php:396 abstract_template_sv_archive.php:25
-#: abstract_template_sv_archive.php:324 abstract_template_sv_archive.php:331
-#: abstract_template_sv_archive.php:346 abstract_template_sv_archive.php:361
-#: abstract_template_sv_archive.php:368 abstract_template_sv_archive.php:374
-#: abstract_template_sv_archive.php:380 abstract_template_sv_archive.php:385
-#: abstract_template_sv_archive.php:390 abstract_template_sv_archive.php:396
-#: abstract_template_sv_archive.php:409 abstract_template_sv_archive.php:422
+#: abstract.php:399
 msgid "Common"
 msgstr "Allgemein"
 
-#: abstract.php:706
+#: abstract.php:709
 msgid "No Title defined."
 msgstr "Kein Titel definiert."
 
-#: abstract.php:726
+#: abstract.php:729
 msgid "No description defined."
 msgstr "Keine Beschreibung definiert."
 
-#: abstract.php:736
+#: abstract.php:739
 msgid "No privacy statement defined."
 msgstr "Keine Datenschutzerklärung definiert."
 
-#: abstract.php:813 scripts/scripts.php:122
+#: abstract.php:816 scripts/scripts.php:129
 msgid "Settings"
 msgstr "Einstellungen"
-
-#: abstract.php:1095
-#, php-format
-msgid "%s Minute"
-msgid_plural "%s Minutes"
-msgstr[0] "%s Minute"
-msgstr[1] "%s Minuten"
-
-#: abstract_template_sv_archive.php:29 abstract_template_sv_archive.php:430
-#: abstract_template_sv_archive.php:435 abstract_template_sv_archive.php:448
-#: abstract_template_sv_archive.php:453
-#: settings/modules/setting_group/setting_group.php:64
-msgid "Entry"
-msgstr "Eintrag"
-
-#: abstract_template_sv_archive.php:33
-msgid "Empty"
-msgstr "Leer"
-
-#: abstract_template_sv_archive.php:37
-msgid "Header"
-msgstr "Kopfbereich"
-
-#: abstract_template_sv_archive.php:41
-msgid "Footer"
-msgstr "Fußzeile"
-
-#: abstract_template_sv_archive.php:45
-msgid "Sidebar Top"
-msgstr "Seitenleiste Oben"
-
-#: abstract_template_sv_archive.php:49
-msgid "Sidebar Right"
-msgstr "Sidebar rechts"
-
-#: abstract_template_sv_archive.php:53
-msgid "Sidebar Bottom"
-msgstr "Seitenleiste Unten"
-
-#: abstract_template_sv_archive.php:57
-msgid "Sidebar Left"
-msgstr "Sidebar links"
-
-#: abstract_template_sv_archive.php:61
-msgid "Featured Image"
-msgstr "Beitragsbild"
-
-#: abstract_template_sv_archive.php:65
-msgid "Title"
-msgstr "Titel"
-
-#: abstract_template_sv_archive.php:69
-msgid "Excerpt"
-msgstr "Auszug"
-
-#: abstract_template_sv_archive.php:73
-msgid "Read More"
-msgstr "Weiterlesen"
-
-#: abstract_template_sv_archive.php:77
-msgid "Author"
-msgstr "Autor"
-
-#: abstract_template_sv_archive.php:81
-msgid "Date"
-msgstr "Datum"
-
-#: abstract_template_sv_archive.php:85
-msgid "Date Modified"
-msgstr "Datum letzte Bearbeitung"
-
-#: abstract_template_sv_archive.php:89
-msgid "Categories"
-msgstr "Kategorien"
-
-#: abstract_template_sv_archive.php:287
-msgid "Extra Styles"
-msgstr "Extra Styles"
-
-#: abstract_template_sv_archive.php:294
-msgid "Style Label"
-msgstr "Beschriftung"
-
-#: abstract_template_sv_archive.php:295
-msgid "A label to differentiate your Styles."
-msgstr "Eine Beschriftung, um deine Styles zu unterscheiden."
-
-#: abstract_template_sv_archive.php:297
-msgid "Label"
-msgstr "Beschriftung"
-
-#: abstract_template_sv_archive.php:303
-msgid "Slug"
-msgstr "Slug"
-
-#: abstract_template_sv_archive.php:304
-msgid "This slug is used for the helper classes."
-msgstr "Dieser Slug wird für die Helferklassen verwendet."
-
-#: abstract_template_sv_archive.php:325
-msgid "Min Height"
-msgstr "Min. Höhe"
-
-#: abstract_template_sv_archive.php:326
-msgid "Minimum Height Header"
-msgstr "Minimale Höhe Kopfzeile"
-
-#: abstract_template_sv_archive.php:332
-msgid "Stack Sidebar Columns"
-msgstr "Stapeln von Seitenleistenspalten"
-
-#: abstract_template_sv_archive.php:333
-msgid "You may want to stack Sidebars on narrow viewports."
-msgstr ""
-"Möglicherweise möchten Sie Sidebars in schmalen Ansichtsfenstern stapeln."
-
-#: abstract_template_sv_archive.php:347
-msgid "Columns"
-msgstr "Spalten"
-
-#: abstract_template_sv_archive.php:348
-msgid "Set number of columns for entries"
-msgstr "Festlegen der Anzahl der Spalten für Einträge"
-
-#: abstract_template_sv_archive.php:362 abstract_template_sv_archive.php:544
-#: settings/tpl/setting_font_tpl/font_family.php:8
-msgid "Font Family"
-msgstr "Schriftart (Font Family)"
-
-#: abstract_template_sv_archive.php:363 abstract_template_sv_archive.php:545
-msgid "Choose a font for your text."
-msgstr "Wähle eine Schriftart für deinen Text."
-
-#: abstract_template_sv_archive.php:364 abstract_template_sv_archive.php:546
-msgid "Please activate module SV Webfontloader for this Feature."
-msgstr "Bitte aktiviere das Modul SV Webfontloader für diese Funktion."
-
-#: abstract_template_sv_archive.php:369 abstract_template_sv_archive.php:551
-#: settings/tpl/setting_font_tpl/font_size.php:7
-msgid "Font Size"
-msgstr "Schriftgröße"
-
-#: abstract_template_sv_archive.php:370 abstract_template_sv_archive.php:552
-msgid "Font Size in Pixel"
-msgstr "Schriftgröße in Pixel"
-
-#: abstract_template_sv_archive.php:375 abstract_template_sv_archive.php:557
-#: settings/tpl/setting_font_tpl/line_height.php:7
-msgid "Line Height"
-msgstr "Zeilenabstand"
-
-#: abstract_template_sv_archive.php:376 abstract_template_sv_archive.php:558
-msgid "Set line height as multiplier or with a unit."
-msgstr "Setze Zeilenhöhe als Multiplier oder mit einer Einheit."
-
-#: abstract_template_sv_archive.php:381 abstract_template_sv_archive.php:563
-msgid "Text Color"
-msgstr "Textfarbe"
-
-#: abstract_template_sv_archive.php:386 abstract_template_sv_archive.php:431
-#: abstract_template_sv_archive.php:568
-msgid "Background Color"
-msgstr "Hintergrundfarbe"
-
-#: abstract_template_sv_archive.php:391
-msgid "Column Spacing"
-msgstr "Spaltenabstand"
-
-#: abstract_template_sv_archive.php:392
-msgid "Set a Spacing in Pixel for columns"
-msgstr "Festlegen eines Abstands in Pixel für Spalten"
-
-#: abstract_template_sv_archive.php:397 abstract_template_sv_archive.php:436
-#: abstract_template_sv_archive.php:583
-msgid "Margin"
-msgstr "Margin"
-
-#: abstract_template_sv_archive.php:410 abstract_template_sv_archive.php:449
-#: abstract_template_sv_archive.php:588
-msgid "Padding"
-msgstr "Padding"
-
-#: abstract_template_sv_archive.php:423 abstract_template_sv_archive.php:454
-#: abstract_template_sv_archive.php:593
-msgid "Border"
-msgstr "Rahmen"
-
-#: abstract_template_sv_archive.php:461 abstract_template_sv_archive.php:467
-#: abstract_template_sv_archive.php:473 abstract_template_sv_archive.php:479
-#: abstract_template_sv_archive.php:485 abstract_template_sv_archive.php:491
-#: abstract_template_sv_archive.php:497 abstract_template_sv_archive.php:503
-#: abstract_template_sv_archive.php:509 abstract_template_sv_archive.php:515
-#: abstract_template_sv_archive.php:521
-msgid "Parts"
-msgstr "Bereiche"
-
-#: abstract_template_sv_archive.php:462
-msgid "Show Archive Header"
-msgstr "Archivkopfzeile anzeigen"
-
-#: abstract_template_sv_archive.php:463 abstract_template_sv_archive.php:469
-#: abstract_template_sv_archive.php:475 abstract_template_sv_archive.php:481
-#: abstract_template_sv_archive.php:487 abstract_template_sv_archive.php:493
-#: abstract_template_sv_archive.php:499 abstract_template_sv_archive.php:505
-#: abstract_template_sv_archive.php:511 abstract_template_sv_archive.php:517
-#: abstract_template_sv_archive.php:523
-msgid "Show or Hide this Template Part"
-msgstr "Templatebereich anzeigen oder verstecken"
-
-#: abstract_template_sv_archive.php:468
-msgid "Show Archive Footer"
-msgstr "Archivfußzeile anzeigen"
-
-#: abstract_template_sv_archive.php:474
-msgid "Show Notice when empty"
-msgstr "Info anzeigen, falls leer"
-
-#: abstract_template_sv_archive.php:480
-msgid "Show Featured Image"
-msgstr "Beitragsbild anzeigen"
-
-#: abstract_template_sv_archive.php:486
-msgid "Show Title"
-msgstr "Titel anzeigen"
-
-#: abstract_template_sv_archive.php:492
-msgid "Show Excerpt"
-msgstr "Auszug anzeigen"
-
-#: abstract_template_sv_archive.php:498
-msgid "Show Read More"
-msgstr "Weiterlesen anzeigen"
-
-#: abstract_template_sv_archive.php:504
-msgid "Show Author"
-msgstr "Autor anzeigen"
-
-#: abstract_template_sv_archive.php:510
-msgid "Show Date"
-msgstr "Datum anzeigen"
-
-#: abstract_template_sv_archive.php:516
-msgid "Show Date Modified"
-msgstr "Datum der letzten Bearbeitung anzeigen"
-
-#: abstract_template_sv_archive.php:522
-msgid "Show Categories"
-msgstr "Kategorie anzeigen"
-
-#: abstract_template_sv_archive.php:531
-msgid "Order"
-msgstr "Reihenfolge"
-
-#: abstract_template_sv_archive.php:532
-msgid "Order part"
-msgstr "Reihenfolge Bereich"
-
-#: abstract_template_sv_archive.php:534 scripts/scripts.php:238
-msgid "Default"
-msgstr "Standard"
-
-#: abstract_template_sv_archive.php:573
-msgid "Text Color Hover"
-msgstr "Textfarbe Hover"
-
-#: abstract_template_sv_archive.php:578
-msgid "Background Color Hover"
-msgstr "Hintergrundfarbe Hover"
 
 #: ajax_fragmented_requests/backend/tpl/form.php:3
 msgid "Start"
@@ -452,51 +178,51 @@ msgstr "http://www.gnu.org/licenses/"
 msgid "Privacy Statement"
 msgstr "Datenschutzerklärung"
 
-#: core.php:113
+#: core.php:112
 msgid ""
 "Please check that all SV products are up to date. You may need to update "
 msgstr ""
 "Bitte überprüfe, dass alle SV Produkte auf dem aktuellen Stand sind. "
 "Folgende müssen möglicherweise aktualisiert werden "
 
-#: core.php:114
+#: core.php:113
 msgid "SV Core was loaded by"
 msgstr "SV Core wurde geladen von"
 
-#: core.php:116
+#: core.php:115
 msgid "with version:"
 msgstr "mit Version:"
 
-#: core.php:117
+#: core.php:116
 #, php-format
 msgid "but %s v%s requires core-version"
 msgstr "aber %s v%s benötigt Core-Version"
 
-#: core.php:160 core.php:166 core.php:303 core.php:322 core.php:474
+#: core.php:159 core.php:165 core.php:302 core.php:321 core.php:473
 msgid "Setting saved"
 msgstr "Einstellung gespeichert"
 
-#: core.php:305
+#: core.php:304
 msgid "Nonce check failed / Empty data."
 msgstr "Nonce-Prüfung fehlgeschlagen / Leere Daten."
 
-#: core.php:313
+#: core.php:312
 msgid "Nothing to update."
 msgstr "Nichts zu aktualisieren."
 
-#: core.php:326
+#: core.php:325
 msgid "You are unauthorized to perform this action."
 msgstr "Sie sind nicht berechtigt, diese Aktion durchzuführen."
 
-#: core.php:332
+#: core.php:331
 msgid "Nonce check cannot fail."
 msgstr "Nonce-Prüfung kann nicht fehlschlagen."
 
-#: core.php:366
+#: core.php:365
 msgid "Website enhanced by straightvisions.com"
 msgstr "Website enhanced by straightvisions.com"
 
-#: core.php:437 info/backend/tpl/about.php:62
+#: core.php:436 info/backend/tpl/about.php:62
 msgid "Expert Mode"
 msgstr "Experten-Modus"
 
@@ -545,8 +271,8 @@ msgstr "Plugin"
 msgid "Active"
 msgstr "Aktiv"
 
-#: info/backend/tpl/about.php:114 scripts/scripts.php:231
-#: scripts/scripts.php:241
+#: info/backend/tpl/about.php:114 scripts/scripts.php:234
+#: scripts/scripts.php:243
 msgid "Disabled"
 msgstr "Deaktiviert"
 
@@ -574,35 +300,35 @@ msgstr "Allgemein"
 msgid "Scripts Overview"
 msgstr "Skriptübersicht"
 
-#: scripts/scripts.php:50
+#: scripts/scripts.php:51
 msgid "Scripts"
 msgstr "Skripte"
 
-#: scripts/scripts.php:51
+#: scripts/scripts.php:52
 msgid "Override Scripts Loading."
 msgstr "Überschreib das Ladeverhalten von Scripts."
 
-#: scripts/scripts.php:113
+#: scripts/scripts.php:120
 msgid "SV100"
 msgstr "SV100"
 
-#: scripts/scripts.php:134
+#: scripts/scripts.php:141
 msgid "Clear Cache"
 msgstr "Cache leeren"
 
-#: scripts/scripts.php:195
+#: scripts/scripts.php:198
 msgid "Flush cache for all CSS files"
 msgstr "Leere Cache für alle CSS Dateien"
 
-#: scripts/scripts.php:196
+#: scripts/scripts.php:199
 msgid "All cached CSS Files will be regenerated"
 msgstr "Alle gecachten CSS Dateien werden neu generiert"
 
-#: scripts/scripts.php:201
+#: scripts/scripts.php:204
 msgid "Disable all CSS per Default"
 msgstr "Deaktiviere standardmäßig das Laden von CSS"
 
-#: scripts/scripts.php:202
+#: scripts/scripts.php:205
 msgid ""
 "CSS enqueued will be disabled by default - you may override this later down "
 "below."
@@ -610,11 +336,11 @@ msgstr ""
 "CSS wird standardmäßig deaktiviert - du kannst das weiter unten jeweils "
 "überschreiben."
 
-#: scripts/scripts.php:207
+#: scripts/scripts.php:210
 msgid "Disable all JS per Default"
 msgstr "Deaktiviere standardmäßig das Laden von JS"
 
-#: scripts/scripts.php:208
+#: scripts/scripts.php:211
 msgid ""
 "JS enqueued will be disabled by default - you may override this later down "
 "below."
@@ -622,29 +348,37 @@ msgstr ""
 "JS wird standardmäßig deaktiviert - du kannst das weiter unten jeweils "
 "überschreiben."
 
-#: scripts/scripts.php:233 scripts/scripts.php:239
+#: scripts/scripts.php:236 scripts/scripts.php:241
 msgid "Inline"
 msgstr "Eingebettet"
 
-#: scripts/scripts.php:233 scripts/scripts.php:240
+#: scripts/scripts.php:236 scripts/scripts.php:242
 msgid "Attached"
 msgstr "Angehängt"
 
-#: scripts/scripts.php:258 scripts/scripts.php:268
+#: scripts/scripts.php:240
+msgid "Default"
+msgstr "Standard"
+
+#: scripts/scripts.php:260 scripts/scripts.php:270
 msgid "Flush Cache"
 msgstr "Cache leeren"
 
-#: scripts/scripts.php:259 scripts/scripts.php:269
+#: scripts/scripts.php:261 scripts/scripts.php:271
 msgid "Cache Active"
 msgstr "Cache Aktiv"
 
-#: scripts/scripts.php:527
+#: scripts/scripts.php:558
 msgid "Script \""
 msgstr "Skript \""
 
 #: settings/modules/setting_group/setting_group.php:51
 msgid "Add"
 msgstr "Hinzufügen"
+
+#: settings/modules/setting_group/setting_group.php:64
+msgid "Entry"
+msgstr "Eintrag"
 
 #: settings/modules/setting_group/setting_group.php:64
 msgid "Group #"
@@ -663,12 +397,8 @@ msgid "characters."
 msgstr "Zeichen."
 
 #: settings/settings.php:620
-msgid "Save (classic)"
-msgstr "Speichern (klassisch)"
-
-#: settings/settings.php:620
-msgid "Save (AJAX)"
-msgstr "Speichern (AJAX)"
+msgid "Save"
+msgstr "Speichern"
 
 #: settings/settings.php:777 settings/settings.php:820
 msgid "Settings Template not found: "
@@ -678,7 +408,7 @@ msgstr "Template für Einstellungen nicht gefunden: "
 #: settings/tpl/setting_border_tpl/border_color.php:20
 #: settings/tpl/setting_box_shadow_tpl/color.php:11
 #: settings/tpl/setting_box_shadow_tpl/color.php:13
-#: settings/tpl/setting_color.php:15 settings/tpl/setting_font_tpl/color.php:5
+#: settings/tpl/setting_color.php:19 settings/tpl/setting_font_tpl/color.php:5
 #: settings/tpl/setting_font_tpl/color.php:8
 msgid "Toggle Color Picker"
 msgstr "Wechsel Farbwähler"
@@ -731,6 +461,14 @@ msgstr "Vertikale Länge"
 msgid "Color"
 msgstr "Farbe"
 
+#: settings/tpl/setting_font_tpl/font_family.php:8
+msgid "Font Family"
+msgstr "Schriftart (Font Family)"
+
+#: settings/tpl/setting_font_tpl/font_size.php:7
+msgid "Font Size"
+msgstr "Schriftgröße"
+
 #: settings/tpl/setting_font_tpl/font_weight.php:2
 msgid "Font Weight"
 msgstr "Schriftstärke"
@@ -738,6 +476,10 @@ msgstr "Schriftstärke"
 #: settings/tpl/setting_font_tpl/letter_spacing.php:7
 msgid "Letter Spacing"
 msgstr "Zeichenabstand"
+
+#: settings/tpl/setting_font_tpl/line_height.php:7
+msgid "Line Height"
+msgstr "Zeilenabstand"
 
 #: settings/tpl/setting_font_tpl/text_decoration.php:2
 msgid "Text Decoration"
@@ -754,6 +496,184 @@ msgstr "Keine Seite ausgewählt"
 #: settings/tpl/setting_upload.php:41
 msgid "Delete File"
 msgstr "Datei löschen"
+
+#, php-format
+#~ msgid "%s Minute"
+#~ msgid_plural "%s Minutes"
+#~ msgstr[0] "%s Minute"
+#~ msgstr[1] "%s Minuten"
+
+#~ msgid "Empty"
+#~ msgstr "Leer"
+
+#~ msgid "Header"
+#~ msgstr "Kopfbereich"
+
+#~ msgid "Footer"
+#~ msgstr "Fußzeile"
+
+#~ msgid "Sidebar Top"
+#~ msgstr "Seitenleiste Oben"
+
+#~ msgid "Sidebar Right"
+#~ msgstr "Sidebar rechts"
+
+#~ msgid "Sidebar Bottom"
+#~ msgstr "Seitenleiste Unten"
+
+#~ msgid "Sidebar Left"
+#~ msgstr "Sidebar links"
+
+#~ msgid "Featured Image"
+#~ msgstr "Beitragsbild"
+
+#~ msgid "Title"
+#~ msgstr "Titel"
+
+#~ msgid "Excerpt"
+#~ msgstr "Auszug"
+
+#~ msgid "Read More"
+#~ msgstr "Weiterlesen"
+
+#~ msgid "Author"
+#~ msgstr "Autor"
+
+#~ msgid "Date"
+#~ msgstr "Datum"
+
+#~ msgid "Date Modified"
+#~ msgstr "Datum letzte Bearbeitung"
+
+#~ msgid "Categories"
+#~ msgstr "Kategorien"
+
+#~ msgid "Extra Styles"
+#~ msgstr "Extra Styles"
+
+#~ msgid "Style Label"
+#~ msgstr "Beschriftung"
+
+#~ msgid "A label to differentiate your Styles."
+#~ msgstr "Eine Beschriftung, um deine Styles zu unterscheiden."
+
+#~ msgid "Label"
+#~ msgstr "Beschriftung"
+
+#~ msgid "Slug"
+#~ msgstr "Slug"
+
+#~ msgid "This slug is used for the helper classes."
+#~ msgstr "Dieser Slug wird für die Helferklassen verwendet."
+
+#~ msgid "Min Height"
+#~ msgstr "Min. Höhe"
+
+#~ msgid "Minimum Height Header"
+#~ msgstr "Minimale Höhe Kopfzeile"
+
+#~ msgid "Stack Sidebar Columns"
+#~ msgstr "Stapeln von Seitenleistenspalten"
+
+#~ msgid "You may want to stack Sidebars on narrow viewports."
+#~ msgstr ""
+#~ "Möglicherweise möchten Sie Sidebars in schmalen Ansichtsfenstern stapeln."
+
+#~ msgid "Columns"
+#~ msgstr "Spalten"
+
+#~ msgid "Set number of columns for entries"
+#~ msgstr "Festlegen der Anzahl der Spalten für Einträge"
+
+#~ msgid "Choose a font for your text."
+#~ msgstr "Wähle eine Schriftart für deinen Text."
+
+#~ msgid "Please activate module SV Webfontloader for this Feature."
+#~ msgstr "Bitte aktiviere das Modul SV Webfontloader für diese Funktion."
+
+#~ msgid "Font Size in Pixel"
+#~ msgstr "Schriftgröße in Pixel"
+
+#~ msgid "Set line height as multiplier or with a unit."
+#~ msgstr "Setze Zeilenhöhe als Multiplier oder mit einer Einheit."
+
+#~ msgid "Text Color"
+#~ msgstr "Textfarbe"
+
+#~ msgid "Background Color"
+#~ msgstr "Hintergrundfarbe"
+
+#~ msgid "Column Spacing"
+#~ msgstr "Spaltenabstand"
+
+#~ msgid "Set a Spacing in Pixel for columns"
+#~ msgstr "Festlegen eines Abstands in Pixel für Spalten"
+
+#~ msgid "Margin"
+#~ msgstr "Margin"
+
+#~ msgid "Padding"
+#~ msgstr "Padding"
+
+#~ msgid "Border"
+#~ msgstr "Rahmen"
+
+#~ msgid "Parts"
+#~ msgstr "Bereiche"
+
+#~ msgid "Show Archive Header"
+#~ msgstr "Archivkopfzeile anzeigen"
+
+#~ msgid "Show or Hide this Template Part"
+#~ msgstr "Templatebereich anzeigen oder verstecken"
+
+#~ msgid "Show Archive Footer"
+#~ msgstr "Archivfußzeile anzeigen"
+
+#~ msgid "Show Notice when empty"
+#~ msgstr "Info anzeigen, falls leer"
+
+#~ msgid "Show Featured Image"
+#~ msgstr "Beitragsbild anzeigen"
+
+#~ msgid "Show Title"
+#~ msgstr "Titel anzeigen"
+
+#~ msgid "Show Excerpt"
+#~ msgstr "Auszug anzeigen"
+
+#~ msgid "Show Read More"
+#~ msgstr "Weiterlesen anzeigen"
+
+#~ msgid "Show Author"
+#~ msgstr "Autor anzeigen"
+
+#~ msgid "Show Date"
+#~ msgstr "Datum anzeigen"
+
+#~ msgid "Show Date Modified"
+#~ msgstr "Datum der letzten Bearbeitung anzeigen"
+
+#~ msgid "Show Categories"
+#~ msgstr "Kategorie anzeigen"
+
+#~ msgid "Order"
+#~ msgstr "Reihenfolge"
+
+#~ msgid "Order part"
+#~ msgstr "Reihenfolge Bereich"
+
+#~ msgid "Text Color Hover"
+#~ msgstr "Textfarbe Hover"
+
+#~ msgid "Background Color Hover"
+#~ msgstr "Hintergrundfarbe Hover"
+
+#~ msgid "Save (classic)"
+#~ msgstr "Speichern (klassisch)"
+
+#~ msgid "Save (AJAX)"
+#~ msgstr "Speichern (AJAX)"
 
 #~ msgid ""
 #~ "This cheat sheet lists core methods you may want to use when developing "
