@@ -148,7 +148,11 @@
 		}
 
 		public function get_previous_version(): int{
-			return intval( get_option( $this->get_prefix( 'version') ) );
+			return intval( get_option( $this->get_root()->get_prefix( 'version') ) );
+		}
+
+		public function update_version(int $version): int{
+			return update_option( $this->get_root()->get_prefix( 'version'), $version );
 		}
 
 		public function get_version( bool $formatted = false ): string{
