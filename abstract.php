@@ -328,10 +328,6 @@
 			}
 		}
 
-		public function update_routine() {
-			update_option( $this->get_prefix( 'version' ), $this->get_version() );
-		}
-
 		public function init() {
 			if(did_action('plugins_loaded')){
 				$this->load_translation();

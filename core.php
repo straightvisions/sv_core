@@ -449,9 +449,6 @@ if ( !class_exists( '\sv_core\core' ) ) {
 			
 			add_action( 'wp_ajax_sv_ajax_settings_save_form', array($this, 'ajax_settings_save_form'));
 
-			// setup update routine
-			add_action( 'shutdown', array( $this, 'update_routine' ) );
-
 			// setup init action
 			add_action( 'init', array( $this, 'load_core_scripts' ), 100 );
 		}
