@@ -928,7 +928,7 @@ class scripts extends sv_abstract {
 			)
 		) {
 			$this->cache_css_file();
-			$this->set_path($this->get_path_cached('frontend.css'), true, $this->get_url_cached('frontend.css'));
+			$this->set_path($this->get_path_cached($module->get_prefix().'.css'), true, $this->get_url_cached($module->get_prefix().'.css'));
 			add_action('admin_footer', array($this,'cache_css_file'), 1000);
 		}
 
@@ -950,7 +950,7 @@ class scripts extends sv_abstract {
 				}
 				$css = ob_get_clean();
 
-				file_put_contents($this->get_path_cached('frontend.css'), $css);
+				file_put_contents($this->get_path_cached($module->get_prefix().'.css'), $css);
 				$this->set_css_cache_invalidated(false);
 
 				// update theme.json
