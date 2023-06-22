@@ -1,4 +1,4 @@
-<?php if ( current_user_can( 'activate_plugins' ) ) { ?>
+<?php if ( current_user_can( apply_filters('sv_admin_menu_capability', 'manage_options') ) ) { ?>
 	<div class="sv_setting_subpage">
 		<h2><?php _e('General', 'sv100'); ?></h2>
 		<div class="sv_setting_flex">

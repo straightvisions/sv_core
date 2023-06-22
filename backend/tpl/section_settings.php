@@ -1,4 +1,4 @@
-<?php if( current_user_can( 'activate_plugins' ) ) { ?>
+<?php if( current_user_can( apply_filters('sv_admin_menu_capability', 'manage_options') ) ) { ?>
 <section id="section_<?php echo $section_name; ?>" class="sv_admin_section">
 	<div class="section_head section_settings">
 		<div class="textbox">

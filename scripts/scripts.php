@@ -110,7 +110,7 @@ class scripts extends sv_abstract {
 		if ( ! $this->is_theme_instance() ){
 			return;
 		}
-		if ( ! current_user_can( 'activate_plugins' ) ){
+		if ( ! current_user_can( apply_filters('sv_admin_menu_capability', 'manage_options') ) ){
 			return;
 		}
 	
@@ -148,7 +148,7 @@ class scripts extends sv_abstract {
 		if (
 			isset( $_REQUEST['_wpnonce'] )
 			&& ! empty( $_REQUEST['_wpnonce'] )
-			&& current_user_can( 'activate_plugins' )
+			&& current_user_can( apply_filters('sv_admin_menu_capability', 'manage_options') )
 			&& isset( $this->s[ 'flush_css_cache' ] )
 			&& wp_verify_nonce( $_REQUEST['_wpnonce'], 'admin_post_' . $this->get_prefix( 'clear_cache' ) )
 		) {

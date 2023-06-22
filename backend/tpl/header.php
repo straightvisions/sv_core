@@ -1,5 +1,5 @@
 <?php
-	if( current_user_can( 'activate_plugins' ) ) {
+	if( current_user_can( apply_filters('sv_admin_menu_capability', 'manage_options') ) ) {
 	wp_enqueue_script( 'jquery-form' );
 	?>
 <div class="sv_wrapper">

@@ -1,4 +1,4 @@
-<?php if ( current_user_can( 'activate_plugins' ) ) { ?>
+<?php if ( current_user_can( apply_filters('sv_admin_menu_capability', 'manage_options') ) ) { ?>
 	<div class="sv_section_description"><?php echo $module->get_section_desc(); ?></div>
 	<div class="sv_setting_subpages">
 		<ul class="sv_setting_subpages_nav"></ul>
