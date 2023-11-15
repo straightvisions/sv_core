@@ -685,7 +685,8 @@ class scripts extends sv_abstract {
 	public static function create( $parent ) {
 		$new									= new static();
 
-		$new->prefix							= $parent->get_prefix() . '_';
+		// @todo: deprecated in PHP 8
+		@$new->prefix							= $parent->get_prefix() . '_';
 		$new->set_root( $parent->get_root() );
 		$new->set_parent( $parent );
 
@@ -1021,7 +1022,8 @@ class scripts extends sv_abstract {
 			)
 		);
 
-		$this->is_block_style							= $label;
+		// @todo: deprecated in PHP 8
+		@$this->is_block_style							= $label;
 
 		return $this;
 	}

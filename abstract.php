@@ -68,7 +68,8 @@
 				require_once( $this->get_path( 'lib/modules/'.$name . '.php' ) );
 
 				$class_name		= $this->get_root()->get_name() . '\\' . $name;
-				$this->$name	= new $class_name();
+				// @todo: deprecated in PHP 8
+				@$this->$name	= new $class_name();
 				$this->$name->set_root( $this->get_root() );
 				$this->$name->set_parent( $this );
 
@@ -79,7 +80,8 @@
 				require_once( $this->get_root()->get_path( 'lib/modules/'.$name . '/'.$name . '.php' ) );
 
 				$class_name		= $this->get_root()->get_name() . '\\' . $name;
-				$this->$name	= new $class_name();
+				// @todo: deprecated in PHP 8
+				@$this->$name	= new $class_name();
 				$this->$name->set_root( $this->get_root() );
 				$this->$name->set_parent( $this );
 				$this->$name->set_path( $this->get_root()->get_path( 'lib/modules/'.$name . '/' ) );

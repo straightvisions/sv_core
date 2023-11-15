@@ -34,6 +34,8 @@ class settings extends sv_abstract{
 	private $radio_style			= 'radio';
 	private $is_label				= false;
 	protected static $new			= array();
+	private $properties				= [];
+	private $types				= [];
 
 	/**
 	 * @desc			initialize
@@ -59,13 +61,20 @@ class settings extends sv_abstract{
 			require_once($this->get_path_core('settings/modules/' . $name . '/' . $name  . '.php'));
 		}
 
-		if(!isset($this->$name)) {
-			$this->$name = new $class_name($this);
-			$this->$name->set_root($this->get_root());
-			$this->$name->set_parent($this);
+		if(!$this->getProperty($name)) {
+			$this->setProperty($name, new $class_name($this));
+			$this->getProperty($name)->set_root($this->get_root());
+			$this->getProperty($name)->set_parent($this);
 		}
 
-		return $this->$name;
+		return $this->getProperty($name);
+	}
+    public function setProperty($name, $value) {
+		$this->properties[$name] = $value;
+	}
+
+    public function getProperty($name) {
+		return $this->properties[$name] ?? null;
 	}
 	// OBJECT METHODS
 	public static function create($parent){
@@ -141,7 +150,13 @@ class settings extends sv_abstract{
 			return $this->section_description;
 		}
 	}
+	public function setTypes($name, $value) {
+		$this->types[$name] = $value;
+	}
 
+	public function getTypes($name) {
+		return $this->types[$name] ?? null;
+	}
 	/*
 	 * 	@param: $source		set a type for form field
 	 */
@@ -149,7 +164,8 @@ class settings extends sv_abstract{
 		$type		= $this->type				= 'setting_'.$type;
 
 		if(is_object($this->$type)){
-			$this->$type						= $this->$type->create($this->get_parent());
+			// @todo: deprecated in PHP 8
+			@$this->$type						= $this->$type->create($this->get_parent());
 			$this->$type->set_root($this->get_root());
 			$this->$type->set_parent($this);
 
