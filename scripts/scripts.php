@@ -162,15 +162,6 @@ class scripts extends sv_abstract {
 		foreach($this->get_instances() as $instance){
 			update_option($instance->get_prefix('scripts_settings_flush_css_cache'), '1');
 		}
-
-		$this->clear_cache_wp_rocket();
-	}
-
-	public function clear_cache_wp_rocket() {
-		// Clear cache.
-		if ( function_exists( 'rocket_clean_domain' ) ) {
-			rocket_clean_domain();
-		}
 	}
 
 	public function update_setting_flush_css_cache($option_name, $old_value, $value){
