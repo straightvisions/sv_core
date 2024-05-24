@@ -733,6 +733,7 @@ class settings extends sv_abstract{
 		return $this->get_is_no_prefix() ? $this->get_ID() : $this->get_prefix($this->get_ID());
 	}
 	public function widget(string $value, $object): string{
+		$props                      = array();
 		$props['ID']				= $object->get_field_id($this->get_ID());
 		$props['title']				= $this->get_title();
 		$props['cluster']			= $this->get_cluster();
