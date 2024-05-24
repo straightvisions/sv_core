@@ -165,14 +165,13 @@ class settings extends sv_abstract{
 
 		if(is_object($this->$type)){
 			// @todo: deprecated in PHP 8
-			@$this->$type						= $this->$type->create($this->get_parent());
+			$this->$type = $this->$type->create($this->get_parent());
 			$this->$type->set_root($this->get_root());
 			$this->$type->set_parent($this);
 
 			$this->init_wp_setting($this->$type);
-		}//else{
-			// @todo: proper error notice
-		//}
+		}
+		// @todo: add proper error notice
 		return $this;
 	}
 	public function get_type(){
@@ -787,6 +786,8 @@ class settings extends sv_abstract{
 		return $output;
 	}
 	private function load_form_field_html(array $props): string{
+		// hotfix
+		$props = is_array($props) ? $props : [];
 		ob_start();
 		if(is_file($this->get_path_core('settings/tpl/'.$this->run_type()->get_module_name().'.php'))) {
 			require($this->get_path_core('settings/tpl/' . $this->run_type()->get_module_name() . '.php'));
