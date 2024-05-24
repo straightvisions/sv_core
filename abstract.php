@@ -8,6 +8,7 @@
 		protected $module_name				= false;
 		protected $basename					= false;
 		protected $path						= false;
+		protected $prefix                   = false;
 		protected $url						= false;
 		protected $version					= false;
 		private $parent						= false;

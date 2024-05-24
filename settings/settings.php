@@ -27,7 +27,7 @@ class settings extends sv_abstract{
 	private $disabled  				= false;
 	private $callback				= array();
 	private $filter					= array();
-	private $prefix					= 'sv_';
+	protected $prefix				= 'sv_';
 	private $data					= false;
 	private $default_value			= false;
 	private $responsive			 = false;
