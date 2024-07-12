@@ -17,5 +17,7 @@
 		} 
 		?>
 	</div>
-	<?php echo $settings_html; ?>
+	<div class="sv_setting_content">
+		<?php echo $settings_html; ?>
+	</div>
 </div>
