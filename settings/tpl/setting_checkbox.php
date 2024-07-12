@@ -10,11 +10,7 @@ if($this->has_options()) {
 		$new_props['title']	= $o_name;
 		$new_props['name']	= $new_ID;
 
-		if(count($this->get_options()) > 0){
-			echo $new_props['title'];
-		}
-
-		$this->print_sub_field($new_props, $o_value);
+		$this->print_sub_field($new_props, $o_value, $this->get_options());
 	}
 }else{
 	$this->print_sub_field($props, $props['name']);

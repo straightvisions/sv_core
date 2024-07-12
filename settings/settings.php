@@ -831,7 +831,7 @@ class settings extends sv_abstract{
 	public function sanitize($meta_value){
 		return sanitize_text_field($meta_value);
 	}
-	protected function print_sub_field(array $props, string $sub){
+	protected function print_sub_field(array $props, string $sub, array $options = []){
 		if(is_file($this->get_path_core('settings/tpl/'.$this->run_type()->get_module_name().'_field.php'))) {
 			require($this->get_path_core('settings/tpl/' . $this->run_type()->get_module_name() . '_field.php'));
 		}else{

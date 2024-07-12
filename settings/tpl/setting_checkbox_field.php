@@ -6,32 +6,43 @@
 	if ( $sub && isset( $props['value'][$sub] ) ) {
 		$props['value'] = $props['value'][$sub];
 	}
+
+	$has_options = !empty($options);
 ?>
-<div class="<?php echo $classes; ?>">
-	<input
-		data-sv_type="sv_form_field"
-		class="sv_input sv_input_off"
-		id="<?php echo $props['ID']; ?>_off"
-		name="<?php echo $props['name']; ?>"
-		type="radio"
-		value="0"
-		<?php 
+<div class="<?php echo $classes;?>">
+
+	<?php
+		if($has_options){
+			echo '<label>' . $props['title'] . '</label>';
+		}
+	?>
+
+	<div class="<?php echo $classes . '_input'; ?>">
+		<input
+			data-sv_type="sv_form_field"
+			class="sv_input sv_input_off"
+			id="<?php echo $props['ID']; ?>_off"
+			name="<?php echo $props['name']; ?>"
+			type="radio"
+			value="0"
+			<?php
 			echo ($props['value'] == '' || $props['value'] == '0') ? ' checked="checked"' : '';
 			echo $props['required'];
 			echo $props['disabled'];
+			?>
+		/>
+		<input
+			data-sv_type="sv_form_field"
+			class="sv_input sv_input_on"
+			id="<?php echo $props['ID']; ?>_on"
+			name="<?php echo $props['name']; ?>"
+			type="radio"
+			value="1"
+		<?php
+		echo ($props['value'] != '' && $props['value'] != '0') ? ' checked="checked"' : '';
+		echo $props['required'];
+		echo $props['disabled'];
 		?>
-	/>
-	<input
-		data-sv_type="sv_form_field"
-		class="sv_input sv_input_on"
-		id="<?php echo $props['ID']; ?>_on"
-		name="<?php echo $props['name']; ?>"
-		type="radio"
-		value="1"
-		<?php 
-			echo ($props['value'] != '' && $props['value'] != '0') ? ' checked="checked"' : '';
-			echo $props['required'];
-			echo $props['disabled'];
-		?>
-	/>
+	</div>
+	</div>
 </div>
