@@ -42,7 +42,6 @@
 		echo ($props['value'] != '' && $props['value'] != '0') ? ' checked="checked"' : '';
 		echo $props['required'];
 		echo $props['disabled'];
-		?>
-	</div>
+		?> />
 	</div>
 </div>
