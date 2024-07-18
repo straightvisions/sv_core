@@ -1,7 +1,7 @@
 <?php
 
 namespace sv_core;
-
+#[\AllowDynamicProperties]
 class settings extends sv_abstract{
 	// properties
 	private $parent					= false;
@@ -164,7 +164,6 @@ class settings extends sv_abstract{
 		$type		= $this->type				= 'setting_'.$type;
 
 		if(is_object($this->$type)){
-			// @todo: deprecated in PHP 8
 			$this->$type = $this->$type->create($this->get_parent());
 			$this->$type->set_root($this->get_root());
 			$this->$type->set_parent($this);
